@@ -1,7 +1,7 @@
+name: plugin-fn-xml-node CI Tests
+
 env:
   plugin-id: plugin-fn-xml-node
-
-name: ${{env.plugin-id}} CI Tests
 
 on:
   push:
