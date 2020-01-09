@@ -1,22 +1,22 @@
 name: plugin-fn-xml-node CI Tests
 
 env:
-  plugin-id: plugin-fn-xml-node
+  PLUGINID: plugin-fn-xml-node
 
 on:
   push:
     paths:
-      - ${{plugin-id}}/**
+      - ${{PLUGINID}}/**
       - '.github/workflows/**'
   pull_request:
     paths:
-      - ${{plugin-id}}/**
+      - ${{PLUGINID}}/**
       - '.github/workflows/**'
 
 jobs:
   build:
     env:
-      working-directory: ./${{plugin-id}}
+      working-directory: ./${{PLUGINID}}
     runs-on: ubuntu-latest
 
     strategy:
