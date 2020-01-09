@@ -4,7 +4,7 @@ on:
   release:
     types: [published]
   tags:
-    - *fn-xml-node*
+    - '*fn-xml-node*'
 
 jobs:
   build:
