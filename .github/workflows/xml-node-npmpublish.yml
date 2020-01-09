@@ -1,0 +1,57 @@
+name: XML-Node release and publish package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    env:
+      working-directory: ./xml-node
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Run npm
+        working-directory: ${{env.working-directory}}
+        run: |
+          npm ci
+          npm test
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@Axway-API-Builder-Ext'
+      - name: Publish to GitHub package repo
+        working-directory: ${{env.working-directory}}
+        env:
+            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+        npm ci
+        npm publish
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Publish to NPM package repo
+        working-directory: ${{env.working-directory}}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        run: |
+          npm ci
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.npm_token }}" > ~/.npmrc
+          npm publish --access public

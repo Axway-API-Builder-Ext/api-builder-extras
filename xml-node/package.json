@@ -1,0 +1,46 @@
+{
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-xml-node",
+	"version": "1.0.2",
+	"description": "Axway API-Builder flow node to handle XML-Payload. For instance converting XML into JSON or JS-Objects.",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+	"license": "Apache-2.0",
+	"keywords": [
+		"amplify",
+		"api-builder",
+		"flow",
+		"sdk"
+	],
+	"homepage": "https://github.com/Axway-API-Builder-Ext/xml-node",
+	"bugs": {
+		"url": "https://github.com/Axway-API-Builder-Ext/xml-node/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Axway-API-Builder-Ext/xml-node.git"
+	},
+	"engines": {
+		"node": ">= 8.9"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"README.md",
+		"xml-node-icon.png"
+	],
+	"dependencies": {
+		"axway-flow-sdk": "^3.0.0",
+		"xml-js": "1.6.11"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.5.0"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"check-node-version": "^3.2.0",
+		"mocha": "^6.1.4"
+	},
+	"scripts": {
+		"build": "check-node-version --package && npm run test",
+		"test": "mocha ./test --recursive -R spec"
+	}
+}
