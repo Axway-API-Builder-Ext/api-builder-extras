@@ -16,7 +16,7 @@ on:
 jobs:
   build:
     env:
-      working-directory: ./$pluginId
+      working-directory: ${{env.pluginId}}
     runs-on: ubuntu-latest
 
     strategy:
