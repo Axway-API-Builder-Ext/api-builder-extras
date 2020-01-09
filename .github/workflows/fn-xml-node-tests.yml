@@ -6,17 +6,17 @@ env:
 on:
   push:
     paths:
-      - ${{PLUGINID}}/**
+      - ${{env.PLUGINID}}/**
       - '.github/workflows/**'
   pull_request:
     paths:
-      - ${{PLUGINID}}/**
+      - ${{env.PLUGINID}}/**
       - '.github/workflows/**'
 
 jobs:
   build:
     env:
-      working-directory: ./${{PLUGINID}}
+      working-directory: ./${{env.PLUGINID}}
     runs-on: ubuntu-latest
 
     strategy:
