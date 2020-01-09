@@ -3,8 +3,8 @@ name: api-builder-plugin-fn-xml-node release and publish package
 on:
   release:
     types: [published]
-  paths:
-    - 'api-builder-plugin-fn-xml-node/**'
+  tags:
+    - *fn-xml-node*
 
 jobs:
   build:
