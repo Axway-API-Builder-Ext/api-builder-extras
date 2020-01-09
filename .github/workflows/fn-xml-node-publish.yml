@@ -1,7 +1,7 @@
 env:
   plugin-id: plugin-fn-xml-node
 
-name: ${{plugin-id}} release and publish package
+name: ${{env.plugin-id}} release and publish package
 
 on:
   release:
