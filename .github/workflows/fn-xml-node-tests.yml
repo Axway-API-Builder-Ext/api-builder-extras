@@ -6,11 +6,11 @@ env:
 on:
   push:
     paths:
-      - '${{env.plugin-id}}/**'
+      - ${{env.plugin-id}}/**
       - '.github/workflows/**'
   pull_request:
     paths:
-      - '${{env.plugin-id}}/**'
+      - ${{env.plugin-id}}/**
       - '.github/workflows/**'
 
 jobs:
