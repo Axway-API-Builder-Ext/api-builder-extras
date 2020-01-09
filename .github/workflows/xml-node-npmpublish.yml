@@ -1,4 +1,4 @@
-name: XML-Node release and publish package
+name: api-builder-plugin-fn-xml-node release and publish package
 
 on:
   release:
@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     env:
-      working-directory: ./xml-node
+      working-directory: ./api-builder-plugin-fn-xml-node
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

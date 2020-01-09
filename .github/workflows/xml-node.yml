@@ -1,11 +1,11 @@
-name: XML-Node CI Tests
+name: api-builder-plugin-fn-xml-node CI Tests
 
 on: [push, pull_request]
 
 jobs:
   build:
     env:
-      working-directory: ./xml-node
+      working-directory: ./api-builder-plugin-fn-xml-node
     runs-on: ubuntu-latest
 
     strategy:
