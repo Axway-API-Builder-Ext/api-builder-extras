@@ -1,9 +1,14 @@
 name: api-builder-plugin-fn-xml-node CI Tests
 
-on: [push, pull_request]
-  paths:
-    - 'api-builder-plugin-fn-xml-node/**'
-    - '.github/workflows/**'
+on:
+  push:
+    paths:
+      - 'api-builder-plugin-fn-xml-node/**'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'api-builder-plugin-fn-xml-node/**'
+      - '.github/workflows/**'    
 
 jobs:
   build:
