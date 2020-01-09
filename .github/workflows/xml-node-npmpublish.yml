@@ -37,8 +37,8 @@ jobs:
         env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-        npm ci
-        npm publish
+          npm ci
+          npm publish
 
   publish-npm:
     needs: build
