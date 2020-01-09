@@ -1,7 +1,7 @@
 name: plugin-fn-xml-node CI Tests
 
 env:
-  PLUGINID: plugin-fn-xml-node
+  PLUGINID: 'plugin-fn-xml-node'
 
 on:
   push:
