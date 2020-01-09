@@ -1,4 +1,7 @@
-name: api-builder-plugin-fn-xml-node release and publish package
+env:
+  plugin-id: plugin-fn-xml-node
+
+name: ${{plugin-id}} release and publish package
 
 on:
   release:
@@ -9,7 +12,7 @@ on:
 jobs:
   build:
     env:
-      working-directory: ./api-builder-plugin-fn-xml-node
+      working-directory: ./${{env.plugin-id}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

@@ -2,19 +2,19 @@
 
 [Axway API-Builder][3] is a very flexible low-code no-code framework that  helps
 customers to create or optimize APIs for an API-Management governance layer by:
-- orchestrating system of record APIs into a a business driven API
-  - for that connect to different Cloud- or On-Premise applications
-  - connect to databases to create a CRUD API in minutes
+- orchestrating system of record APIs into a business oriented API
+  - connect to different Cloud- or On-Premise applications
+  - connect to databases to create CRUD APIs in minutes
 - transform / mediate downstream APIs
 
-Wtach this [video][5] to learn more of the API-Builder or just [get started][6].
+Watch this [video][5] to learn more about API-Builder or just [get started][6].
 
-The underlying framework of API-Builder is [Node.js][7] using a series of
+The underlying framework of API-Builder is [Node.js][7] using a bunch of
 [NPM][8] packages.  
 This repository is used to maintain community packages following the process
 described below.  
 There are some benefits why it makes sense to share your plugin:  
-- Axway takes care about this repository to test, release and publish a package
+- Axway takes care about this repository to test, release and publish your package
 - upon Axway decision the plugin gets integrated into the API-Builder Plugin UI for simple installation and discovery
 - Broader community and Axway support will help to improve your plugin
 - Quality-Gate for changes on existing plugins  
@@ -32,14 +32,17 @@ API-Builder supports different kind of plugins. Learn more in the [Axway documen
 To share a plugin you have created with the community and make it available in the
 API-Builder UI, please follow this process:
 1. Implement the plugin locally as described below and in the Axway documentation.
+  - you can build and test the plugin locally at all time
 2. Create a fork of the [api-builder-extras][0] repository
 3. Within that fork create a unique folder for your plugin using this naming convention:
-- Flow-Nodes: api-builder-plugin-fn-<name>
-- Flow-Node connectors: api-builder-plugin-fc-<name>
-- Data-Connectors: api-builder-plugin-dc-<name>
+  - Flow-Nodes: api-builder-plugin-fn-<name>
+  - Flow-Node connectors: api-builder-plugin-fc-<name>
+  - Data-Connectors: api-builder-plugin-dc-<name>
 4. Insert your new plugin into that folder
 5. Update the package.json
-- Especially the fields: name, version, repository, homepage, bugs
+  - Especially the fields: name, version, repository, homepage, bugs
+6. Create your unique GitHub actions based on the template `.github/workflows/_template*`
+  - you need to adjust the ID after you have copied the template 
 
 Once you have completed the development of your new API-Builder plugin, submit
 a [pull request][1] to have Axway review your code. Once we've reviewed your

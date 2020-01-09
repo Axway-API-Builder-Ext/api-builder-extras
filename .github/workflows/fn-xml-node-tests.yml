@@ -1,19 +1,22 @@
-name: api-builder-plugin-fn-xml-node CI Tests
+env:
+  plugin-id: plugin-fn-xml-node
+
+name: ${{plugin-id}} CI Tests
 
 on:
   push:
     paths:
-      - 'api-builder-plugin-fn-xml-node/**'
+      - '${{env.plugin-id}}/**'
       - '.github/workflows/**'
   pull_request:
     paths:
-      - 'api-builder-plugin-fn-xml-node/**'
-      - '.github/workflows/**'    
+      - '${{env.plugin-id}}/**'
+      - '.github/workflows/**'
 
 jobs:
   build:
     env:
-      working-directory: ./api-builder-plugin-fn-xml-node
+      working-directory: ./${{env.plugin-id}}
     runs-on: ubuntu-latest
 
     strategy:
