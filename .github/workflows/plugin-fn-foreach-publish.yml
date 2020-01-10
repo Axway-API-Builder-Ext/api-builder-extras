@@ -10,6 +10,9 @@ on:
       - '*plugin-fn-foreach*'
 
 jobs:
+  check:
+    - name: Debug
+      uses: hmarr/debug-action@v1.0.0
   build:
     env:
       # This must be aligned with the folder-name of you plugin
