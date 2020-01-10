@@ -1,4 +1,4 @@
-name: plugin-fn-xml-node tests
+name: XML Flow-Node tests
 
 on:
   push:
@@ -19,15 +19,15 @@ jobs:
         node-version: [8.x, 10.x, 12.x]
 
     steps:
-    - name: Extract Plugin-Folder-name from workflow name
-      id: extract
-      uses: frabert/replace-string-action@master
-      with:
-        pattern: '.*(plugin-(fn|fc|dc)-.*)\s.*'
-        string: '${{env.GITHUB_WORKFLOW}}'
-        replace-with: '$1'
-#    - name: Debug
-#      uses: hmarr/debug-action@v1.0.0
+#    - name: Extract Plugin-Folder-name from workflow name
+#      id: extract
+#      uses: frabert/replace-string-action@master
+#      with:
+#        pattern: '.*(plugin-(fn|fc|dc)-.*)\s.*'
+#        string: '${{env.GITHUB_WORKFLOW}}'
+#        replace-with: '$1'
+    - name: Debug
+      uses: hmarr/debug-action@v1.0.0
     - name: Extracted folder name
       env:
         GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH }}
