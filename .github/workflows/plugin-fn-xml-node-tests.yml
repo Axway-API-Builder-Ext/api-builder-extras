@@ -7,15 +7,11 @@ on:
       # This must be aligned with the folder-name of you plugin
       - 'plugin-fn-xml-node/**'
       - '.github/workflows/**'
-    tags-ignore:
-      - '*'
   pull_request:
     paths:
       # This must be aligned with the folder-name of you plugin
       - 'plugin-fn-xml-node/**'
       - '.github/workflows/**'
-    tags-ignore:
-      - '*'
 
 jobs:
   build:
