@@ -1,11 +1,9 @@
-# @bladedancer/api-builder-plugin-gm-foreach
-
-> This node is experimental and uses unsupported hacks.
+[![Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/Foreach%20Flow-Node%20Tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions?query=XML+Flow)
 
 This node is like an Array.forEach(). It iterates over the array invoking a flow for each element.
 
 ## Creating the nested flow
-One of the unsupported features is to create a flow that isn't bound to an endpoint. There's no UI for doing this, so create a empty flow in `/flows`. 
+One of the unsupported features is to create a flow that isn't bound to an endpoint. There's no UI for doing this, so create a empty flow in `/flows`.
 
 ```
 {
@@ -41,11 +39,13 @@ The flow parameter has to be an object, so no iterating over arrays of primitive
 	},
 ```
 
+> This node is experimental and uses unsupported hacks.
+
 Save this as `/flows/WhateverYouWant.json`. Then open the flow in the Flow Editor: [http://localhost:8080/console/project/flows/WhateverYouWant/edit](http://localhost:8080/console/project/flows/WhateverYouWant/edit).
 
 In the example, the flow will execute 3 times - the array had 3 elements. `$.name` will be the `Tom` on the first, `Dick` on the second, and `Harry` on the third.
 
-The return value of the flow is the value stored in `$.response`. 
+The return value of the flow is the value stored in `$.response`.
 
 ## Flow
 
@@ -56,7 +56,7 @@ The _Flow_ method iterates over an array of objects and invokes the specified fl
 | flow | string | y | The flow id of the flow to execute. |
 | items | array | y | The array to iterate over. |
 
-![ForEachFlow](./imgs/ForeachFlow.png)
+![For each flow][flow-editor]
 
 ## Install
 
@@ -65,3 +65,5 @@ After creating your API Builder service (`api-builder init`), you can install th
 ```
 npm install --save @axway/api-builder-plugin-fn-foreach
 ```
+
+[flow-editor]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/plugin-fn-foreach/imgs/foreachFlow.png
