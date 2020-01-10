@@ -1,0 +1,35 @@
+{
+  "name": "@axway-api-builder-ext/sap-lama-connector",
+  "version": "1.0.3",
+  "description": "Use this connector to integrate with SAP Landscape Management",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js",
+    "uninstall": "node scripts/uninstall.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+  },
+  "keywords": [
+    "amplify",
+    "api-builder",
+    "flow",
+    "sap",
+    "Landscape Management"
+  ],
+  "author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues"
+  },
+  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/plugin-fc-sap-lama",
+  "files": [
+    "swagger",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+  }
+}
