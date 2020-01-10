@@ -3,12 +3,12 @@ name: XML Flow-Node tests
 on:
   push:
     paths:
-      - plugin-fn-xml-node/**
-      - .github/workflows/**
+      - 'plugin-fn-xml-node/**'
+      - '.github/workflows/**'
   pull_request:
     paths:
-      - plugin-fn-xml-node/**
-      - .github/workflows/**
+      - 'plugin-fn-xml-node/**'
+      - '.github/workflows/**'
 
 jobs:
   build:
