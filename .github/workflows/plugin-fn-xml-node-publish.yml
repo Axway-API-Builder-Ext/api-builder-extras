@@ -2,10 +2,12 @@
 name: XML Flow-Node Release
 
 on:
-  push:
+  release:
+    types:
+      - published
     tags:
       # If this tag is pushed, a release is created
-      - '*fn-xml-node*'
+      - '*plugin-fn-xml-node*'
 
 jobs:
   build:

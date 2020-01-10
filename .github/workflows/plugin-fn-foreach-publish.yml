@@ -2,7 +2,9 @@
 name: Foreach Flow-Node Release
 
 on:
-  push:
+  release:
+    types:
+      - published
     tags:
       # If this tag is pushed, a release is created
       - '*plugin-fn-foreach*'
