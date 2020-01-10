@@ -1,5 +1,5 @@
 # The name of the workflow node to appear in the actions and badge!
-name: XML Flow-Node tests
+name: XML Flow-Node Tests
 
 on:
   push:
