@@ -26,6 +26,8 @@ jobs:
         pattern: '(.*)-tests.yml'
         string: 'plugin-fn-xml-node-tests.yml'
         replace-with: '$1'
+    - name: Debug
+      uses: hmarr/debug-action@v1.0.0
     - name: Extracted folder name
       env:
         GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH }}
