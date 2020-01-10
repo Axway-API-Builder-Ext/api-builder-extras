@@ -10,8 +10,8 @@ on:
       - '*plugin-fn-foreach*'
 
 jobs:
-  steps:
-    check:
+  check:
+    steps:
       - name: Debug
         uses: hmarr/debug-action@v1.0.0
   build:
