@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-xml-node",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Axway API-Builder flow node to handle XML-Payload. For instance converting XML into JSON or JS-Objects.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
@@ -8,15 +8,16 @@
 		"amplify",
 		"api-builder",
 		"flow",
-		"sdk"
+		"sdk",
+		"xml"
 	],
-	"homepage": "https://github.com/Axway-API-Builder-Ext/xml-node",
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/plugin-fn-xml-node",
 	"bugs": {
-		"url": "https://github.com/Axway-API-Builder-Ext/xml-node/issues"
+		"url": "https://github.com/Axway-API-Builder-Ext/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Axway-API-Builder-Ext/xml-node.git"
+		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
 	},
 	"engines": {
 		"node": ">= 8.9"
