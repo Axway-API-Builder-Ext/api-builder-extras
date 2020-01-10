@@ -1,4 +1,4 @@
-![](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/plugin-fn-xml-node%20tests/badge.svg)
+![](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/XML%20Flow-Node%20tests/badge.svg)
 
 # API-Builder XML-Flow node
 

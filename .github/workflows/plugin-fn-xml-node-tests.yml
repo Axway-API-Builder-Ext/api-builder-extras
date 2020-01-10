@@ -1,48 +1,36 @@
+# The name of the workflow node to appear in the actions and badge!
 name: XML Flow-Node tests
 
 on:
   push:
     paths:
+      # This must be aligned with the folder-name
       - 'plugin-fn-xml-node/**'
       - '.github/workflows/**'
   pull_request:
     paths:
+      # This must be aligned with the folder-name
       - 'plugin-fn-xml-node/**'
       - '.github/workflows/**'
 
 jobs:
+  env:
+    workingDirectory: 'plugin-fn-xml-node'
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [8.x, 10.x, 12.x]
-
     steps:
-#    - name: Extract Plugin-Folder-name from workflow name
-#      id: extract
-#      uses: frabert/replace-string-action@master
-#      with:
-#        pattern: '.*(plugin-(fn|fc|dc)-.*)\s.*'
-#        string: '${{env.GITHUB_WORKFLOW}}'
-#        replace-with: '$1'
-    - name: Debug
-      uses: hmarr/debug-action@v1.0.0
-    - name: Extracted folder name
-      env:
-        GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH }}
-      run: |
-        echo "Extracted folder name is ${{ steps.extract.outputs.replaced }}"
-        echo "GITHUB_EVENT_PATH $env.GITHUB_EVENT_PATH"
-        echo "GITHUB_WORKFLOW $GITHUB_WORKFLOW"
-        echo "GITHUB_ACTION $GITHUB_ACTION"
+#    - name: Debug
+#      uses: hmarr/debug-action@v1.0.0
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
-      working-directory: ${{env.working-directory}}
+      working-directory: ${{env.workingDirectory}}
       env:
         CI: true
       run: |
