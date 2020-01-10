@@ -28,6 +28,9 @@ jobs:
         run: echo ::set-env name=workingDirectory::${{env.workingDirectory}}
 
   publish-gpr:
+    env:
+      # This must be aligned with the folder-name of you plugin
+      workingDirectory: 'plugin-fn-xml-node'
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -46,6 +49,9 @@ jobs:
           npm publish
 
   publish-npm:
+    env:
+      # This must be aligned with the folder-name of you plugin
+      workingDirectory: 'plugin-fn-xml-node'
     needs: build
     runs-on: ubuntu-latest
     steps:
