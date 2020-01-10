@@ -1,3 +1,5 @@
+name: plugin-fn-xml-node tests
+
 env:
   pluginId: 'plugin-fn-xml-node'
 
@@ -14,7 +16,7 @@ on:
 jobs:
   build:
     env:
-      working-directory: ${{env.pluginId}}
+      working-directory: ${{ pluginId }}
     runs-on: ubuntu-latest
 
     strategy:
