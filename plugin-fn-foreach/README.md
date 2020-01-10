@@ -3,7 +3,9 @@
 This node is like an Array.forEach(). It iterates over the array invoking a flow for each element.
 
 ## Creating the nested flow
-One of the unsupported features is to create a flow that isn't bound to an endpoint. There's no UI for doing this, so create a empty flow in `/flows`.
+One of the unsupported features is to create a flow that isn't bound to an endpoint.
+That means, there's actually no UI for doing this.  
+However, just create an empty flow in `/flows`.
 
 ```
 {
@@ -39,11 +41,9 @@ The flow parameter has to be an object, so no iterating over arrays of primitive
 	},
 ```
 
-> This node is experimental and uses unsupported hacks.
+Save this as `/flows/WhateverYouWant.json`. From that point on you can use the API-Builder Flow-Editor to adjust you nested flow. Just open the flow in the Flow Editor: [http://localhost:8080/console/project/flows/WhateverYouWant/edit](http://localhost:8080/console/project/flows/WhateverYouWant/edit).
 
-Save this as `/flows/WhateverYouWant.json`. Then open the flow in the Flow Editor: [http://localhost:8080/console/project/flows/WhateverYouWant/edit](http://localhost:8080/console/project/flows/WhateverYouWant/edit).
-
-In the example, the flow will execute 3 times - the array had 3 elements. `$.name` will be the `Tom` on the first, `Dick` on the second, and `Harry` on the third.
+In the example above, the flow will execute 3 times, as the array had 3 elements. `$.name` will be the `Tom` on the first, `Dick` on the second, and `Harry` on the third.
 
 The return value of the flow is the value stored in `$.response`.
 
