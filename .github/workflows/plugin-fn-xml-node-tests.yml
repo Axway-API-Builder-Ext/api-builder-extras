@@ -20,13 +20,14 @@ jobs:
 
     steps:
     - name: Extract Plugin-Folder-name
+      id: extract
       uses: frabert/replace-string-action@master
       with:
         pattern: '(.*)-tests.yml'
         string: 'plugin-fn-xml-node-tests.yml'
         replace-with: '$1'
-        env:
-          working-directory: ${{ replaced }}
+    - name: Extracted folder name
+      run: echo "Extracted folder name is: ${{ steps.extract.outputs.replaced }}"
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
