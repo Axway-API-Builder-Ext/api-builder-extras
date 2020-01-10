@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Extract Plugin-Folder-name
-    - uses: frabert/replace-string-action@master
+      uses: frabert/replace-string-action@master
       with:
         pattern: '(.*)-tests.yml'
         string: 'plugin-fn-xml-node-tests.yml'
