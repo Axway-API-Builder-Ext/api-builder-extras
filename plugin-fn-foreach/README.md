@@ -47,7 +47,6 @@ In the example above, the flow will execute 3 times, as the array had 3 elements
 
 The return value of the flow is the value stored in `$.response`.
 
-
 ## Flow
 
 The _Flow_ method iterates over an array of objects and invokes the specified flow with the object as the input.
