@@ -42,6 +42,7 @@ jobs:
     - name: Save working workingDirectory
       run: echo ::set-env name=workingDirectory::${{env.workingDirectory}}
   validate:
+    runs-on: ubuntu-latest
     steps:
       - name: Check workingDirectory
         run: echo "Working directory is ${{env.workingDirectory}}"
