@@ -20,10 +20,12 @@ jobs:
         with:
           node-version: 12
       - name: Run npm
-        working-directory: ${{jobs.build.env.workingDirectory}}
+        working-directory: ${{env.workingDirectory}}
         run: |
           npm ci
           npm test
+      - name: Save working workingDirectory
+        run: echo ::set-env name=workingDirectory::${{env.workingDirectory}}
 
   publish-gpr:
     needs: build
