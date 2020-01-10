@@ -11,6 +11,8 @@ on:
 
 jobs:
   build:
+    # This is a required check, as the on:release can't be filtered on given tags
+    if: contains(GITHUB_REF, 'plugin-fn-xml-node')
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'plugin-fn-xml-node'
