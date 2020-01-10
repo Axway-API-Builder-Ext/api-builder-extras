@@ -42,7 +42,8 @@ API-Builder UI, please follow this process:
 5. Update the package.json
   - Especially the fields: name, version, repository, homepage, bugs
 6. Create your unique GitHub actions based on the template `.github/workflows/_template*`
-  - you need to adjust the ID after you have copied the template 
+  - you need to adjust the ID after you have copied the template
+
 
 Once you have completed the development of your new API-Builder plugin, submit
 a [pull request][1] to have Axway review your code. Once we've reviewed your
