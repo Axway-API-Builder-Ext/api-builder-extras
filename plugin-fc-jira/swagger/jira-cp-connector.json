@@ -1,0 +1,2640 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "JIRA Cloud Platform API",
+    "version": "1.0",
+    "description": "JIRA 8.4.3"
+  },
+  "host": "your-jira-host.com",
+  "paths": {
+    "/issue": {
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Returns a link to the created issue.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "self": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "application/json": {
+                "id": "10000",
+                "key": "TST-24",
+                "self": "http://www.example.com/jira/rest/api/2/issue/10000"
+              }
+            }
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid field values, and so forth).",
+            "examples": {
+              "application/json": {
+                "errorMessages": [
+                  "Field 'priority' is required"
+                ],
+                "errors": {}
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorMessages": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Creates an issue or a sub-task from a JSON representation.",
+        "description": " The fields that can be set on create, in either the fields parameter or the update parameter can be determined using the /rest/api/2/issue/createmeta resource. If a field is not configured to appear on the create screen, then it will not be in the createmeta, and a field validation error will occur if it is submitted.\n\nCreating a sub-task is similar to creating a regular issue, with two important differences:\n\nthe issueType field must correspond to a sub-task issue type (you can use /issue/createmeta to discover sub-task issue types), and\nyou must provide a parent field in the issue create request containing the id or key of the parent issue.\nThe updateHistory param adds the project that this issue is created in, to the current user's project history, if set to true (by default, the project history is not updated).\nYou can view the project history in the JIRA application, via the Projects dropdown.",
+        "operationId": "Create-Issue",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "updateHistory",
+            "type": "boolean",
+            "description": "if true then the user's project history is updated",
+            "default": false
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "update": {
+                  "type": "object",
+                  "properties": {
+                    "worklog": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "add": {
+                            "type": "object",
+                            "properties": {
+                              "timeSpent": {
+                                "type": "string"
+                              },
+                              "started": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "fields": {
+                  "type": "object",
+                  "properties": {
+                    "project": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "issuetype": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "assignee": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "reporter": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "priority": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "labels": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "timetracking": {
+                      "type": "object",
+                      "properties": {
+                        "originalEstimate": {
+                          "type": "string"
+                        },
+                        "remainingEstimate": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "security": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "versions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "environment": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "duedate": {
+                      "type": "string"
+                    },
+                    "fixVersions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "components": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "customfield_30000": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "customfield_80000": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "customfield_20000": {
+                      "type": "string"
+                    },
+                    "customfield_40000": {
+                      "type": "string"
+                    },
+                    "customfield_70000": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "customfield_60000": {
+                      "type": "string"
+                    },
+                    "customfield_50000": {
+                      "type": "string"
+                    },
+                    "customfield_10000": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "update": {
+                  "worklog": [
+                    {
+                      "add": {
+                        "timeSpent": "60m",
+                        "started": "2011-07-05T11:05:00.000+0000"
+                      }
+                    }
+                  ]
+                },
+                "fields": {
+                  "project": {
+                    "id": "10000"
+                  },
+                  "summary": "something's wrong",
+                  "issuetype": {
+                    "id": "10000"
+                  },
+                  "assignee": {
+                    "name": "homer"
+                  },
+                  "reporter": {
+                    "name": "smithers"
+                  },
+                  "priority": {
+                    "id": "20000"
+                  },
+                  "labels": [
+                    "bugfix",
+                    "blitz_test"
+                  ],
+                  "timetracking": {
+                    "originalEstimate": "10",
+                    "remainingEstimate": "5"
+                  },
+                  "security": {
+                    "id": "10000"
+                  },
+                  "versions": [
+                    {
+                      "id": "10000"
+                    }
+                  ],
+                  "environment": "environment",
+                  "description": "description",
+                  "duedate": "2011-03-11",
+                  "fixVersions": [
+                    {
+                      "id": "10001"
+                    }
+                  ],
+                  "components": [
+                    {
+                      "id": "10000"
+                    }
+                  ],
+                  "customfield_30000": [
+                    "10000",
+                    "10002"
+                  ],
+                  "customfield_80000": {
+                    "value": "red"
+                  },
+                  "customfield_20000": "06/Jul/11 3:25 PM",
+                  "customfield_40000": "this is a text field",
+                  "customfield_70000": [
+                    "jira-administrators",
+                    "jira-software-users"
+                  ],
+                  "customfield_60000": "jira-software-users",
+                  "customfield_50000": "this is a text area. big text.",
+                  "customfield_10000": "09/Jun/81"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/bulk": {
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Returns a link to the created issues.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "issues": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "key": {
+                        "type": "string"
+                      },
+                      "self": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "examples": {
+              "application/json": {
+                "issues": [
+                  {
+                    "id": "10000",
+                    "key": "TST-24",
+                    "self": "http://www.example.com/jira/rest/api/2/issue/10000"
+                  },
+                  {
+                    "id": "10001",
+                    "key": "TST-25",
+                    "self": "http://www.example.com/jira/rest/api/2/issue/10001"
+                  }
+                ],
+                "errors": []
+              }
+            }
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid field values, and so forth).",
+            "examples": {
+              "application/json": {
+                "status": 400,
+                "elementErrors": {
+                  "errorMessages": [
+                    "Field 'priority' is required"
+                  ],
+                  "errors": {}
+                },
+                "failedElementNumber": 3
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "elementErrors": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessages": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "failedElementNumber": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Creates issues or sub-tasks from a JSON representation.",
+        "description": " Creates many issues in one bulk operation.\n\nCreating a sub-task is similar to creating a regular issue. More details can be found in createIssue section: {@link IssueResource#createIssue(IssueUpdateBean)}}",
+        "operationId": "Create-Issues",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "issueUpdates": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "update": {
+                        "type": "object",
+                        "properties": {
+                          "worklog": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "add": {
+                                  "type": "object",
+                                  "properties": {
+                                    "timeSpent": {
+                                      "type": "string"
+                                    },
+                                    "started": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "fields": {
+                        "type": "object",
+                        "properties": {
+                          "project": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "summary": {
+                            "type": "string"
+                          },
+                          "issuetype": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "assignee": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "reporter": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "priority": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "labels": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "timetracking": {
+                            "type": "object",
+                            "properties": {
+                              "originalEstimate": {
+                                "type": "string"
+                              },
+                              "remainingEstimate": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "security": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "versions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "environment": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "duedate": {
+                            "type": "string"
+                          },
+                          "fixVersions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "components": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "customfield_30000": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "customfield_80000": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "customfield_20000": {
+                            "type": "string"
+                          },
+                          "customfield_40000": {
+                            "type": "string"
+                          },
+                          "customfield_70000": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "customfield_60000": {
+                            "type": "string"
+                          },
+                          "customfield_50000": {
+                            "type": "string"
+                          },
+                          "customfield_10000": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "issueUpdates": [
+                  {
+                    "update": {
+                      "worklog": [
+                        {
+                          "add": {
+                            "timeSpent": "60m",
+                            "started": "2011-07-05T11:05:00.000+0000"
+                          }
+                        }
+                      ]
+                    },
+                    "fields": {
+                      "project": {
+                        "id": "10000"
+                      },
+                      "summary": "something's wrong",
+                      "issuetype": {
+                        "id": "10000"
+                      },
+                      "assignee": {
+                        "name": "homer"
+                      },
+                      "reporter": {
+                        "name": "smithers"
+                      },
+                      "priority": {
+                        "id": "20000"
+                      },
+                      "labels": [
+                        "bugfix",
+                        "blitz_test"
+                      ],
+                      "timetracking": {
+                        "originalEstimate": "10",
+                        "remainingEstimate": "5"
+                      },
+                      "security": {
+                        "id": "10000"
+                      },
+                      "versions": [
+                        {
+                          "id": "10000"
+                        }
+                      ],
+                      "environment": "environment",
+                      "description": "description",
+                      "duedate": "2011-03-11",
+                      "fixVersions": [
+                        {
+                          "id": "10001"
+                        }
+                      ],
+                      "components": [
+                        {
+                          "id": "10000"
+                        }
+                      ],
+                      "customfield_30000": [
+                        "10000",
+                        "10002"
+                      ],
+                      "customfield_80000": {
+                        "value": "red"
+                      },
+                      "customfield_20000": "06/Jul/11 3:25 PM",
+                      "customfield_40000": "this is a text field",
+                      "customfield_70000": [
+                        "jira-administrators",
+                        "jira-software-users"
+                      ],
+                      "customfield_60000": "jira-software-users",
+                      "customfield_50000": "this is a text area. big text.",
+                      "customfield_10000": "09/Jun/81"
+                    }
+                  },
+                  {
+                    "update": {},
+                    "fields": {
+                      "project": {
+                        "id": "1000"
+                      },
+                      "summary": "something's very wrong",
+                      "issuetype": {
+                        "id": "10000"
+                      },
+                      "assignee": {
+                        "name": "jerry"
+                      },
+                      "reporter": {
+                        "name": "kosecki"
+                      },
+                      "priority": {
+                        "id": "20000"
+                      },
+                      "labels": [
+                        "new_release"
+                      ],
+                      "timetracking": {
+                        "originalEstimate": "15",
+                        "remainingEstimate": "5"
+                      },
+                      "security": {
+                        "id": "10000"
+                      },
+                      "versions": [
+                        {
+                          "id": "10000"
+                        }
+                      ],
+                      "environment": "environment",
+                      "description": "description",
+                      "duedate": "2011-04-16",
+                      "fixVersions": [
+                        {
+                          "id": "10001"
+                        }
+                      ],
+                      "components": [
+                        {
+                          "id": "10000"
+                        }
+                      ],
+                      "customfield_30000": [
+                        "10000",
+                        "10002"
+                      ],
+                      "customfield_80000": {
+                        "value": "red"
+                      },
+                      "customfield_20000": "06/Jul/11 3:25 PM",
+                      "customfield_40000": "this is a text field",
+                      "customfield_70000": [
+                        "jira-administrators",
+                        "jira-software-users"
+                      ],
+                      "customfield_60000": "jira-software-users",
+                      "customfield_50000": "this is a text area. big text.",
+                      "customfield_10000": "09/Jun/81"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns a full representation of a JIRA issue in JSON format.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the requested issue is not found, or the user does not have permission to view it."
+          }
+        },
+        "summary": "Returns a full representation of the issue for the given issue key.",
+        "operationId": "Issue-Get",
+        "description": "An issue JSON consists of the issue key, a collection of fields, a link to the workflow transition sub-resource, and (optionally) the HTML rendered values of any fields that support it (e.g. if wiki syntax is enabled for the description or comments). \nThe fields param (which can be specified multiple times) gives a comma-separated list of fields to include in the response. This can be used to retrieve a subset of fields. A particular field can be excluded by prefixing it with a minus.\n\nBy default, all (*all) fields are returned in this get-issue resource. Note: the default is different when doing a jql search -- the default there is just navigable fields (*navigable).\n\n    *all - include all fields\n    *navigable - include just navigable fields\n    summary,comment - include just the summary and comments\n    -comment - include everything except comments (the default is *all for get-issue)\n    *all,-comment - include everything except comments\n\nThe {@code properties} param is similar to {@code fields} and specifies a comma-separated list of issue properties to include. Unlike {@code fields}, properties are not included by default. To include them all send {@code ?properties=*all}. You can also include only specified properties or exclude some properties with a minus (-) sign.\n\n    {@code *all} - include all properties\n    {@code *all, -prop1} - include all properties except {@code prop1}\n    {@code prop1, prop1} - include {@code prop1} and {@code prop2} properties\n\nJIRA will attempt to identify the issue by the issueIdOrKey path parameter. This can be an issue id, or an issue key. If the issue cannot be found via an exact match, JIRA will also look for the issue in a case-insensitive way, or by looking to see if the issue was moved. In either of these cases, the request will proceed as normal (a 302 or other redirect will not be returned). The issue key contained in the response will indicate the current value of issue's key. \n",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fields",
+            "type": "string",
+            "description": "the list of fields to return for the issue. By default, all fields are returned."
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "properties",
+            "type": "string",
+            "description": "the list of properties to return for the issue. By default no properties are returned."
+          },
+          {
+            "in": "query",
+            "name": "updateHistory",
+            "type": "boolean"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Returned if the issue was removed successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if an error occurs."
+          },
+          "401": {
+            "description": "Returned if the calling user is not authenticated."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to delete the issue."
+          },
+          "404": {
+            "description": "Returned if the issue does not exist."
+          }
+        },
+        "summary": "Delete an issue.",
+        "description": "If the issue has subtasks you must set the parameter deleteSubtasks=true to delete the issue. You cannot delete an issue without its subtasks also being deleted.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "deleteSubtasks",
+            "type": "string",
+            "description": "a String of true or false indicating that any subtasks should also be deleted. If the issue has no subtasks this parameter is ignored. If the issue has subtasks and this parameter is missing or false, then the issue will not be deleted and an error will be returned."
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "Issue-Delete",
+        "tags": [
+          "issue"
+        ]
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "description": "Returned if it updated the issue successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if the requested issue update failed."
+          },
+          "403": {
+            "description": "Returned if the user doesn't have permissions to disable users notification."
+          }
+        },
+        "summary": "Edits an issue from a JSON representation.",
+        "description": "The issue can either be updated by setting explicit the field value(s) or by using an operation to change the field value.\n\nThe fields that can be updated, in either the fields parameter or the update parameter, can be determined using the /rest/api/2/issue/{issueIdOrKey}/editmeta resource.\nIf a field is not configured to appear on the edit screen, then it will not be in the editmeta, and a field validation error will occur if it is submitted.\n\nSpecifying a \"field_id\": field_value in the \"fields\" is a shorthand for a \"set\" operation in the \"update\" section.\nField should appear either in \"fields\" or \"update\", not in both.",
+        "operationId": "Issue-Edit",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/notifyUsers"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object"
+            },
+            "x-examples": {
+              "application/json": "{\"update\":{\"summary\":[{\"set\":\"Bug in business logic\"}],\"components\":[{\"set\":\"\"}],\"timetracking\":[{\"edit\":{\"originalEstimate\":\"1w 1d\",\"remainingEstimate\":\"4d\"}}],\"labels\":[{\"add\":\"triaged\"},{\"remove\":\"blocker\"}]},\"fields\":{\"summary\":\"This is a shorthand for a set operation on the summary field\",\"customfield_10010\":1,\"customfield_10000\":\"This is a shorthand for a set operation on a text custom field\"},\"historyMetadata\":{\"type\":\"myplugin:type\",\"description\":\"text description\",\"descriptionKey\":\"plugin.changereason.i18.key\",\"activityDescription\":\"text description\",\"activityDescriptionKey\":\"plugin.activity.i18.key\",\"actor\":{\"id\":\"tony\",\"displayName\":\"Tony\",\"type\":\"mysystem-user\",\"avatarUrl\":\"http://mysystem/avatar/tony.jpg\",\"url\":\"http://mysystem/users/tony\"},\"generator\":{\"id\":\"mysystem-1\",\"type\":\"mysystem-application\"},\"cause\":{\"id\":\"myevent\",\"type\":\"mysystem-event\"},\"extraData\":{\"keyvalue\":\"extra data\",\"goes\":\"here\"}},\"properties\":[{\"key\":\"key1\",\"value\":'properties' : 'can be set at issue create or update time'},{\"key\":\"key2\",\"value\":'and' : 'there can be multiple properties'}]}"
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/archive": {
+      "get": {
+        "responses": {
+          "204": {
+            "description": "Returned if the issue is successfully archived.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "Returned if the user is not logged in."
+          },
+          "403": {
+            "description": "Returned if the currently authenticated user does not have permission to archive the issue or doesn't have DC license or issue is already archived."
+          },
+          "404": {
+            "description": "Returned if the issue does not exist."
+          }
+        },
+        "summary": "Archives an issue.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/notifyUsers"
+          }
+        ],
+        "operationId": "Issue-Archive",
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ]
+    },
+    "/issue/{issueIdOrKey}/assignee": {
+      "put": {
+        "responses": {
+          "204": {
+            "description": "Returned if the issue is successfully assigned.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if there is a problem with the received user representation."
+          },
+          "401": {
+            "description": "Returned if the calling user does not have permission to assign the issue."
+          },
+          "404": {
+            "description": "Returned if either the issue or the user does not exist."
+          }
+        },
+        "summary": "Assigns an issue to a user.",
+        "operationId": "Issue-Assign",
+        "description": "You can use this resource to assign issues when the user submitting the request has the assign permission but not the edit issue permission. If the name is \"-1\" automatic assignee is used. A null name will remove the assignee.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "name": "harry"
+              }
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ]
+    },
+    "/issue/{issueIdOrKey}/comment": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "summary": "Returns all comments for an issue. ",
+        "operationId": "Issue-Get-Comments",
+        "description": "Results can be ordered by the \"created\" field which means the date a comment was added. ",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "startAt",
+            "type": "number",
+            "description": "the page offset, if not specified then defaults to 0"
+          },
+          {
+            "in": "query",
+            "name": "maxResults",
+            "type": "number",
+            "description": "how many results on the page should be included. Defaults to 50."
+          },
+          {
+            "in": "query",
+            "name": "orderBy",
+            "type": "string",
+            "description": "ordering of the results."
+          },
+          {
+            "$ref": "#/parameters/expand"
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "issueIdOrKey",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "put": {
+        "responses": {
+          "201": {
+            "description": "Returned if add was successful",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid values, and so forth)."
+          }
+        },
+        "summary": "Adds a new comment to an issue.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/expand"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "string"
+                },
+                "visibility": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget venenatis elit. Duis eu justo eget augue iaculis fermentum. Sed semper quam laoreet nisi egestas at posuere augue semper.",
+                "visibility": {
+                  "type": "role",
+                  "value": "Administrators"
+                }
+              }
+            }
+          }
+        ],
+        "operationId": "Issue-Add-Comment",
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/comment/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns a full representation of a JIRA comment in JSON format.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the requested comment is not found, or the user does not have permission to view it."
+          }
+        },
+        "summary": "Returns a single comment.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/expand"
+          }
+        ],
+        "operationId": "Issue-Get-Comment",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "put": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "summary": "Updates an existing comment",
+        "description": "Updates an existing comment using its JSON representation.",
+        "operationId": "Issue-Update-Comment",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Returned if delete was successful"
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid values, and so forth).",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "summary": "Deletes an existing comment",
+        "operationId": "Issue-Delete-Comment",
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/editmeta": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns a response containing a Map of FieldBeans for fields editable by the current user.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the requested issue is not found or the user does not have permission to view it."
+          }
+        },
+        "summary": "Returns the meta data for editing an issue.",
+        "description": "The fields in the editmeta correspond to the fields in the edit screen for the issue. Fields not in the screen will not be in the editmeta.",
+        "operationId": "Issue-Get-Metadata",
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ]
+    },
+    "/issue/{issueIdOrKey}/notify": {
+      "post": {
+        "responses": {
+          "204": {
+            "description": "Returned if adding to the mail queue was successful",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid values, and so forth)."
+          },
+          "403": {
+            "description": "Returned is outgoing emails are disabled OR no SMTP server is defined."
+          }
+        },
+        "description": "Sends a notification (email) to the list or recipients defined in the request.",
+        "summary": "Send notification email",
+        "operationId": "Issue-Send-Notification",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "subject": {
+                  "type": "string"
+                },
+                "textBody": {
+                  "type": "string"
+                },
+                "htmlBody": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "object",
+                  "properties": {
+                    "reporter": {
+                      "type": "boolean"
+                    },
+                    "assignee": {
+                      "type": "boolean"
+                    },
+                    "watchers": {
+                      "type": "boolean"
+                    },
+                    "voters": {
+                      "type": "boolean"
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "active": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "self": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "restrict": {
+                  "type": "object",
+                  "properties": {
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "self": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "subject": "Duis eu justo eget augue iaculis fermentum.",
+                "textBody": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget venenatis elit. Duis eu justo eget augue iaculis fermentum. Sed semper quam laoreet nisi egestas at posuere augue semper.",
+                "htmlBody": "Lorem ipsum <strong>dolor</strong> sit amet, consectetur adipiscing elit. Pellentesque eget venenatis elit. Duis eu justo eget augue iaculis fermentum. Sed semper quam laoreet nisi egestas at posuere augue semper.",
+                "to": {
+                  "reporter": false,
+                  "assignee": false,
+                  "watchers": true,
+                  "voters": true,
+                  "users": [
+                    {
+                      "name": "fred",
+                      "active": false
+                    }
+                  ],
+                  "groups": [
+                    {
+                      "name": "notification-group",
+                      "self": "http://www.example.com/jira/rest/api/2/group?groupname=notification-group"
+                    }
+                  ]
+                },
+                "restrict": {
+                  "groups": [
+                    {
+                      "name": "notification-group",
+                      "self": "http://www.example.com/jira/rest/api/2/group?groupname=notification-group"
+                    }
+                  ],
+                  "permissions": [
+                    {
+                      "id": "10",
+                      "key": "BROWSE"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ]
+    },
+    "/issue/{issueIdOrKey}/remotelink": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Information on the remote issue links for the current issue.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "Returned if the calling user is not authenticated."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to view the remote issue links, or if issue linking is disabled."
+          },
+          "404": {
+            "description": "Returned if the issue or remote issue link do not exist."
+          }
+        },
+        "description": "A REST sub-resource representing the remote issue links on the issue.",
+        "summary": "Remote issue links on the issue",
+        "operationId": "Issue-Get-RemoteLinks",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "globalId",
+            "type": "string",
+            "description": "The id of the remote issue link to be returned. If null (not provided) all remote links for the issue are returned.\n\nFor a fullexplanation of Issue Link fields please refer to https://developer.atlassian.com/display/JIRADEV/Fields+in+Remote+Issue+Links"
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ],
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Returns a link to the created/updated remote issue link.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid values, and so forth)."
+          },
+          "401": {
+            "description": "Returned if the calling user is not authenticated."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to create/update the remote issue link, or if issue linking is disabled."
+          }
+        },
+        "description": "Creates or updates a remote issue link from a JSON representation. If a globalId is provided and a remote issue link exists with that globalId, the remote issue link is updated. Otherwise, the remote issue link is created.",
+        "summary": "Creates or updates a remote issue link",
+        "operationId": "Issue-Update-RemoteLink",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "globalId": {
+                  "type": "string"
+                },
+                "application": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "relationship": {
+                  "type": "string"
+                },
+                "object": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "object",
+                      "properties": {
+                        "url16x16": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "resolved": {
+                          "type": "boolean"
+                        },
+                        "icon": {
+                          "type": "object",
+                          "properties": {
+                            "url16x16": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "link": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "globalId": "system=http://www.mycompany.com/support&id=1",
+                "application": {
+                  "type": "com.acme.tracker",
+                  "name": "My Acme Tracker"
+                },
+                "relationship": "causes",
+                "object": {
+                  "url": "http://www.mycompany.com/support?id=1",
+                  "title": "TSTSUP-111",
+                  "summary": "Crazy customer support issue",
+                  "icon": {
+                    "url16x16": "http://www.mycompany.com/support/ticket.png",
+                    "title": "Support Ticket"
+                  },
+                  "status": {
+                    "resolved": true,
+                    "icon": {
+                      "url16x16": "http://www.mycompany.com/support/resolved.png",
+                      "title": "Case Closed",
+                      "link": "http://www.mycompany.com/support?id=1&details=closed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Returned if the remote issue link was removed successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "Returned if the calling user is not authenticated."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to delete the remote issue link, or if issue linking is disabled."
+          },
+          "404": {
+            "description": "Returned if the issue or remote issue link do not exist."
+          }
+        },
+        "description": "Delete the remote issue link with the given global id on the issue.",
+        "summary": "Delete the remote issue link",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "globalId",
+            "type": "string",
+            "description": "the global id of the remote issue link"
+          }
+        ],
+        "operationId": "Issue-Delete-RemoteLink",
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/remotelink/{linkId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Information on the remote issue link with the given id.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if the linkId is not a valid number, or if the remote issue link with the given id does not belong to the given issue."
+          },
+          "401": {
+            "description": "Returned if the calling user is not authenticated."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to view the remote issue link, or if issue linking is disabled."
+          },
+          "404": {
+            "description": "Returned if the issue or remote issue link do not exist."
+          }
+        },
+        "description": "Get the remote issue link with the given id on the issue.",
+        "summary": "Get the remote issue link",
+        "operationId": "Issue-Get-RemoteLinks-LinkId",
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        },
+        {
+          "name": "linkId",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "put": {
+        "responses": {
+          "204": {
+            "description": "Returned if the remote issue link was updated successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid values, and so forth)."
+          },
+          "401": {
+            "description": "Returned if the calling user is not authenticated."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to update the remote issue link, or if issue linking is disabled."
+          }
+        },
+        "description": "Updates a remote issue link from a JSON representation. Any fields not provided are set to null.",
+        "summary": "Updates a remote issue link",
+        "operationId": "Issue-Update-RemoteLink-LinkId",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "globalId": {
+                  "type": "string"
+                },
+                "application": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "relationship": {
+                  "type": "string"
+                },
+                "object": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "object",
+                      "properties": {
+                        "url16x16": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "resolved": {
+                          "type": "boolean"
+                        },
+                        "icon": {
+                          "type": "object",
+                          "properties": {
+                            "url16x16": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "link": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "globalId": "system=http://www.mycompany.com/support&id=1",
+                "application": {
+                  "type": "com.acme.tracker",
+                  "name": "My Acme Tracker"
+                },
+                "relationship": "causes",
+                "object": {
+                  "url": "http://www.mycompany.com/support?id=1",
+                  "title": "TSTSUP-111",
+                  "summary": "Crazy customer support issue",
+                  "icon": {
+                    "url16x16": "http://www.mycompany.com/support/ticket.png",
+                    "title": "Support Ticket"
+                  },
+                  "status": {
+                    "resolved": true,
+                    "icon": {
+                      "url16x16": "http://www.mycompany.com/support/resolved.png",
+                      "title": "Case Closed",
+                      "link": "http://www.mycompany.com/support?id=1&details=closed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "delete": {
+        "description": "Delete the remote issue link with the given id on the issue.",
+        "summary": "Delete the remote issue link",
+        "operationId": "Issue-Delete-RemoteLink-LinkId",
+        "responses": {
+          "204": {
+            "description": "Returned if the remote issue link was removed successfully."
+          },
+          "401": {
+            "description": "Returned if the calling user is not authenticated."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to delete the remote issue link, or if issue linking is disabled."
+          },
+          "404": {
+            "description": "Returned if the issue or remote issue link do not exist."
+          }
+        },
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/restore": {
+      "put": {
+        "responses": {
+          "204": {
+            "description": "Returned if the issue is successfully restored.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "Returned if the user is not logged in."
+          },
+          "403": {
+            "description": "Returned if the currently authenticated user does not have permission to restore the issue or doesn't have DC license or issue is not archived."
+          },
+          "404": {
+            "description": "Returned if the issue does not exist."
+          }
+        },
+        "summary": "Restores an archived issue.",
+        "operationId": "Issue-Restore",
+        "parameters": [
+          {
+            "$ref": "#/parameters/notifyUsers"
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ]
+    },
+    "/issue/{issueIdOrKey}/transitions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns a full representation of the transitions possible for the specified issue and the fields required to perform the transition.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the requested issue is not found or the user does not have permission to view it."
+          }
+        },
+        "summary": "Get a list of the transitions",
+        "description": "Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.\n\nFields will only be returned if expand=transitions.fields.\n\nThe fields in the metadata correspond to the fields in the transition screen for that transition. Fields not in the screen will not be in the metadata.",
+        "operationId": "Issue-Get-Transitions",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "transitionId",
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "issueIdOrKey",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "post": {
+        "responses": {
+          "204": {
+            "description": "Returned if the transition was successful.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "If there is no transition specified."
+          },
+          "404": {
+            "description": "The issue does not exist or the user does not have permission to view it"
+          }
+        },
+        "summary": "Perform a transition on an issue.",
+        "description": "Perform a transition on an issue. When performing the transition you can update or set other issue fields.\n\nThe fields that can be set on transtion, in either the fields parameter or the update parameter can be determined using the /rest/api/2/issue/{issueIdOrKey}/transitions?expand=transitions.fields resource. If a field is not configured to appear on the transition screen, then it will not be in the transition metadata, and a field validation error will occur if it is submitted. The updateHistory param adds the issues retrieved by this method to the current user's issue history, if set to true (by default, the issue history does not include issues retrieved via the REST API). You can view the issue history in the JIRA application, via the Issues dropdown or by using the lastViewed JQL field in an issue search.",
+        "operationId": "Issue-Do-Transition",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "update": {
+                  "type": "object",
+                  "properties": {
+                    "comment": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "add": {
+                            "type": "object",
+                            "properties": {
+                              "body": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "fields": {
+                  "type": "object",
+                  "properties": {
+                    "assignee": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "resolution": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "transition": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "historyMetadata": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "descriptionKey": {
+                      "type": "string"
+                    },
+                    "activityDescription": {
+                      "type": "string"
+                    },
+                    "activityDescriptionKey": {
+                      "type": "string"
+                    },
+                    "actor": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "displayName": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "avatarUrl": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "generator": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "cause": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "extraData": {
+                      "type": "object",
+                      "properties": {
+                        "keyvalue": {
+                          "type": "string"
+                        },
+                        "goes": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "update": {
+                  "comment": [
+                    {
+                      "add": {
+                        "body": "Bug has been fixed."
+                      }
+                    }
+                  ]
+                },
+                "fields": {
+                  "assignee": {
+                    "name": "bob"
+                  },
+                  "resolution": {
+                    "name": "Fixed"
+                  }
+                },
+                "transition": {
+                  "id": "5"
+                },
+                "historyMetadata": {
+                  "type": "myplugin:type",
+                  "description": "text description",
+                  "descriptionKey": "plugin.changereason.i18.key",
+                  "activityDescription": "text description",
+                  "activityDescriptionKey": "plugin.activity.i18.key",
+                  "actor": {
+                    "id": "tony",
+                    "displayName": "Tony",
+                    "type": "mysystem-user",
+                    "avatarUrl": "http://mysystem/avatar/tony.jpg",
+                    "url": "http://mysystem/users/tony"
+                  },
+                  "generator": {
+                    "id": "mysystem-1",
+                    "type": "mysystem-application"
+                  },
+                  "cause": {
+                    "id": "myevent",
+                    "type": "mysystem-event"
+                  },
+                  "extraData": {
+                    "keyvalue": "extra data",
+                    "goes": "here"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/votes": {
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Nothing is returned on success.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the user cannot remove a vote for any reason. (The user did not vote on the issue, the user is the reporter, voting is disabled, the issue does not exist, etc.)"
+          }
+        },
+        "summary": "Remove your vote",
+        "description": "Remove your vote from an issue. (i.e. \"unvote\")",
+        "operationId": "Issue-Vote-Remove",
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ],
+      "post": {
+        "responses": {
+          "204": {
+            "description": "Nothing is returned on success.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the user cannot vote for any reason. (The user is the reporter, the user does not have permission to vote, voting is disabled in the instance, the issue does not exist, etc.)"
+          }
+        },
+        "description": "Cast your vote in favour of an issue.",
+        "summary": "Add your vote ",
+        "operationId": "Issue-Vote-Add",
+        "tags": [
+          "issue"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Information about voting on the current issue.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the user cannot view the issue in question or voting is disabled."
+          }
+        },
+        "description": "A REST sub-resource representing the voters on the issue.",
+        "summary": "Get issue voters",
+        "operationId": "Issue-Votes-Get",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/watchers": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns the list of watchers for an issue.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the requested issue is not found, or the user does not have permission to view it."
+          }
+        },
+        "description": "Returns the list of watchers for the issue with the given key.",
+        "summary": "Returns the list of watchers",
+        "operationId": "Issue-Watchers-Get",
+        "tags": [
+          "issue"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ],
+      "post": {
+        "responses": {
+          "204": {
+            "description": "Returned if the watcher was added successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if there is a problem with the received user representation."
+          },
+          "401": {
+            "description": "Returned if the calling user does not have permission to add the watcher to the issue's list of watchers."
+          },
+          "404": {
+            "description": "Returned if either the issue or the user does not exist."
+          }
+        },
+        "summary": "Adds a user to an issue's watcher list.",
+        "description": "Adds a user to an issue's watcher list. Example: \"fred\"",
+        "operationId": "Issue-Watchers-Add",
+        "tags": [
+          "issue"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Returned if the watcher was removed successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if a user name query parameter is not supplied."
+          },
+          "401": {
+            "description": "Returned if the calling user does not have permission to remove the watcher from the issue's list of watchers."
+          },
+          "404": {
+            "description": "Returned if either the issue does not exist."
+          }
+        },
+        "description": "Removes a user from an issue's watcher list.",
+        "summary": "Removes issue watcher",
+        "operationId": "Issue-Watcher-Remove",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string",
+            "description": "a String containing the name of the user to remove from the watcher list. Must not be null.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/worklog": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "returns a collection of worklogs associated with the issue, with count and pagination information.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the issue with the given id/key does not exist or if the currently authenticated user does not have permission to view it."
+          }
+        },
+        "summary": "Returns all work logs for an issue. ",
+        "description": "Note: Work logs won't be returned if the Log work field is hidden for the project.",
+        "operationId": "Issue-Worklogs-Get",
+        "tags": [
+          "issue"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        }
+      ],
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Returned if add was successful",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid values, and so forth)."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to add the worklog"
+          }
+        },
+        "summary": "Adds a new worklog entry to an issue.",
+        "description": "Adds a new worklog entry to an issue.",
+        "operationId": "Issue-Worklog-Add",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "x-examples": {
+              "application/json": {
+                "comment": "I did some work here.",
+                "visibility": {
+                  "type": "group",
+                  "value": "jira-developers"
+                },
+                "started": "2019-11-08T11:54:11.338+0000",
+                "timeSpentSeconds": 12000
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "adjustEstimate",
+            "type": "string",
+            "description": "(optional) allows you to provide specific instructions to update the remaining time estimate of the issue. Valid values are"
+          },
+          {
+            "in": "query",
+            "name": "newEstimate",
+            "type": "string",
+            "description": "(required when \"new\" is selected for adjustEstimate) the new value for the remaining estimate field. e.g. \"2d\""
+          },
+          {
+            "in": "query",
+            "name": "reduceBy",
+            "type": "string",
+            "description": "(required when \"manual\" is selected for adjustEstimate) the amount to reduce the remaining estimate by e.g. \"2d\""
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/{issueIdOrKey}/worklog/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned if the work log with the given id exists and the currently authenticated user has permission to view it. The returned response contains a full representation of the work log in JSON format.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Returned if the work log with the given id does not exist or if the currently authenticated user does not have permission to view it."
+          }
+        },
+        "summary": "Returns a specific worklog.",
+        "description": "Note: The work log won't be returned if the Log work field is hidden for the project.",
+        "operationId": "Issue-Worklog-Get",
+        "tags": [
+          "issue"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/issueIdOrKey"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Returned if update was successful",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {}
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid values, and so forth)."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to update the worklog"
+          }
+        },
+        "summary": "Updates an existing worklog entry.",
+        "description": "Note that:\n\nFields possible for editing are: comment, visibility, started, timeSpent and timeSpentSeconds.\nEither timeSpent or timeSpentSeconds can be set.\nFields which are not set will not be updated.\nFor a request to be valid, it has to have at least one field change.",
+        "operationId": "Issue-Worklog-Update",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "adjustEstimate",
+            "type": "string",
+            "description": "(optional) allows you to provide specific instructions to update the remaining time estimate of the issue. Valid values are\n\n\"new\" - sets the estimate to a specific value\n\"leave\"- leaves the estimate as is\n\"auto\"- Default option. Will automatically adjust the value based on the new timeSpent specified on the worklog\n\n"
+          },
+          {
+            "in": "query",
+            "name": "newEstimate",
+            "type": "string",
+            "description": "(required when \"new\" is selected for adjustEstimate) the new value for the remaining estimate field."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "type": "string"
+                },
+                "visibility": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "started": {
+                  "type": "string"
+                },
+                "timeSpentSeconds": {
+                  "type": "integer"
+                }
+              }
+            },
+            "x-examples": {
+              "application/json": {
+                "comment": "I did some work here.",
+                "visibility": {
+                  "type": "group",
+                  "value": "jira-developers"
+                },
+                "started": "2019-11-08T11:54:11.338+0000",
+                "timeSpentSeconds": 12000
+              }
+            }
+          }
+        ],
+        "tags": [
+          "issue"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Returned if delete was successful",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Returned if the input is invalid (e.g. missing required fields, invalid values, and so forth)."
+          },
+          "403": {
+            "description": "Returned if the calling user does not have permission to delete the worklog"
+          }
+        },
+        "summary": "Deletes an existing worklog entry.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "adjustEstimate",
+            "type": "string",
+            "description": "(optional) allows you to provide specific instructions to update the remaining time estimate of the issue. Valid values are\n\n\"new\" - sets the estimate to a specific value\n\"leave\"- leaves the estimate as is\n\"manual\" - specify a specific amount to increase remaining estimate by\n\"auto\"- Default option. Will automatically adjust the value based on the new timeSpent specified on the worklog\n\n\n"
+          },
+          {
+            "in": "query",
+            "name": "newEstimate",
+            "type": "string",
+            "description": "(required when \"new\" is selected for adjustEstimate) the new value for the remaining estimate field. e.g. \"2d\""
+          },
+          {
+            "in": "query",
+            "name": "increaseBy",
+            "type": "string",
+            "description": "(required when \"manual\" is selected for adjustEstimate) the amount to increase the remaining estimate by e.g. \"2d\""
+          }
+        ],
+        "tags": [
+          "issue"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/issue/archive": {
+      "post": {
+        "responses": {
+          "204": {
+            "description": "Returned if the issue is successfully archived.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "401": {
+            "description": "Returned if the user is not logged in."
+          },
+          "403": {
+            "description": "Returned if the currently authenticated user does not have permission to archive the issue or doesn't have DC license or issue is already archived."
+          },
+          "404": {
+            "description": "Returned if the issue does not exist."
+          }
+        },
+        "summary": "Archives a list of issues.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/notifyUsers"
+          }
+        ],
+        "operationId": "Issue-Archive-List",
+        "tags": [
+          "issue"
+        ]
+      }
+    },
+    "/issue/createmeta": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns the meta data for creating issues.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "303": {
+            "description": "Returned if the endpoint is blocked by the Administrator."
+          },
+          "403": {
+            "description": "Returned if the user does not have permission to view any of the requested projects."
+          }
+        },
+        "summary": "Returns the meta data for creating issues.",
+        "deprecated": true,
+        "description": "Returns the meta data for creating issues. This includes the available projects, issue types and fields, including field types and whether or not those fields are required. Projects will not be returned if the user does not have permission to create issues in that project.\n\nThe fields in the createmeta correspond to the fields in the create screen for the project/issuetype. Fields not in the screen will not be in the createmeta.\n\nFields will only be returned if expand=projects.issuetypes.fields.\n\nThe results can be filtered by project and/or issue type, given by the query params.",
+        "operationId": "Issue-MetaData-Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "projectIds",
+            "type": "string",
+            "description": "combined with the projectKeys param, lists the projects with which to filter the results. If absent, all projects are returned. This parameter can be specified multiple times, and/or be a comma-separated list. Specifiying a project that does not exist (or that you cannot create issues in) is not an error, but it will not be in the results."
+          },
+          {
+            "in": "query",
+            "name": "projectKeys",
+            "type": "string",
+            "description": "combined with the projectIds param, lists the projects with which to filter the results. If null, all projects are returned. This parameter can be specified multiple times, and/or be a comma-separated list. Specifiying a project that does not exist (or that you cannot create issues in) is not an error, but it will not be in the results."
+          },
+          {
+            "in": "query",
+            "name": "issuetypeIds",
+            "type": "string",
+            "description": "combinded with issuetypeNames, lists the issue types with which to filter the results. If null, all issue types are returned. This parameter can be specified multiple times, and/or be a comma-separated list. Specifiying an issue type that does not exist is not an error."
+          },
+          {
+            "in": "query",
+            "name": "issuetypeNames",
+            "type": "string",
+            "description": "combinded with issuetypeIds, lists the issue types with which to filter the results. If null, all issue types are returned. This parameter can be specified multiple times, but is NOT interpreted as a comma-separated list. Specifiying an issue type that does not exist is not an error."
+          }
+        ],
+        "tags": [
+          "issue"
+        ]
+      }
+    }
+  },
+  "basePath": "/rest/api/2",
+  "parameters": {
+    "issueIdOrKey": {
+      "name": "issueIdOrKey",
+      "in": "path",
+      "type": "string",
+      "required": true,
+      "description": "JIRA will attempt to identify the issue by the issueIdOrKey path parameter. This can be an issue id, or an issue key."
+    },
+    "notifyUsers": {
+      "name": "notifyUsers",
+      "in": "query",
+      "type": "boolean",
+      "default": true,
+      "description": "send the email with notification that the issue was updated to users that watch it. Admin or project admin permissions are required to disable the notification."
+    },
+    "expand": {
+      "name": "expand",
+      "in": "query",
+      "type": "string",
+      "description": "optional flags: renderedBody (provides body rendered in HTML)"
+    }
+  },
+  "securityDefinitions": {
+    "OAuth": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+      "tokenUrl": "https://accounts.google.com/o/oauth2/token"
+    },
+    "HTTP Basic Authentication": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "HTTP Basic Authentication": []
+    },
+    {
+      "OAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "issue",
+      "description": "All about JIRA issues"
+    }
+  ]
+}
