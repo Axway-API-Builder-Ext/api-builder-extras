@@ -1,3 +1,5 @@
+[![Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/JIRA%20Cloud-Platform%20Connector%20Tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions)
+
 # API-Builder JIRA Cloud-Platform Connector
 
 Use this connector to communicate with the [JIRA Cloud-Platform](https://www.atlassian.com/software/jira) and make it part of your API-Management platform. It is based on the JIRA Cloud-Platform API (https://developer.atlassian.com/cloud/jira/platform/rest/v2/)  
