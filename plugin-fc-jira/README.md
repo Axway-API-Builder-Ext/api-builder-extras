@@ -58,6 +58,6 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 ## License
 [Apache License 2.0](/LICENSE)
 
-[jira-connector]: misc/images/JIRA-CP-Connector.png
-[jira-connector-config]: misc/images/JIRA-CP-Connector-Config.png
-[jira-connector-settings]: misc/images/JIRA-CP-Connector-Settings.png
+[jira-connector]: plugin-fc-jira/misc/images/JIRA-CP-Connector.png
+[jira-connector-config]: plugin-fc-jira/misc/images/JIRA-CP-Connector-Config.png
+[jira-connector-settings]: plugin-fc-jira/misc/images/JIRA-CP-Connector-Settings.png
