@@ -63,7 +63,7 @@ The _Flow_ method iterates over an array of objects and invokes the specified fl
 After creating your API Builder service (`api-builder init`), you can install this plugin using npm:
 
 ```
-npm install --save @axway/api-builder-plugin-fn-foreach
+npm install --no-optional @axway-api-builder-ext/api-builder-plugin-fn-foreach
 ```
 
 [flow-editor]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/plugin-fn-foreach/imgs/foreachFlow.png
