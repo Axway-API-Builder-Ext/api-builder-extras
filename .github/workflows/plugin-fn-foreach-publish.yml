@@ -1,0 +1,68 @@
+# The name of the plugin to appear in the actions and badge!
+name: Foreach Flow-Node Release
+
+on:
+  release:
+    types: [published]
+    tags:
+      # A tag used when releasing this plugin, might the same as your foldername
+      - '*plugin-fn-foreach*'
+
+jobs:
+  build:
+    env:
+      # This must be aligned with the folder-name of you plugin
+      workingDirectory: 'plugin-fn-foreach'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Run npm tests
+        working-directory: ${{env.workingDirectory}}
+        run: |
+          npm ci
+          npm test
+
+  publish-gpr:
+    env:
+      # This must be aligned with the folder-name of you plugin
+      workingDirectory: 'plugin-fn-foreach'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@Axway-API-Builder-Ext'
+      - name: Publish to GitHub package repo
+        working-directory: ${{env.workingDirectory}}
+        env:
+            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          npm ci
+          npm publish
+
+  publish-npm:
+    env:
+      # This must be aligned with the folder-name of you plugin
+      workingDirectory: 'plugin-fn-foreach'
+    needs: [build, publish-gpr]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Publish to NPM package repo
+        working-directory: ${{env.workingDirectory}}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        run: |
+          npm ci
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.npm_token }}" > ~/.npmrc
+          npm publish --access public

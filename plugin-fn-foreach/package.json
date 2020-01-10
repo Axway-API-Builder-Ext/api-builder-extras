@@ -1,0 +1,49 @@
+{
+  "name": "@axway-api-builder-ext/api-builder-plugin-fn-foreach",
+  "version": "1.0.0",
+  "description": "For each flow node",
+  "author": "bladedancer",
+  "license": "Apache-2.0",
+  "keywords": [
+    "amplify",
+    "api-builder",
+    "flow",
+    "sdk"
+  ],
+  "engines": {
+    "node": ">= 8.9"
+  },
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "README.md",
+    "icon.svg"
+  ],
+  "dependencies": {
+    "axway-flow-sdk": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@axway/api-builder-runtime": "^4.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "check-node-version": "^3.2.0",
+    "cross-env": "^5.0.5",
+    "eslint": "^4.15.0",
+    "eslint-config-axway": "^2.0.7",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-mocha": "^4.11.0",
+    "mocha": "^5.2.0",
+    "mock-require": "^3.0.2",
+    "nyc": "^11.2.1",
+    "rimraf": "^2.6.2",
+    "simple-mock": "^0.8.0"
+  },
+  "scripts": {
+    "build": "check-node-version --package && npm run build:lint && npm run test",
+    "build:lint": "eslint .",
+    "build:lint:fix": "eslint --fix .",
+    "test": "rimraf coverage .nyc_output && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary node_modules/mocha/bin/mocha ./test --recursive -R spec",
+    "test:debug": "mocha --inspect --debug-brk"
+  }
+}
