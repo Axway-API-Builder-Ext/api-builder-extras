@@ -27,6 +27,8 @@ jobs:
         string: 'plugin-fn-xml-node-tests.yml'
         replace-with: '$1'
     - name: Extracted folder name
+      env:
+        GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH }}
       run: |
         echo "Extracted folder name is ${{ steps.extract.outputs.replaced }}"
         echo "GITHUB_EVENT_PATH ${{ env.GITHUB_EVENT_PATH }}"
