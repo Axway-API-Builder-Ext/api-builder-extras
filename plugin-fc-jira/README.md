@@ -18,13 +18,13 @@ https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.htm
 
 ## Configuration
 After restarting your API-Builder project you get the following connector:  
-![JIRA Cloud Platform Connector](jira-connector)   
+![JIRA Cloud Platform Connector][jira-connector]   
 Depending on the selected method different options appear on the right, when using the connector as part of the flow.   
-![JIRA Cloud Platform Connector Settings](jira-connector-settings)   
+![JIRA Cloud Platform Connector Settings][jira-connector-settings]   
 
 ## Setup JIRA Cloud Platform Host and Login
 A new config file has been automatically created for the SAP Landscape Management Connector which can be used to setup the connection details:  
-![JIRA Cloud Platform Connector Config](jira-connector-settings)  
+![JIRA Cloud Platform Connector Config][jira-connector-settings]  
 Additional details can be found here: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html#Swaggerflow-node-ConfiguretheSwaggerplugin  
 
 
