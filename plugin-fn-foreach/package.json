@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fn-foreach",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "For each flow node",
   "author": "bladedancer",
   "license": "Apache-2.0",
