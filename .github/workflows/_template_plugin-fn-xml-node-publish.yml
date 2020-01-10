@@ -4,9 +4,10 @@ name: NAME_OF_YOUR_PLUGIN Release
 on:
   release:
     types: [published]
-    branches:
-      # A tag used when releasing this plugin, might the same as your foldername
-      - 'refs/tags/@orgname/*TAG_USED_TO_RELEASE*'
+  push:
+    tags:
+      # If this tag is pushed, a release is created
+      - '*TAG_USED_TO_RELEASE*'
 
 jobs:
   build:

@@ -4,9 +4,10 @@ name: XML Flow-Node Release
 on:
   release:
     types: [published]
-    branches:
-      # Limit this workflow to release using this tag
-      - 'refs/tags/@orgname/*fn-xml-node*'
+  push:
+    tags:
+      # If this tag is pushed, a release is created
+      - '*fn-xml-node*'
 
 jobs:
   build:
