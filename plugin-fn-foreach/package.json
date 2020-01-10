@@ -10,6 +10,14 @@
     "flow",
     "sdk"
   ],
+  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/plugin-fn-foreach",
+  "bugs": {
+    "url": "https://github.com/Axway-API-Builder-Ext/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+  },
   "engines": {
     "node": ">= 8.9"
   },
@@ -23,7 +31,7 @@
     "axway-flow-sdk": "^2.0.0"
   },
   "peerDependencies": {
-    "@axway/api-builder-runtime": "^4.0.0"
+    "@axway/api-builder-runtime": "^4.5.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -33,7 +41,7 @@
     "eslint-config-axway": "^2.0.7",
     "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-plugin-mocha": "^4.11.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.1.4",
     "mock-require": "^3.0.2",
     "nyc": "^11.2.1",
     "rimraf": "^2.6.2",
