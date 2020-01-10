@@ -1,4 +1,4 @@
-[[Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/XML%20Flow-Node%20tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions?query=XML+Flow)
+[![Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/XML%20Flow-Node%20tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions?query=XML+Flow)
 
 # API-Builder XML-Flow node
 
