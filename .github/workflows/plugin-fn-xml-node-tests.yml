@@ -1,8 +1,5 @@
 name: plugin-fn-xml-node tests
 
-env:
-  pluginId: 'plugin-fn-xml-node'
-
 on:
   push:
     paths:
@@ -15,8 +12,13 @@ on:
 
 jobs:
   build:
+    name: Extract Plugin-Folder-name
+    uses: frabert/replace-string-action@master
+      pattern: '(.*)-tests.yml'
+      string: 'plugin-fn-xml-node-tests.yml'
+      replace-with: '$1'
     env:
-      working-directory: {{ pluginId }}
+      working-directory: ${{ replaced }}
     runs-on: ubuntu-latest
 
     strategy:
