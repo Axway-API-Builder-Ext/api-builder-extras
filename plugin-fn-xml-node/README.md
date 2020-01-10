@@ -1,3 +1,5 @@
+https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/plugin-fn-xml-node%20tests/badge.svg
+
 # API-Builder XML-Flow node
 
 Use this extension to add an XML-Flow node to your [Axway API-Builder](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder.html) project. With that you can convert XML-Payload you may have received from a backend stream (e.g. a SOAP-Service) into a Javascript Object for further processing or directly into a JSON-String. That allows you to easily merge data from different sources and formats into a JSON-Based-REST-API.  
@@ -25,7 +27,7 @@ After installation start the API-Builder project and you get the following node:
 ## Changelog
 - 1.0.0 - 05.12.2019
   - Initial version supporting XML to JSON
-  
+
 ## Limitations/Caveats
 - JSON to XML not yet supported
 
