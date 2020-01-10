@@ -26,7 +26,7 @@ After installation start the API-Builder project and you get the following node:
 ![XML Node](https://github.com/Axway-API-Builder-Ext/xml-node/blob/master/misc/images/xml-flow-node.png)
 
 ## Changelog
-- 1.0.0 - 05.12.2019
+- 1.0.4 - 10.01.2020
   - Initial version supporting XML to JSON
 
 ## Limitations/Caveats
