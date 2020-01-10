@@ -12,7 +12,7 @@ jobs:
   build:
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fn-xml-node'
+      working-directory: 'plugin-fn-xml-node'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 12
       - name: Run npm
-        working-directory: ${{env.workingDirectory}}
+        working-directory: ${{env.working-directory}}
         run: |
           npm ci
           npm test
@@ -36,7 +36,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@Axway-API-Builder-Ext'
       - name: Publish to GitHub package repo
-        working-directory: ${{env.workingDirectory}}
+        working-directory: ${{env.working-directory}}
         env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
@@ -53,7 +53,7 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - name: Publish to NPM package repo
-        working-directory: ${{env.workingDirectory}}
+        working-directory: ${{env.working-directory}}
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
         run: |

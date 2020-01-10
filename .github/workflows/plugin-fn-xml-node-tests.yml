@@ -17,7 +17,7 @@ jobs:
   build:
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fn-xml-node'
+      working-directory: 'plugin-fn-xml-node'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,7 +31,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
-      working-directory: ${{env.workingDirectory}}
+      working-directory: ${{env.working-directory}}
       env:
         CI: true
       run: |
