@@ -19,13 +19,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: Run npm
+      - name: Run npm tests
         working-directory: ${{env.workingDirectory}}
         run: |
           npm ci
           npm test
-      - name: Save working workingDirectory
-        run: echo ::set-env name=workingDirectory::${{env.workingDirectory}}
 
   publish-gpr:
     env:
@@ -41,7 +39,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@Axway-API-Builder-Ext'
       - name: Publish to GitHub package repo
-        working-directory: ${{jobs.build.env.workingDirectory}}
+        working-directory: ${{env.workingDirectory}}
         env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
@@ -61,7 +59,7 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - name: Publish to NPM package repo
-        working-directory: ${{jobs.build.env.workingDirectory}}
+        working-directory: ${{env.workingDirectory}}
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
         run: |
