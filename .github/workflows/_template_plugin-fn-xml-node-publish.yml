@@ -2,8 +2,6 @@
 name: NAME_OF_YOUR_PLUGIN Release
 
 on:
-  release:
-    types: [published]
   push:
     tags:
       # If this tag is pushed, a release is created
