@@ -14,9 +14,9 @@ on:
       - '.github/workflows/**'
 
 jobs:
-  env:
-    workingDirectory: 'plugin-fn-xml-node'
   build:
+    env:
+      workingDirectory: 'plugin-fn-xml-node'
     runs-on: ubuntu-latest
     strategy:
       matrix:
