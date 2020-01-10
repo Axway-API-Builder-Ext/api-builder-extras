@@ -11,6 +11,7 @@ on:
 
 jobs:
   check:
+    runs-on: ubuntu-latest
     steps:
       - name: Debug
         uses: hmarr/debug-action@v1.0.0
