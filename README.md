@@ -88,4 +88,4 @@ To report issues or get help, please create an [issue][2] here on GitHub.
 [11]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html
 [12]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_connectors.html
 
-[plugins-screen]: misc/api-builder-admin-plugins.png
+[plugins-screen]: images/api-builder-admin-plugins.png
