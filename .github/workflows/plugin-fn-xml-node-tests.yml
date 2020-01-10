@@ -18,7 +18,7 @@ jobs:
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'plugin-fn-xml-node'
-    
+
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -39,3 +39,8 @@ jobs:
         npm ci
         npm run build --if-present
         npm test
+    - name: Save working workingDirectory
+      run: echo ::set-env name=workingDirectory::${{env.workingDirectory}}
+  validate:
+    - name: Check workingDirectory
+      run: echo "Working directory is ${{env.workingDirectory}}"
