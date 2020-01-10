@@ -4,9 +4,9 @@ name: NAME_OF_YOUR_PLUGIN Release
 on:
   release:
     types: [published]
-    tags:
+    branches:
       # A tag used when releasing this plugin, might the same as your foldername
-      - '*TAG_USED_TO_RELEASE*'
+      - 'refs/tags/@orgname/*TAG_USED_TO_RELEASE*'
 
 jobs:
   build:

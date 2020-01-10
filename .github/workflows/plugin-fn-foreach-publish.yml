@@ -4,9 +4,9 @@ name: Foreach Flow-Node Release
 on:
   release:
     types: [published]
-    tags:
-      # A tag used when releasing this plugin, might the same as your foldername
-      - '*plugin-fn-foreach*'
+    branches:
+      # Limit this workflow to release using this tag
+      - 'refs/tags/@orgname/*plugin-fn-foreach*'
 
 jobs:
   build:
