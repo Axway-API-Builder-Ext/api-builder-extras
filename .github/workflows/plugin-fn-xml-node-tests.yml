@@ -33,7 +33,7 @@ jobs:
         echo "Extracted folder name is ${{ steps.extract.outputs.replaced }}"
         echo "GITHUB_EVENT_PATH $env.GITHUB_EVENT_PATH"
         echo "GITHUB_WORKFLOW $GITHUB_WORKFLOW"
-        echo "GITHUB_ACTION ${{ env.GITHUB_ACTION }}"
+        echo "GITHUB_ACTION $GITHUB_ACTION"
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
