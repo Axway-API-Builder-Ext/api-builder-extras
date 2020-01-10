@@ -27,7 +27,7 @@ jobs:
         string: 'plugin-fn-xml-node-tests.yml'
         replace-with: '$1'
     - name: Extracted folder name
-      run: echo "Extracted folder name is ${{ steps.extract.outputs.replaced }}"
+      run: echo "Extracted folder name is ${{ steps.extract.outputs.replaced }}    ${{ env.GITHUB_EVENT_PATH }}"
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
