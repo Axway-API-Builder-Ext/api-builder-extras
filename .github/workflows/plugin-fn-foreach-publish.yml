@@ -17,6 +17,7 @@ jobs:
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'plugin-fn-foreach'
+    if: contains(github.event.comment.html_url, 'plugin-fn-foreach')
     runs-on: ubuntu-latest
     steps:
       - name: Debug
