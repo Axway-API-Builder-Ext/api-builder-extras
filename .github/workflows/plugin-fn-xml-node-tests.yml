@@ -31,8 +31,8 @@ jobs:
         GITHUB_EVENT_PATH: ${{ env.GITHUB_EVENT_PATH }}
       run: |
         echo "Extracted folder name is ${{ steps.extract.outputs.replaced }}"
-        echo "GITHUB_EVENT_PATH ${{ env.GITHUB_EVENT_PATH }}"
-        echo "GITHUB_WORKFLOW ${{ env.GITHUB_WORKFLOW }}"
+        echo "GITHUB_EVENT_PATH $env.GITHUB_EVENT_PATH"
+        echo "GITHUB_WORKFLOW $GITHUB_WORKFLOW"
         echo "GITHUB_ACTION ${{ env.GITHUB_ACTION }}"
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
