@@ -1,5 +1,5 @@
 # The name of the plugin to appear in the actions and badge!
-name: JIRA Cloud-Platform Connector Release
+name: JIRA CP Connector Release
 
 on:
   release:

@@ -1,5 +1,5 @@
 # The name of the workflow node to appear in the actions and badge!
-name: JIRA Cloud-Platform Connector Tests
+name: JIRA CP Connector Tests
 
 on:
   push:
