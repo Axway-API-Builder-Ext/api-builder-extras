@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/sap-lama-connector",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Use this connector to integrate with SAP Landscape Management",
   "main": "index.js",
   "scripts": {
