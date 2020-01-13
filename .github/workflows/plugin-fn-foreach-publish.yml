@@ -34,6 +34,7 @@ jobs:
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'plugin-fn-foreach'
+      CI: true
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -55,6 +56,7 @@ jobs:
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'plugin-fn-foreach'
+      CI: true
     needs: [build, publish-gpr]
     runs-on: ubuntu-latest
     steps:
