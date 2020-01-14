@@ -2,7 +2,7 @@
 
 # API-Builder XML Flow-Node
 
-This node can be used to filter certain fields of an object in your [API-Builder flow][1].
+This node can be used to filter certain fields of an object in your [!API-Builder flow][1].
 This is useful if you would like to remove for instance confidential information
 before further processing or exposing the API.  
 
@@ -22,14 +22,15 @@ fields will remain.
 
 ## Install
 
-After creating your API Builder project (`api-builder init`), you can install this plugin using npm:
+After creating your API Builder project (![Learn more][2]), you can install this plugin using npm:
 
 ```
 npm install --no-optional @axway-api-builder-ext/api-builder-plugin-fn-objectfilter
 ```
 
 
-[1]: [https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html]
+[1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
+[2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html
 
 [filter]: imgs/flownode-filter.png
 [filter-include]: imgs/flownode-filter-include.png
