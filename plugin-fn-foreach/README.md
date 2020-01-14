@@ -13,9 +13,9 @@ during installation into your `flows` directory.
 - `/flows/PerItemFlow.json`
 
 After restarting you API-Builder project you can access them like so:
-The MainFlow ([See it here][example-parent-flow]) which is calling a SubFlow:
-`http://localhost:8080/console/project/flows/ExampleParentFlow/edit`
-The SubFlow ([See it here][example-nested-flow]) which is called:
+- The MainFlow ([See it here][example-parent-flow]) which is calling a SubFlow:  
+`http://localhost:8080/console/project/flows/ExampleParentFlow/edit`  
+- The SubFlow ([See it here][example-nested-flow]) which is called:  
 http://localhost:8080/console/project/flows/PerItemFlow/edit
 
 _Best is to open both flows in parallel in two Browser-Tabs at the same time._
