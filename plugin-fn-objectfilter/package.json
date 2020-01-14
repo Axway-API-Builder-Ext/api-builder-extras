@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fn-objectfilter",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Node to filter object fields.",
   "author": "bladedancer",
   "license": "Apache-2.0",
