@@ -22,8 +22,8 @@ _Best is to open both flows in parallel in two Browser-Tabs at the same time._
 
 The nested flow parameter: `items` has to be an object, so __no iterating over arrays of primitives yet__. Configured like so:
 | Working | Not-Working |
-:-------------------------:|:-------------------------:
-![Correct items parameter][items-parameter] | ![Wrong items parameter][wrong-items-parameter]   
+|-------------------------|-------------------------|
+| ![items-parameter] | ![wrong-items-parameter]   |
 
 Additionally, parameters have to pass schema validation in the nested flow.
 For example when interating in the main flow over `[ { name: 'Tom' }, { name: 'Dick' }, { name: 'Harry' }]`
