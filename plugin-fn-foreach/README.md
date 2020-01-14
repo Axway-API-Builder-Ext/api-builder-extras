@@ -21,9 +21,9 @@ http://localhost:8080/console/project/flows/PerItemFlow/edit
 _Best is to open both flows in parallel in two Browser-Tabs at the same time._
 
 The sub-flow parameter has to be an object, so __no iterating over arrays of primitives yet__. Configured like so:
-[Correct items parameter][items-parameter]  
+![Correct items parameter][items-parameter]  
 The following won't work:
-[Wrong items parameter][wrong-items-parameter]  
+![Wrong items parameter][wrong-items-parameter]  
 
 Additionally, parameters have to pass schema validation in the Sub-Flow node:
 For example to iterate over `[ { name: 'Tom' }, { name: 'Dick' }, { name: 'Harry' }]` the parameter definition would be:
