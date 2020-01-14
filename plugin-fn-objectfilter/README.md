@@ -31,6 +31,6 @@ npm install --no-optional @axway-api-builder-ext/api-builder-plugin-fn-objectfil
 
 [1]: [https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html]
 
-[filter]: [blob/master/plugin-fn-objectfilter/imgs/flownode-filter.png]
-[filter-include]: [blob/master/plugin-fn-objectfilter/imgs/flownode-filter-include.png]
-[filter-exclude]: [blob/master/plugin-fn-objectfilter/imgs/flownode-filter-exclude.png]
+[filter]: blob/master/plugin-fn-objectfilter/imgs/flownode-filter.png
+[filter-include]: blob/master/plugin-fn-objectfilter/imgs/flownode-filter-include.png
+[filter-exclude]: blob/master/plugin-fn-objectfilter/imgs/flownode-filter-exclude.png
