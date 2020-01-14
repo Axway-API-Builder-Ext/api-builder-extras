@@ -51,8 +51,6 @@
   },
   "scripts": {
     "build": "check-node-version --package && npm run build:lint && npm run test",
-    "build:lint": "eslint .",
-    "build:lint:fix": "eslint --fix .",
     "test": "rimraf coverage .nyc_output && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary node_modules/mocha/bin/mocha ./test --recursive -R spec",
     "test:debug": "mocha --inspect --debug-brk",
     "postinstall": "node scripts/postinstall.js",
