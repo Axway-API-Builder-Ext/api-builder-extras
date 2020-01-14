@@ -9,22 +9,53 @@ However, just create an empty flow in `/flows`.
 
 ```
 {
-	"schemaVersion": "3",
+	"schemaVersion": "4",
 	"info": {
 		"name": "PerItem",
 		"description": "Do something",
-		"author": "support@axway.com",
-		"license": "ISC"
+		"author": "support@axway.com"
 	},
 	"parameter": {
 		"properties": {
+			"name": {
+				"type": "string",
+				"description": "The parameters from the endpoint."
+			}
 		},
 		"additionalProperties": false,
-		"required": [
-		]
+		"required": []
 	},
-	"start": "",
+	"start": "http.1",
 	"nodes": {
+		"http.1": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Set HTTP Response",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "200",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.parameter.name",
+					"metaName": "body",
+					"metaDescription": "The response payload"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": [],
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set HTTP Response"
+		}
 	}
 }
 ```
