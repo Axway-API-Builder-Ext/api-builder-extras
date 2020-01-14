@@ -31,7 +31,9 @@
 			"outputs": {
 				"next": {
 					"context": "$.results",
-					"routes": [],
+					"routes": [
+						"http.1"
+					],
 					"metaName": "Next"
 				},
 				"flowNotFound": {
@@ -46,6 +48,35 @@
 				}
 			},
 			"metaMethod": "Flow"
+		},
+		"http.1": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Set HTTP Response",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "200",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.results",
+					"metaName": "body",
+					"metaDescription": "The response payload"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": [],
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set HTTP Response"
 		}
 	}
 }

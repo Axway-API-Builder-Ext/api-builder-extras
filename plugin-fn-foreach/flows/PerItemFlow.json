@@ -31,7 +31,7 @@
 			],
 			"outputs": {
 				"next": {
-					"context": "$.result",
+					"context": "$.response",
 					"routes": [],
 					"metaName": "Next"
 				}
