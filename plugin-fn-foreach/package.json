@@ -25,7 +25,9 @@
   "files": [
     "src",
     "README.md",
-    "icon.svg"
+    "icon.svg",
+    "scripts",
+    "flows"
   ],
   "dependencies": {
     "axway-flow-sdk": "^2.0.0"
@@ -43,7 +45,7 @@
     "eslint-plugin-mocha": "^4.11.0",
     "mocha": "^6.1.4",
     "mock-require": "^3.0.2",
-    "nyc": "^11.2.1",
+    "nyc": "^15.0.0",
     "rimraf": "^2.6.2",
     "simple-mock": "^0.8.0"
   },
@@ -52,6 +54,8 @@
     "build:lint": "eslint .",
     "build:lint:fix": "eslint --fix .",
     "test": "rimraf coverage .nyc_output && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary node_modules/mocha/bin/mocha ./test --recursive -R spec",
-    "test:debug": "mocha --inspect --debug-brk"
+    "test:debug": "mocha --inspect --debug-brk",
+    "postinstall": "node scripts/postinstall.js",
+    "uninstall": "node scripts/uninstall.js"
   }
 }

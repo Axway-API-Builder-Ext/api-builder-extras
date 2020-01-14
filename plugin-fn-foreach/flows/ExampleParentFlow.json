@@ -1,0 +1,51 @@
+{
+	"schemaVersion": "4",
+	"info": {
+		"name": "Greet flow",
+		"description": "Greets a user",
+		"author": "support@axway.com",
+		"license": "ISC"
+	},
+	"start": "foreach.1",
+	"nodes": {
+		"foreach.1": {
+			"type": "nodehandler://@axway-api-builder-ext/api-builder-plugin-fn-foreach/foreach",
+			"name": "Flow",
+			"method": "flowforeach",
+			"parameters": [
+				{
+					"name": "items",
+					"type": "array",
+					"value": "[{ \"name\": \"Tom\" }, { \"name\": \"Dick\" }, { \"name\": \"Harry\" }]",
+					"metaName": "items",
+					"metaDescription": "The list of inputs to the flow."
+				},
+				{
+					"name": "flow",
+					"type": "string",
+					"value": "\"PerItemFlow\"",
+					"metaName": "flow",
+					"metaDescription": "The flow to execute."
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.results",
+					"routes": [],
+					"metaName": "Next"
+				},
+				"flowNotFound": {
+					"context": "$.error",
+					"routes": [],
+					"metaName": "Flow not found"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Flow"
+		}
+	}
+}

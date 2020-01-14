@@ -1,0 +1,42 @@
+{
+	"schemaVersion": "4",
+	"info": {
+		"name": "PerItem",
+		"description": "Do something",
+		"author": "support@axway.com"
+	},
+	"parameter": {
+		"properties": {
+			"name": {
+				"type": "string",
+				"description": "The parameters from the endpoint."
+			}
+		},
+		"additionalProperties": false,
+		"required": []
+	},
+	"start": "setcontext.1",
+	"nodes": {
+		"setcontext.1": {
+			"type": "nodehandler://axway-flow/setcontext",
+			"name": "Set Context",
+			"method": "setcontext",
+			"parameters": [
+				{
+					"name": "value",
+					"type": "jsonpath",
+					"value": "$.name",
+					"metaName": "value"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.result",
+					"routes": [],
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set Context"
+		}
+	}
+}
