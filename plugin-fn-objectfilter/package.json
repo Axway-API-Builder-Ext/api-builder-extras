@@ -1,0 +1,56 @@
+{
+  "name": "@axway-api-builder-ext/api-builder-plugin-fn-objectfilter",
+  "version": "1.0.0",
+  "description": "Node to filter object fields.",
+  "author": "bladedancer",
+  "license": "Apache-2.0",
+  "keywords": [
+    "amplify",
+    "api-builder",
+    "flow",
+    "sdk"
+  ],
+  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/plugin-fn-objectfilter",
+  "bugs": {
+    "url": "https://github.com/Axway-API-Builder-Ext/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+  },
+  "engines": {
+    "node": ">= 8.9"
+  },
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "README.md",
+    "icon.svg"
+  ],
+  "dependencies": {
+    "axway-flow-sdk": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@axway/api-builder-runtime": "^4.5.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "check-node-version": "^3.2.0",
+    "cross-env": "^5.0.5",
+    "eslint": "^4.15.0",
+    "eslint-config-axway": "^2.0.7",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-mocha": "^4.11.0",
+    "mocha": "^6.1.4",
+    "mock-require": "^3.0.2",
+    "nyc": "^15.0.0",
+    "rimraf": "^2.6.2",
+    "simple-mock": "^0.8.0"
+  },
+  "scripts": {
+    "build": "check-node-version --package && npm run build:lint && npm run test",
+    "build:lint": "eslint .",
+    "test": "rimraf coverage .nyc_output && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary node_modules/mocha/bin/mocha ./test --recursive -R spec",
+    "test:debug": "mocha --inspect --debug-brk"
+  }
+}
