@@ -21,7 +21,7 @@ http://localhost:8080/console/project/flows/PerItemFlow/edit
 _Best is to open both flows in parallel in two Browser-Tabs at the same time._
 
 The nested flow parameter: `items` has to be an object, so __no iterating over arrays of primitives yet__. Configured like so:
-| Working | Not-Working
+| Working | Not-Working | 
 | --- | --- |
 | ![Correct items parameter][items-parameter] | ![Wrong items parameter][wrong-items-parameter]|  
 
