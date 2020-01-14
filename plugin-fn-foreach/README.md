@@ -13,20 +13,21 @@ during installation into your `flows` directory.
 - `/flows/PerItemFlow.json`
 
 After restarting you API-Builder project you can access them like so:
-The MainFlow which is calling a SubFlow:
+The MainFlow ([See it here][example-parent-flow]) which is calling a SubFlow:
 `http://localhost:8080/console/project/flows/ExampleParentFlow/edit`
-The SubFlow which is called:
+The SubFlow ([See it here][example-nested-flow]) which is called:
 http://localhost:8080/console/project/flows/PerItemFlow/edit
 
 _Best is to open both flows in parallel in two Browser-Tabs at the same time._
 
 The sub-flow parameter has to be an object, so __no iterating over arrays of primitives yet__. Configured like so:
 ![Correct items parameter][items-parameter]  
-The following won't work:
+The following won't work:  
 ![Wrong items parameter][wrong-items-parameter]  
 
 Additionally, parameters have to pass schema validation in the Sub-Flow node:
-For example to iterate over `[ { name: 'Tom' }, { name: 'Dick' }, { name: 'Harry' }]` the parameter definition would be:
+For example when interating in the main flow over `[ { name: 'Tom' }, { name: 'Dick' }, { name: 'Harry' }]`
+the SubFlow gets an object: `{ name: 'Dick' }`, hence the parameter must be configured like so:   
 
 ```
 	"parameter": {
@@ -69,3 +70,5 @@ npm install --no-optional @axway-api-builder-ext/api-builder-plugin-fn-foreach
 [flow-editor]: imgs/foreachFlow.png
 [items-parameter]: imgs/items_parameter.png
 [wrong-items-parameter]: imgs/wrong_items_parameter.png
+[example-parent-flow]: imgs/ExampleParentFlow.png
+[example-nested-flow]: imgs/ExampleNestedFlow.png

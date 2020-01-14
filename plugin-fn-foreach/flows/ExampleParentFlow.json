@@ -1,9 +1,9 @@
 {
 	"schemaVersion": "4",
 	"info": {
-		"name": "Greet flow",
-		"description": "Greets a user",
-		"author": "support@axway.com",
+		"name": "Example parent flow",
+		"description": "Sample flow to call a nested flow",
+		"author": "cwiechmann@axway.com",
 		"license": "ISC"
 	},
 	"start": "foreach.1",
