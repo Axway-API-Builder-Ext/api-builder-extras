@@ -1,6 +1,6 @@
-[![Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/Foreach%20Flow-Node%20Tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions?query=XML+Flow)
+[![Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/ObjectFilter%20Flow-Node%20Tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions)
 
-# API-Builder XML Flow-Node
+# API-Builder ObjectFilter Flow-Node
 
 This node can be used to filter certain fields of an object in your [!API-Builder flow][1].
 This is useful if you would like to remove for instance confidential information
