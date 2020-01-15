@@ -12,8 +12,8 @@ Watch this [video][5] to learn more about API-Builder or just [get started][6].
 The underlying framework of API-Builder is [Node.js][7] using a bunch of
 [NPM][8] packages.  
 This repository is used to maintain community packages following the process
-described below.  
-There are some benefits why it makes sense to share your plugin:  
+described [below](#share-a-plugin).  
+There are a number of benefits why it makes sense to share your plugin:  
 - Axway takes care about this repository to test, release and publish your package
 - upon Axway decision the plugin gets integrated into the API-Builder Plugin UI for simple installation and discovery
 - Broader community and Axway support will help to improve your plugin
