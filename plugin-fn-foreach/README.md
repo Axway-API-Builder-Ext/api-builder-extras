@@ -54,7 +54,7 @@ The _Flow_ method iterates over an array of objects and invokes the specified fl
 
 | Param | Type | Required | Description |
 | --- | --- | --- | --- |
-| flow | string | y | The flow id of the flow to execute. |
+| flow | string | y | The flow id of the flow to execute. This filename of the flow without JSON. |
 | items | array | y | The array to iterate over. |
 
 ![For each flow][flow-editor]
