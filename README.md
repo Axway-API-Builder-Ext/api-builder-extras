@@ -42,7 +42,7 @@ to create a Connector based on a Swagger-Definition.
 [Learn more][11] in the documentation and just review existing Flow-Connectors (name `api-builder-plugin-fc*`).
 
 ### Data-Connectors
-A Data-Connector is the most sophisticated plugin. They provide Data-Models based on sources (e.g. databases) to create CRUD-APIs on or to be used as part of the flow. Please check existing [Data-Connectors][12] or create an [issue][2] if you need help for another data-connector.  
+A Data-Connector is the most sophisticated plugin. They provide Data-Models based on sources (e.g. databases) to create CRUD-APIs or to be used as part of a flow. Please check existing [Data-Connectors][12] or create an [issue][2] if you need help for another data-connector.  
 
 ## Share a Plugin
 After you have implemented and tested your plugin locally, you can share that plugin with the API-Builder community using this repository.
