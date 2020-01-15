@@ -29,31 +29,6 @@ Please note that API-Builder Plugins in this repository are maintained by the co
 
 ## Create your first plugin
 API-Builder supports different kind of plugins. Learn more in the [Axway documentation][9].  
-To share a plugin you have created with the community and make it available in the
-API-Builder UI, please follow this process:
-1. Implement the plugin locally as described below and in the Axway documentation.
-  - you can build and test the plugin locally at all time
-2. Create a fork of the [api-builder-extras][0] repository
-3. Within that fork create a unique folder for your plugin using this naming convention:
-  - Flow-Nodes: api-builder-plugin-fn-<name>
-  - Flow-Node connectors: api-builder-plugin-fc-<name>
-  - Data-Connectors: api-builder-plugin-dc-<name>
-4. Insert your new plugin into that folder
-5. Update the package.json
-  - Especially the fields: name, version, repository, homepage, bugs
-6. Create your unique GitHub actions based on the template `.github/workflows/_template*`
-  - you need to adjust the ID after you have copied the template
-
-Once you have completed the development of your new API-Builder plugin, submit
-a [pull request][1] to have Axway review your code. Once we've reviewed your
-plugin, we will approve and merge your pull request or provide feedback.
-When approved and merged we will release an NPM package. From this point on the
-plugin can be installed in API-Builder using `npm install`.  
-
-The Axway API-Builder core team will finally decide if that package becomes part of the
-Plugin-List as part of the next release. This allows also other API-Builder users to
-quickly discover and manage you plugin.  
-
 
 ### Flow-Nodes
 A flow node can be used as part of an API-Builder flow to process any kind of
@@ -64,11 +39,55 @@ Use the [Flow-Node SDK][10] to create a new flow node.
 ### Flow-Node Connectors
 The actual flow-node connectors are based on the Swagger-Flow-Node, that allow you
 to create a Connector based on a Swagger-Definition.
-[Learn more][11] in the documentation and just review existing Flow-Connectors.
+[Learn more][11] in the documentation and just review existing Flow-Connectors (name `api-builder-plugin-fc*`).
 
 ### Data-Connectors
-A Data-Connector is the most sophisticated plugin. Please check existing
-[Data-Connectors][12] or create an [issue][2] for help.
+A Data-Connector is the most sophisticated plugin. They provide Data-Models based on sources (e.g. databases) to create CRUD-APIs on or to be used as part of the flow. Please check existing [Data-Connectors][12] or create an [issue][2] if you need help for another data-connector.  
+
+## Share a Plugin
+After you have implemented and tested your plugin locally, you can share that plugin with the API-Builder community using this repository.
+That way, you make it discoverable in the API-Builder UI, you can leverage the community to improve it over time and Axway supports you on a best-effort basis.  
+We are using GitHub [Pull-Requests][13] to allow you to contribute and the only thing you need is a GitHub account. 
+
+### To share your plugin, please follow this process:
+1. Create a [fork][14] of this repository, which basically creates your own copy still linked to the original repository
+2. We recommend to [clone][15] your forked repository to your local disc (e.g. using GitHub Desktop)
+    - instead of working with the GitHub WebUI only
+3. Create a unique folder for your plugin using this naming convention:
+    - Flow-Nodes: `api-builder-plugin-fn-<name>`
+    - Flow-Node connectors: `api-builder-plugin-fc-<name>`
+    - Data-Connectors: `api-builder-plugin-dc-<name>`
+4. Insert your new plugin code into that folder
+    - Review existing plugins to understand the structure
+    - Please provide unit tests for your plugin wherever possible
+5. Update the package.json
+    - Especially the fields: 
+        - __name__: should start with: `@axway-api-builder-ext/api-builder-plugin....`
+        - __version__: Stable has a version 1.x.x, all other something 0.x.x
+        - __description__: Provide a meaningful description. This will appear in the API-Builder UI plugin dialog
+        - __author__: Add your GitHub ID or email address (this is used to assign issues/pullrequests)
+        - __homepage__: Should point to your unique folder within this repository
+        - __keywords__: Add more keywords to make it easier to discover your plugin
+    - There might be more changes needed depending on what your plugin does
+6. Create new GitHub actions based on the templates `.github/workflows/*_template`
+    - these workflows are used to automatically tests and release/publish your plugin
+    - Replace all occurencies of `NAME_OF_YOUR_PLUGIN` in both workflow files with a valid name not longer than 20 characters
+    - Replace all occurencies of `THE_FOLDER_NAME_OF_YOUR_PLUGIN` with the folder name of your plugin
+7. Provide a README.md 
+    - What your plugin does
+    - How to use it (e.g. add images, examples, etc.) to make it easy for developers to understand it
+    - Mention potential limitions/caveats/known issues
+8. Create a package-lock.json
+    - Run `npm install` to create a `package-lock.json`
+    - This is required to lock down used modules before testing and releasing it
+9. Commit your changes to your forked repository and create a [Pull-Reuqest][13]
+    - We take it from there, review your plugin or changes you propose 
+    - if required, we propose or add further changes or just start a conversation when having questions
+    - Finally the changes are merged into the master branch of this repository 
+10. Release/Publish the plugin
+    - we will test/release/publish the plugin as an NPM module using the workflows you provided
+    - the API-Builder core team will ultimately decide if the plugin get listed in the next release
+
 
 ## Reporting Issues
 
@@ -87,5 +106,8 @@ To report issues or get help, please create an [issue][2] here on GitHub.
 [10]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/axway_flow_sdk.html
 [11]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html
 [12]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_connectors.html
+[13]: https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request
+[14]: https://help.github.com/en/github/getting-started-with-github/fork-a-repo
+[15]: https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository
 
 [plugins-screen]: images/api-builder-admin-plugins.png
