@@ -47,10 +47,15 @@ to create a Connector based on a Swagger-Definition.
 ### Data-Connectors
 A Data-Connector is the most sophisticated plugin. They provide Data-Models based on sources (e.g. databases) to create CRUD-APIs or to be used as part of a flow. Please check existing [Data-Connectors][12] or create an [issue][2] if you need help for another data-connector.  
 
-## Share a Plugin
+## How to Contribute
+
+### Share your Plugin
 After you have implemented and tested your plugin locally, you can share that plugin with the API-Builder community using this repository.
-That way, you make it discoverable in the API-Builder UI, you can leverage the community to improve it over time and Axway supports you on a best-effort basis.  
+That way, you make it discoverable in the API-Builder UI, you can leverage the community to improve it and Axway supports you on a best-effort basis.  
 We are using GitHub [Pull-Requests][13] to allow you to contribute and the only thing you need is a GitHub account. 
+
+### Improve existing plugins
+If you found an issue or you have improved an existing plugin yourself, we highly appreciate if you make that changes available to the community as well. It is as simple as creating a Pull-Request as described in step 9 below.
 
 ### To share your plugin, please follow this process:
 1. Create a [fork][14] of this repository, which basically creates your own copy still linked to the original repository
