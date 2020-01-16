@@ -1,7 +1,10 @@
+//const APIBuilder = require('@axway/api-builder-runtime');
 const convert = require('xml-js');
 
 function removeJsonTextAttribute(value, parentElement) {
+
 	try {
+		if(typeof parentElement._parent === 'undefined') return;
 		const parentOfParent = parentElement._parent;
 		const pOpKeys = Object.keys(parentElement._parent);
 		const keyNo = pOpKeys.length;
@@ -21,6 +24,7 @@ function removeJsonTextAttribute(value, parentElement) {
 };
 
 function xmlToJson(req, cb) {
+	//const server = APIBuilder.getGlobal();
 	const { xmlData, asString } = req.params;
 	const options = {
 		compact: true,
@@ -40,12 +44,21 @@ function xmlToJson(req, cb) {
 		return cb('invalid argument');
 	}
 	let result;
-	if (asString) {
-		console.log('Converting given XML data into a JSON-String.');
-		result = convert.xml2json(xmlData, options);
-	} else {
-		console.log('Converting given XML data into a JS-Object.');
-		result = convert.xml2js(xmlData, options);
+	try {
+		if (asString) {
+			console.log('Converting given XML data into a JSON-String.');
+			result = convert.xml2json(xmlData, options);
+		} else {
+			console.log('Converting given XML data into a JS-Object.');
+			result = convert.xml2js(xmlData, options);
+		}
+	} catch (e) {
+		console.log(e.message);
+		cb.error(null, 'Failed to convert XML to JSON.');
+	}
+	debugger;
+	if(typeof result === 'undefined') {
+		cb.error(null, 'Failed to convert XML to JSON.');
 	}
 	cb.next(null, result);
 };

@@ -68,5 +68,38 @@ describe('api-builder-plugin-fn-xml-node', () => {
 						.to.deep.equal('{"note":{"title":"Happy","todo":["Work","Play"]}}');
 				});
 		});
+
+		it('Should fail with totally invalid XML structure', () => {
+			return mocknode(flownodes).node('xml-node')
+				.invoke('xml2json', { xmlData: 'This is no XML structure at all', 'asString': true })
+				.then((data) => {
+					const result = data.error[1];
+					expect(result).to.be.a('string');
+					expect(result)
+						.to.deep.equal('Failed to convert XML to JSON.');
+				});
+		});
+
+		it('Should fail with an invalid XML structure (Missing Closing tag)', () => {
+			return mocknode(flownodes).node('xml-node')
+				.invoke('xml2json', { xmlData: '<xml><message>Hello invalid XML<xml>', 'asString': true })
+				.then((data) => {
+					const result = data.error[1];
+					expect(result).to.be.a('string');
+					expect(result)
+						.to.deep.equal('Failed to convert XML to JSON.');
+				});
+		});
+
+		it('Should fail with an invalid XML structure (Missing Closing tag 2)', () => {
+			return mocknode(flownodes).node('xml-node')
+				.invoke('xml2json', { xmlData: '<xml><message>Hello invalid XML</message><xml>', 'asString': true })
+				.then((data) => {
+					const result = data.error[1];
+					expect(result).to.be.a('string');
+					expect(result)
+						.to.deep.equal('Failed to convert XML to JSON.');
+				});
+		});
 	});
 });

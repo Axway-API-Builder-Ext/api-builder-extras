@@ -40,6 +40,16 @@ function getFlowNodes() {
 				]
 			}
 		})
+		.output('error', {
+			name: 'Error',
+			description: 'Failed to create JSON / JS-Object',
+			context: '$.error',
+			schema: {
+				oneOf: [
+					{ type: 'string' }
+				]
+			}
+		})
 		// Provide the actual javascript implementation.
 		.action(xmlToJson);
 
