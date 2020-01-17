@@ -2,7 +2,7 @@
 
 # API-Builder File Flow-Node
 
-This node can be used to read and write files in your [!API-Builder flow][1].  
+This node can be used to read and write files in your [API-Builder flow][1].  
 
 The following file types are supported/planned:   
 
@@ -71,23 +71,37 @@ Using the parameters: `filterColumn`, `filterValues` and `uniqueResult` you can 
 
 ## Write
 
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
+
 # JSON Files
 
 ## Read
 
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
+
 ## Write
+
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
 
 # XML Files
 
 ## Read
 
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
+
 ## Write
+
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
 
 # Plain Text
 
 ## Read
 
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
+
 ## Write
+
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
 
 After creating your API Builder service (`api-builder init`), you can install this plugin using npm:
 
@@ -97,6 +111,7 @@ npm install api-builder-plugin-fn-file
 
 [1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
 [2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html
+[3]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues
 
 [filter]: imgs/flownode-filter.png
 [filter-include]: imgs/flownode-filter-include.png
