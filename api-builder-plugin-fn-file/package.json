@@ -1,5 +1,5 @@
 {
-	"name": "api-builder-plugin-fn-file",
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-file",
 	"version": "0.0.1",
 	"description": "File Flow-Node to read/write files as part of an API-Builder flow.",
 	"author": "",
