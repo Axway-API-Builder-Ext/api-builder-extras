@@ -6,7 +6,7 @@ This node can be used to read and write files in your [!API-Builder flow][1].
 
 The following file types are supported/planned:   
 
-| File Type   | Description | Status |
+| File&nbsp;Type   | Description | Status |
 | ----------- | ----------- | ------ |
 |[CSV](#csv-files)       |You can read/write from and to CSV-Files, filter records and columns and directly convert it into a JavaScript object |Support for Read|
 |JSON      |You can read/write from and to JSON-Files and directly convert it into a JavaScript object |Planned|
