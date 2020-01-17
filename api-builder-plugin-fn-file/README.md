@@ -2,7 +2,7 @@
 
 # API-Builder File Flow-Node
 
-This node can be used to read and write files in your [!API-Builder flow][1].  
+This node can be used to read and write files in your [API-Builder flow][1].  
 
 The following file types are supported/planned:   
 
@@ -29,13 +29,13 @@ The CSV Read-Operation supports a number of input parameters:
 
 | Param       | Type        | Required | Description |
 | ----------- | ----------- | -------- | ----------- |
-| filename          | string | y | The name of the CSV file you would like to read |
-| delimiter         | string | n | The delimeter of your CSV-File. Defaults to , |
-| filterColumn      | string | n | The CSV column name used to filter using the filterValue. This parameter is ignored, if filterValue is not set. |
-| filterValue       | string\|array | n | This value is used to filter entries in the configured filterColumn. This parameter is ignored, if filterColumn is not set. |
+| filename          | string | y | The name of the CSV file you would like to read. This file is given either absolute or relative to the API-Builder project. For instance, when putting a file into `conf/my-file.csv` you just configured `conf/my-file.csv` |
+| delimiter         | string | n | The delimeter of your CSV-File. Defaults to ,  Configure any other character, when your CSV-File is splitting records differently.|
+| filterColumn      | string | n | The CSV column name used to filter using the filterValues. This parameter is ignored, if filterValues is not set. |
+| filterValues       | string\|array | n | This value is used to filter entries in the configured filterColumn. It can be either a simple string or an array of string. The parameter is case-sensitve. This parameter is ignored, if filterColumn is not set. |
 | uniqueResult      | boolean | n | Turn this on if you require a unique result (exactly 1). If not unique or nothing is found the flow node fails. |
-| resultColumns     | array | n | An array of CSV column names you want in the result. The column names are expected in the first line. Example: ["columnA", "columnF", "columnT"] |
-| quote             | string | n | Optional character surrounding a field. This is required, when the delimiter is used as part of a field; one character only |
+| resultColumns     | array | n | An array of CSV column names you want in the result. The column names are expected in the first line or using the parameter: `columns`you can override the column names. Example: ["columnA", "columnF", "columnT"] |
+| quote             | string | n | Optional character surrounding a field. This is required, when the delimiter is used as part of a field; one character only. The default is double quote. |
 | comment           | string | n | Treat all the characters after this one as a comment. Used this, when your CSV-File contains lines with comments. E.g. using a # |
 | columns           | array | n | Provide an array of column headers if your CSV has NO headers or you would like to have different field names. |
 | relax_column_count| boolean | n | Discard inconsistent columns count. If a column is missing for a record a reduced dataset is returned. |
@@ -65,27 +65,43 @@ is made available to the flow as the following object:
   Author: 'Charles'
 }
 ```
+When using the default output attribute: `$.content` you can access the data inside your flow like so: `$.content.1.ReturnCode` to get the second return-code.  
 
+Using the parameters: `filterColumn`, `filterValues` and `uniqueResult` you can limit the data to one record. In that case, the data is always stored in the first object: `$.content.0.ReturnCode`
 
 ## Write
+
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
 
 # JSON Files
 
 ## Read
 
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
+
 ## Write
+
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
 
 # XML Files
 
 ## Read
 
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
+
 ## Write
+
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
 
 # Plain Text
 
 ## Read
 
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
+
 ## Write
+
+This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
 
 After creating your API Builder service (`api-builder init`), you can install this plugin using npm:
 
@@ -95,6 +111,7 @@ npm install api-builder-plugin-fn-file
 
 [1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
 [2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html
+[3]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues
 
 [filter]: imgs/flownode-filter.png
 [filter-include]: imgs/flownode-filter-include.png
