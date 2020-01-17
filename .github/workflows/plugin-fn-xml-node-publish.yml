@@ -15,7 +15,7 @@ jobs:
     if: contains(github.ref, 'plugin-fn-xml-node')
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fn-xml-node'
+      workingDirectory: 'api-builder-plugin-fn-xml-node'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -31,7 +31,7 @@ jobs:
   publish-gpr:
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fn-xml-node'
+      workingDirectory: 'api-builder-plugin-fn-xml-node'
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +52,7 @@ jobs:
   publish-npm:
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fn-xml-node'
+      workingDirectory: 'api-builder-plugin-fn-xml-node'
       CI: true
     needs: [build, publish-gpr]
     runs-on: ubuntu-latest

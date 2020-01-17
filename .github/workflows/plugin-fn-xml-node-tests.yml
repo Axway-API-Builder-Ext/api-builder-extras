@@ -5,19 +5,19 @@ on:
   push:
     paths:
       # This must be aligned with the folder-name of you plugin
-      - 'plugin-fn-xml-node/**'
+      - 'api-builder-plugin-fn-xml-node/**'
       - '.github/workflows/**'
   pull_request:
     paths:
       # This must be aligned with the folder-name of you plugin
-      - 'plugin-fn-xml-node/**'
+      - 'api-builder-plugin-fn-xml-node/**'
       - '.github/workflows/**'
 
 jobs:
   build:
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fn-xml-node'
+      workingDirectory: 'api-builder-plugin-fn-xml-node'
     runs-on: ubuntu-latest
     strategy:
       matrix:

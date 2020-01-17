@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     # This is a required check, as the on:release can't be filtered on given tags
-    if: contains(github.ref, 'THE_FOLDER_NAME_OF_YOUR_PLUGIN')
+    if: contains(github.ref, 'TAG_USED_TO_RELEASE')
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'THE_FOLDER_NAME_OF_YOUR_PLUGIN'

@@ -15,7 +15,7 @@ jobs:
     if: contains(github.ref, 'plugin-fc-sap-lama')
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fc-sap-lama'
+      workingDirectory: 'api-builder-plugin-fc-sap-lama'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -31,7 +31,7 @@ jobs:
   publish-gpr:
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fc-sap-lama'
+      workingDirectory: 'api-builder-plugin-fc-sap-lama'
       CI: true
     needs: build
     runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
   publish-npm:
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'plugin-fc-sap-lama'
+      workingDirectory: 'api-builder-plugin-fc-sap-lama'
       CI: true
     needs: [build, publish-gpr]
     runs-on: ubuntu-latest
