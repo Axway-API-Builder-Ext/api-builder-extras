@@ -1,0 +1,4 @@
+ReturnCode, ResponseMessage, LastUpdate, Author
+401, You have no permission, 16.01.2020, Chris
+500, Internal server error, 17.01.2020, Charles
+402, This entry is invalid, 21.01.2020

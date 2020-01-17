@@ -1,0 +1,109 @@
+flow-nodes:
+  file:
+    name: File
+    icon: file-icon.png
+    description: Flow node to read and write files
+    category: extension
+    methods:
+      readCVSFile: # This same key is used in `actions.js`
+        name: Read a CSV-File
+        description: Flow node reads a CSV-File. Optionally filter for a specific entries, filter for fields you would like to get and additionally you can convert the fields into a Javascript-Object.
+        parameters:
+          filename:
+            description: Filename you would like to read. Must be absolute or relativ to the API-Builder directory.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          delimiter:
+            description: The delimeter of your CSV-File. Defaults to ,
+            required: false
+            initialType: string
+            group: Options
+            schema:
+              default: ","
+              type: string
+          filterValues:
+            description: This value is used to filter entries in the configured filterColumn. This parameter is ignored, if filterColumn is not set.
+            required: false
+            initialType: string
+            group: Options
+            schema:
+              oneOf:
+                - type: string
+                - type: array
+                  options:
+                    multilineWrapper:
+                      before: "[\n"
+                      after: "\n]"
+                  items:
+                    - type: string
+
+          filterColumn:
+            description: The CSV column name used to filter using the filterValue. This parameter is ignored, if filterValue is not set.
+            required: false
+            initialType: string
+            group: Options
+            schema:
+              type: string
+          resultColumns:
+            description: "An array of CSV column names you want in the result. The column names are expected in the first line. Example: [\"columnA\", \"columnF\", \"columnT\"]"
+            required: false
+            initialType: array
+            group: Options
+            schema:
+              type: array
+              items:
+                type: string
+              options:
+                multilineWrapper:
+                  before: "[\n"
+                  after: "\n]"
+          quote:
+            description: Optional character surrounding a field. This is required, when the delimiter is used as part of a field; one character only
+            required: false
+            initialType: string
+            group: Advanced
+            schema:
+              type: string
+              default: Double quote
+          comment:
+            description: "Treat all the characters after this one as a comment. E.g. using a #"
+            required: false
+            initialType: string
+            group: Advanced
+            schema:
+              type: string
+          columns:
+            description: Provide an array of column headers if your CSV has headers or you would like to have different field names.
+            required: false
+            initialType: array
+            group: Advanced
+            schema:
+              type: array
+              items:
+                type: string
+              options:
+                multilineWrapper:
+                  before: "[\n"
+                  after: "\n]"
+          relax_column_count:
+            description: Discard inconsistent columns count. If a column is missing for a record a reduced dataset is returned.
+            required: false
+            initialType: boolean
+            group: Advanced
+            schema:
+              type: boolean
+        outputs:
+          # success output(s) should be first
+          next:
+            name: Next
+            context: $.content
+            schema:
+              type: object
+          # error output(s) should be last
+          error:
+            name: Error
+            context: $.error
+            schema:
+              type: string
