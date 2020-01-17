@@ -75,7 +75,7 @@ flow-nodes:
             schema:
               type: string
           columns:
-            description: Provide an array of column headers if your CSV has headers or you would like to have different field names.
+            description: Provide an array of column headers if your CSV has NO headers or you would like to have different field names.
             required: false
             initialType: array
             group: Advanced
