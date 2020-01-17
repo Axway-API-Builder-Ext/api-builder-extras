@@ -33,6 +33,7 @@ The CSV Read-Operation supports a number of input parameters:
 | delimiter         | string | n | The delimeter of your CSV-File. Defaults to , |
 | filterColumn      | string | n | The CSV column name used to filter using the filterValue. This parameter is ignored, if filterValue is not set. |
 | filterValue       | string\|array | n | This value is used to filter entries in the configured filterColumn. This parameter is ignored, if filterColumn is not set. |
+| uniqueResult      | boolean | n | Turn this on if you require a unique result (exactly 1). If not unique or nothing is found the flow node fails. |
 | resultColumns     | array | n | An array of CSV column names you want in the result. The column names are expected in the first line. Example: ["columnA", "columnF", "columnT"] |
 | quote             | string | n | Optional character surrounding a field. This is required, when the delimiter is used as part of a field; one character only |
 | comment           | string | n | Treat all the characters after this one as a comment. Used this, when your CSV-File contains lines with comments. E.g. using a # |

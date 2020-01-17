@@ -1,13 +1,27 @@
 {
 	"name": "api-builder-plugin-fn-file",
-	"version": "1.0.0",
-	"description": "A plugin for Axway API Builder",
+	"version": "0.0.1",
+	"description": "File Flow-Node to read/write files as part of an API-Builder flow.",
 	"author": "",
 	"license": "ISC",
 	"keywords": [
 		"amplify",
-		"api-builder"
+		"api-builder",
+		"axway",
+		"file",
+		"csv",
+		"yaml",
+		"json",
+		"xml"
 	],
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-file",
+  "bugs": {
+    "url": "https://github.com/Axway-API-Builder-Ext/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+  },
 	"engines": {
 		"node": ">= 10.0"
 	},

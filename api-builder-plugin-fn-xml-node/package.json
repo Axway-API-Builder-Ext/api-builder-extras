@@ -11,7 +11,7 @@
 		"sdk",
 		"xml"
 	],
-	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/plugin-fn-xml-node",
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-xml-node",
 	"bugs": {
 		"url": "https://github.com/Axway-API-Builder-Ext/issues"
 	},

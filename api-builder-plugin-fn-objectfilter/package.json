@@ -10,7 +10,7 @@
     "flow",
     "sdk"
   ],
-  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/plugin-fn-objectfilter",
+  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-objectfilter",
   "bugs": {
     "url": "https://github.com/Axway-API-Builder-Ext/issues"
   },

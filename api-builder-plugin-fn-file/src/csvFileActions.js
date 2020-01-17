@@ -53,8 +53,12 @@ function readCVSFile(req, outputs, options) {
 			}
 		})
 		.on('end', function() {
-			console.log('Found ' + records.length + " in the CSV-File.");
-			return outputs.next(null, records);
+      console.debug('Found ' + records.length + " in the CSV-File.");
+      if(req.params.uniqueResult && (records.length != 1)) {
+        return outputs.error(null, new Error(`No entry found for filterValues: ${req.params.filterValues} using filterColumn: ${req.params.filterColumn}`));
+      } else {
+        return outputs.next(null, records);
+      }
 		});
 }
 

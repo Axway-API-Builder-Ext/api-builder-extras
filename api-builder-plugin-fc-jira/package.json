@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues"
   },
-  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/plugin-fc-jira",
+  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fc-jira",
   "files": [
     "swagger",
     "scripts",

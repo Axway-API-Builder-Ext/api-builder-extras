@@ -38,7 +38,6 @@ flow-nodes:
                       after: "\n]"
                   items:
                     - type: string
-
           filterColumn:
             description: The CSV column name used to filter using the filterValue. This parameter is ignored, if filterValue is not set.
             required: false
@@ -46,6 +45,14 @@ flow-nodes:
             group: Options
             schema:
               type: string
+          uniqueResult:
+            description: Turn this on if you require a unique result (exactly 1). If not unique or nothing is found the flow node fails.
+            required: false
+            initialType: boolean
+            group: Options
+            schema:
+              default: false
+              type: boolean
           resultColumns:
             description: "An array of CSV column names you want in the result. The column names are expected in the first line. Example: [\"columnA\", \"columnF\", \"columnT\"]"
             required: false
@@ -75,7 +82,7 @@ flow-nodes:
             schema:
               type: string
           columns:
-            description: Provide an array of column headers if your CSV has NO headers or you would like to have different field names.
+            description: Provide an array of column headers if your CSV has NO headers or you would like to have different property name in the result.
             required: false
             initialType: array
             group: Advanced

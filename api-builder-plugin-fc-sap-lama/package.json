@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues"
   },
-  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/plugin-fc-sap-lama",
+  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fc-sap-lama",
   "files": [
     "swagger",
     "scripts",
