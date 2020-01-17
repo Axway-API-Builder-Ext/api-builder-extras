@@ -1,12 +1,13 @@
-[![Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/JIRA%20CP%20Connector%20Tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions)
+[![Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/File%20Flow-Node%20Tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions)
 
 # API-Builder File Flow-Node
 
 This node can be used to read and write files in your [!API-Builder flow][1].  
 
-The following file types are supported/planned:
-|File Type |Description|Status|
-|----------|-----------|------|
+The following file types are supported/planned:   
+
+| File Type   | Description | Status |
+| ----------- | ----------- | ------ |
 |CSV       |You can read/write from and to CSV-Files, filter records and columns and directly convert it into a JavaScript object |Support for Read|
 |JSON      |You can read/write from and to JSON-Files and directly convert it into a JavaScript object |Planned|
 |XML       |You can read/write from and to XML-Files and directly convert it into a JavaScript object |Planned|
@@ -24,9 +25,10 @@ API-Builder app and reference it then with a relative path.
 
 ### Input parameters
 
-The CSV Read-Operation comes with a number of input parameters:
-| Param | Type | Required | Description |
-| --- | --- | --- | --- |
+The CSV Read-Operation supports a number of input parameters:
+
+| Param       | Type        | Required | Description |
+| ----------- | ----------- | -------- | ----------- |
 | filename          | string | y | The name of the CSV file you would like to read |
 | delimiter         | string | n | The delimeter of your CSV-File. Defaults to , |
 | filterColumn      | string | n | The CSV column name used to filter using the filterValue. This parameter is ignored, if filterValue is not set. |
@@ -42,8 +44,26 @@ The CSV Read-Operation comes with a number of input parameters:
 The content from the CSV-File is converted into a Java-Script object, so that you can easily use it in your flow.   
 
 For instance the following input:
-
-
+```
+ReturnCode, ResponseMessage, LastUpdate, Author
+401, You have no permission, 16.01.2020, Chris
+500, Internal server error, 17.01.2020, Charles
+```
+is made available to the flow as the following object:
+```
+{
+  ReturnCode: '401',
+  ResponseMessage: 'You have no permission',
+  LastUpdate: '16.01.2020',
+  Author: 'Chris'
+},
+{
+  ReturnCode: '500',
+  ResponseMessage: 'Internal server error',
+  LastUpdate: '17.01.2020',
+  Author: 'Charles'
+}
+```
 
 
 ## Write
