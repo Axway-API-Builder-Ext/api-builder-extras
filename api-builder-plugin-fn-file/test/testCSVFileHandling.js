@@ -96,10 +96,10 @@ describe('flow-node file', () => {
 			expect(result.output).to.equal('error');
 			expect(result.args[0]).to.equal(null);
 			expect(result.args[1]).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'No entry found for filterValues: DoesntExists using filterColumn: ReturnCode');
+				.and.to.have.property('message', 'No entry found in CSV-File: test/csv/CSV-Return-Codes.csv using filterValues: DoesntExists using filterColumn: ReturnCode');
 			expect(result.context).to.be.an('Object');
 			expect(result.context.error).instanceOf(Error)
-				.and.to.have.property('message', 'No entry found for filterValues: DoesntExists using filterColumn: ReturnCode');
+				.and.to.have.property('message', 'No entry found in CSV-File: test/csv/CSV-Return-Codes.csv using filterValues: DoesntExists using filterColumn: ReturnCode');
 		});
 
 		it('Not existing file (relativly to API-Builder App-Directory)', async () => {
@@ -115,6 +115,21 @@ describe('flow-node file', () => {
 			expect(result.context).to.be.an('Object');
 			expect(result.context.error).instanceOf(Error)
 				.and.to.have.property('message', 'File: test/csv/fileDoesNotExists.csv not found.');
+		});
+
+		it('Trying to a load an invalid CSV-File', async () => {
+			const flowNode = runtime.getFlowNode('file');
+
+			const result = await flowNode.readCVSFile({ filename: 'test/csv/Incorrect-Format.csv' });
+
+			expect(result.callCount).to.equal(1);
+			expect(result.output).to.equal('error');
+			expect(result.args[0]).to.equal(null);
+			expect(result.args[1]).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'No entry found in CSV-File: test/csv/Incorrect-Format.csv');
+			expect(result.context).to.be.an('Object');
+			expect(result.context.error).instanceOf(Error)
+				.and.to.have.property('message', 'No entry found in CSV-File: test/csv/Incorrect-Format.csv');
 		});
 	});
 

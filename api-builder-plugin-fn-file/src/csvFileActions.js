@@ -42,8 +42,6 @@ function readCVSFile(req, outputs, options) {
 	if(req.params.relax_column_count) csvParseOptions.relax_column_count = req.params.relax_column_count;
 	if(req.params.columns) csvParseOptions.columns = req.params.columns;
 
-
-
 	fs.createReadStream(filename)
 		.pipe(parse(csvParseOptions))
 		.on('readable', function(){
@@ -53,9 +51,13 @@ function readCVSFile(req, outputs, options) {
 			}
 		})
 		.on('end', function() {
-      console.debug('Found ' + records.length + " in the CSV-File.");
-      if(req.params.uniqueResult && (records.length != 1)) {
-        return outputs.error(null, new Error(`No entry found for filterValues: ${req.params.filterValues} using filterColumn: ${req.params.filterColumn}`));
+      console.info(`Found ${records.length} in the CSV-File: ${filename}.`);
+      if(records.length == 0 || (req.params.uniqueResult && records.length != 1)) {
+				if(req.params.filterValues) {
+        	return outputs.error(null, new Error(`No entry found in CSV-File: ${filename} using filterValues: ${req.params.filterValues} using filterColumn: ${req.params.filterColumn}`));
+				} else {
+					return outputs.error(null, new Error(`No entry found in CSV-File: ${filename}`));
+				}
       } else {
         return outputs.next(null, records);
       }
