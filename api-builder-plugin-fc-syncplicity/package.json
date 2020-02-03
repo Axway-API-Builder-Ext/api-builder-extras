@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/syncplicity-connector",
-  "version": "1.0.5",
+  "version": "1.0.0",
   "description": "Use this connector to integrate with Axway Syncplicity",
   "main": "index.js",
   "scripts": {

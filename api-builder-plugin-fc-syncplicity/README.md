@@ -28,16 +28,16 @@ A new config file has been automatically created for the Syncplicity Connector w
 Additional details can be found here: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html#Swaggerflow-node-ConfiguretheSwaggerplugin  
 
 
-Please note, that the connector is configured to use HTTP-Basic to communicate with the SAP Landscape Management. In order to use that, please configure the Authentication-Credentials as described here:  
-https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/http_basic_credentials.html  
-Alternatively you can pass on externally given user-credentials with the flow node.
+Please note, that the connector is configured to use OAuth 2.0 to communicate with Syncplicuty. In order to use that, please configure the Authentication-Credentials as described here:  
+https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/oauth_2_0_credentials.html  
+
 
 ```javascript
 module.exports = {
 	// The configuration settings for your Swagger service.
 	pluginConfig: {
 		'@axway/api-builder-plugin-fn-swagger': {
-			'sap-lama-api': {
+			'syncplicity': {
 				// It is possible to override Swagger URI options when constructing
 				// outbound requests from the Swagger plugin.
 				uri: {
@@ -54,10 +54,16 @@ module.exports = {
 	// https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_credentials.html
 	authorization: {
 		credentials: {
-			'LaMa API Basic Authentication': {
-				type: 'basic',
-				username: yourusername,
-				password: yourpassword
+			'Syncplicity oauth': {
+				type: 'oauth2',
+				flow: 'accessCode',
+				authentication_url: 'https://api.syncplicity.com/oauth/authorize',
+				token_url: 'https://api.syncplicity.com/oauth/token',
+				scope: 'readwrite read',
+				client_id: 'YOUR_CLIENT_ID_GOES_HERE',
+				client_secret: 'YOUR_SECRET_GOES_HERE',
+				access_token: null,
+				refresh_token: null
 			}
 		}
 	}
@@ -68,7 +74,7 @@ module.exports = {
 Tested with Syncplicity version Q1/2020
 
 ## Changelog
-- 1.0.1 - 31.01.2020
+- 1.0.0 - 02.02.2020
   - Initial version
 
 ## Limitations/Caveats
