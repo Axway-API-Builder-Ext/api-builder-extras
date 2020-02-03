@@ -1,0 +1,35 @@
+{
+  "name": "@axway-api-builder-ext/syncplicity-connector",
+  "version": "1.0.5",
+  "description": "Use this connector to integrate with Axway Syncplicity",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js",
+    "uninstall": "node scripts/uninstall.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+  },
+  "keywords": [
+    "amplify",
+    "api-builder",
+    "flow",
+    "axway",
+    "syncplicity"
+  ],
+  "author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues"
+  },
+  "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fc-syncplicity",
+  "files": [
+    "swagger",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+  }
+}
