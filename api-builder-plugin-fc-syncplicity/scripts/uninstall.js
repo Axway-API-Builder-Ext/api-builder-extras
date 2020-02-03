@@ -6,5 +6,5 @@ if(process.env.CI) {
   process.exit(0);
 }
 
-fs.unlinkSync(path.join(process.env.INIT_CWD, 'swagger', 'syncplicity-us-swagger.json'));
-fs.unlinkSync(path.join(process.env.INIT_CWD, 'swagger', 'syncplicity-us-swagger.png'));
+fs.unlinkSync(path.join(process.env.INIT_CWD, 'swagger', 'syncplicity.json'));
+fs.unlinkSync(path.join(process.env.INIT_CWD, 'swagger', 'syncplicity.png'));

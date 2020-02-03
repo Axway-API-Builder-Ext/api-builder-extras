@@ -5,7 +5,7 @@ if(process.env.CI) {
   console.log("Skipping postinstall during CI.");
   process.exit(0);
 }
-console.log("Copy syncplicity-us-swagger.json and syncplicity-us-swagger.png to API-Builder swagger folder.");
-fs.copyFileSync(path.join(__dirname, '..', 'swagger', 'syncplicity-us-swagger.json'), path.join(dest, 'syncplicity-us-swagger.json'));
-fs.copyFileSync(path.join(__dirname, '..', 'swagger', 'syncplicity-us-swagger.png'), path.join(dest, 'syncplicity-us-swagger.png'));
+console.log("Copy syncplicity.json and syncplicity.png to API-Builder swagger folder.");
+fs.copyFileSync(path.join(__dirname, '..', 'swagger', 'syncplicity.json'), path.join(dest, 'syncplicity.json'));
+fs.copyFileSync(path.join(__dirname, '..', 'swagger', 'syncplicity.png'), path.join(dest, 'syncplicity.png'));
 console.log("Files successfully copied.");
