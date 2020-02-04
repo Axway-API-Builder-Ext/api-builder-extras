@@ -80,7 +80,8 @@ Tested with Syncplicity version Q1/2020
   - Initial version
 
 ## Limitations/Caveats
-- OAuth doesn't work with API-Builder - Will be fixed with release 16.02.20
+- __Not required anymore with release: Independence__
+  OAuth doesn't work with API-Builder - Will be fixed with release 16.02.20
   Adjust the following to make it work  
 	In node_modules\@axway\axway-flow-authorization\src\handlers\oauth2.js  
 	In function oauthRequest add an HTTP-Basic Authorization header (headers) based on client-id & secret  
