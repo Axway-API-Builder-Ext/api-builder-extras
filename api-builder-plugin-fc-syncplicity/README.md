@@ -9,7 +9,7 @@ npm install @axway-api-builder-ext/syncplicity-connector --no-optional
 ```
 To install a specific version please use:
 ```npm
-npm install @axway-api-builder-ext/syncplicity@1.0.0 --no-optional
+npm install @axway-api-builder-ext/syncplicity-connector@1.0.0 --no-optional
 ```
 
 This connector is using the Swagger-Flow node:  
