@@ -31,6 +31,7 @@ Additional details can be found here: https://docs.axway.com/bundle/API_Builder_
 Please note, that the connector is configured to use OAuth 2.0 to communicate with Syncplicuty. In order to use that, please configure the Authentication-Credentials as described here:  
 https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/oauth_2_0_credentials.html  
 
+:exclamation: Please make sure to add basic_auth:true as part of the credential configuration.  
 
 ```javascript
 module.exports = {
@@ -57,6 +58,7 @@ module.exports = {
 			'Syncplicity oauth': {
 				type: 'oauth2',
 				flow: 'accessCode',
+				basic_auth: true, 
 				authentication_url: 'https://api.syncplicity.com/oauth/authorize',
 				token_url: 'https://api.syncplicity.com/oauth/token',
 				scope: 'readwrite read',
