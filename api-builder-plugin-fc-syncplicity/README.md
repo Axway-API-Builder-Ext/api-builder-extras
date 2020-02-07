@@ -76,6 +76,9 @@ module.exports = {
 	}
 };
 ```
+## Additional information
+You get more information on how the Syncplicity-Connectors works can be found here: https://developer.syncplicity.com/documentation/additional_concepts
+
 
 ## Compatibility
 Tested with Syncplicity version Q1/2020  
