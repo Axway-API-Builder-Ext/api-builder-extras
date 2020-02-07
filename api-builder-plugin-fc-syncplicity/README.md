@@ -76,8 +76,8 @@ module.exports = {
 	}
 };
 ```
-## Additional information
-You get more information on how the Syncplicity-Connectors works can be found here: https://developer.syncplicity.com/documentation/additional_concepts
+## Using the Syncplicity connector
+The connector is based on the Syncplicity REST-API. The concepts and details are described here: https://developer.syncplicity.com/documentation/api_docs.
 
 
 ## Compatibility
