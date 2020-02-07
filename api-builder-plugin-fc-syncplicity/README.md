@@ -78,7 +78,8 @@ module.exports = {
 ```
 
 ## Compatibility
-Tested with Syncplicity version Q1/2020
+Tested with Syncplicity version Q1/2020  
+Requires API-Builder Independence or higher
 
 ## Changelog
 - 1.0.0 - 02.02.2020
