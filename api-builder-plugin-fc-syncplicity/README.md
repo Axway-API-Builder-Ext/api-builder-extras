@@ -22,7 +22,7 @@ Watch this video to get an overview how to install and configure the Axway API-B
 [![Install Syncplicity Connector](https://img.youtube.com/vi/OpKLVtjnQnU/0.jpg)](https://youtu.be/OpKLVtjnQnU)
 
 
-After restarting your API-Builder project you get the following connector:  
+After installation and restarting your API-Builder project you get the following connector:  
 ![Syncplicity Node][connector]   
 Depending on the selected method different options appear on the right, when using the connector as part of the flow.   
 ![Syncplicity Node Settings][connector-settings]   
