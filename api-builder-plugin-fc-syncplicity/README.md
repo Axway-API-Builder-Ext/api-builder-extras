@@ -18,9 +18,9 @@ https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.htm
 
 ## Configuration
 
+Watch this video to get an overview how to install and configure the Axway API-Builder Connector:
 [![Install Syncplicity Connector](https://img.youtube.com/vi/OpKLVtjnQnU/0.jpg)](https://youtu.be/OpKLVtjnQnU)
 
-https://youtu.be/OpKLVtjnQnU
 
 After restarting your API-Builder project you get the following connector:  
 ![Syncplicity Node][connector]   
