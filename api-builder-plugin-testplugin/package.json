@@ -1,0 +1,32 @@
+{
+	"name": "api-builder-plugin-testplugin",
+	"version": "1.0.0",
+	"description": "A plugin for Axway API Builder",
+	"author": "",
+	"license": "ISC",
+	"keywords": [
+		"amplify",
+		"api-builder"
+	],
+	"engines": {
+		"node": ">= 10.0"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"README.md"
+	],
+	"dependencies": {
+		"@axway/api-builder-sdk": "^0.1.0"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.22.0"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^6.1.4"
+	},
+	"scripts": {
+		"test": "mocha ./test --recursive -R spec"
+	}
+}
