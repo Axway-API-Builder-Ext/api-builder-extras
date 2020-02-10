@@ -2,11 +2,14 @@
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-aws-athena",
 	"version": "1.0.0",
 	"description": "A plugin for Axway API Builder",
-	"author": "",
-	"license": "ISC",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+	"license": "Apache-2.0",
 	"keywords": [
 		"amplify",
-		"api-builder"
+		"api-builder",
+		"aws",
+		"athena",
+		"connector"
 	],
 	"engines": {
 		"node": ">= 10.0"
