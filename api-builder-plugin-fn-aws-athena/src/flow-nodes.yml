@@ -1,0 +1,48 @@
+flow-nodes:
+  athena:
+    name: AWS Athena
+    icon: athena-icon.png
+    description: Flow node to query AWS Athena
+    category: extension
+    methods:
+      query: # This same key is used in `actions.js`
+        name: Query
+        description: Execute queries using AWS Athena
+        parameters:
+          db:
+            description: The database to query.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          table:
+            description: The name of the table you would like to query
+            required: true
+            initialType: string
+            schema:
+              type: string
+          fields:
+            description: The list of fields you would like to get back
+            required: true
+            initialType: string
+            schema:
+              type: string
+          limit:
+            description: Limit the number of results. This defaults to 5 elements if not given.
+            required: false
+            initialType: string
+            schema:
+              type: string
+        outputs:
+          # success output(s) should be first
+          next:
+            name: Next
+            context: $.result
+            schema:
+              type: string
+          # error output(s) should be last
+          error:
+            name: Error
+            context: $.error
+            schema:
+              type: string

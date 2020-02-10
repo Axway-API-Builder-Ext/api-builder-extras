@@ -1,0 +1,30 @@
+flow-nodes:
+  testplugin:
+    name: Hello World
+    icon: icon.svg
+    description: Example flow-node to say hello.
+    category: general
+    methods:
+      hello: # This same key is used in `actions.js`
+        name: Say Hello
+        description: Generates a greeting.
+        parameters:
+          name:
+            description: The name of the person to greet.
+            required: true
+            initialType: string
+            schema:
+              type: string
+        outputs:
+          # success output(s) should be first
+          next:
+            name: Next
+            context: $.hello
+            schema:
+              type: string
+          # error output(s) should be last
+          error:
+            name: Error
+            context: $.error
+            schema:
+              type: string

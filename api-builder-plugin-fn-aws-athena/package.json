@@ -1,0 +1,46 @@
+{
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-aws-athena",
+	"version": "1.0.0",
+	"description": "A plugin for Axway API Builder",
+	"author": "",
+	"license": "ISC",
+	"keywords": [
+		"amplify",
+		"api-builder"
+	],
+	"engines": {
+		"node": ">= 10.0"
+	},
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-aws-athena",
+	"bugs": {
+		"url": "https://github.com/Axway-API-Builder-Ext/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"config",
+		"scripts",
+		"README.md",
+		"LICENSE"
+	],
+	"dependencies": {
+		"@axway/api-builder-sdk": "^0.1.0",
+		"athena-express": "^5.1.1",
+		"aws-sdk": "^2.610.0"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.5.0"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^6.1.4"
+	},
+	"scripts": {
+		"test": "mocha ./test --recursive -R spec",
+		"postinstall": "node scripts/copyconf.js"
+	}
+}
