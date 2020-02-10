@@ -7,12 +7,12 @@ on:
       - published
     tags:
       # If this tag is pushed, a release is created
-      - '*plugin-fn-aws_athena*'
+      - '*plugin-fn-aws-athena*'
 
 jobs:
   build:
     # This is a required check, as the on:release can't be filtered on given tags
-    if: contains(github.ref, 'plugin-fn-aws_athena')
+    if: contains(github.ref, 'plugin-fn-aws-athena')
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'api-builder-plugin-fn-aws-athena'
