@@ -5,7 +5,7 @@ flow-nodes:
     description: Flow node to query AWS Athena
     category: extension
     methods:
-      query: # This same key is used in `actions.js`
+      query:
         name: Query
         description: Execute queries using AWS Athena
         parameters:
@@ -22,25 +22,23 @@ flow-nodes:
             schema:
               type: string
           fields:
-            description: The list of fields you would like to get back
+            description: The comma seprataed list of fields you would like to get back in the result
             required: true
             initialType: string
             schema:
               type: string
           limit:
-            description: Limit the number of results. This defaults to 5 elements if not given.
+            description: Limit the number of results. Defaults to 5 elements.
             required: false
             initialType: string
             schema:
               type: string
         outputs:
-          # success output(s) should be first
           next:
             name: Next
             context: $.result
             schema:
               type: string
-          # error output(s) should be last
           error:
             name: Error
             context: $.error
