@@ -10,6 +10,10 @@ This module can be used to query a AWS Datasource as part of your [API-Builder f
 
 ## Configuration
 
+Watch this video to get an overview how to install and configure the Axway API-Builder Connector:
+[![Install AWS-Athena Connector](https://img.youtube.com/vi/AUIsxH33gow/0.jpg)](https://youtu.be/AUIsxH33gow)
+
+
 After installation and restarting your API-Builder project you get the following connector:  
 ![Node][connector]   
 
