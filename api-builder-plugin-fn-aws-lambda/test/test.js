@@ -61,7 +61,7 @@ describe('flow-node lambda', () => {
 			//expect(result.output).to.equal('next', result.output);
 			expect(result.context).to.deep.equal({
 				result: {
-					body: "\"Hello from test 1!\"",
+					body: "\"Hello from test 1 from AWS-Lambda!\"",
 					statusCode: 200
 				}
 			});
