@@ -1,3 +1,5 @@
+![AWS Lambda Tests](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/AWS%20Lambda%20Tests/badge.svg)
+
 # api-builder-plugin-aws-lambda
 
 ## About flow-nodes
