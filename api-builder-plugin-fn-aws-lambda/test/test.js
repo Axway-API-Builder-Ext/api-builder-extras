@@ -65,6 +65,6 @@ describe('flow-node lambda', () => {
 					statusCode: 200
 				}
 			});
-		}).timeout(2000);;
+		}).timeout(10000);;
 	});
 });
