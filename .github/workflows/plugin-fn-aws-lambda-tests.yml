@@ -33,7 +33,7 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: us-east-1
         function_name: greeting
-        source: api-builder-plugin-fn-aws-lambda/test/lambdaFunction/greeting.js
+        source: api-builder-plugin-fn-aws-lambda/test/lambdaFunction/index.js
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
