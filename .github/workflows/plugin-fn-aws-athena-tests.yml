@@ -34,7 +34,7 @@ jobs:
       working-directory: ${{env.workingDirectory}}
       env:
         CI: true
-        AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       run: |
         npm ci
