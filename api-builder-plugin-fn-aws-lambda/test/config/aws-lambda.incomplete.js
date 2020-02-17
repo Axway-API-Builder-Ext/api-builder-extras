@@ -1,7 +1,7 @@
 module.exports = {
 	// The configuration settings for your Swagger service.
 	pluginConfig: {
-		'@axway-api-builder-ext/api-builder-plugin-aws-lambda': {
+		'@axway-api-builder-ext/api-builder-plugin-fn-aws-lambda': {
 			'aws': {
 				credentials: {
 					region: "PROVIDE_YOUR_AWS_REGION",

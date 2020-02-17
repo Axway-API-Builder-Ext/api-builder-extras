@@ -32,7 +32,7 @@ function lambdaSync(req, outputs, options) {
     typeof awsConfig.credentials.accessKeyId === 'undefined' || awsConfig.credentials.accessKeyId == 'PROVIDE_YOUR_AWS_ACCESS_KEY_ID' ||
     typeof awsConfig.credentials.secretAccessKey === 'undefined' || awsConfig.credentials.secretAccessKey == 'PROVIDE_YOUR_AWS_SECRET')
   {
-  	return outputs.error(null, new Error('Your AWS configuration is incomplete. Please check conf/aws-athena.default.js'));
+  	return outputs.error(null, new Error('Your AWS configuration is incomplete. Please check conf/aws-lambda.default.js'));
   }
 
   awsCredentials = {
@@ -44,7 +44,6 @@ function lambdaSync(req, outputs, options) {
 
   var lambda = new aws.Lambda({region: awsConfig.credentials.region, apiVersion: '2015-03-31'});
 
-  debugger;
   var pullParams = {
     FunctionName : func,
     InvocationType : 'RequestResponse',
@@ -60,6 +59,7 @@ function lambdaSync(req, outputs, options) {
 }
 
 async function callLambda(options, outputs, lambda, pullParams, logResult) {
+
   lambdaPromise = lambda.invoke(pullParams).promise();
 
   lambdaPromise.then(

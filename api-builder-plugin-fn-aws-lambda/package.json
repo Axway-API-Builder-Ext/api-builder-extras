@@ -1,5 +1,5 @@
 {
-	"name": "@axway-api-builder-ext/api-builder-plugin-aws-lambda",
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-aws-lambda",
 	"version": "1.0.0",
 	"description": "A plugin for Axway API Builder",
 	"author": "",
