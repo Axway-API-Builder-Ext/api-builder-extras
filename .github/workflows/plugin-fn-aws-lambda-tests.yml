@@ -1,23 +1,23 @@
 # The name of the workflow node to appear in the actions and badge!
-name: AWS Athena Tests
+name: AWS Lambda Tests
 
 on:
   push:
     paths:
       # This must be aligned with the folder-name of you plugin
-      - 'api-builder-plugin-fn-aws-athena/**'
+      - 'api-builder-plugin-aws-lambda/**'
       - '.github/workflows/**'
   pull_request:
     paths:
       # This must be aligned with the folder-name of you plugin
-      - 'api-builder-plugin-fn-aws-athena/**'
+      - 'api-builder-plugin-aws-lambda/**'
       - '.github/workflows/**'
 
 jobs:
   build:
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fn-aws-athena'
+      workingDirectory: 'api-builder-plugin-aws-lambda'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,6 +26,14 @@ jobs:
 #    - name: Debug
 #      uses: hmarr/debug-action@v1.0.0
     - uses: actions/checkout@v1
+    - name: default deploy
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: us-east-1
+        function_name: greeting
+        source: api-builder-plugin-aws-lambda/test/lambdaFunction/greeting.js
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:

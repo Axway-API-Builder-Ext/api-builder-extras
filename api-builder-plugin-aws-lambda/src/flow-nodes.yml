@@ -1,0 +1,42 @@
+flow-nodes:
+  lambda:
+    name: AWS Lambda
+    icon: icon.svg
+    description: Executes an AWS Lambda function
+    category: aws
+    methods:
+      lambdaSync:
+        name: Lambda Synchronous
+        description: Performs a synchronous Lambda execution
+        parameters:
+          func:
+            description: Name of the Lambda function to execute
+            required: true
+            initialType: string
+            schema:
+              type: string
+          payload:
+            description: Payload to send to the Lambda function
+            required: false
+            initialType: string
+            schema:
+              type: string
+          logResult:
+            description: When enabled the option Tail is used and result is stored into the attribute $.aws.lambda.logResult. Additionally the Log-Result is logged in console on debug.
+            required: false
+            initialType: boolean
+            group: Options
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            context: $.error
+            schema:
+              type: string
