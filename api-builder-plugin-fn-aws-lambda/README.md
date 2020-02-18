@@ -38,7 +38,7 @@ exports.handler = async (event) => {
     return response;
 };
 ```
-Using the payload: `{"key1":"Chris"}` the attribute `$.result` will contain the following: `Howdy Hello from value2 from AWS-Lambda!`.  
+Using the payload: `{"key1":"Chris"}` the attribute `$.result` will contain the following: `Howdy Hello from Chris from AWS-Lambda!`.  
 In case of an error the attribute: `$.error` contains the error returned by AWS or by the Lambda-Fow-Node.
 
 ## Compatibility
