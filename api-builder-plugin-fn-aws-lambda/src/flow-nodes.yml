@@ -5,7 +5,7 @@ flow-nodes:
     description: 'Invokes an AWS Lambda function. Read more: https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html'
     category: aws
     methods:
-      invoke:
+      invokeLambda:
         name: Invoke
         description: Invokes an AWS-Lambda function
         parameters:

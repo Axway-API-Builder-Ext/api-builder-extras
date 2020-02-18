@@ -15,7 +15,7 @@ const aws = require("aws-sdk");
  *
  * @return {undefined}
  */
-function invoke(req, outputs, options) {
+function invokeLambda(req, outputs, options) {
   const func = req.params.func;
   const logResult = req.params.logResult;
   const payload = req.params.payload;
@@ -97,5 +97,5 @@ function callLambda(options, outputs, lambda, pullParams, logResult, asynchronou
 }
 
 module.exports = {
-	invoke
+	invokeLambda
 };

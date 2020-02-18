@@ -14,7 +14,7 @@ describe('flow-node lambda', () => {
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
 			expect(actions).to.be.an('object');
-			expect(actions.invoke).to.be.a('function');
+			expect(actions.invokeLambda).to.be.a('function');
 			expect(runtime).to.exist;
 			const flownode = runtime.getFlowNode('lambda');
 			expect(flownode).to.be.a('object');
@@ -34,11 +34,11 @@ describe('flow-node lambda', () => {
 		});
 	});
 
-	describe('#invoke', () => {
+	describe('#invokeLambda', () => {
 		it('should error when missing parameter', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
 
-			const result = await flowNode.invoke({
+			const result = await flowNode.invokeLambda({
 				name: null
 			});
 
@@ -55,7 +55,7 @@ describe('flow-node lambda', () => {
 		it('should succeed with valid JavaScript argument.', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
 
-			const result = await flowNode.invoke({ func: 'greeting', payload: {key1: 'JavaScript-Object', key2: 'test2'} });
+			const result = await flowNode.invokeLambda({ func: 'greeting', payload: {key1: 'JavaScript-Object', key2: 'test2'} });
 
 			expect(result.callCount).to.equal(1);
 			expect(result.context).to.deep.equal({
@@ -69,7 +69,7 @@ describe('flow-node lambda', () => {
 		it('should succeed with valid JSON-String argument.', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
 
-			const result = await flowNode.invoke({ func: 'greeting', payload: '{"key1": "JSON-String", "key2": "test2"}' });
+			const result = await flowNode.invokeLambda({ func: 'greeting', payload: '{"key1": "JSON-String", "key2": "test2"}' });
 
 			expect(result.callCount).to.equal(1);
 			expect(result.context).to.deep.equal({
@@ -83,7 +83,7 @@ describe('flow-node lambda', () => {
 		it('ASync call should also succedd', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
 
-			const result = await flowNode.invoke({ func: 'greeting', payload: {key1: "JSON-String", key2: "test2"}, asynchronous: true });
+			const result = await flowNode.invokeLambda({ func: 'greeting', payload: {key1: "JSON-String", key2: "test2"}, asynchronous: true });
 
 			expect(result.callCount).to.equal(1);
 			expect(result.context).to.deep.equal({

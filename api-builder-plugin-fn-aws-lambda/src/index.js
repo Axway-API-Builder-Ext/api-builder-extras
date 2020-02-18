@@ -10,7 +10,7 @@ async function getPlugin(pluginConfig, options) {
 	const sdk = new SDK();
 	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), actions);
 	const plugin = sdk.getPlugin();
-	plugin.flownodes['lambda'].methods.invoke.action = actions.invoke.bind({pluginConfig});
+	plugin.flownodes['lambda'].methods.invokeLambda.action = actions.invokeLambda.bind({pluginConfig});
 	return sdk.getPlugin();
 }
 
