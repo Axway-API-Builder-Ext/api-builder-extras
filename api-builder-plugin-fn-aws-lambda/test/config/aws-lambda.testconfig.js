@@ -5,8 +5,8 @@ module.exports = {
 			'aws': {
 				credentials: {
 					region: "us-east-1",
-					accessKeyId: "AKIAT5BVQVJFNTLIWR7O",
-					secretAccessKey: "nqHoP5q8QfSmOypLzxqfJkF/qDA6LU3d+Ifss1cU"
+					accessKeyId: "PROVIDE_YOUR_AWS_ACCESS_KEY_ID",
+					secretAccessKey: "PROVIDE_YOUR_AWS_SECRET"
 				}
 			}
 		}
