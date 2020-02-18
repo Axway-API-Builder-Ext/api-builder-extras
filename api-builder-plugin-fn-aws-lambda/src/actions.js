@@ -74,7 +74,7 @@ function invoke(req, outputs, options) {
   }
 }
 
-async function callLambda(options, outputs, lambda, pullParams, logResult, asynchronous) {
+function callLambda(options, outputs, lambda, pullParams, logResult, asynchronous) {
 
   lambdaPromise = lambda.invoke(pullParams).promise();
 
