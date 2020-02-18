@@ -53,7 +53,7 @@ Requires API-Builder Independence or higher
   - Initial version
 
 ## Limitations/Caveats
-Noting known
+Nothing known
 
 ## Contributing
 
