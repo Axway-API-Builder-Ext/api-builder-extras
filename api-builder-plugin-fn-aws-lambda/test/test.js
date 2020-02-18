@@ -14,14 +14,14 @@ describe('flow-node lambda', () => {
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
 			expect(actions).to.be.an('object');
-			expect(actions.lambdaSync).to.be.a('function');
+			expect(actions.invoke).to.be.a('function');
 			expect(runtime).to.exist;
 			const flownode = runtime.getFlowNode('lambda');
 			expect(flownode).to.be.a('object');
 
 			// Ensure the flow-node matches the spec
 			expect(flownode.name).to.equal('AWS Lambda');
-			expect(flownode.description).to.equal('Executes an AWS Lambda function');
+			expect(flownode.description).to.equal('Invokes an AWS Lambda function. Read more: https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html');
 			expect(flownode.icon).to.be.a('string');
 		});
 
@@ -34,11 +34,11 @@ describe('flow-node lambda', () => {
 		});
 	});
 
-	describe('#lambdaSync', () => {
+	describe('#invoke', () => {
 		it('should error when missing parameter', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
 
-			const result = await flowNode.lambdaSync({
+			const result = await flowNode.invoke({
 				name: null
 			});
 
@@ -52,19 +52,43 @@ describe('flow-node lambda', () => {
 				.and.to.have.property('message', 'Missing required parameter: func');
 		});
 
-		it('should succeed with valid argument', async () => {
+		it('should succeed with valid JavaScript argument.', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
 
-			const result = await flowNode.lambdaSync({ func: 'greeting', payload: {key1: 'test 1', key2: 'test2'} });
+			const result = await flowNode.invoke({ func: 'greeting', payload: {key1: 'JavaScript-Object', key2: 'test2'} });
 
 			expect(result.callCount).to.equal(1);
-			//expect(result.output).to.equal('next', result.output);
 			expect(result.context).to.deep.equal({
 				result: {
-					body: "\"Hello from test 1 from AWS-Lambda!\"",
+					body: "\"Hello from JavaScript-Object from AWS-Lambda!\"",
 					statusCode: 200
 				}
 			});
-		}).timeout(10000);;
+		}).timeout(5000);
+
+		it('should succeed with valid JSON-String argument.', async () => {
+			const flowNode = runtime.getFlowNode('lambda');
+
+			const result = await flowNode.invoke({ func: 'greeting', payload: '{"key1": "JSON-String", "key2": "test2"}' });
+
+			expect(result.callCount).to.equal(1);
+			expect(result.context).to.deep.equal({
+				result: {
+					body: "\"Hello from JSON-String from AWS-Lambda!\"",
+					statusCode: 200
+				}
+			});
+		}).timeout(5000);
+
+		it('ASync call should also succedd', async () => {
+			const flowNode = runtime.getFlowNode('lambda');
+
+			const result = await flowNode.invoke({ func: 'greeting', payload: {key1: "JSON-String", key2: "test2"}, asynchronous: true });
+
+			expect(result.callCount).to.equal(1);
+			expect(result.context).to.deep.equal({
+				result: 'Accepted'
+			});
+		}).timeout(5000);
 	});
 });

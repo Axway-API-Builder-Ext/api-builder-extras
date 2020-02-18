@@ -1,13 +1,13 @@
 flow-nodes:
   lambda:
     name: AWS Lambda
-    icon: icon.svg
-    description: Executes an AWS Lambda function
+    icon: AWSLambda.png
+    description: 'Invokes an AWS Lambda function. Read more: https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html'
     category: aws
     methods:
-      lambdaSync:
-        name: Lambda Synchronous
-        description: Performs a synchronous Lambda execution
+      invoke:
+        name: Invoke
+        description: Invokes an AWS-Lambda function
         parameters:
           func:
             description: Name of the Lambda function to execute
@@ -16,13 +16,25 @@ flow-nodes:
             schema:
               type: string
           payload:
-            description: Payload to send to the Lambda function
+            description: Payload send to the Lambda function. It must be either a JavaScript object or a JSON-String.
             required: false
             initialType: string
             schema:
-              type: string
+              oneOf:
+                - type: string
+                - type: object
+                  propertyNames:
+                    pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
+          asynchronous:
+            description: 'If enabled the Lambda function is invoked asyncronously and no data is returned. Read more here: https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html'
+            required: false
+            initialType: boolean
+            group: Options
+            schema:
+              default: false
+              type: boolean
           logResult:
-            description: When enabled the option Tail is used and result is stored into the attribute $.aws.lambda.logResult. Additionally the Log-Result is logged in console on debug.
+            description: If enabled, the Tail option is used when calling the Lambda function and logged in the API Builder Console.
             required: false
             initialType: boolean
             group: Options

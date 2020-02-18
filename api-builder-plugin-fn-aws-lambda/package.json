@@ -1,20 +1,34 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-aws-lambda",
 	"version": "1.0.0",
-	"description": "A plugin for Axway API Builder",
-	"author": "",
-	"license": "ISC",
+	"description": "Call AWS Lambda function from within your API-Builder flow.",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+	"license": "Apache-2.0",
 	"keywords": [
 		"amplify",
-		"api-builder"
+		"api-builder",
+		"aws",
+		"lambda",
+		"connector"
 	],
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-aws-athena",
+	"bugs": {
+		"url": "https://github.com/Axway-API-Builder-Ext/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+	},
 	"engines": {
 		"node": ">= 10.0"
 	},
 	"main": "src/index.js",
 	"files": [
 		"src",
-		"README.md"
+		"config",
+		"scripts",
+		"README.md",
+		"LICENSE"
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^0.1.0",
@@ -28,6 +42,7 @@
 		"mocha": "^6.1.4"
 	},
 	"scripts": {
-		"test": "mocha ./test --recursive -R spec"
+		"test": "mocha ./test --recursive -R spec",
+		"postinstall": "node scripts/copyconf.js"
 	}
 }

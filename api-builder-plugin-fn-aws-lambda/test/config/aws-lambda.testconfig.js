@@ -5,8 +5,8 @@ module.exports = {
 			'aws': {
 				credentials: {
 					region: "us-east-1",
-					accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-					secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+					accessKeyId: "AKIAT5BVQVJFNTLIWR7O",
+					secretAccessKey: "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"
 				}
 			}
 		}

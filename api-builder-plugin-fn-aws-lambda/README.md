@@ -1,26 +1,24 @@
 ![AWS Lambda Tests](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/AWS%20Lambda%20Tests/badge.svg)
 
-# api-builder-plugin-aws-lambda
+# API-Builder AWS-Lambda Flow-Node
 
-## About flow-nodes
+If you would like to integrate AWS Lambda functions into your [API-Builder flow][1] use this flow node.
+It allows you to easily call your functions and with that, you can transform, merge and finally return the payload.
 
-Flow-nodes are used within [Axway API Builder's](https://www.axway.com/en/datasheet/axway-api-builder)
-flow editor that is a low-code / no-code solution to designing and developing services
-that integrate to many different connected components, such as databases and APIs.
+## Configuration
 
-## Getting started
+Watch this video to get an overview how to install and configure the Axway API-Builder Connector:
+[![Install AWS-Athena Connector](https://img.youtube.com/vi/AUIsxH33gow/0.jpg)](https://youtu.be/AUIsxH33gow)
 
-1. Follow the [Getting Started Guide](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html) to create an API Builder service
-1. Follow the [Axway Flow SDK](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/axway_flow_sdk.html) guide to get started creating flow-node plugins.
 
-## Publish
+After installation and restarting your API-Builder project you get the following connector:  
+![Node][connector]   
 
-After developing this plugin you can publish it to [npm](https://www.npmjs.com) to make it public.
+A default configuration file has been generated under: conf/aws-lambda.default.js in which you have to configured your AWS-Access-Key information.
 
-## Install
+[1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
+[2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html
+[3]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues
 
-After creating your API Builder service (`api-builder init`), you can install this plugin using npm:
-
-```
-npm install api-builder-plugin-aws-lambda
-```
+[connector]: imgs/athena-flownode.png
+[connector-query]: imgs/athena-query.png

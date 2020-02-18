@@ -15,13 +15,15 @@ const aws = require("aws-sdk");
  *
  * @return {undefined}
  */
-function lambdaSync(req, outputs, options) {
-
+function invoke(req, outputs, options) {
   const func = req.params.func;
   const logResult = req.params.logResult;
   const payload = req.params.payload;
+  const asynchronous = req.params.asynchronous;
 
   const awsConfig = this.pluginConfig.aws;
+
+  var logType = 'None';
 
   if (!func) {
 		options.logger.error('The func parameter is missing.');
@@ -35,6 +37,10 @@ function lambdaSync(req, outputs, options) {
   	return outputs.error(null, new Error('Your AWS configuration is incomplete. Please check conf/aws-lambda.default.js'));
   }
 
+  if(logResult) {
+    logType = 'Tail';
+  }
+
   awsCredentials = {
     region: awsConfig.credentials.region,
     accessKeyId: awsConfig.credentials.accessKeyId,
@@ -44,21 +50,31 @@ function lambdaSync(req, outputs, options) {
 
   var lambda = new aws.Lambda({region: awsConfig.credentials.region, apiVersion: '2015-03-31'});
 
+  var lambdaPayload = payload;
+  if(typeof payload === 'object') {
+    lambdaPayload = JSON.stringify(payload);
+  }
+
+  var invocationType = 'RequestResponse';
+  if(asynchronous) {
+    invocationType = 'Event'
+  }
+
   var pullParams = {
     FunctionName : func,
-    InvocationType : 'RequestResponse',
-    LogType : 'Tail',
-    Payload : JSON.stringify(payload)
+    InvocationType : invocationType,
+    LogType : logType,
+    Payload : lambdaPayload
   };
   try {
-    callLambda(options, outputs, lambda, pullParams, logResult);
+    callLambda(options, outputs, lambda, pullParams, logResult, asynchronous);
   } catch (error) {
     options.logger.error(`Failed to execute query: ${error}`)
     return outputs.error(null, error);
   }
 }
 
-async function callLambda(options, outputs, lambda, pullParams, logResult) {
+async function callLambda(options, outputs, lambda, pullParams, logResult, asynchronous) {
 
   lambdaPromise = lambda.invoke(pullParams).promise();
 
@@ -67,7 +83,11 @@ async function callLambda(options, outputs, lambda, pullParams, logResult) {
       if(logResult) {
         options.logger.debug(Buffer.from(data.LogResult, 'base64').toString('utf8'));
       }
-      return outputs.next(null, JSON.parse(data.Payload));
+      if(asynchronous && data.StatusCode == 202) {
+        return outputs.next(null, 'Accepted');
+      } else {
+        return outputs.next(null, JSON.parse(data.Payload));
+      }
     },
     function(error) {
       options.logger.error(error);
@@ -77,5 +97,5 @@ async function callLambda(options, outputs, lambda, pullParams, logResult) {
 }
 
 module.exports = {
-	lambdaSync
+	invoke
 };
