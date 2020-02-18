@@ -3,31 +3,43 @@
 # API-Builder AWS-Lambda Flow-Node
 
 If you would like to integrate AWS Lambda functions into your [API-Builder flow][1] use this flow node.
-It allows you to easily call your functions and with that, you can transform, merge and finally return the payload.
+It allows you to easily call your Lambda-Functions and merge, transform or use the returned data in any way you want.
 
 ## Configuration
 
-After installation and restarting your API-Builder project you get the following connector:  
-![Syncplicity Node][connector]   
-Depending on the selected method different options appear on the right, when using the connector as part of the flow.   
-![Syncplicity Node Settings][connector-settings]   
-
-
-After installation and restarting your API-Builder project you get the following connector:  
+After installation and restarting your API-Builder project you get the following new flow-node:  
 ![Node][connector]   
+Before you can make use it in your flow you have to configure your AWS-Credentials allowed to invoke Lambda functions.  
 
-A default configuration file has been generated under: conf/aws-lambda.default.js in which you have to configured your AWS-Access-Key information.
+During installation a new config file has been automatically created which must be completed with your AWS Credentials. You can do that directly from within the API-Builder UI:  
+![Config][img3]  
+We recommend to setup your configuration in a [environmentalized][4] way keeping [sensitive information][5] away from the source-code repository.
 
-## Setup
-A new config file has been automatically created for the AWS Lambda Flow-Node which must be configured with your AWS Credentials:  
-![Syncplicity Node Settings][connector-config]  
-Additional details can be found here: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html#Swaggerflow-node-ConfiguretheSwaggerplugin  
+## Invoke Lambda functions
+To invoke a Lambda function, just drag & drop the Flow-Node into your flow and set it up as described here. 
 
+### Input parameters
 
-Please note, that the connector is configured to use OAuth 2.0 to communicate with Syncplicuty. In order to use that, please configure the Authentication-Credentials as described here:  
-https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/oauth_2_0_credentials.html  
+| Param | Type | Required | Description |
+| --- | --- | --- | --- |
+| func | string | y | The name of the AWS-Lambda-Function to call.  |
+| payload | JSON&nbsp;or&nbsp;Object | n | Input information required by the Lambda-Function. Example: `{"key1":"value1"}` |
+| asynchronous | boolean | n | If enabled the Lambda function is invoked asyncronously and no data is returned. Read more here: https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html.  |
+| logResult | boolean | n | If enabled, the Tail option is used when invoking the Lambda function and logged in the API Builder Console.  |
 
-:exclamation: Please make sure to add basic_auth:true as part of the credential configuration.  
+### Output
+If the function wasn't invoked asynchronously you get back the `data.Payload` into attribute configured with next. By default: `$.result`. For example, having the following AWS-Lambda function: 
+```js
+exports.handler = async (event) => {
+    const response = {
+        statusCode: 200,
+        body: "Hello from " + event.key1 + " from AWS-Lambda!"
+    };
+    return response;
+};
+```
+Using the payload: `{"key1":"Chris"}` the attribute `$.result` will contain the following: `Howdy Hello from value2 from AWS-Lambda!`.  
+In case of an error the attribute: `$.error` contains the error returned by AWS or by the Lambda-Fow-Node.
 
 ## Compatibility
 Tested with AWS Lambda Q1/2020  
@@ -53,6 +65,10 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 [1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
 [2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html
 [3]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues
+[4]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/environmentalization.html
+[5]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/project_configuration.html#ProjectConfiguration-Configurationfiles
 
-[connector]: imgs/lambda-flownode.png
-[connector-query]: imgs/lambda-invoke.png
+[img1]: imgs/lambda-flownode.png
+[img2]: imgs/lambda-invoke.png
+[img3]: imgs/Lambda-Connector-Config.png
+[img4]: imgs/Lambda-Connector-Config-File.png
