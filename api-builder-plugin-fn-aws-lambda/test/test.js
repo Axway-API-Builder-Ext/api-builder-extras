@@ -45,11 +45,8 @@ describe('flow-node lambda', () => {
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('error');
 			expect(result.args[0]).to.equal(null);
-			expect(result.args[1]).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Missing required parameter: func');
 			expect(result.context).to.be.an('Object');
-			expect(result.context.error).instanceOf(Error)
-				.and.to.have.property('message', 'Missing required parameter: func');
+			expect(result.context.error).to.have.property('message', 'Missing required parameter: func');
 		});
 
 		it('should succeed with valid JavaScript argument.', async () => {

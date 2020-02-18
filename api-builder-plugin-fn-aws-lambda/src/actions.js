@@ -16,6 +16,7 @@ const aws = require("aws-sdk");
  * @return {undefined}
  */
 function invokeLambda(req, outputs, options) {
+
   const func = req.params.func;
   const logResult = req.params.logResult;
   const payload = req.params.payload;
@@ -27,14 +28,15 @@ function invokeLambda(req, outputs, options) {
 
   if (!func) {
 		options.logger.error('The func parameter is missing.');
-		return outputs.error(null, new Error('Missing required parameter: func'));
+		return outputs.error(null, {message: 'Missing required parameter: func'});
 	}
 
   if(typeof awsConfig.credentials.region === 'undefined' || awsConfig.credentials.region == 'PROVIDE_YOUR_AWS_REGION' ||
     typeof awsConfig.credentials.accessKeyId === 'undefined' || awsConfig.credentials.accessKeyId == 'PROVIDE_YOUR_AWS_ACCESS_KEY_ID' ||
     typeof awsConfig.credentials.secretAccessKey === 'undefined' || awsConfig.credentials.secretAccessKey == 'PROVIDE_YOUR_AWS_SECRET')
   {
-  	return outputs.error(null, new Error('Your AWS configuration is incomplete. Please check conf/aws-lambda.default.js'));
+    options.logger.error('Your AWS configuration is incomplete. Please check conf/aws-lambda.default.js');
+  	return outputs.error(null, {message: 'Your AWS configuration is incomplete. Please check conf/aws-lambda.default.js'});
   }
 
   if(logResult) {
