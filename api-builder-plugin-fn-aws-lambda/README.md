@@ -8,7 +8,7 @@ It allows you to easily call your Lambda-Functions and merge, transform or use t
 ## Configuration
 
 After installation and restarting your API-Builder project you get the following new flow-node:  
-![Node][connector]   
+![Node][img1]   
 Before you can make use it in your flow you have to configure your AWS-Credentials allowed to invoke Lambda functions.  
 
 During installation a new config file has been automatically created which must be completed with your AWS Credentials. You can do that directly from within the API-Builder UI:  
@@ -16,7 +16,8 @@ During installation a new config file has been automatically created which must 
 We recommend to setup your configuration in a [environmentalized][4] way keeping [sensitive information][5] away from the source-code repository.
 
 ## Invoke Lambda functions
-To invoke a Lambda function, just drag & drop the Flow-Node into your flow and set it up as described here. 
+To invoke a Lambda function, just drag & drop the Flow-Node into your flow and set it up as described here.  
+![Node][img2]
 
 ### Input parameters
 
@@ -39,7 +40,9 @@ exports.handler = async (event) => {
 };
 ```
 Using the payload: `{"key1":"Chris"}` the attribute `$.result` will contain the following: `Howdy Hello from Chris from AWS-Lambda!`.  
-In case of an error the attribute: `$.error` contains the error returned by AWS or by the Lambda-Fow-Node.
+In case of an error the attribute: `$.error` contains the error returned by AWS or by the Lambda-Fow-Node.  
+  
+If the function is invoked asynchronously no data is returned. The attribute: `$.result` just contains the value: `Accepted`. 
 
 ## Compatibility
 Tested with AWS Lambda Q1/2020  
