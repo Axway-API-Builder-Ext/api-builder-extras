@@ -60,7 +60,7 @@ describe('flow-node lambda', () => {
 			expect(result.callCount).to.equal(1);
 			expect(result.context).to.deep.equal({
 				result: {
-					body: "\"Hello from JavaScript-Object from AWS-Lambda!\"",
+					body: "Hello from JavaScript-Object from AWS-Lambda!",
 					statusCode: 200
 				}
 			});
@@ -74,7 +74,7 @@ describe('flow-node lambda', () => {
 			expect(result.callCount).to.equal(1);
 			expect(result.context).to.deep.equal({
 				result: {
-					body: "\"Hello from JSON-String from AWS-Lambda!\"",
+					body: "Hello from JSON-String from AWS-Lambda!",
 					statusCode: 200
 				}
 			});
