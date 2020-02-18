@@ -11,7 +11,7 @@
 		"lambda",
 		"connector"
 	],
-	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-aws-athena",
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-aws-lambda",
 	"bugs": {
 		"url": "https://github.com/Axway-API-Builder-Ext/issues"
 	},
