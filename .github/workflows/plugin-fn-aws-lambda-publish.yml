@@ -1,5 +1,5 @@
 # The name of the plugin to appear in the actions and badge!
-name: AWS Athena Release
+name: AWS Lambda Release
 
 on:
   release:
@@ -7,15 +7,15 @@ on:
       - published
     tags:
       # If this tag is pushed, a release is created
-      - '*plugin-fn-aws-athena*'
+      - '*plugin-fn-aws-lambda*'
 
 jobs:
   build:
     # This is a required check, as the on:release can't be filtered on given tags
-    if: contains(github.ref, 'plugin-fn-aws-athena')
+    if: contains(github.ref, 'plugin-fn-aws-lambda')
     env:
       # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fn-aws-athena'
+      workingDirectory: 'api-builder-plugin-fn-aws-lambda'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

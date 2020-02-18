@@ -1,0 +1,54 @@
+flow-nodes:
+  lambda:
+    name: AWS Lambda
+    icon: AWSLambda.png
+    description: 'Invokes an AWS Lambda function. Read more: https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html'
+    category: aws
+    methods:
+      invokeLambda:
+        name: Invoke
+        description: Invokes an AWS-Lambda function
+        parameters:
+          func:
+            description: Name of the Lambda function to execute
+            required: true
+            initialType: string
+            schema:
+              type: string
+          payload:
+            description: Payload send to the Lambda function. It must be either a JavaScript object or a JSON-String.
+            required: false
+            initialType: string
+            schema:
+              oneOf:
+                - type: string
+                - type: object
+                  propertyNames:
+                    pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
+          asynchronous:
+            description: 'If enabled the Lambda function is invoked asyncronously and no data is returned. Read more here: https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html'
+            required: false
+            initialType: boolean
+            group: Options
+            schema:
+              default: false
+              type: boolean
+          logResult:
+            description: If enabled, the Tail option is used when calling the Lambda function and logged in the API Builder Console.
+            required: false
+            initialType: boolean
+            group: Options
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            context: $.error
+            schema:
+              type: string
