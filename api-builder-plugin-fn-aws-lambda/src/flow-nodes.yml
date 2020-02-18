@@ -3,7 +3,7 @@ flow-nodes:
     name: AWS Lambda
     icon: AWSLambda.png
     description: 'Invokes an AWS Lambda function. Read more: https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html'
-    category: aws
+    category: AWS
     methods:
       invokeLambda:
         name: Invoke

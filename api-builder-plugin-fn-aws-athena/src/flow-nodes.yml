@@ -3,7 +3,7 @@ flow-nodes:
     name: AWS Athena
     icon: athena-icon.png
     description: Flow node to query AWS Athena
-    category: extension
+    category: AWS
     methods:
       query:
         name: Query
