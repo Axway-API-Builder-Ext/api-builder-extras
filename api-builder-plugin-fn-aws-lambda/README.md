@@ -5,6 +5,9 @@
 If you would like to integrate AWS Lambda functions into your [API-Builder flow][1] use this flow node.
 It allows you to easily call your Lambda-Functions and merge, transform or use the returned data in any way you want.
 
+Watch this video to see the AWS-Lambda connector in action:  
+[![Install AWS-Lambda Connector](https://img.youtube.com/vi/a4Fp94vbfU4/0.jpg)](https://youtu.be/a4Fp94vbfU4)
+
 ## Configuration
 
 After installation and restarting your API-Builder project you get the following new flow-node:  
