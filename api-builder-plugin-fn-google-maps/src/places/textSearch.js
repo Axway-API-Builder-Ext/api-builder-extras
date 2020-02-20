@@ -16,13 +16,22 @@ const maps = new require("@googlemaps/google-maps-services-js");
  * @return {undefined}
  */
 function textSearch(req, outputs, options) {
-	const locations = req.params.locations;
+	const query = req.params.query;
+  const region = req.params.region;
+  const location = req.params.location;
+  const radius = req.params.radius;
+  const language = req.params.language;
+  const minprice = req.params.minprice;
+  const maxprice = req.params.maxprice;
+  const opennow = req.params.opennow;
+  const pagetoken = req.params.pagetoken;
+  const type = req.params.type;
 
   const apiKey = this.pluginConfig.google.credentials.apiKey;
 
-	if (!locations) {
-		options.logger.error('The locations parameter is missing.');
-		return outputs.error(null, {message:'Missing required parameter: locations'});
+	if (!query) {
+		options.logger.error('The query parameter is missing.');
+		return outputs.error(null, {message:'Missing required parameter: query'});
 	}
   if(typeof apiKey === 'undefined')
   {
@@ -38,11 +47,24 @@ function textSearch(req, outputs, options) {
 
   var params = {
     key: apiKey,
-    locations: locations
+    query: query,
+    region: region,
+    radius: radius,
+    language: language,
+    minprice: minprice,
+    maxprice: maxprice,
+    opennow: opennow,
+    pagetoken: pagetoken,
+    type: type
   }
-debugger;
+
+  if(typeof location != 'undefined') {
+    params.location = location;
+  }
+
+
   client
-    .elevation({
+    .textSearch({
       params: params,
       timeout: 10000 // milliseconds
     })

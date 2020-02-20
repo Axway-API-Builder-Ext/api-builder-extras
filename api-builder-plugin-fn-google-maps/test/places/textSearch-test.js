@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
 
 const getPlugin = require('../../src');
-const actions = require('../../src/places/findPlaceFromText');
+const actions = require('../../src/places/textSearch');
 
 const validPluginConfig = require('../config/google-maps.testconfig').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-google-maps'];
 const invalidPluginConfig = require('../config/google-maps.incomplete').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-google-maps'];
@@ -15,7 +15,7 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
 			expect(actions).to.be.an('object');
-			expect(actions.findPlaceFromText).to.be.a('function');
+			expect(actions.textSearch).to.be.a('function');
 			expect(runtime).to.exist;
 			const flownode = runtime.getFlowNode('googleMapsPlaces');
 			expect(flownode).to.be.a('object');
@@ -31,42 +31,26 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 		});
 	});
 
-	describe('#findPlaceFromText', () => {
-		it('should error when missing parameter: input', async () => {
+	describe('#textSearch', () => {
+		it('should error when missing parameter: query', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
 
-			const result = await flowNode.findPlaceFromText({
-				input: null
+			const result = await flowNode.textSearch({
+				query: null
 			});
 
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('error');
 			expect(result.args[0]).to.equal(null);
 			expect(result.context).to.be.an('Object');
-			expect(result.context.error).to.have.property('message', 'Missing required parameter: input');
-		});
-
-		it('should error when missing parameter: inputtype', async () => {
-			const flowNode = runtime.getFlowNode('googleMapsPlaces');
-
-			const result = await flowNode.findPlaceFromText({
-				input: 'Museum of Contemporary Art Australia',
-				inputtype: null
-			});
-
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('error');
-			expect(result.args[0]).to.equal(null);
-			expect(result.context).to.be.an('Object');
-			expect(result.context.error).to.have.property('message', 'Missing required parameter: inputtype');
+			expect(result.context.error).to.have.property('message', 'Missing required parameter: query');
 		});
 
 		it('should error if not configured - API-Key is missing', async () => {
 			const flowNode = invalidRuntime.getFlowNode('googleMapsPlaces');
 
-			const result = await flowNode.findPlaceFromText({
-				input: 'Museum of Contemporary Art Australia',
-				inputtype: 'textQuery'
+			const result = await flowNode.textSearch({
+				query: 'restaurant'
 			});
 
 			expect(result.callCount).to.equal(1);
@@ -76,12 +60,11 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 			expect(result.context.error).to.have.property('message', 'Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js');
 		});
 
-		it('Valid request with a valid input and inputtype', async () => {
+		it('Valid request with a valid query', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
 
-			const result = await flowNode.findPlaceFromText({
-				input: 'Museum of Contemporary Art Australia',
-				inputtype: 'textquery'
+			const result = await flowNode.textSearch({
+				query: 'restaurant Berlin Kurfuerstendamm'
 			});
 
 			expect(result.callCount).to.equal(1);
@@ -91,13 +74,13 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 			expect(result.context.result).to.deep.include({ status: 'OK' });
 		});
 
-		it('Valid request with a valid input, inputtype and some fields', async () => {
+		it.only('Valid request with a valid query and radius', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
 
-			const result = await flowNode.findPlaceFromText({
-				input: 'Museum of Contemporary Art Australia',
-				inputtype: 'textquery',
-				fields: ['name', 'icon']
+			const result = await flowNode.textSearch({
+				query: 'Berlin Kurfuerstendamm 119',
+				radius: 30,
+				type: 'restaurant'
 			});
 
 			expect(result.callCount).to.equal(1);
@@ -105,8 +88,6 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 			expect(result.args[0]).to.equal(null);
 			expect(result.context).to.be.an('Object');
 			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(result.context.result.candidates[0]).to.have.property('icon');
-			expect(result.context.result.candidates[0]).to.have.property('name');
 		});
 	});
 });

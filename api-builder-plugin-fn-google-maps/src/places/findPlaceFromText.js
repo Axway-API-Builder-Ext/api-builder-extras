@@ -16,14 +16,24 @@ const maps = new require("@googlemaps/google-maps-services-js");
  * @return {undefined}
  */
 function findPlaceFromText(req, outputs, options) {
-	const locations = req.params.locations;
+	const input = req.params.input;
+  const inputtype = req.params.inputtype;
+  const language = req.params.language;
+  const fields = req.params.fields;
+  const locationbias = req.params.locationbias;
+
 
   const apiKey = this.pluginConfig.google.credentials.apiKey;
 
-	if (!locations) {
-		options.logger.error('The locations parameter is missing.');
-		return outputs.error(null, {message:'Missing required parameter: locations'});
+	if (!input) {
+		options.logger.error('The input parameter is missing.');
+		return outputs.error(null, {message:'Missing required parameter: input'});
 	}
+  if (!inputtype) {
+		options.logger.error('The inputtype parameter is missing.');
+		return outputs.error(null, {message:'Missing required parameter: inputtype'});
+	}
+
   if(typeof apiKey === 'undefined')
   {
     options.logger.error('Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js');
@@ -38,11 +48,15 @@ function findPlaceFromText(req, outputs, options) {
 
   var params = {
     key: apiKey,
-    locations: locations
+    input: input,
+    inputtype: inputtype,
+    language: language,
+    fields: fields,
+    locationbias: locationbias
   }
 debugger;
   client
-    .elevation({
+    .findPlaceFromText({
       params: params,
       timeout: 10000 // milliseconds
     })

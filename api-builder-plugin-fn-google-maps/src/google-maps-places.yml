@@ -20,8 +20,8 @@ flow-nodes:
             schema:
               type: string
               enum:
-                - textQuery
-                - phoneNumber
+                - textquery
+                - phonenumber
           language:
             description: 'The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
             required: false
@@ -29,7 +29,7 @@ flow-nodes:
             schema:
               type: string
           fields:
-            description: 'The fields specifying the types of place data to return. **Note:** If you omit the fields parameter from a Find Place request, only the place_id for the result will be returned.'
+            description: 'The fields specifying the types of place data to return. **Note:** If you omit the fields parameter from a Find Place request, only the place_id for the result will be returned. Learn more: https://developers.google.com/places/web-service/search#Fields'
             group: Standard Options
             required: false
             initialType: array
@@ -55,37 +55,68 @@ flow-nodes:
             schema:
               type: string
       textSearch:
-        name: Find Place API
-        description: A Find Place request takes a text input and returns a place. The input can be any kind of Places text data, such as a name, address, or phone number. The request must be a string. A Find Place request using non-string data such as a lat/lng coordinate or plus code generates an error.
+        name: Find Place from text API
+        description: 'Warning: Nearby Search and Text Search return all of the available data fields for the selected place (a subset of the supported fields), and you will be billed accordingly There is no way to constrain Nearby Search or Text Search to only return specific fields. To keep from requesting (and paying for) data that you dont need, use a Find Place request instead. The Google Places API Text Search Service is a web service that returns information about a set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa" or "123 Main Street". The service responds with a list of places matching the text string and any location bias that has been set.'
         parameters:
-          input:
-            description: 'The text input specifying which place to search for (for example, a name, address, or phone number).'
+          query:
+            description: 'The text string on which to search, for example: "restaurant" or "123 Main Street". The Google Places service will return candidate matches based on this string and order the results based on their perceived relevance. This parameter becomes optional if the `type` parameter is also used in the search request.'
             required: true
             schema:
               type: string
-          inputtype:
-            description: The type of input. This can be one of either `textQuery` or `phoneNumber`.
-            required: true
+          region:
+            description: 'The latitude/longitude around which to retrieve place information. This must be specified as latitude,longitude. If you specify a location parameter, you must also specify a radius parameter.'
+            required: false
+            group: Standard Options
             schema:
               type: string
-              enum:
-                - textQuery
-                - phoneNumber
+          location:
+            description: 'The latitude/longitude around which to retrieve place information. This must be specified as latitude,longitude. If you specify a location parameter, you must also specify a radius parameter.'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          radius:
+            description: 'Defines the distance (in meters) within which to bias place results The maximum allowed radius is 50 000 meters. Results inside of this region will be ranked higher than results outside of the search circle; however, prominent results from outside of the search radius may be included.'
+            group: Standard Options
+            required: false
+            initialType: number
+            schema:
+              type: number
           language:
-            description: 'The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
+            description: 'Restricts results to only those places within the specified price level. Valid values are in the range from 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
             required: false
             group: Standard Options
             schema:
               type: string
-          fields:
-            description: 'The fields specifying the types of place data to return. **Note:** If you omit the fields parameter from a Find Place request, only the place_id for the result will be returned.'
-            group: Standard Options
+          minprice:
+            description: 'Restricts results to only those places within the specified price level. Valid values are in the range from 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
             required: false
-            initialType: array
+            group: Standard Options
+            initialType: number
             schema:
-              type: array
-          locationbias:
-            description: Prefer results in a specified area, by specifying either a radius plus lat/lng, or two lat/lng pairs representing the points of a rectangle. If this parameter is not specified, the API uses IP address biasing by default.
+              type: number
+          maxprice:
+            description: 'Restricts results to only those places within the specified price level. Valid values are in the range from 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
+            required: false
+            group: Standard Options
+            initialType: number
+            schema:
+              type: number
+          opennow:
+            description: 'Returns only those places that are open for business at the time the query is sent. Places that do not specify opening hours in the Google Places database will not be returned if you include this parameter in your query.'
+            required: false
+            group: Standard Options
+            initialType: boolean
+            schema:
+              type: boolean
+          pagetoken:
+            description: 'Returns the next 20 results from a previously run search. Setting a `pagetoken` parameter will execute a search with the same parameters used previously — all parameters other than `pagetoken` will be ignored.'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          type:
+            description: 'Restricts the results to places matching the specified type. Only one type may be specified (if more than one type is provided, all types following the first entry are ignored).'
             required: false
             group: Standard Options
             schema:
