@@ -7,7 +7,7 @@ const actions = require('../src/geocode');
 const validPluginConfig = require('./config/google-maps.testconfig').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-google-maps'];
 const invalidPluginConfig = require('./config/google-maps.incomplete').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-google-maps'];
 
-describe('Google-Maps Elevation-API Tests', () => {
+describe('Google-Maps Geocode-API Tests', () => {
 	let runtime;
 	before(async () => invalidRuntime = new MockRuntime(await getPlugin(invalidPluginConfig)));
 	before(async () => runtime = new MockRuntime(await getPlugin(validPluginConfig)));
@@ -15,7 +15,7 @@ describe('Google-Maps Elevation-API Tests', () => {
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
 			expect(actions).to.be.an('object');
-			expect(actions.elevation).to.be.a('function');
+			expect(actions.geocode).to.be.a('function');
 			expect(runtime).to.exist;
 			const flownode = runtime.getFlowNode('googleMaps');
 			expect(flownode).to.be.a('object');
@@ -74,11 +74,11 @@ describe('Google-Maps Elevation-API Tests', () => {
 			expect(result.context.result).to.deep.include({ status: 'OK' });
 		});
 
-		it.only('Request with an invalid location', async () => {
+		it('Request with an invalid location', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
 			const result = await flowNode.geocode({
-				address: 'This location/address doesnt exists. XXXXXXXXXXX'
+				address: 'This location/address does not exists. XXXXXXXXXXX'
 			});
 
 			expect(result.callCount).to.equal(1);

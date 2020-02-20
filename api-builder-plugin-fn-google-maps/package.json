@@ -1,5 +1,5 @@
 {
-	"name": "api-builder-plugin-fn-google-maps",
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-google-maps",
 	"version": "1.0.0",
 	"description": "A plugin for Axway API Builder",
 	"author": "",
@@ -14,7 +14,10 @@
 	"main": "src/index.js",
 	"files": [
 		"src",
-		"README.md"
+		"config",
+		"scripts",
+		"README.md",
+		"LICENSE"
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^0.1.0",
@@ -28,6 +31,7 @@
 		"mocha": "^6.1.4"
 	},
 	"scripts": {
-		"test": "mocha ./test --recursive -R spec"
+		"test": "mocha ./test --recursive -R spec",
+		"postinstall": "node scripts/copyconf.js"
 	}
 }

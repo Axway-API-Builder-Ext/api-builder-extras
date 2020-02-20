@@ -1,0 +1,272 @@
+flow-nodes:
+  googleMapsPlaces:
+    name: Google Maps Places
+    icon: google-maps-places.png
+    description: Get data from the same database used by Google Maps. Places features over 100 million businesses and points of interest that are updated frequently through owner-verified listings and user-moderated contributions.
+    category: Google
+    methods:
+      findPlaceFromText:
+        name: Find Place API
+        description: A Find Place request takes a text input and returns a place. The input can be any kind of Places text data, such as a name, address, or phone number. The request must be a string. A Find Place request using non-string data such as a lat/lng coordinate or plus code generates an error.
+        parameters:
+          input:
+            description: 'The text input specifying which place to search for (for example, a name, address, or phone number).'
+            required: true
+            schema:
+              type: string
+          inputtype:
+            description: The type of input. This can be one of either `textQuery` or `phoneNumber`.
+            required: true
+            schema:
+              type: string
+              enum:
+                - textQuery
+                - phoneNumber
+          language:
+            description: 'The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          fields:
+            description: 'The fields specifying the types of place data to return. **Note:** If you omit the fields parameter from a Find Place request, only the place_id for the result will be returned.'
+            group: Standard Options
+            required: false
+            initialType: array
+            schema:
+              type: array
+          locationbias:
+            description: Prefer results in a specified area, by specifying either a radius plus lat/lng, or two lat/lng pairs representing the points of a rectangle. If this parameter is not specified, the API uses IP address biasing by default.
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: A general error occured.
+            context: $.error
+            schema:
+              type: string
+      textSearch:
+        name: Find Place API
+        description: A Find Place request takes a text input and returns a place. The input can be any kind of Places text data, such as a name, address, or phone number. The request must be a string. A Find Place request using non-string data such as a lat/lng coordinate or plus code generates an error.
+        parameters:
+          input:
+            description: 'The text input specifying which place to search for (for example, a name, address, or phone number).'
+            required: true
+            schema:
+              type: string
+          inputtype:
+            description: The type of input. This can be one of either `textQuery` or `phoneNumber`.
+            required: true
+            schema:
+              type: string
+              enum:
+                - textQuery
+                - phoneNumber
+          language:
+            description: 'The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          fields:
+            description: 'The fields specifying the types of place data to return. **Note:** If you omit the fields parameter from a Find Place request, only the place_id for the result will be returned.'
+            group: Standard Options
+            required: false
+            initialType: array
+            schema:
+              type: array
+          locationbias:
+            description: Prefer results in a specified area, by specifying either a radius plus lat/lng, or two lat/lng pairs representing the points of a rectangle. If this parameter is not specified, the API uses IP address biasing by default.
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: A general error occured.
+            context: $.error
+            schema:
+              type: string
+      placeDetails:
+        name: Place details API
+        description: Return detailed information about a specific place, including user reviews.
+        parameters:
+          place_id:
+            description: 'A textual identifier that uniquely identifies a place, returned from a Place Search.'
+            required: true
+            schema:
+              type: string
+          language:
+            description: 'The language code, indicating in which language the results should be returned, if possible. Note that some fields may not be available in the requested language. Note that we often update supported languages so this list may not be exhaustive. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          region:
+            description: 'The region code, specified as a ccTLD (country code top-level domain) two-character value. Most ccTLD codes are identical to ISO 3166-1 codes, with some exceptions. This parameter will only influence, not fully restrict, results. If more relevant results exist outside of the specified region, they may be included. When this parameter is used, the country name is omitted from the resulting `formatted_address` for results in the specified region.'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          sessiontoken:
+            description: 'A random string which identifies an autocomplete session for billing purposes. Use this for Place Details requests that are called following an autocomplete request in the same user session'
+            required: false
+            schema:
+              type: string
+          fields:
+            description: 'One or more fields, specifying the types of place data to return, separated by a comma. **Warning: If you do not specify at least one field with a request, or if you omit the **fields** parameter from a request, ALL possible fields will be returned, and you will be billed accordingly. This applies only to Place Details requests.'
+            group: Standard Options
+            required: false
+            initialType: array
+            schema:
+              type: array
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+      placeAutocomplete:
+        name: Place autocomplete API
+        description: can be used to automatically fill in the name and/or address of a place as you type.
+        parameters:
+          locations:
+            description: 'Defines the location(s) on the earth from which to return elevation data. This parameter takes one or multiple latitude/longitude pairs passed as an array or as an encoded polyline. Example: {"lat": "52.5588327", "lng": "13.2884374"} or an Array ob objects: [{"lat": "52.5588327", "lng": "13.2884374"}, {"lat": "52.434...."}]'
+            required: true
+            initialType: object
+            schema:
+              oneOf:
+                - type: array
+                - type: object
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+      queryAutocomplete:
+        name: Query autocomplete API
+        description: can be used to provide a query prediction service for text-based geographic searches, by returning suggested queries as you type.
+        parameters:
+          address:
+            description: 'The street address that you want to geocode, in the format used by the national postal service of the country concerned. Additional address elements such as business names and unit, suite or floor numbers should be avoided.'
+            required: true
+            schema:
+              type: string
+          bounds:
+            description: 'The bounding box of the viewport within which to bias geocode results more prominently. This parameter will only influence, not fully restrict, results from the geocoder.'
+            required: false
+            schema:
+              type: string
+          language:
+            description: 'The language in which to return results.'
+            required: false
+            schema:
+              type: string
+          region:
+            description: 'The region code, specified as a ccTLD ("top-level domain") two-character value. This parameter will only influence, not fully restrict, results from the geocoder.'
+            required: false
+            schema:
+              type: string
+          components:
+            description: 'A components filter with elements separated by a pipe (`|`). The components filter is *required* if the request doesnt include an `address`. Each element in the components filter consists of a `component:value` pair, and fully restricts the results from the geocoder.'
+            required: false
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          notFound:
+            name: Not found
+            description: The given address could not be found.
+            context: $.notFound
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+      placePhotos:
+        name: Place photos API
+        description: gives you access to the millions of Place related photos stored in Google's Place database.
+        parameters:
+          address:
+            description: 'The street address that you want to geocode, in the format used by the national postal service of the country concerned. Additional address elements such as business names and unit, suite or floor numbers should be avoided.'
+            required: true
+            schema:
+              type: string
+          bounds:
+            description: 'The bounding box of the viewport within which to bias geocode results more prominently. This parameter will only influence, not fully restrict, results from the geocoder.'
+            required: false
+            schema:
+              type: string
+          language:
+            description: 'The language in which to return results.'
+            required: false
+            schema:
+              type: string
+          region:
+            description: 'The region code, specified as a ccTLD ("top-level domain") two-character value. This parameter will only influence, not fully restrict, results from the geocoder.'
+            required: false
+            schema:
+              type: string
+          components:
+            description: 'A components filter with elements separated by a pipe (`|`). The components filter is *required* if the request doesnt include an `address`. Each element in the components filter consists of a `component:value` pair, and fully restricts the results from the geocoder.'
+            required: false
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          notFound:
+            name: Not found
+            description: The given address could not be found.
+            context: $.notFound
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
