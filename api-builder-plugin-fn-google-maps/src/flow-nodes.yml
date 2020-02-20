@@ -295,7 +295,7 @@ flow-nodes:
               type: string
 # Elevations API
       elevation:
-        name: Maps Elevation API
+        name: Elevations API
         description: Query all locations on the surface of earth, including depth locations on the ocean floor (which return negative values), for elevation data with the Maps Elevation API. Sampled requests are available for elevation data along paths, allowing elevation change calculation along routes.
         parameters:
           locations:
@@ -311,6 +311,55 @@ flow-nodes:
             name: Next
             description: Success
             context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+# Geocoding API
+      geocode:
+        name: Geocoding API
+        description: Convert addresses into geographic coordinates (geocoding), which you can use to place markers or position the map. This API also allows you to convert geographic coordinates into an address (reverse geocoding).
+        parameters:
+          address:
+            description: 'The street address that you want to geocode, in the format used by the national postal service of the country concerned. Additional address elements such as business names and unit, suite or floor numbers should be avoided.'
+            required: true
+            schema:
+              type: string
+          bounds:
+            description: 'The bounding box of the viewport within which to bias geocode results more prominently. This parameter will only influence, not fully restrict, results from the geocoder.'
+            required: false
+            schema:
+              type: string
+          language:
+            description: 'The language in which to return results.'
+            required: false
+            schema:
+              type: string
+          region:
+            description: 'The region code, specified as a ccTLD ("top-level domain") two-character value. This parameter will only influence, not fully restrict, results from the geocoder.'
+            required: false
+            schema:
+              type: string
+          components:
+            description: 'A components filter with elements separated by a pipe (`|`). The components filter is *required* if the request doesnt include an `address`. Each element in the components filter consists of a `component:value` pair, and fully restricts the results from the geocoder.'
+            required: false
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          notFound:
+            name: Not found
+            description: The given address could not be found.
+            context: $.notFound
             schema:
               type: string
           error:
