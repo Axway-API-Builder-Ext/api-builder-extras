@@ -98,8 +98,8 @@ function directions(req, outputs, options) {
       }
     })
     .catch(error => {
-      options.logger.error(`Error: ${error}`);
-      return outputs.error(null, {message: error});
+      options.logger.error('Error: ' + JSON.stringify(error.response.data));
+      return outputs.error(null, {message: error.response.data});
     })
 }
 

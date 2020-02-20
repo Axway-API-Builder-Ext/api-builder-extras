@@ -2,12 +2,12 @@ const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
 
 const getPlugin = require('../src');
-const actions = require('../src/directions');
+const actions = require('../src/distance');
 
 const validPluginConfig = require('./config/google-maps.testconfig').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-google-maps'];
 const invalidPluginConfig = require('./config/google-maps.incomplete').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-google-maps'];
 
-describe('Google-Maps Distance API Tests', () => {
+describe('Google-Maps Distance-API Tests', () => {
 	let runtime;
 	before(async () => invalidRuntime = new MockRuntime(await getPlugin(invalidPluginConfig)));
 	before(async () => runtime = new MockRuntime(await getPlugin(validPluginConfig)));
@@ -20,7 +20,6 @@ describe('Google-Maps Distance API Tests', () => {
 			const flownode = runtime.getFlowNode('googleMaps');
 			expect(flownode).to.be.a('object');
 			expect(flownode.name).to.equal('Google Maps');
-			expect(actions.distance.name).to.be.a('Distance-Matrix');
 		});
 
 		// It is vital to ensure that the generated node flow-nodes are valid
@@ -32,11 +31,11 @@ describe('Google-Maps Distance API Tests', () => {
 		});
 	});
 
-	describe('#directions', () => {
-		it('should error when missing parameter: origin', async () => {
+	describe('#distance', () => {
+		it('should error when missing parameter: origins', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
+			const result = await flowNode.distance({
 				origin: null
 			});
 
@@ -44,29 +43,29 @@ describe('Google-Maps Distance API Tests', () => {
 			expect(result.output).to.equal('error');
 			expect(result.args[0]).to.equal(null);
 			expect(result.context).to.be.an('Object');
-			expect(result.context.error).to.have.property('message', 'Missing required parameter: origin');
+			expect(result.context.error).to.have.property('message', 'Missing required parameter: origins');
 		});
 
-		it('should error when missing parameter: destination', async () => {
+		it('should error when missing parameter: destinations', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'
+			const result = await flowNode.distance({
+				origins: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'
 			});
 
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('error');
 			expect(result.args[0]).to.equal(null);
 			expect(result.context).to.be.an('Object');
-			expect(result.context.error).to.have.property('message', 'Missing required parameter: destination');
+			expect(result.context.error).to.have.property('message', 'Missing required parameter: destinations');
 		});
 
 		it('should error if not configured - API-Key is missing', async () => {
 			const flowNode = invalidRuntime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Axway Frankfurt'
+			const result = await flowNode.distance({
+				origins: ['Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'],
+				destinations: ['Axway Frankfurt']
 			});
 
 			expect(result.callCount).to.equal(1);
@@ -79,40 +78,42 @@ describe('Google-Maps Distance API Tests', () => {
 		it('Origin or destination NOT_FOUND', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'XXXXXXXXXXXXXXXXX'
+			const result = await flowNode.distance({
+				origins: ['Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'],
+				destinations: ['XXXXXXXXXXXXXXXXX']
 			});
 
 			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('notFound');
+			expect(result.output).to.equal('next');
 			expect(result.args[0]).to.equal(null);
 			expect(result.context).to.be.an('Object');
-			expect(result.context.notFound).to.deep.include({ status: 'NOT_FOUND' });
+			expect(result.context.result).to.deep.include({ status: 'OK' });
+			expect(JSON.stringify(result.context.result)).to.deep.include("\"status\":\"NOT_FOUND\"");
 		});
 
 		it('Origin or destination ZERO_RESULTS', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Berlin Germany',
-				destination: 'Los Angeles',
+			const result = await flowNode.distance({
+				origins: ['Berlin Germany'],
+				destinations: ['Los Angeles'],
 				mode: 'walking'
 			});
 
 			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('noRoute');
+			expect(result.output).to.equal('next');
 			expect(result.args[0]).to.equal(null);
 			expect(result.context).to.be.an('Object');
-			expect(result.context.noRoute).to.deep.include({ status: 'ZERO_RESULTS' });
+			expect(result.context.result).to.deep.include({ status: 'OK' });
+			expect(JSON.stringify(result.context.result)).to.deep.include("\"status\":\"ZERO_RESULTS\"");
 		});
 
 		it('Basic test no advanced options given', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Axway Frankfurt'
+			const result = await flowNode.distance({
+				origins: ['Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'],
+				destinations: ['Axway Frankfurt']
 			});
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
@@ -124,93 +125,66 @@ describe('Google-Maps Distance API Tests', () => {
 		it('Using some advanced options: mode walking', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Axway Frankfurt',
+			const result = await flowNode.distance({
+				origins: ['Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'],
+				destinations: ['Axway Frankfurt'],
 				mode: 'walking'
 			});
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
 			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(JSON.stringify(result.context.result)).to.deep.include("\"travel_mode\":\"WALKING\"");
+			expect(JSON.stringify(result.context.result)).to.deep.include("12 mins");
 		});
 
 		it('Using some advanced options: language: de', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Axway Frankfurt',
+			const result = await flowNode.distance({
+				origins: ['Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'],
+				destinations: ['Axway Frankfurt'],
 				language: 'de'
 			});
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
 			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(JSON.stringify(result.context.result)).to.deep.include("Richtung");
+			expect(JSON.stringify(result.context.result)).to.deep.include("7 Minuten");
 		});
 
 		it('Using some advanced options: units: imperial', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Axway Frankfurt',
+			const result = await flowNode.distance({
+				origins: ['Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'],
+				destinations: ['Axway Frankfurt'],
 				units: 'imperial'
 			});
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
 			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(JSON.stringify(result.context.result)).to.deep.include("0.4 mi");
+			expect(JSON.stringify(result.context.result)).to.deep.include("1.2 mi");
 		});
 
 		it('Using some advanced options: avoid: ["tolls", "indoor", "highways"]', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Axway Phoenix',
+			const result = await flowNode.distance({
+				origins: ['Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'],
+				destinations: ['Axway Phoenix'],
 				// Based on that limitation, we don't get a root - That way this use-case is tested
 				avoid: ["tolls", "indoor", "highways"]
 			});
 			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('noRoute');
-			expect(result.context.noRoute).to.deep.include({ status: 'ZERO_RESULTS' });
-		});
-
-		it('Using some advanced options: waypoints: [Motel One Frankfurt Messe]', async () => {
-			const flowNode = runtime.getFlowNode('googleMaps');
-
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Axway Frankfurt',
-				waypoints: ["Motel One Frankfurt Messe"]
-			});
-			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
 			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(result.context.result.geocoded_waypoints).to.have.lengthOf(3);
-		});
-
-		it('Using some advanced options: alternatives: true - Expect 3 routes', async () => {
-			const flowNode = runtime.getFlowNode('googleMaps');
-
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Frankfurt (Main) Hauptbahnhof, Am Hauptbahnhof, Frankfurt am Main',
-				alternatives: true
-			});
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(result.context.result.routes).not.to.have.lengthOf(1); // More than one route returned!
+			expect(JSON.stringify(result.context.result)).to.deep.include("\"status\":\"ZERO_RESULTS\"");
 		});
 
 		it('Using some advanced options: departure_time and arrival time set - Must lead to an error.', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
-			const result = await flowNode.directions({
-				origin: 'Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main',
-				destination: 'Frankfurt (Main) Hauptbahnhof, Am Hauptbahnhof, Frankfurt am Main',
+			const result = await flowNode.distance({
+				origins: ['Premier Inn Frankfurt Messe, Europa-Allee, Frankfurt am Main'],
+				destinations: ['Frankfurt (Main) Hauptbahnhof, Am Hauptbahnhof, Frankfurt am Main'],
 				departure_time: '2021-09-01 12:35:45',
 				arrival_time: '2021-09-01 12:35:4'
 			});

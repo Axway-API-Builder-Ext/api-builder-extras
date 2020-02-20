@@ -16,8 +16,8 @@ const maps = new require("@googlemaps/google-maps-services-js");
  * @return {undefined}
  */
 function distance(req, outputs, options) {
-	const origin = req.params.origin;
-  const destination = req.params.destination;
+	const origins = req.params.origins;
+  const destinations = req.params.destinations;
   const mode = req.params.mode;
   var waypoints = req.params.waypoints;
   const alternatives = req.params.alternatives;
@@ -34,13 +34,13 @@ function distance(req, outputs, options) {
 
   const apiKey = this.pluginConfig.google.credentials.apiKey;
 
-	if (!origin) {
-		options.logger.error('The origin parameter is missing.');
-		return outputs.error(null, {message:'Missing required parameter: origin'});
+	if (!origins) {
+		options.logger.error('The origins parameter is missing.');
+		return outputs.error(null, {message:'Missing required parameter: origins'});
 	}
-  if (!destination) {
-		options.logger.error('The destination parameter is missing.');
-		return outputs.error(null, {message:'Missing required parameter: destination'});
+  if (!destinations) {
+		options.logger.error('The destinations parameter is missing.');
+		return outputs.error(null, {message:'Missing required parameter: destinations'});
 	}
   if(typeof apiKey === 'undefined')
   {
@@ -54,21 +54,17 @@ function distance(req, outputs, options) {
     waypoints = [];
   }
 
-  var directionsParams = {
+  var distanceParams = {
     key: apiKey,
-    origin: origin,
-    destination: destination,
+    origins: origins,
+    destinations: destinations,
     mode: mode,
     language: language,
     units: units,
     avoid: avoid,
-    waypoints: waypoints,
-    alternatives: alternatives,
-    region: region,
     traffic_model: traffic_model,
     transit_mode: transit_mode,
-    transit_routing_preference: transit_routing_preference,
-    optimize: optimize
+    transit_routing_preference: transit_routing_preference
   }
 
   if(typeof departure_time != 'undefined' && typeof arrival_time != 'undefined') {
@@ -77,29 +73,23 @@ function distance(req, outputs, options) {
   }
 
   if(typeof departure_time != 'undefined') {
-    directionsParams.departure_time = departure_time;
+    distanceParams.departure_time = departure_time;
   }
   if(typeof arrival_time != 'undefined') {
-    directionsParams.arrival_time = arrival_time;
+    distanceParams.arrival_time = arrival_time;
   }
 
   client
-    .directions({
-      params: directionsParams,
+    .distancematrix({
+      params: distanceParams,
       timeout: 10000 // milliseconds
     })
     .then(response => {
-      if(response.data.status == 'NOT_FOUND') {
-        return outputs.notFound(null, response.data);
-      } else if(response.data.status == 'ZERO_RESULTS') {
-        return outputs.noRoute(null, response.data);
-      } else {
-        return outputs.next(null, response.data);
-      }
+      return outputs.next(null, response.data);
     })
     .catch(error => {
-      options.logger.error(`Error: ${error}`);
-      return outputs.error(null, {message: error});
+      options.logger.error('Error: ' + JSON.stringify(error.response.data));
+      return outputs.error(null, {message: error.response.data});
     })
 }
 

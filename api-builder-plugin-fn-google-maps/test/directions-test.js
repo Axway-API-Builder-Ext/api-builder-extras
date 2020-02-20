@@ -11,7 +11,7 @@ describe('Google-Maps Directions-API Tests', () => {
 	let runtime;
 	before(async () => invalidRuntime = new MockRuntime(await getPlugin(invalidPluginConfig)));
 	before(async () => runtime = new MockRuntime(await getPlugin(validPluginConfig)));
-
+	
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
 			expect(actions).to.be.an('object');
@@ -20,7 +20,6 @@ describe('Google-Maps Directions-API Tests', () => {
 			const flownode = runtime.getFlowNode('googleMaps');
 			expect(flownode).to.be.a('object');
 			expect(flownode.name).to.equal('Google Maps');
-			expect(actions.distance.name).to.be.a('Distance-Matrix');
 		});
 
 		// It is vital to ensure that the generated node flow-nodes are valid

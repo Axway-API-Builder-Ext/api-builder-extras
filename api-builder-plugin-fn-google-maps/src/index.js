@@ -1,7 +1,8 @@
 const path = require('path');
 const { SDK } = require('@axway/api-builder-sdk');
-const directions = require('./directions');
-const distance = require('./distance');
+const { directions } = require('./directions')
+const { distance } = require('./distance')
+const { elevation } = require('./elevation')
 
 /**
  * Resolves the API Builder plugin.
@@ -9,12 +10,12 @@ const distance = require('./distance');
  */
 async function getPlugin(pluginConfig, options) {
 	const sdk = new SDK();
-	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), directions);
+	//sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), directions);
+	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), { directions, distance, elevation });
 	const plugin = sdk.getPlugin();
-	plugin.flownodes['googleMaps'].methods.directions.action = actions.directions.bind({pluginConfig});
-
-	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), distance);
-	plugin.flownodes['googleMaps'].methods.distance.action = actions.distance.bind({pluginConfig});
+	plugin.flownodes['googleMaps'].methods.directions.action = directions.bind({pluginConfig});
+	plugin.flownodes['googleMaps'].methods.distance.action = distance.bind({pluginConfig});
+	plugin.flownodes['googleMaps'].methods.elevation.action = elevation.bind({pluginConfig});
 	return sdk.getPlugin();
 }
 

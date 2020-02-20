@@ -6,8 +6,8 @@ flow-nodes:
     category: Google
     methods:
       directions:
-        name: Directions-Request
-        description: The Directions API is a service that calculates directions between locations. You can search for directions for several modes of transportation, including transit, driving, walking, or cycling.
+        name: Directions API
+        description: Access driving, cycling, walking and public transportation routing with the Directions API using an HTTP request. Waypoints offer the ability to alter a route through a specific location. Specify origins, destinations and waypoints either as text strings (e.g. "Chicago, IL" or "Darwin, NT, Australia") or as latitude/longitude coordinates.
         parameters:
           origin:
             description: 'The address, textual latitude/longitude value, or place ID from which you wish to calculate directions. You can supply one or more locations separated by the pipe character (`|`), in the form of an address, latitude/longitude coordinates or a place ID'
@@ -40,10 +40,6 @@ flow-nodes:
             initialType: array
             schema:
               type: array
-              options:
-                multilineWrapper:
-                  before: "[\n"
-                  after: "\n]"
           alternatives:
             description: If set to `true`, specifies that the Directions service may provide more than one route alternative in the response. Note that providing route alternatives may increase the response time from the server.
             required: false
@@ -172,21 +168,21 @@ flow-nodes:
               type: string
 # Distance Matrix API
       distance:
-        name: Distance-Matrix
-        description: Travel time and distance for multiple destinations.
+        name: Distance Matrix API
+        description: Access travel distance and time for a matrix of origins and destinations with the Distance Matrix API. The information returned is based on the recommended route between start and end points and consists of rows containing duration and distance values for each pair.
         parameters:
           origins:
-            description: 'The address, textual latitude/longitude value, or place ID from which you wish to calculate directions. You can supply one or more locations separated by the pipe character (`|`), in the form of an address, latitude/longitude coordinates or a place ID'
+            description: 'The starting point for calculating travel distance and time. You can supply one or more locations separated by the pipe character (`|`), in the form of an address, latitude/longitude coordinates or a place ID'
             required: true
-            initialType: string
+            initialType: array
             schema:
-              type: string
+              type: array
           destinations:
-            description: 'The address, textual latitude/longitude value, or place ID to which you wish to calculate directions. The options for the destinations parameter are the same as for the origins parameter, described above.'
+            description: 'One or more locations to use as the finishing point for calculating travel distance and time. The options for the destinations parameter are the same as for the origins parameter, described above.'
             required: true
-            initialType: string
+            initialType: array
             schema:
-              type: string
+              type: array
           mode:
             description: Specifies the mode of transport to use when calculating directions
             required: false
@@ -287,25 +283,39 @@ flow-nodes:
         outputs:
           next:
             name: Next
-            description: One or more routes were found.
+            description: Success
             context: $.result
-            schema:
-              type: string
-          noRoute:
-            name: No Route
-            description: No route could be found.
-            context: $.noRoute
-            schema:
-              type: string
-          notFound:
-            name: Not found
-            description: Either the destination or the origin could not be found.
-            context: $.notFound
             schema:
               type: string
           error:
             name: Error
-            description: A general error occured.
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+# Elevations API
+      elevation:
+        name: Maps Elevation API
+        description: Query all locations on the surface of earth, including depth locations on the ocean floor (which return negative values), for elevation data with the Maps Elevation API. Sampled requests are available for elevation data along paths, allowing elevation change calculation along routes.
+        parameters:
+          locations:
+            description: 'Defines the location(s) on the earth from which to return elevation data. This parameter takes one or multiple latitude/longitude pairs passed as an array or as an encoded polyline. Example: {"lat": "52.5588327", "lng": "13.2884374"} or an Array ob objects: [{"lat": "52.5588327", "lng": "13.2884374"}, {"lat": "52.434...."}]'
+            required: true
+            initialType: object
+            schema:
+              oneOf:
+                - type: array
+                - type: object
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
             context: $.error
             schema:
               type: string
