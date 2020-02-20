@@ -18,6 +18,9 @@ const maps = new require("@googlemaps/google-maps-services-js");
 function placeDetails(req, outputs, options) {
 	const place_id = req.params.place_id;
   const language = req.params.language;
+  const region = req.params.region;
+  const sessiontoken = req.params.sessiontoken;
+  const fields = req.params.fields;
 
   debugger;
 
@@ -50,7 +53,7 @@ function placeDetails(req, outputs, options) {
     language: language,
     region: region,
     sessiontoken: sessiontoken,
-    fields: fields 
+    fields: fields
   }
 
   client

@@ -15,14 +15,33 @@ const maps = new require("@googlemaps/google-maps-services-js");
  *
  * @return {undefined}
  */
-function placePhotos(req, outputs, options) {
-	const locations = req.params.locations;
+function placesNearby(req, outputs, options) {
+	const location = req.params.location;
+  const radius = req.params.radius;
+  const keyword = req.params.keyword;
+  const language = req.params.language;
+  const minprice = req.params.minprice;
+  const maxprice = req.params.maxprice;
+  const name = req.params.name;
+  const opennow = req.params.opennow;
+  const rankby = req.params.rankby;
+  const type = req.params.type;
+  const pagetoken = req.params.pagetoken;
+
+  if(typeof this.pluginConfig.google === 'undefined') {
+    options.logger.error('Google-Configuration not found. Please make sure conf/google-maps.default.js is present and configured.');
+    return outputs.error(null, {message: 'Google-Configuration not found. Please make sure conf/google-maps.default.js is present and configured.'});
+  }
 
   const apiKey = this.pluginConfig.google.credentials.apiKey;
 
-	if (!locations) {
-		options.logger.error('The locations parameter is missing.');
-		return outputs.error(null, {message:'Missing required parameter: locations'});
+	if (!location) {
+		options.logger.error('The location parameter is missing.');
+		return outputs.error(null, {message:'Missing required parameter: location'});
+	}
+  if (!radius) {
+		options.logger.error('The radius parameter is missing.');
+		return outputs.error(null, {message:'Missing required parameter: radius'});
 	}
   if(typeof apiKey === 'undefined')
   {
@@ -32,22 +51,30 @@ function placePhotos(req, outputs, options) {
 
   const client = new maps.Client({});
 
-  if(typeof waypoints === 'undefined') {
-    waypoints = [];
-  }
-
   var params = {
     key: apiKey,
-    locations: locations
+    location: location,
+    radius: radius,
+    keyword: keyword,
+    language: language,
+    minprice: minprice,
+    maxprice: maxprice,
+    name: name,
+    opennow: opennow,
+    rankby: rankby,
+    type: type,
+    pagetoken: pagetoken
   }
-debugger;
+
   client
-    .elevation({
+    .placesNearby({
       params: params,
       timeout: 10000 // milliseconds
     })
     .then(response => {
-      if(response.data.status != 'OK') {
+      if(response.data.status == 'ZERO_RESULTS') {
+        return outputs.noResults(null, response.data);
+      } else if(response.data.status != 'OK') {
         options.logger.error(`Error: ` + JSON.stringify(response.data));
         return outputs.error(null, {message: response.data});
       } else {
@@ -61,5 +88,5 @@ debugger;
 }
 
 module.exports = {
-	placePhotos
+	placesNearby
 };

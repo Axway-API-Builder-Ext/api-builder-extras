@@ -180,58 +180,77 @@ flow-nodes:
             context: $.error
             schema:
               type: string
-      placeAutocomplete:
-        name: Place autocomplete API
-        description: can be used to automatically fill in the name and/or address of a place as you type.
+      placesNearby:
+        name: Nearby Search
+        description: 'Warning: Nearby Search and Text Search return all of the available data fields for the selected place (a subset of the supported fields), and you will be billed accordingly There is no way to constrain Nearby Search or Text Search to only return specific fields. A Nearby Search lets you search for places within a specified area. You can refine your search request by supplying keywords or specifying the type of place you are searching for.'
         parameters:
-          locations:
-            description: 'Defines the location(s) on the earth from which to return elevation data. This parameter takes one or multiple latitude/longitude pairs passed as an array or as an encoded polyline. Example: {"lat": "52.5588327", "lng": "13.2884374"} or an Array ob objects: [{"lat": "52.5588327", "lng": "13.2884374"}, {"lat": "52.434...."}]'
+          location:
+            description: 'The latitude/longitude around which to retrieve place information. This must be specified as latitude,longitude.'
             required: true
-            initialType: object
-            schema:
-              oneOf:
-                - type: array
-                - type: object
-        outputs:
-          next:
-            name: Next
-            description: Success
-            context: $.result
+            initialType: string
             schema:
               type: string
-          error:
-            name: Error
-            description: An error occured.
-            context: $.error
-            schema:
-              type: string
-      queryAutocomplete:
-        name: Query autocomplete API
-        description: can be used to provide a query prediction service for text-based geographic searches, by returning suggested queries as you type.
-        parameters:
-          address:
-            description: 'The street address that you want to geocode, in the format used by the national postal service of the country concerned. Additional address elements such as business names and unit, suite or floor numbers should be avoided.'
+          radius:
+            description: 'Defines the distance (in meters) within which to return place results. The maximum allowed radius is 50 000 meters. Note that `radius` must not be included if `rankby=distance` is specified.'
             required: true
+            initialType: number
             schema:
-              type: string
-          bounds:
-            description: 'The bounding box of the viewport within which to bias geocode results more prominently. This parameter will only influence, not fully restrict, results from the geocoder.'
+              type: number
+          keyword:
+            description: 'A term to be matched against all content that Google has indexed for this place, including but not limited to name, type, and address, as well as customer reviews and other third-party content.'
             required: false
+            initialType: string
             schema:
               type: string
           language:
-            description: 'The language in which to return results.'
+            description: 'The language code, indicating in which language the results should be returned, if possible. Note that we often update supported languages so this list may not be exhaustive.'
             required: false
+            initialType: string
             schema:
               type: string
-          region:
-            description: 'The region code, specified as a ccTLD ("top-level domain") two-character value. This parameter will only influence, not fully restrict, results from the geocoder.'
+          minprice:
+            description: 'Restricts results to only those places within the specified range. Valid values range between 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
             required: false
+            initialType: number
+            schema:
+              type: number
+          maxprice:
+            description: 'Restricts results to only those places within the specified range. Valid values range between 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
+            required: false
+            initialType: number
+            schema:
+              type: number
+          name:
+            description: 'A term to be matched against all content that Google has indexed for this place. Equivalent to `keyword`. The `name` field is no longer restricted to place names. Values in this field are combined with values in the `keyword` field and passed as part of the same search string. We recommend using only the `keyword` parameter for all search terms.'
+            required: false
+            initialType: string
             schema:
               type: string
-          components:
-            description: 'A components filter with elements separated by a pipe (`|`). The components filter is *required* if the request doesnt include an `address`. Each element in the components filter consists of a `component:value` pair, and fully restricts the results from the geocoder.'
+          opennow:
+            description: 'Returns only those places that are open for business at the time the query is sent. Places that do not specify opening hours in the Google Places database will not be returned if you include this parameter in your query.'
             required: false
+            initialType: boolean
+            schema:
+              type: boolean
+          rankby:
+            description: 'Specifies the order in which results are listed. Note that `rankby` must not be included if `radius` is specified.'
+            required: false
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - prominence
+                - distance
+          type:
+            description: 'Restricts the results to places matching the specified type. Only one type may be specified (if more than one type is provided, all types following the first entry are ignored).'
+            required: false
+            initialType: string
+            schema:
+              type: string
+          pagetoken:
+            description: 'Returns the next 20 results from a previously run search. Setting a pagetoken parameter will execute a search with the same parameters used previously — all parameters other than pagetoken will be ignored.'
+            required: false
+            initialType: string
             schema:
               type: string
         outputs:
@@ -241,58 +260,10 @@ flow-nodes:
             context: $.result
             schema:
               type: string
-          notFound:
-            name: Not found
-            description: The given address could not be found.
-            context: $.notFound
-            schema:
-              type: string
-          error:
-            name: Error
-            description: An error occured.
-            context: $.error
-            schema:
-              type: string
-      placePhotos:
-        name: Place photos API
-        description: gives you access to the millions of Place related photos stored in Google's Place database.
-        parameters:
-          address:
-            description: 'The street address that you want to geocode, in the format used by the national postal service of the country concerned. Additional address elements such as business names and unit, suite or floor numbers should be avoided.'
-            required: true
-            schema:
-              type: string
-          bounds:
-            description: 'The bounding box of the viewport within which to bias geocode results more prominently. This parameter will only influence, not fully restrict, results from the geocoder.'
-            required: false
-            schema:
-              type: string
-          language:
-            description: 'The language in which to return results.'
-            required: false
-            schema:
-              type: string
-          region:
-            description: 'The region code, specified as a ccTLD ("top-level domain") two-character value. This parameter will only influence, not fully restrict, results from the geocoder.'
-            required: false
-            schema:
-              type: string
-          components:
-            description: 'A components filter with elements separated by a pipe (`|`). The components filter is *required* if the request doesnt include an `address`. Each element in the components filter consists of a `component:value` pair, and fully restricts the results from the geocoder.'
-            required: false
-            schema:
-              type: string
-        outputs:
-          next:
-            name: Next
-            description: Success
+          noResults:
+            name: No Results
+            description: Nothing found
             context: $.result
-            schema:
-              type: string
-          notFound:
-            name: Not found
-            description: The given address could not be found.
-            context: $.notFound
             schema:
               type: string
           error:
