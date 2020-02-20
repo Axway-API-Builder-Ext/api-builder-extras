@@ -6,7 +6,7 @@ flow-nodes:
     category: Google
     methods:
       findPlaceFromText:
-        name: Find Place API
+        name: Find Place
         description: A Find Place request takes a text input and returns a place. The input can be any kind of Places text data, such as a name, address, or phone number. The request must be a string. A Find Place request using non-string data such as a lat/lng coordinate or plus code generates an error.
         parameters:
           input:
@@ -55,7 +55,7 @@ flow-nodes:
             schema:
               type: string
       textSearch:
-        name: Find Place from text API
+        name: Find Place from text
         description: 'Warning: Nearby Search and Text Search return all of the available data fields for the selected place (a subset of the supported fields), and you will be billed accordingly There is no way to constrain Nearby Search or Text Search to only return specific fields. To keep from requesting (and paying for) data that you dont need, use a Find Place request instead. The Google Places API Text Search Service is a web service that returns information about a set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa" or "123 Main Street". The service responds with a list of places matching the text string and any location bias that has been set.'
         parameters:
           query:
@@ -135,7 +135,7 @@ flow-nodes:
             schema:
               type: string
       placeDetails:
-        name: Place details API
+        name: Place details
         description: Return detailed information about a specific place, including user reviews.
         parameters:
           place_id:

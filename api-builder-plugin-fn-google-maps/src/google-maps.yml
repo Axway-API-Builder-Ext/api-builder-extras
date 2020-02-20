@@ -6,7 +6,7 @@ flow-nodes:
     category: Google
     methods:
       directions:
-        name: Directions API
+        name: Directions
         description: Access driving, cycling, walking and public transportation routing with the Directions API using an HTTP request. Waypoints offer the ability to alter a route through a specific location. Specify origins, destinations and waypoints either as text strings (e.g. "Chicago, IL" or "Darwin, NT, Australia") or as latitude/longitude coordinates.
         parameters:
           origin:
@@ -168,7 +168,7 @@ flow-nodes:
               type: string
 # Distance Matrix API
       distance:
-        name: Distance Matrix API
+        name: Distance Matrix
         description: Access travel distance and time for a matrix of origins and destinations with the Distance Matrix API. The information returned is based on the recommended route between start and end points and consists of rows containing duration and distance values for each pair.
         parameters:
           origins:
@@ -295,7 +295,7 @@ flow-nodes:
               type: string
 # Elevations API
       elevation:
-        name: Elevations API
+        name: Elevations
         description: Query all locations on the surface of earth, including depth locations on the ocean floor (which return negative values), for elevation data with the Maps Elevation API. Sampled requests are available for elevation data along paths, allowing elevation change calculation along routes.
         parameters:
           locations:
@@ -321,7 +321,7 @@ flow-nodes:
               type: string
 # Geocoding API
       geocode:
-        name: Geocoding API
+        name: Geocoding
         description: Convert addresses into geographic coordinates (geocoding), which you can use to place markers or position the map. This API also allows you to convert geographic coordinates into an address (reverse geocoding).
         parameters:
           address:
