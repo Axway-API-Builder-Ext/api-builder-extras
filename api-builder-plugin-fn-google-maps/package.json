@@ -1,13 +1,24 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-google-maps",
 	"version": "1.0.0",
-	"description": "A plugin for Axway API Builder",
-	"author": "",
-	"license": "ISC",
+	"description": "Integrate Google-Map-Services into your API-Builder Project.",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+	"license": "Apache-2.0",
 	"keywords": [
 		"amplify",
-		"api-builder"
+		"api-builder",
+		"google",
+		"maps",
+		"googlemaps"
 	],
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-google-maps",
+	"bugs": {
+		"url": "https://github.com/Axway-API-Builder-Ext/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+	},
 	"engines": {
 		"node": ">= 10.0"
 	},
