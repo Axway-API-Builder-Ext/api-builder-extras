@@ -21,6 +21,7 @@ This Connector is based on the https://github.com/googlemaps/google-maps-service
 - [Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/start)
 - [Elevation API](https://developers.google.com/maps/documentation/elevation/)
 - [Geocoding API](https://developers.google.com/maps/documentation/geocoding/)
+- [Reverse Geocoding API](https://developers.google.com/maps/documentation/geocoding/start#reverse)
 - [Places API](https://developers.google.com/places/web-service/)
 
 ## Tests
@@ -45,7 +46,6 @@ The follow APIs are not yet supported:
 - Query Autocomplete
 - Roads API
 - Time Zone API
-- Reverse geocoding API
 
 If you require on the of the unsupported APIs don't hestitate to create an [issue][3]
 
