@@ -6,7 +6,7 @@ Integrate Google-Maps services into your [API-Builder flow][1] use this connecto
 
 ## Configuration
 
-After installation and restarting your API-Builder project you get the following new flow-node:  
+After installation and restarting your API-Builder project you get the following new flow-nodes:  
 ![Node][img1]   
 Before you can make use it in your flow you have to configure your AWS-Credentials allowed to invoke Lambda functions.  
 
