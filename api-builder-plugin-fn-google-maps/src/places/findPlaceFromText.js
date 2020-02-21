@@ -54,7 +54,6 @@ function findPlaceFromText(req, outputs, options) {
     fields: fields,
     locationbias: locationbias
   }
-debugger;
   client
     .findPlaceFromText({
       params: params,

@@ -15,15 +15,19 @@ const maps = new require("@googlemaps/google-maps-services-js");
  *
  * @return {undefined}
  */
-function elevation(req, outputs, options) {
-	const locations = req.params.locations;
+function reverseGeocode(req, outputs, options) {
+	if ((req.params == null) || (!req.params.latlng && !req.params.place_id)) {
+		options.logger.error('You must at least provide latlng or place_id');
+		return outputs.error(null, {message:'You must at least provide latlng or place_id'});
+	}
+  const latlng = req.params.latlng;
+  const place_id = req.params.place_id;
+  const language = req.params.language;
+  const result_type = req.params.result_type;
+  const location_type = req.params.location_type;
 
   const apiKey = this.pluginConfig.google.credentials.apiKey;
 
-	if (!locations) {
-		options.logger.error('The locations parameter is missing.');
-		return outputs.error(null, {message:'Missing required parameter: locations'});
-	}
   if(typeof apiKey === 'undefined')
   {
     options.logger.error('Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js');
@@ -32,21 +36,29 @@ function elevation(req, outputs, options) {
 
   const client = new maps.Client({});
 
-  if(typeof waypoints === 'undefined') {
-    waypoints = [];
-  }
-
   var params = {
     key: apiKey,
-    locations: locations
+    language: language,
+    result_type: result_type,
+    location_type: location_type
   }
+
+  if(typeof latlng != 'undefined') {
+    params.latlng = latlng;
+  }
+  if(typeof place_id != 'undefined') {
+    params.place_id = place_id;
+  }
+
   client
-    .elevation({
+    .reverseGeocode({
       params: params,
       timeout: 10000 // milliseconds
     })
     .then(response => {
-      if(response.data.status != 'OK') {
+      if(response.data.status == 'ZERO_RESULTS') {
+        return outputs.notFound(null, response.data);
+      } else if(response.data.status != 'OK') {
         options.logger.error(`Error: ` + JSON.stringify(response.data));
         return outputs.error(null, {message: response.data});
       } else {
@@ -60,5 +72,5 @@ function elevation(req, outputs, options) {
 }
 
 module.exports = {
-	elevation
+	reverseGeocode
 };

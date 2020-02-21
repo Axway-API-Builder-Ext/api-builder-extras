@@ -56,7 +56,6 @@ function xmlToJson(req, cb) {
 		console.log(e.message);
 		cb.error(null, 'Failed to convert XML to JSON.');
 	}
-	//debugger;
 	if(typeof result === 'undefined') {
 		cb.error(null, 'Failed to convert XML to JSON.');
 	}

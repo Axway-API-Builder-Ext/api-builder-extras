@@ -22,8 +22,6 @@ function placeDetails(req, outputs, options) {
   const sessiontoken = req.params.sessiontoken;
   const fields = req.params.fields;
 
-  debugger;
-
   if(typeof this.pluginConfig.google === 'undefined') {
     options.logger.error('Google-Configuration not found. Please make sure conf/google-maps.default.js is present and configured.');
     return outputs.error(null, {message: 'Google-Configuration not found. Please make sure conf/google-maps.default.js is present and configured.'});

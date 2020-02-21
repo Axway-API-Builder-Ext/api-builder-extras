@@ -368,3 +368,52 @@ flow-nodes:
             context: $.error
             schema:
               type: string
+# Reverse-Geocoding API
+      reverseGeocode:
+        name: Reverse Geocoding
+        description: Reverse geocoding request and response (address lookup)
+        parameters:
+          latlng:
+            description: 'The latitude and longitude values specifying the location for which you wish to obtain the closest, human-readable address.'
+            required: false
+            schema:
+              type: string
+          place_id:
+            description: 'The place ID of the place for which you wish to obtain the human-readable address. The place ID is a unique identifier that can be used with other Google APIs. For example, you can use the `placeID` returned by the Roads API to get the address for a snapped point. The place ID may only be specified if the request includes an API key or a Google Maps APIs Premium Plan client ID.'
+            required: false
+            schema:
+              type: string
+          language:
+            description: 'The language in which to return results. Google often updates the supported languages, so this list may not be exhaustive.'
+            required: false
+            schema:
+              type: string
+          result_type:
+            description: 'A filter of one or more address types, separated by a pipe (`|`). If the parameter contains multiple address types, the API returns all addresses that match any of the types. A note about processing: The `result_type` parameter does not restrict the search to the specified address type(s). Rather, the `result_type` acts as a post-search filter: the API fetches all results for the specified `latlng`, then discards those results that do not match the specified address type(s). Note: This parameter is available only for requests that include an API key or a client ID.'
+            required: false
+            schema:
+              type: array
+          location_type:
+            description: 'A filter of one or more location types, separated by a pipe (`|`). If the parameter contains multiple location types, the API returns all addresses that match any of the types. A note about processing: The `location_type` parameter does not restrict the search to the specified location type(s). Rather, the `location_type` acts as a post-search filter: the API fetches all results for the specified `latlng`, then discards those results that do not match the specified location type(s). Note: This parameter is available only for requests that include an API key or a client ID.'
+            required: false
+            schema:
+              type: array
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          notFound:
+            name: Not found
+            description: The given address could not be found.
+            context: $.notFound
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
