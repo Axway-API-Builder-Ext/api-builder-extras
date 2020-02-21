@@ -38,19 +38,20 @@ function geocode(req, outputs, options) {
 
   const client = new maps.Client({});
 
-  if(typeof waypoints === 'undefined') {
-    waypoints = [];
-  }
-
   var params = {
     key: apiKey,
-    address: address
-    /*bounds: bounds,
+    address: address,
     language: language,
-    region: region,
-    components: components*/
+    region: region
   }
-debugger;
+
+  if(typeof bounds != 'undefined') {
+    params.bounds = bounds;
+  }
+  if(typeof components != 'undefined') {
+    params.components = components;
+  }
+
   client
     .geocode({
       params: params,

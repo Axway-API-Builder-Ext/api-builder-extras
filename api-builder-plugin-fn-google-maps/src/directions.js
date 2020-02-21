@@ -93,6 +93,9 @@ function directions(req, outputs, options) {
         return outputs.notFound(null, response.data);
       } else if(response.data.status == 'ZERO_RESULTS') {
         return outputs.noRoute(null, response.data);
+      } else if(response.data.status != 'OK') {
+        options.logger.error(`Error: ` + JSON.stringify(response.data));
+        return outputs.error(null, {message: response.data});
       } else {
         return outputs.next(null, response.data);
       }

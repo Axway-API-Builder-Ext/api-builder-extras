@@ -85,7 +85,12 @@ function distance(req, outputs, options) {
       timeout: 10000 // milliseconds
     })
     .then(response => {
-      return outputs.next(null, response.data);
+      if(response.data.status != 'OK') {
+        options.logger.error(`Error: ` + JSON.stringify(response.data));
+        return outputs.error(null, {message: response.data});
+      } else {
+        return outputs.next(null, response.data);
+      }
     })
     .catch(error => {
       options.logger.error('Error: ' + JSON.stringify(error.response.data));

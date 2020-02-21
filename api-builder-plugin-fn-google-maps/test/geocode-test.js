@@ -60,7 +60,7 @@ describe('Google-Maps Geocode-API Tests', () => {
 			expect(result.context.error).to.have.property('message', 'Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js');
 		});
 
-		it('Valid request with a location to geocode', async () => {
+		it.only('Valid request with a location to geocode', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
 			const result = await flowNode.geocode({
