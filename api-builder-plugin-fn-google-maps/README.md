@@ -2,7 +2,7 @@
 
 # API-Builder Google-Maps Connector
 
-Integrate Google-Maps services into your [API-Builder flow][1] using this connector.
+Integrate Google-Maps services into your [API-Builder flow][1] using this connector. Google-Maps Services are a number of APIs provided by Google and this connector helps you to integrate with them easily.
 
 ## Configuration
 
