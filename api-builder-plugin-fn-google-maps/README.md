@@ -15,7 +15,7 @@ During installation a new config file has been automatically created which must 
 We recommend to setup your configuration in a [environmentalized][4] way keeping [sensitive information][5] away from the source-code repository.
 
 ## Google-Maps services
-This Connector is based on the https://github.com/googlemaps/google-maps-services-js and it's a good starting point to understand the APIs and each parameter. 
+This Connector is based on the https://github.com/googlemaps/google-maps-services-js project. It's a good starting point to understand the APIs and their parameters reading the following documentation:   
 
 - [Directions API](https://developers.google.com/maps/documentation/directions/start)
 - [Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/start)
@@ -63,3 +63,4 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 
 [img1]: imgs/google-maps-flownode.png
 [img2]: imgs/google-maps-directions.png
+[img3]: imgs/google-maps-config.png
