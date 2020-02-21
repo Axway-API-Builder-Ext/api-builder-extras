@@ -12,7 +12,6 @@ const aws = require("aws-sdk");
  * @return {undefined}
  */
 function query(req, outputs, options) {
-  debugger;
   const awsConfig = this.pluginConfig.aws;
   const db = req.params.db;
 	const table = req.params.table;

@@ -1,0 +1,419 @@
+flow-nodes:
+  googleMaps:
+    name: Google Maps
+    icon: google-maps.png
+    description: Integrate Google Maps Services into your API-Builder flow. This connector is based on https://www.npmjs.com/package/@googlemaps/google-maps-services-js
+    category: Google
+    methods:
+      directions:
+        name: Directions
+        description: Access driving, cycling, walking and public transportation routing with the Directions API using an HTTP request. Waypoints offer the ability to alter a route through a specific location. Specify origins, destinations and waypoints either as text strings (e.g. "Chicago, IL" or "Darwin, NT, Australia") or as latitude/longitude coordinates.
+        parameters:
+          origin:
+            description: 'The address, textual latitude/longitude value, or place ID from which you wish to calculate directions. You can supply one or more locations separated by the pipe character (`|`), in the form of an address, latitude/longitude coordinates or a place ID'
+            required: true
+            initialType: string
+            schema:
+              type: string
+          destination:
+            description: The address, textual latitude/longitude value, or place ID to which you wish to calculate directions. The options for the destinations parameter are the same as for the origins parameter, described above.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          mode:
+            description: Specifies the mode of transport to use when calculating directions
+            required: false
+            group: Standard Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - driving
+                - walking
+                - bicycling
+                - transit
+          waypoints:
+            description: 'Specifies an array of waypoints. Waypoints alter a route by routing it through the specified location(s). A waypoint is specified as a latitude/longitude coordinate, an encoded polyline, a place ID, or an address which will be geocoded. Encoded polylines must be prefixed with `enc:` and followed by a colon (`:`). Place IDs must be prefixed with `place_id:`. The place ID may only be specified if the request includes an API key or a Google Maps APIs Premium Plan client ID. Waypoints are only supported for driving, walking and bicycling directions.'
+            required: false
+            group: Standard Options
+            initialType: array
+            schema:
+              type: array
+          alternatives:
+            description: If set to `true`, specifies that the Directions service may provide more than one route alternative in the response. Note that providing route alternatives may increase the response time from the server.
+            required: false
+            group: Standard Options
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          avoid:
+            description: 'Indicates that the calculated route(s) should avoid the indicated features. Possible values: tolls, highways, ferries and indoor'
+            required: false
+            group: Standard Options
+            initialType: array
+            schema:
+              type: array
+              pattern: "ferries|bus|tolls|highways|indoor"
+          language:
+            description: 'The language in which to return results. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
+            required: false
+            group: Standard Options
+            initialType: string
+            schema:
+              type: string
+          units:
+            description: Specifies the unit system to use when displaying results.
+            required: false
+            group: Standard Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - metric
+                - imperial
+          region:
+            description: Specifies the region code, specified as a ccTLD ("top-level domain") two-character value.
+            required: false
+            group: Standard Options
+            initialType: string
+            schema:
+              type: string
+          arrival_time:
+            description: 'Specifies the desired time of arrival for transit directions, in seconds since midnight, January 1, 1970 UTC. You can specify either `departure_time` or `arrival_time`, but not both. Note that `arrival_time` must be specified as an integer. Example: 2008-09-01 12:35:45. This option is only available if the request contains a valid API key, or a valid Google Maps APIs Premium Plan client ID'
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              pattern: "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"
+          departure_time:
+            description: 'Specifies the desired time of departure. You can specify the time as an integer in seconds since midnight, January 1, 1970 UTC. Alternatively, you can specify a value of `now`, which sets the departure time to the current time (correct to the nearest second). Example: 2008-09-01 12:35:45. This option is only available if the request contains a valid API key, or a valid Google Maps APIs Premium Plan client ID!'
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              pattern: "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}|now"
+          traffic_model:
+            description: Specifies one or more preferred modes of transit. This parameter may only be specified for transit directions, and only if the request includes an API key or a Google Maps APIs Premium Plan client ID.
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - best_guess
+                - pessimistic
+                - optimistic
+          transit_mode:
+            description: Specifies one or more preferred modes of transit. This parameter may only be specified for transit directions, and only if the request includes an API key or a Google Maps APIs Premium Plan client ID.
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - bus
+                - subway
+                - train
+                - tram
+                - rail
+          transit_routing_preference:
+            description: Specifies preferences for transit routes. Using this parameter, you can bias the options returned, rather than accepting the default best route chosen by the API. This parameter may only be specified for transit directions, and only if the request includes an API key or a Google Maps APIs Premium Plan client ID.
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - bus
+                - subway
+                - train
+                - tram
+                - rail
+          optimize:
+            description: Wherever to optimize the provided route by rearranging the waypoints in a more efficient order.
+            required: false
+            group: Premium Options
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            description: One or more routes were found.
+            context: $.result
+            schema:
+              type: string
+          noRoute:
+            name: No Route
+            description: No route could be found.
+            context: $.noRoute
+            schema:
+              type: string
+          notFound:
+            name: Not found
+            description: Either the destination or the origin could not be found.
+            context: $.notFound
+            schema:
+              type: string
+          error:
+            name: Error
+            description: A general error occured.
+            context: $.error
+            schema:
+              type: string
+# Distance Matrix API
+      distance:
+        name: Distance Matrix
+        description: Access travel distance and time for a matrix of origins and destinations with the Distance Matrix API. The information returned is based on the recommended route between start and end points and consists of rows containing duration and distance values for each pair.
+        parameters:
+          origins:
+            description: 'The starting point for calculating travel distance and time. You can supply one or more locations separated by the pipe character (`|`), in the form of an address, latitude/longitude coordinates or a place ID'
+            required: true
+            initialType: array
+            schema:
+              type: array
+          destinations:
+            description: 'One or more locations to use as the finishing point for calculating travel distance and time. The options for the destinations parameter are the same as for the origins parameter, described above.'
+            required: true
+            initialType: array
+            schema:
+              type: array
+          mode:
+            description: Specifies the mode of transport to use when calculating directions
+            required: false
+            group: Standard Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - driving
+                - walking
+                - bicycling
+                - transit
+          avoid:
+            description: 'Indicates that the calculated route(s) should avoid the indicated features. Possible values: tolls, highways, ferries and indoor'
+            required: false
+            group: Standard Options
+            initialType: array
+            schema:
+              type: array
+              pattern: "ferries|bus|tolls|highways|indoor"
+          language:
+            description: 'The language in which to return results. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
+            required: false
+            group: Standard Options
+            initialType: string
+            schema:
+              type: string
+          units:
+            description: Specifies the unit system to use when displaying results.
+            required: false
+            group: Standard Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - metric
+                - imperial
+          region:
+            description: Specifies the region code, specified as a ccTLD ("top-level domain") two-character value.
+            required: false
+            group: Standard Options
+            initialType: string
+            schema:
+              type: string
+          arrival_time:
+            description: 'Specifies the desired time of arrival for transit directions, in seconds since midnight, January 1, 1970 UTC. You can specify either `departure_time` or `arrival_time`, but not both. Note that `arrival_time` must be specified as an integer. Example: 2008-09-01 12:35:45. This option is only available if the request contains a valid API key, or a valid Google Maps APIs Premium Plan client ID'
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              pattern: "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"
+          departure_time:
+            description: 'Specifies the desired time of departure. You can specify the time as an integer in seconds since midnight, January 1, 1970 UTC. Alternatively, you can specify a value of `now`, which sets the departure time to the current time (correct to the nearest second). Example: 2008-09-01 12:35:45. This option is only available if the request contains a valid API key, or a valid Google Maps APIs Premium Plan client ID!'
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              pattern: "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}|now"
+          traffic_model:
+            description: Specifies one or more preferred modes of transit. This parameter may only be specified for transit directions, and only if the request includes an API key or a Google Maps APIs Premium Plan client ID.
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - best_guess
+                - pessimistic
+                - optimistic
+          transit_mode:
+            description: Specifies one or more preferred modes of transit. This parameter may only be specified for transit directions, and only if the request includes an API key or a Google Maps APIs Premium Plan client ID.
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - bus
+                - subway
+                - train
+                - tram
+                - rail
+          transit_routing_preference:
+            description: Specifies preferences for transit routes. Using this parameter, you can bias the options returned, rather than accepting the default best route chosen by the API. This parameter may only be specified for transit directions, and only if the request includes an API key or a Google Maps APIs Premium Plan client ID.
+            required: false
+            group: Premium Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - bus
+                - subway
+                - train
+                - tram
+                - rail
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+# Elevations API
+      elevation:
+        name: Elevations
+        description: Query all locations on the surface of earth, including depth locations on the ocean floor (which return negative values), for elevation data with the Maps Elevation API. Sampled requests are available for elevation data along paths, allowing elevation change calculation along routes.
+        parameters:
+          locations:
+            description: 'Defines the location(s) on the earth from which to return elevation data. This parameter takes one or multiple latitude/longitude pairs passed as an array or as an encoded polyline. Example: {"lat": "52.5588327", "lng": "13.2884374"} or an Array ob objects: [{"lat": "52.5588327", "lng": "13.2884374"}, {"lat": "52.434...."}]'
+            required: true
+            initialType: object
+            schema:
+              oneOf:
+                - type: array
+                - type: object
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+# Geocoding API
+      geocode:
+        name: Geocoding
+        description: Convert addresses into geographic coordinates (geocoding), which you can use to place markers or position the map. This API also allows you to convert geographic coordinates into an address (reverse geocoding).
+        parameters:
+          address:
+            description: 'The street address that you want to geocode, in the format used by the national postal service of the country concerned. Additional address elements such as business names and unit, suite or floor numbers should be avoided.'
+            required: true
+            schema:
+              type: string
+          bounds:
+            description: 'The bounding box of the viewport within which to bias geocode results more prominently. This parameter will only influence, not fully restrict, results from the geocoder.'
+            required: false
+            schema:
+              type: string
+          language:
+            description: 'The language in which to return results.'
+            required: false
+            schema:
+              type: string
+          region:
+            description: 'The region code, specified as a ccTLD ("top-level domain") two-character value. This parameter will only influence, not fully restrict, results from the geocoder.'
+            required: false
+            schema:
+              type: string
+          components:
+            description: 'A components filter with elements separated by a pipe (`|`). The components filter is *required* if the request doesnt include an `address`. Each element in the components filter consists of a `component:value` pair, and fully restricts the results from the geocoder.'
+            required: false
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          notFound:
+            name: Not found
+            description: The given address could not be found.
+            context: $.notFound
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+# Reverse-Geocoding API
+      reverseGeocode:
+        name: Reverse Geocoding
+        description: Reverse geocoding request and response (address lookup)
+        parameters:
+          latlng:
+            description: 'The latitude and longitude values specifying the location for which you wish to obtain the closest, human-readable address.'
+            required: false
+            schema:
+              type: string
+          place_id:
+            description: 'The place ID of the place for which you wish to obtain the human-readable address. The place ID is a unique identifier that can be used with other Google APIs. For example, you can use the `placeID` returned by the Roads API to get the address for a snapped point. The place ID may only be specified if the request includes an API key or a Google Maps APIs Premium Plan client ID.'
+            required: false
+            schema:
+              type: string
+          language:
+            description: 'The language in which to return results. Google often updates the supported languages, so this list may not be exhaustive.'
+            required: false
+            schema:
+              type: string
+          result_type:
+            description: 'A filter of one or more address types, separated by a pipe (`|`). If the parameter contains multiple address types, the API returns all addresses that match any of the types. A note about processing: The `result_type` parameter does not restrict the search to the specified address type(s). Rather, the `result_type` acts as a post-search filter: the API fetches all results for the specified `latlng`, then discards those results that do not match the specified address type(s). Note: This parameter is available only for requests that include an API key or a client ID.'
+            required: false
+            schema:
+              type: array
+          location_type:
+            description: 'A filter of one or more location types, separated by a pipe (`|`). If the parameter contains multiple location types, the API returns all addresses that match any of the types. A note about processing: The `location_type` parameter does not restrict the search to the specified location type(s). Rather, the `location_type` acts as a post-search filter: the API fetches all results for the specified `latlng`, then discards those results that do not match the specified location type(s). Note: This parameter is available only for requests that include an API key or a client ID.'
+            required: false
+            schema:
+              type: array
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          notFound:
+            name: Not found
+            description: The given address could not be found.
+            context: $.notFound
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string

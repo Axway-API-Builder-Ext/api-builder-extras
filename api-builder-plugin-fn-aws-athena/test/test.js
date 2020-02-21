@@ -3,7 +3,6 @@ const { MockRuntime } = require('@axway/api-builder-sdk');
 
 const getPlugin = require('../src');
 const actions = require('../src/actions');
-debugger;
 const validPluginConfig = require('./config/aws-athena.testconfig').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-aws-athena'];
 const invalidPluginConfig = require('./config/aws-athena.incomplete').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-aws-athena'];
 
@@ -116,7 +115,6 @@ describe('Valid PluginConfig tests', () => {
 
 			const result = await flowNode.query({ table: 'elb_logs', db: 'sampledb', fields: 'elb_name, request_ip'});
 
-			debugger;
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
 			expect(result.args).to.be.an('Array');
@@ -131,7 +129,6 @@ describe('Valid PluginConfig tests', () => {
 
 			const result = await flowNode.query({ table: 'elb_logs', db: 'sampledb', fields: 'elb_name, request_port', limit: '1' });
 
-			debugger;
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
 			expect(result.args).to.be.an('Array');

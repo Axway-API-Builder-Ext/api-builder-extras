@@ -1,0 +1,274 @@
+flow-nodes:
+  googleMapsPlaces:
+    name: Google Maps Places
+    icon: google-maps-places.png
+    description: Get data from the same database used by Google Maps. Places features over 100 million businesses and points of interest that are updated frequently through owner-verified listings and user-moderated contributions.
+    category: Google
+    methods:
+      findPlaceFromText:
+        name: Find Place
+        description: A Find Place request takes a text input and returns a place. The input can be any kind of Places text data, such as a name, address, or phone number. The request must be a string. A Find Place request using non-string data such as a lat/lng coordinate or plus code generates an error.
+        parameters:
+          input:
+            description: 'The text input specifying which place to search for (for example, a name, address, or phone number).'
+            required: true
+            schema:
+              type: string
+          inputtype:
+            description: The type of input. This can be one of either `textQuery` or `phoneNumber`.
+            required: true
+            schema:
+              type: string
+              enum:
+                - textquery
+                - phonenumber
+          language:
+            description: 'The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          fields:
+            description: 'The fields specifying the types of place data to return. **Note:** If you omit the fields parameter from a Find Place request, only the place_id for the result will be returned. Learn more: https://developers.google.com/places/web-service/search#Fields'
+            group: Standard Options
+            required: false
+            initialType: array
+            schema:
+              type: array
+          locationbias:
+            description: Prefer results in a specified area, by specifying either a radius plus lat/lng, or two lat/lng pairs representing the points of a rectangle. If this parameter is not specified, the API uses IP address biasing by default.
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: A general error occured.
+            context: $.error
+            schema:
+              type: string
+      textSearch:
+        name: Find Place from text
+        description: 'Warning: Nearby Search and Text Search return all of the available data fields for the selected place (a subset of the supported fields), and you will be billed accordingly There is no way to constrain Nearby Search or Text Search to only return specific fields. To keep from requesting (and paying for) data that you dont need, use a Find Place request instead. The Google Places API Text Search Service is a web service that returns information about a set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa" or "123 Main Street". The service responds with a list of places matching the text string and any location bias that has been set.'
+        parameters:
+          query:
+            description: 'The text string on which to search, for example: "restaurant" or "123 Main Street". The Google Places service will return candidate matches based on this string and order the results based on their perceived relevance. This parameter becomes optional if the `type` parameter is also used in the search request.'
+            required: true
+            schema:
+              type: string
+          region:
+            description: 'The latitude/longitude around which to retrieve place information. This must be specified as latitude,longitude. If you specify a location parameter, you must also specify a radius parameter.'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          location:
+            description: 'The latitude/longitude around which to retrieve place information. This must be specified as latitude,longitude. If you specify a location parameter, you must also specify a radius parameter.'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          radius:
+            description: 'Defines the distance (in meters) within which to bias place results The maximum allowed radius is 50 000 meters. Results inside of this region will be ranked higher than results outside of the search circle; however, prominent results from outside of the search radius may be included.'
+            group: Standard Options
+            required: false
+            initialType: number
+            schema:
+              type: number
+          language:
+            description: 'Restricts results to only those places within the specified price level. Valid values are in the range from 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          minprice:
+            description: 'Restricts results to only those places within the specified price level. Valid values are in the range from 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
+            required: false
+            group: Standard Options
+            initialType: number
+            schema:
+              type: number
+          maxprice:
+            description: 'Restricts results to only those places within the specified price level. Valid values are in the range from 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
+            required: false
+            group: Standard Options
+            initialType: number
+            schema:
+              type: number
+          opennow:
+            description: 'Returns only those places that are open for business at the time the query is sent. Places that do not specify opening hours in the Google Places database will not be returned if you include this parameter in your query.'
+            required: false
+            group: Standard Options
+            initialType: boolean
+            schema:
+              type: boolean
+          pagetoken:
+            description: 'Returns the next 20 results from a previously run search. Setting a `pagetoken` parameter will execute a search with the same parameters used previously — all parameters other than `pagetoken` will be ignored.'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          type:
+            description: 'Restricts the results to places matching the specified type. Only one type may be specified (if more than one type is provided, all types following the first entry are ignored).'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: A general error occured.
+            context: $.error
+            schema:
+              type: string
+      placeDetails:
+        name: Place details
+        description: Return detailed information about a specific place, including user reviews.
+        parameters:
+          place_id:
+            description: 'A textual identifier that uniquely identifies a place, returned from a Place Search.'
+            required: true
+            schema:
+              type: string
+          language:
+            description: 'The language code, indicating in which language the results should be returned, if possible. Note that some fields may not be available in the requested language. Note that we often update supported languages so this list may not be exhaustive. Some examples are: German: de, Spanish: es. Learn more here: https://developers.google.com/maps/faq#languagesupport'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          region:
+            description: 'The region code, specified as a ccTLD (country code top-level domain) two-character value. Most ccTLD codes are identical to ISO 3166-1 codes, with some exceptions. This parameter will only influence, not fully restrict, results. If more relevant results exist outside of the specified region, they may be included. When this parameter is used, the country name is omitted from the resulting `formatted_address` for results in the specified region.'
+            required: false
+            group: Standard Options
+            schema:
+              type: string
+          sessiontoken:
+            description: 'A random string which identifies an autocomplete session for billing purposes. Use this for Place Details requests that are called following an autocomplete request in the same user session'
+            required: false
+            schema:
+              type: string
+          fields:
+            description: 'One or more fields, specifying the types of place data to return, separated by a comma. **Warning: If you do not specify at least one field with a request, or if you omit the **fields** parameter from a request, ALL possible fields will be returned, and you will be billed accordingly. This applies only to Place Details requests.'
+            group: Standard Options
+            required: false
+            initialType: array
+            schema:
+              type: array
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string
+      placesNearby:
+        name: Nearby Search
+        description: 'Warning: Nearby Search and Text Search return all of the available data fields for the selected place (a subset of the supported fields), and you will be billed accordingly There is no way to constrain Nearby Search or Text Search to only return specific fields. A Nearby Search lets you search for places within a specified area. You can refine your search request by supplying keywords or specifying the type of place you are searching for.'
+        parameters:
+          location:
+            description: 'The latitude/longitude around which to retrieve place information. This must be specified as latitude,longitude.'
+            required: true
+            initialType: string
+            schema:
+              type: string
+          radius:
+            description: 'Defines the distance (in meters) within which to return place results. The maximum allowed radius is 50 000 meters. Note that `radius` must not be included if `rankby=distance` is specified.'
+            required: true
+            initialType: number
+            schema:
+              type: number
+          keyword:
+            description: 'A term to be matched against all content that Google has indexed for this place, including but not limited to name, type, and address, as well as customer reviews and other third-party content.'
+            required: false
+            initialType: string
+            schema:
+              type: string
+          language:
+            description: 'The language code, indicating in which language the results should be returned, if possible. Note that we often update supported languages so this list may not be exhaustive.'
+            required: false
+            initialType: string
+            schema:
+              type: string
+          minprice:
+            description: 'Restricts results to only those places within the specified range. Valid values range between 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
+            required: false
+            initialType: number
+            schema:
+              type: number
+          maxprice:
+            description: 'Restricts results to only those places within the specified range. Valid values range between 0 (most affordable) to 4 (most expensive), inclusive. The exact amount indicated by a specific value will vary from region to region.'
+            required: false
+            initialType: number
+            schema:
+              type: number
+          name:
+            description: 'A term to be matched against all content that Google has indexed for this place. Equivalent to `keyword`. The `name` field is no longer restricted to place names. Values in this field are combined with values in the `keyword` field and passed as part of the same search string. We recommend using only the `keyword` parameter for all search terms.'
+            required: false
+            initialType: string
+            schema:
+              type: string
+          opennow:
+            description: 'Returns only those places that are open for business at the time the query is sent. Places that do not specify opening hours in the Google Places database will not be returned if you include this parameter in your query.'
+            required: false
+            initialType: boolean
+            schema:
+              type: boolean
+          rankby:
+            description: 'Specifies the order in which results are listed. Note that `rankby` must not be included if `radius` is specified.'
+            required: false
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - prominence
+                - distance
+          type:
+            description: 'Restricts the results to places matching the specified type. Only one type may be specified (if more than one type is provided, all types following the first entry are ignored).'
+            required: false
+            initialType: string
+            schema:
+              type: string
+          pagetoken:
+            description: 'Returns the next 20 results from a previously run search. Setting a pagetoken parameter will execute a search with the same parameters used previously — all parameters other than pagetoken will be ignored.'
+            required: false
+            initialType: string
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Success
+            context: $.result
+            schema:
+              type: string
+          noResults:
+            name: No Results
+            description: Nothing found
+            context: $.result
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An error occured.
+            context: $.error
+            schema:
+              type: string

@@ -1,0 +1,48 @@
+{
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-google-maps",
+	"version": "1.0.0",
+	"description": "Integrate Google-Map-Services into your API-Builder Project.",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+	"license": "Apache-2.0",
+	"keywords": [
+		"amplify",
+		"api-builder",
+		"google",
+		"maps",
+		"googlemaps"
+	],
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-google-maps",
+	"bugs": {
+		"url": "https://github.com/Axway-API-Builder-Ext/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+	},
+	"engines": {
+		"node": ">= 10.0"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"config",
+		"scripts",
+		"README.md",
+		"LICENSE"
+	],
+	"dependencies": {
+		"@axway/api-builder-sdk": "^0.1.0",
+		"@googlemaps/google-maps-services-js": "2.0.2"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.22.0"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^6.1.4"
+	},
+	"scripts": {
+		"test": "mocha ./test --recursive -R spec",
+		"postinstall": "node scripts/copyconf.js"
+	}
+}
