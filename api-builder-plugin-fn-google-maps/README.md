@@ -2,7 +2,7 @@
 
 # API-Builder Google-Maps Connector
 
-Integrate Google-Maps services into your [API-Builder flow][1] using this connector.
+Integrate Google-Maps services into your [API-Builder flow][1] using this connector. Google-Maps Services are a number of APIs provided by Google and this connector helps you to integrate with them easily.
 
 ## Configuration
 
@@ -15,7 +15,7 @@ During installation a new config file has been automatically created which must 
 We recommend to setup your configuration in a [environmentalized][4] way keeping [sensitive information][5] away from the source-code repository.
 
 ## Google-Maps services
-This Connector is based on the https://github.com/googlemaps/google-maps-services-js and it's a good starting point to understand the APIs and each parameter. 
+This Connector is based on the https://github.com/googlemaps/google-maps-services-js project. It's a good starting point to understand the APIs and their parameters reading the following documentation:   
 
 - [Directions API](https://developers.google.com/maps/documentation/directions/start)
 - [Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/start)
@@ -23,6 +23,12 @@ This Connector is based on the https://github.com/googlemaps/google-maps-service
 - [Geocoding API](https://developers.google.com/maps/documentation/geocoding/)
 - [Places API](https://developers.google.com/places/web-service/)
 
+## Tests
+The connector is shipped with a number of Unit- and Integration tests. To execute the test-suite locally, please setup an environment variable:  
+`GOOGLE_API_KEY=AIzaSyC...........Ws`  
+And run the following command:  
+`npm test`  
+The tests are also automatically executed on every commit to this project.  
 
 ## Compatibility
 Tested with Google-Maps Q1/2020  
@@ -63,3 +69,4 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 
 [img1]: imgs/google-maps-flownode.png
 [img2]: imgs/google-maps-directions.png
+[img3]: imgs/google-maps-config.png
