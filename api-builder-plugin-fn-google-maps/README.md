@@ -23,6 +23,12 @@ This Connector is based on the https://github.com/googlemaps/google-maps-service
 - [Geocoding API](https://developers.google.com/maps/documentation/geocoding/)
 - [Places API](https://developers.google.com/places/web-service/)
 
+## Tests
+The connector is shipped with a number of Unit- and Integration tests. To execute the test-suite locally, please setup an environment variable:  
+`GOOGLE_API_KEY=AIzaSyC...........Ws`  
+And run the following command:  
+`npm test`  
+The tests are also automatically executed on every commit to this project.  
 
 ## Compatibility
 Tested with Google-Maps Q1/2020  
