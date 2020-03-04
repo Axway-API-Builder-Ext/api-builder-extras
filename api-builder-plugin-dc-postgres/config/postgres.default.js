@@ -10,7 +10,7 @@
 module.exports = {
 	connectors: {
 		postgres: {
-			connector: '@axway/api-builder-plugin-dc-postgres',
+			connector: '@axway-api-builder-ext/api-builder-plugin-dc-postgres',
 			connectionPooling: true,
 			connectionLimit: 10,
 			host: process.env.POSTGRES_HOST,
