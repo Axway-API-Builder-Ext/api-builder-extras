@@ -6,7 +6,7 @@ The PostgreSQL data connector is a plugin for API Builder that can connect to yo
 
 ### Supported versions
 * PostgreSQL 9.6
-* Other versions might be supported as well, please create an issue if encounter any.
+* Other versions might be supported as well, please create an [issue][3] if encounter any.
 
 ### Memory
 * ~7 MB
