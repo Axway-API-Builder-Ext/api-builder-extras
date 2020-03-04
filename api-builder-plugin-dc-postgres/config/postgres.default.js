@@ -1,7 +1,7 @@
 /*
  * Use this file to configure your Postgres data connector
  *
- * By default, Postgres host, username, password and port are environment variables.
+ * By default, PostgreSQL host, username, password and port are environment variables.
  * You may configure them in conf/.env file during development phase.
  * Example setting of environment variables manually:
  * linux/mac: export POSTGRES_PASSWORD=password
@@ -10,7 +10,7 @@
 module.exports = {
 	connectors: {
 		postgres: {
-			connector: '@axway/api-builder-plugin-dc-postgres',
+			connector: '@axway-api-builder-ext/api-builder-plugin-dc-postgres',
 			connectionPooling: true,
 			connectionLimit: 10,
 			host: process.env.POSTGRES_HOST,

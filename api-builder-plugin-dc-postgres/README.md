@@ -23,7 +23,7 @@ The PostgreSQL data connector is a plugin for API Builder that can connect to yo
 ## Installation
 
 ```bash
-npm install --no-optional @axway/api-builder-plugin-dc-postgres
+npm install --no-optional @axway-api-builder-ext/api-builder-plugin-dc-postgres
 ```
 
 A configuration file is generated for you and placed into the conf directory of your API Builder project. The configuration for your PostgreSQL is expected to be in environment variables or in the conf/.env file during development. 
@@ -34,7 +34,7 @@ Once the plugin is installed, the configuration file is located `<project>/conf/
 
 | Option name | Type | Description |
 | ----------- | ---- | ----------- |
-| connector   | string | Must be: `@axway/api-builder-plugin-dc-postgres` |
+| connector   | string | Must be: `@axway-api-builder-ext/api-builder-plugin-dc-postgres` |
 | connectionPooling | boolean | boolean Enables connection pooling for better performance and scalability. |
 | connectionLimit | number | Number of simultaneous connections when connectionPooling is enabled. |
 | host | string | The database host. |
