@@ -10,33 +10,11 @@ on:
       - '*plugin-dc-postgres*'
 
 jobs:
-  publish-gpr:
-    env:
-      # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-dc-postgres'
-      CI: true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-          scope: '@Axway-API-Builder-Ext'
-      - name: Publish to GitHub package repo
-        working-directory: ${{env.workingDirectory}}
-        env:
-            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          npm ci
-          npm publish
-
   publish-npm:
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'api-builder-plugin-dc-postgres'
       CI: true
-    needs: [publish-gpr]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
