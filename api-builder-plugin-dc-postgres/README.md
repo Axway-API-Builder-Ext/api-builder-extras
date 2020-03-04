@@ -87,7 +87,7 @@ const Account = APIBuilder.Model.extend('account', {
 
 ## Changes
 
-#### 1.0.0
+#### 1.0.1
 - Initial version of the connector
 
 ## Contributing
