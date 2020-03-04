@@ -15,7 +15,6 @@ jobs:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'api-builder-plugin-dc-postgres'
       CI: true
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -37,7 +36,7 @@ jobs:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'api-builder-plugin-dc-postgres'
       CI: true
-    needs: [build, publish-gpr]
+    needs: [publish-gpr]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
