@@ -11,6 +11,8 @@ on:
 
 jobs:
   publish-gpr:
+    # This is a required check, as the on:release can't be filtered on given tags
+    if: contains(github.ref, 'plugin-fn-elasticsearch')
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'api-builder-plugin-dc-postgres'
