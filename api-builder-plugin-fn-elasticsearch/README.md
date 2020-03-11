@@ -59,5 +59,5 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 [6]: https://console.cloud.google.com
 [7]: https://developers.google.com/maps/documentation/javascript/get-api-key
 
-[img1]: imgs/flow-node-elasticsearch.png.png
-[img3]: imgs/elasticsearch-config.png
+[img1]: imgs/flow-node-elasticsearch.png
+[img3]: imgs/elasticsearch-config
