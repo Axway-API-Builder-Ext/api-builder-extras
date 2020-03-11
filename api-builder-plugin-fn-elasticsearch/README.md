@@ -1,4 +1,4 @@
-![Elasticsearch Tests](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/elel%20Maps%20Tests/badge.svg)
+![Elasticsearch Tests](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/Elasticsearch%20Tests/badge.svg)
 
 # API-Builder Elasticsearch Connector
 
@@ -59,6 +59,5 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 [6]: https://console.cloud.google.com
 [7]: https://developers.google.com/maps/documentation/javascript/get-api-key
 
-[img1]: imgs/google-maps-flownode.png
-[img2]: imgs/google-maps-directions.png
-[img3]: imgs/google-maps-config.png
+[img1]: imgs/flow-node-elasticsearch.png
+[img3]: imgs/elasticsearch-config
