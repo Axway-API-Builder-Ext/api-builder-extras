@@ -19,7 +19,7 @@ This Connector is based on the https://www.elastic.co/blog/new-elasticsearch-jav
 
 - [Introduction](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/7.x/introduction.html)
 
-As of today, the flow node only supports the [search API](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/7.x/api-reference.html#_search) described here:
+As of today, the flow node only supports the [search API](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/7.x/api-reference.html#_search).
 
 ## Tests
 The project is mocking an Elastic-Search instance to execute tests and validate parameters and responses are handled correclty.
@@ -60,4 +60,4 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 [7]: https://developers.google.com/maps/documentation/javascript/get-api-key
 
 [img1]: imgs/flow-node-elasticsearch.png
-[img3]: imgs/elasticsearch-config
+[img3]: imgs/elasticsearch-config.png
