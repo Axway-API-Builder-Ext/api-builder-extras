@@ -1,4 +1,4 @@
-![Elasticsearch Tests](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/elel%20Maps%20Tests/badge.svg)
+![Elasticsearch Tests](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/Elasticsearch%20Tests/badge.svg)
 
 # API-Builder Elasticsearch Connector
 
