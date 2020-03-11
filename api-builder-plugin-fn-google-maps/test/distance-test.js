@@ -147,7 +147,7 @@ describe('Google-Maps Distance-API Tests', () => {
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
 			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(JSON.stringify(result.context.result)).to.deep.include("7 Minuten");
+			expect(JSON.stringify(result.context.result)).to.deep.include("Minuten");
 		});
 
 		it('Using some advanced options: units: imperial', async () => {
@@ -161,7 +161,7 @@ describe('Google-Maps Distance-API Tests', () => {
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
 			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(JSON.stringify(result.context.result)).to.deep.include("1.2 mi");
+			expect(JSON.stringify(result.context.result)).to.deep.include("mi");
 		});
 
 		it('Using some advanced options: avoid: ["tolls", "indoor", "highways"]', async () => {
