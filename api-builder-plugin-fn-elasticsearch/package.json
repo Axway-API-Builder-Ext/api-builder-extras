@@ -1,0 +1,37 @@
+{
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch",
+	"version": "1.0.0",
+	"description": "A plugin for Axway API Builder",
+	"author": "",
+	"license": "ISC",
+	"keywords": [
+		"amplify",
+		"api-builder"
+	],
+	"engines": {
+		"node": ">= 10.0"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"README.md", 
+		"config", 
+		"scripts"
+	],
+	"dependencies": {
+		"@axway/api-builder-sdk": "^0.1.0",
+		"@elastic/elasticsearch": "^7.6.0"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.22.0"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^6.1.4",
+		"simple-mock": "^0.8.0"
+	},
+	"scripts": {
+		"test": "mocha ./test --recursive -R spec", 
+		"postinstall": "node scripts/copyconf.js"
+	}
+}

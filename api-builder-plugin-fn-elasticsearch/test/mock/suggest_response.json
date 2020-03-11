@@ -1,0 +1,114 @@
+{
+    "body": {
+      "took": 11,
+      "timed_out": false,
+      "_shards": {
+        "total": 4,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 3,
+        "failures": [
+          {
+            "shard": 0,
+            "index": ".apm-agent-configuration",
+            "node": "6TVkdA-YR7epgV39dZNG2g",
+            "reason": {
+              "type": "illegal_argument_exception",
+              "reason": "no mapping found for field [circuitPath.execTime]"
+            }
+          },
+          {
+            "shard": 0,
+            "index": ".kibana_1",
+            "node": "6TVkdA-YR7epgV39dZNG2g",
+            "reason": {
+              "type": "illegal_argument_exception",
+              "reason": "no mapping found for field [circuitPath.execTime]"
+            }
+          },
+          {
+            "shard": 0,
+            "index": ".kibana_task_manager_1",
+            "node": "6TVkdA-YR7epgV39dZNG2g",
+            "reason": {
+              "type": "illegal_argument_exception",
+              "reason": "no mapping found for field [circuitPath.execTime]"
+            }
+          }
+        ]
+      },
+      "hits": {
+        "total": {
+          "value": 0,
+          "relation": "eq"
+        },
+        "max_score": null,
+        "hits": [
+          
+        ]
+      },
+      "suggest": {
+        "circuitPath.execTime": [
+          {
+            "text": "Some text",
+            "offset": 0,
+            "length": 9,
+            "options": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "statusCode": 200,
+    "headers": {
+      "content-type": "application/json; charset=UTF-8",
+      "content-length": "811",
+      "access-control-allow-credentials": "true"
+    },
+    "warnings": null,
+    "meta": {
+      "context": null,
+      "request": {
+        "params": {
+          "method": "GET",
+          "path": "/_search",
+          "body": "",
+          "querystring": "suggest_field=circuitPath.execTime&suggest_mode=missing&suggest_text=Some%20text",
+          "headers": {
+            "User-Agent": "elasticsearch-js/7.6.0 (win32 10.0.18363-x64; Node.js v12.13.1)",
+            "Content-Length": "0"
+          },
+          "timeout": 60000
+        },
+        "options": {
+          "ignore": [
+            404
+          ],
+          "maxRetries": 3,
+          "warnings": null
+        },
+        "id": 1
+      },
+      "name": "elasticsearch-js",
+      "connection": {
+        "url": "http://api-env:9200/",
+        "id": "http://api-env:9200/",
+        "headers": {
+          
+        },
+        "deadCount": 0,
+        "resurrectTimeout": 0,
+        "_openRequests": 0,
+        "status": "alive",
+        "roles": {
+          "master": true,
+          "data": true,
+          "ingest": true,
+          "ml": false
+        }
+      },
+      "attempts": 0,
+      "aborted": false
+    }
+  }

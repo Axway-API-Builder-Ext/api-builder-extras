@@ -1,0 +1,114 @@
+{
+    "body": {
+        "error": {
+            "root_cause": [
+                {
+                    "type": "query_shard_exception",
+                    "reason": "No mapping found for [XZY] in order to sort on",
+                    "index_uuid": "gowaOuhtTvqZX8dCFeJ77w",
+                    "index": "logstash-openlog"
+                }
+            ],
+            "type": "search_phase_execution_exception",
+            "reason": "all shards failed",
+            "phase": "query",
+            "grouped": true,
+            "failed_shards": [
+                {
+                    "shard": 0,
+                    "index": "logstash-openlog",
+                    "node": "6TVkdA-YR7epgV39dZNG2g",
+                    "reason": {
+                        "type": "query_shard_exception",
+                        "reason": "No mapping found for [XZY] in order to sort on",
+                        "index_uuid": "gowaOuhtTvqZX8dCFeJ77w",
+                        "index": "logstash-openlog"
+                    }
+                }
+            ]
+        },
+        "status": 400
+    }, 
+    "name": "ResponseError",
+    "meta": {
+        "body": {
+            "error": {
+                "root_cause": [
+                    {
+                        "type": "query_shard_exception",
+                        "reason": "No mapping found for [XZY] in order to sort on",
+                        "index_uuid": "gowaOuhtTvqZX8dCFeJ77w",
+                        "index": "logstash-openlog"
+                    }
+                ],
+                "type": "search_phase_execution_exception",
+                "reason": "all shards failed",
+                "phase": "query",
+                "grouped": true,
+                "failed_shards": [
+                    {
+                        "shard": 0,
+                        "index": "logstash-openlog",
+                        "node": "6TVkdA-YR7epgV39dZNG2g",
+                        "reason": {
+                            "type": "query_shard_exception",
+                            "reason": "No mapping found for [XZY] in order to sort on",
+                            "index_uuid": "gowaOuhtTvqZX8dCFeJ77w",
+                            "index": "logstash-openlog"
+                        }
+                    }
+                ]
+            },
+            "status": 400
+        },
+        "statusCode": 400,
+        "headers": {
+            "content-type": "application/json; charset=UTF-8",
+            "content-length": "551",
+            "access-control-allow-credentials": "true"
+        },
+        "warnings": null,
+        "meta": {
+            "context": null,
+            "request": {
+                "params": {
+                    "method": "GET",
+                    "path": "/logstash-openlog/_search",
+                    "body": "",
+                    "querystring": "sort=XZY%3Adesc",
+                    "headers": {
+                        "User-Agent": "elasticsearch-js/7.6.0 (win32 10.0.18363-x64; Node.js v12.13.1)",
+                        "Content-Length": "0"
+                    },
+                    "timeout": 60000
+                },
+                "options": {
+                    "ignore": [
+                        404
+                    ],
+                    "maxRetries": 3,
+                    "warnings": null
+                },
+                "id": 1
+            },
+            "name": "elasticsearch-js",
+            "connection": {
+                "url": "http://api-env:9200/",
+                "id": "http://api-env:9200/",
+                "headers": {},
+                "deadCount": 0,
+                "resurrectTimeout": 0,
+                "_openRequests": 0,
+                "status": "alive",
+                "roles": {
+                    "master": true,
+                    "data": true,
+                    "ingest": true,
+                    "ml": false
+                }
+            },
+            "attempts": 0,
+            "aborted": false
+        }
+    }
+}
