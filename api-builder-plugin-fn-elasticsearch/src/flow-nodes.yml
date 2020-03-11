@@ -21,6 +21,10 @@ flow-nodes:
             initialType: object
             schema:
               type: object
+              options:
+                multilineWrapper:
+                  before: "{ \"query\": "
+                  after: "\n}"
           from:
             description: Defines the starting offset. Defaults to 0.
             required: false
