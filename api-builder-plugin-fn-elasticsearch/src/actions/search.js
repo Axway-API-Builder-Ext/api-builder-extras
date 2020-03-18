@@ -74,12 +74,15 @@ function search(req, outputs, options) {
 	addQueryParam('typed_keys'); 
 	addQueryParam("version");
 	
-
+	options.logger.debug(`Using elastic search query body: ${JSON.stringify(searchBody)}`);
 	client.search(searchBody, {
 		ignore: [404],
 		maxRetries: 3
 	}, (err, result) => {
 		if(err) {
+			if(!err.body) {
+				options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
+			}
 			return outputs.error(null, err.body.error);
 		} else if(result.error) {
 			return outputs.error(null, result.error);
