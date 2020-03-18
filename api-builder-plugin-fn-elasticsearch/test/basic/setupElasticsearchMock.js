@@ -2,6 +2,7 @@ const simple = require('simple-mock');
 const fs = require('fs');
 
 function setupElasticsearchMock(client, fn, responeFilename, shouldError) {
+    debugger;
     simple.mock(client, 'isMocked', true);
     if(!shouldError) {
         const mockedFn = simple.mock(client, fn).callbackWith(null, 

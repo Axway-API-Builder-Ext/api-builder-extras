@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
 
 const getPlugin = require('../../src');
-const { client } = require('../../src/actions/_common');
+const { ElasticsearchClient } = require('../../src/actions/ElasticsearchClient');
 
 const { setupElasticsearchMock } = require('../basic/setupElasticsearchMock');
 
@@ -10,6 +10,7 @@ const validConfig = require('../config/basic-config').pluginConfig['@axway-api-b
 
 describe('Search: flow-node elasticsearch - Search action', () => {
 	let runtime;
+	var client = new ElasticsearchClient('http://mock-node:9200').client;
 	before(async () => runtime = new MockRuntime(await getPlugin(validConfig)));
 
 	describe('#search actions', () => {

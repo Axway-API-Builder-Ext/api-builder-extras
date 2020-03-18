@@ -1,4 +1,4 @@
-const { client, getClient } = require('./_common')
+const { ElasticsearchClient } = require('./ElasticsearchClient');
 
 /**
  * Action method.
@@ -23,9 +23,8 @@ function search(req, outputs, options) {
 		options.logger.error('Elasticsearch configuration is invalid: node is missing.');
 		return outputs.error(null, { message: 'Elasticsearch configuration is invalid: node is missing.' });
 	}
-	if(!client.isMocked) {
-		getClient(node);
-	}
+
+	var client = new ElasticsearchClient(node).client;
 
 	addSuggestModeDefault();
 	const searchBody = {};
