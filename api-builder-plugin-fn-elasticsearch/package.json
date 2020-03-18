@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Integrate Elasticsearch into your API-Builder flow to combine search data for instance with other data available in your flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
@@ -25,8 +25,8 @@
 	"main": "src/index.js",
 	"files": [
 		"src",
-		"README.md", 
-		"config", 
+		"README.md",
+		"config",
 		"scripts"
 	],
 	"dependencies": {
@@ -42,7 +42,7 @@
 		"simple-mock": "^0.8.0"
 	},
 	"scripts": {
-		"test": "mocha ./test --recursive -R spec", 
+		"test": "mocha ./test --recursive -R spec",
 		"postinstall": "node scripts/copyconf.js"
 	}
 }
