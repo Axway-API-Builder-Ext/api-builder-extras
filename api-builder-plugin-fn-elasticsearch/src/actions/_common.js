@@ -4,8 +4,9 @@ let client = getClient();
 
 function getClient(node) {
 	if(node === undefined) {
-		node = 'http://api-env:9200';
+		node = 'http://localhost:9200';
 	}
+	console.log(`Setup Elasticsearch client using node: ${node}`);
 	let client = new Client({
 		node: node,
 		maxRetries: 5,
