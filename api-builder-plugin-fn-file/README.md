@@ -109,9 +109,14 @@ After creating your API Builder service (`api-builder init`), you can install th
 npm install api-builder-plugin-fn-file
 ```
 
+## Changelog
+See [Change-Log][6]
+
 [1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
 [2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html
 [3]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues
+
+[6]: Changelog.md
 
 [filter]: imgs/flownode-filter.png
 [filter-include]: imgs/flownode-filter-include.png
