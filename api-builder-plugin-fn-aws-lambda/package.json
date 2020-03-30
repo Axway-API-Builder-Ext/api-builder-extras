@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-aws-lambda",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Invoke AWS Lambda functions from within your API-Builder flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",

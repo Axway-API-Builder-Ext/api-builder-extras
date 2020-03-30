@@ -52,8 +52,7 @@ Tested with AWS Lambda Q1/2020
 Requires API-Builder Independence or higher
 
 ## Changelog
-- 1.0.0 - 18.02.2020
-  - Initial version
+See [Change-Log][6]
 
 ## Limitations/Caveats
 Nothing known
@@ -73,6 +72,7 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 [3]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues
 [4]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/environmentalization.html
 [5]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/project_configuration.html#ProjectConfiguration-Configurationfiles
+[6]: Changelog.md
 
 [img1]: imgs/lambda-flownode.png
 [img2]: imgs/lambda-invoke.png
