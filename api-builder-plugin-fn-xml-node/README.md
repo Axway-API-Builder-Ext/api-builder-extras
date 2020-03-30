@@ -26,8 +26,7 @@ After installation start the API-Builder project and you get the following node:
 ![XML Node][node-screenshot]
 
 ## Changelog
-- 1.0.4 - 10.01.2020
-  - Initial version supporting XML to JSON
+See [Change-Log][6]
 
 ## Limitations/Caveats
 - JSON to XML not yet supported
@@ -50,3 +49,5 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 
 [node-settings]: misc/images/xml-flow-node-settings.png
 [node-screenshot]: misc/images/xml-flow-node.png
+
+[6]: Changelog.md
