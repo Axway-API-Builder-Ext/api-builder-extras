@@ -67,6 +67,11 @@ After creating your API Builder service (`api-builder init`), you can install th
 npm install --no-optional @axway-api-builder-ext/api-builder-plugin-fn-foreach
 ```
 
+## Changelog
+See [Change-Log][6]
+
+[6]: Changelog.md
+
 [flow-editor]: imgs/foreachFlow.png
 [items-parameter]: imgs/items_parameter.png
 [wrong-items-parameter]: imgs/wrong_items_parameter.png
