@@ -39,8 +39,7 @@ Alternatively you can pass on externally given user-credentials with the flow no
 Tested with JIRA Cloud Platform 8.5.1
 
 ## Changelog
-- 0.0.1 - 13.12.2019
-  - Initial version
+See [Change-Log][6]
 
 ## Limitations/Caveats
 - Currently support for JIRA-Issues only
@@ -63,3 +62,5 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 [jira-connector]: misc/images/JIRA-CP-Connector.png
 [jira-connector-config]: misc/images/JIRA-CP-Connector-Config.png
 [jira-connector-settings]: misc/images/JIRA-CP-Connector-Settings.png
+
+[6]: Changelog.md
