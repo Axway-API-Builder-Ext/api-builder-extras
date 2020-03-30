@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] 2020-03-30
 ### Changed
-- Changed version of the aws-ask from 2.610.0 to 2.648.0
+- Changed version of the aws-sdk from 2.610.0 to 2.648.0
 ### Security
 - #10 Updated Dev-Dependency mocha and chai to latest version to use latest version of minimist
 
