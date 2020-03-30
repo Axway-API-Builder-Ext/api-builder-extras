@@ -28,6 +28,10 @@ After creating your API Builder project (![Learn more][2]), you can install this
 npm install --no-optional @axway-api-builder-ext/api-builder-plugin-fn-objectfilter
 ```
 
+## Changelog
+See [Change-Log][6]
+
+[6]: Changelog.md
 
 [1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
 [2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html
