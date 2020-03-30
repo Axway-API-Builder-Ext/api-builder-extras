@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.0.3] 2020-03-30
+## [0.0.2] 2020-03-30
 ### Security
 - #10 Updated Dev-Dependencies mocha & chai to the latest version
 
