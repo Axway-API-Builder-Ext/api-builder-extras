@@ -1,0 +1,47 @@
+{
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-redis",
+	"version": "0.0.1",
+	"description": "A plugin for Axway API Builder to communicate with Redis",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+	"license": "Apache-2.0",
+	"keywords": [
+		"amplify",
+		"api-builder",
+		"axway",
+		"redis"
+	],
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-redis",
+	"bugs": {
+		"url": "https://github.com/Axway-API-Builder-Ext/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+	},
+	"engines": {
+		"node": ">= 10.0"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"README.md", 
+		"config", 
+		"scripts"
+	],
+	"dependencies": {
+		"@axway/api-builder-sdk": "^0.1.0",
+		"redis": "^3.0.2"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.22.0"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^6.1.4",
+		"simple-mock": "^0.8.0"
+	},
+	"scripts": {
+		"test": "mocha ./test --recursive -R spec", 
+		"postinstall": "node scripts/copyconf.js"
+	}
+}
