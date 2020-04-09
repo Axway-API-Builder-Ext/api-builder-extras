@@ -36,8 +36,7 @@ Tested with Google-Maps Q1/2020
 Requires API-Builder Independence or higher
 
 ## Changelog
-- 1.0.0 - 21.02.2020
-  - Initial version
+See [CHANGELOG](CHANGELOG.md)
 
 ## Limitations/Caveats
 The follow APIs are not yet supported:
@@ -70,3 +69,4 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 [img1]: imgs/google-maps-flownode.png
 [img2]: imgs/google-maps-directions.png
 [img3]: imgs/google-maps-config.png
+

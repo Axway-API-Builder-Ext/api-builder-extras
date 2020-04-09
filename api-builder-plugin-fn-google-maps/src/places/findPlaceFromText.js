@@ -1,5 +1,3 @@
-const maps = new require("@googlemaps/google-maps-services-js");
-
 /**
  * Action method.
  * @param {object} req - The flow request context passed in at runtime.  The
@@ -24,6 +22,7 @@ function findPlaceFromText(req, outputs, options) {
 
 
   const apiKey = this.pluginConfig.google.credentials.apiKey;
+  const client = this.mapsClient;
 
 	if (!input) {
 		options.logger.error('The input parameter is missing.');
@@ -39,8 +38,6 @@ function findPlaceFromText(req, outputs, options) {
     options.logger.error('Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js');
   	return outputs.error(null, {message: 'Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js'});
   }
-
-  const client = new maps.Client({});
 
   if(typeof waypoints === 'undefined') {
     waypoints = [];

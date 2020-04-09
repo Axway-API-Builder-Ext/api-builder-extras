@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
+var simple = require('simple-mock');
 
 const getPlugin = require('../../src');
 const actions = require('../../src/places/placesNearby');
@@ -22,10 +23,6 @@ describe('Google-Maps Nearby-Places-API Tests', () => {
 			expect(flownode.name).to.equal('Google Maps Places');
 		});
 
-		// It is vital to ensure that the generated node flow-nodes are valid
-		// for use in API Builder. Your unit tests should always include this
-		// validation to avoid potential issues when API Builder loads your
-		// node.
 		it('should define valid flow-nodes', () => {
 			expect(runtime.validate()).to.not.throw;
 		});
@@ -78,6 +75,14 @@ describe('Google-Maps Nearby-Places-API Tests', () => {
 		it('Valid request with a valid location and radius', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
 
+			simple.mock(runtime.plugin.flownodes.googleMapsPlaces.mapsClient, 'placesNearby').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.location).to.equal('52.5588327,13.2884374');
+				expect(input.params.radius).to.equal(300);
+				expect(input.params.key).to.equal(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'OK'}, result: { status: 'OK'}});
+			});
+
 			const result = await flowNode.placesNearby({
 				location: '52.5588327,13.2884374',
 				radius: 300
@@ -92,6 +97,15 @@ describe('Google-Maps Nearby-Places-API Tests', () => {
 
 		it('Valid request with a valid input, inputtype and some fields', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
+
+			simple.mock(runtime.plugin.flownodes.googleMapsPlaces.mapsClient, 'placesNearby').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.location).to.equal('52.5588327,13.2884374');
+				expect(input.params.radius).to.equal(300);
+				expect(input.params.keyword).to.equal('ristorante');
+				expect(input.params.key).to.equal(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'ZERO_RESULTS'}, result: { status: 'ZERO_RESULTS'}});
+			});
 
 			const result = await flowNode.placesNearby({
 				location: '52.5588327,13.2884374',

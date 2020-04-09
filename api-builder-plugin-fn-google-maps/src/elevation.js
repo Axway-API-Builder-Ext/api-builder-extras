@@ -1,5 +1,3 @@
-const maps = new require("@googlemaps/google-maps-services-js");
-
 /**
  * Action method.
  * @param {object} req - The flow request context passed in at runtime.  The
@@ -19,6 +17,7 @@ function elevation(req, outputs, options) {
 	const locations = req.params.locations;
 
   const apiKey = this.pluginConfig.google.credentials.apiKey;
+  const client = this.mapsClient;
 
 	if (!locations) {
 		options.logger.error('The locations parameter is missing.');
@@ -29,8 +28,6 @@ function elevation(req, outputs, options) {
     options.logger.error('Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js');
   	return outputs.error(null, {message: 'Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js'});
   }
-
-  const client = new maps.Client({});
 
   if(typeof waypoints === 'undefined') {
     waypoints = [];

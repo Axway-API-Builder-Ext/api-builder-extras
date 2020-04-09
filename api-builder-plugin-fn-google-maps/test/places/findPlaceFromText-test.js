@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
+var simple = require('simple-mock');
 
 const getPlugin = require('../../src');
 const actions = require('../../src/places/findPlaceFromText');
@@ -22,10 +23,6 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 			expect(flownode.name).to.equal('Google Maps Places');
 		});
 
-		// It is vital to ensure that the generated node flow-nodes are valid
-		// for use in API Builder. Your unit tests should always include this
-		// validation to avoid potential issues when API Builder loads your
-		// node.
 		it('should define valid flow-nodes', () => {
 			expect(runtime.validate()).to.not.throw;
 		});
@@ -79,6 +76,14 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 		it('Valid request with a valid input and inputtype', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
 
+			simple.mock(runtime.plugin.flownodes.googleMapsPlaces.mapsClient, 'findPlaceFromText').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.input).to.equal('Museum of Contemporary Art Australia');
+				expect(input.params.inputtype).to.equal('textquery');
+				expect(input.params.key).to.equal(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'OK'}, result: { status: 'OK'}});
+			});
+
 			const result = await flowNode.findPlaceFromText({
 				input: 'Museum of Contemporary Art Australia',
 				inputtype: 'textquery'
@@ -94,6 +99,16 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 		it('Valid request with a valid input, inputtype and some fields', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
 
+			simple.mock(runtime.plugin.flownodes.googleMapsPlaces.mapsClient, 'findPlaceFromText').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.input).to.equal('Museum of Contemporary Art Australia');
+				expect(input.params.inputtype).to.equal('textquery');
+				expect(input.params.fields).to.be.an('array');
+				expect(input.params.fields).to.deep.equal(['name', 'icon']);
+				expect(input.params.key).to.equal(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'OK'}, result: { status: 'OK'}});
+			});
+
 			const result = await flowNode.findPlaceFromText({
 				input: 'Museum of Contemporary Art Australia',
 				inputtype: 'textquery',
@@ -105,8 +120,6 @@ describe('Google-Maps FindPlaceFromText-API Tests', () => {
 			expect(result.args[0]).to.equal(null);
 			expect(result.context).to.be.an('Object');
 			expect(result.context.result).to.deep.include({ status: 'OK' });
-			expect(result.context.result.candidates[0]).to.have.property('icon');
-			expect(result.context.result.candidates[0]).to.have.property('name');
 		});
 	});
 });

@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
+var simple = require('simple-mock');
 
 const getPlugin = require('../../src');
 const actions = require('../../src/places/placeDetails');
@@ -22,10 +23,6 @@ describe('Google-Maps Places-Details-API Tests', () => {
 			expect(flownode.name).to.equal('Google Maps Places');
 		});
 
-		// It is vital to ensure that the generated node flow-nodes are valid
-		// for use in API Builder. Your unit tests should always include this
-		// validation to avoid potential issues when API Builder loads your
-		// node.
 		it('should define valid flow-nodes', () => {
 			expect(runtime.validate()).to.not.throw;
 		});
@@ -62,6 +59,13 @@ describe('Google-Maps Places-Details-API Tests', () => {
 
 		it('Valid request with a valid place_id', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
+
+			simple.mock(runtime.plugin.flownodes.googleMapsPlaces.mapsClient, 'placeDetails').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.place_id).to.equal('ChIJVVVVVflTqEcR6iq_Z319uWQ');
+				expect(input.params.key).to.equal(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'OK'}, result: { status: 'OK'}});
+			});
 
 			const result = await flowNode.placeDetails({
 				place_id: 'ChIJVVVVVflTqEcR6iq_Z319uWQ'

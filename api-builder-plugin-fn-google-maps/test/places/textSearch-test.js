@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
+var simple = require('simple-mock');
 
 const getPlugin = require('../../src');
 const actions = require('../../src/places/textSearch');
@@ -22,10 +23,6 @@ describe('Google-Maps Text-Search-API Tests', () => {
 			expect(flownode.name).to.equal('Google Maps Places');
 		});
 
-		// It is vital to ensure that the generated node flow-nodes are valid
-		// for use in API Builder. Your unit tests should always include this
-		// validation to avoid potential issues when API Builder loads your
-		// node.
 		it('should define valid flow-nodes', () => {
 			expect(runtime.validate()).to.not.throw;
 		});
@@ -63,6 +60,13 @@ describe('Google-Maps Text-Search-API Tests', () => {
 		it('Valid request with a valid query', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
 
+			simple.mock(runtime.plugin.flownodes.googleMapsPlaces.mapsClient, 'textSearch').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.query).to.equal('restaurant Berlin Kurfuerstendamm');
+				expect(input.params.key).to.equal(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'OK'}, result: { status: 'OK'}});
+			});
+
 			const result = await flowNode.textSearch({
 				query: 'restaurant Berlin Kurfuerstendamm'
 			});
@@ -76,6 +80,15 @@ describe('Google-Maps Text-Search-API Tests', () => {
 
 		it('Valid request with a valid query and radius', async () => {
 			const flowNode = runtime.getFlowNode('googleMapsPlaces');
+
+			simple.mock(runtime.plugin.flownodes.googleMapsPlaces.mapsClient, 'textSearch').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.query).to.equal('Berlin Kurfuerstendamm 119');
+				expect(input.params.radius).to.equal(30);
+				expect(input.params.type).to.equal('restaurant');
+				expect(input.params.key).to.equal(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'OK'}, result: { status: 'OK'}});
+			});
 
 			const result = await flowNode.textSearch({
 				query: 'Berlin Kurfuerstendamm 119',

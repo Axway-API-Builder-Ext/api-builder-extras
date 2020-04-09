@@ -27,14 +27,13 @@ function reverseGeocode(req, outputs, options) {
   const location_type = req.params.location_type;
 
   const apiKey = this.pluginConfig.google.credentials.apiKey;
+  const client = this.mapsClient;
 
   if(typeof apiKey === 'undefined')
   {
     options.logger.error('Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js');
   	return outputs.error(null, {message: 'Google API-Key is missing. Please complete your configuration in conf/google-maps.default.js'});
   }
-
-  const client = new maps.Client({});
 
   var params = {
     key: apiKey,

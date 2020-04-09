@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
+var simple = require('simple-mock');
 
 const getPlugin = require('../src');
 const actions = require('../src/reverseGeocode');
@@ -72,6 +73,13 @@ describe('Google-Maps Reverse-Geocode-API Tests', () => {
 		it('Valid request with a given place_id', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
 
+			simple.mock(runtime.plugin.flownodes.googleMaps.mapsClient, 'reverseGeocode').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.place_id).to.equal('ChIJQxkLC8ZQqEcRdfnVRF5vXVs');
+				expect(input.params.key).to.equals(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'OK', result: { status: "OK"}}});
+			});
+
 			const result = await flowNode.reverseGeocode({
 				place_id: 'ChIJQxkLC8ZQqEcRdfnVRF5vXVs'
 			});
@@ -85,6 +93,13 @@ describe('Google-Maps Reverse-Geocode-API Tests', () => {
 
 		it('Request with an invalid place_id', async () => {
 			const flowNode = runtime.getFlowNode('googleMaps');
+
+			simple.mock(runtime.plugin.flownodes.googleMaps.mapsClient, 'reverseGeocode').callFn(function (input) {
+				expect(input.params).to.be.an('Object');
+				expect(input.params.place_id).to.equal('ChIJQxkLC8ZQqEcRdabVRF5vXVs');
+				expect(input.params.key).to.equals(validPluginConfig.google.credentials.apiKey);
+				return Promise.resolve( { data: { status: 'ZERO_RESULTS', result: { status: "ZERO_RESULTS"}}});
+			});
 
 			const result = await flowNode.reverseGeocode({
 				place_id: 'ChIJQxkLC8ZQqEcRdabVRF5vXVs'
