@@ -44,8 +44,7 @@ Tested with Redis 5.0.8
 Requires API-Builder Independence or higher
 
 ## Changelog
-- 0.0.1 - 08.04.2020
-  - Initial version
+See [Change-Log][6]
 
 ## Limitations/Caveats
 Only Get & Set methods are currently supported
@@ -68,3 +67,5 @@ Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Commo
 [3]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues
 [4]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/environmentalization.html
 [5]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/project_configuration.html#ProjectConfiguration-Configurationfiles
+
+[6]: CHANGELOG.md
