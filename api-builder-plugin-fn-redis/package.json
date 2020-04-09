@@ -24,12 +24,12 @@
 	"main": "src/index.js",
 	"files": [
 		"src",
-		"README.md", 
-		"config", 
+		"README.md",
+		"config",
 		"scripts"
 	],
 	"dependencies": {
-		"@axway/api-builder-sdk": "^0.1.0",
+		"@axway/api-builder-sdk": "^0.2.0",
 		"redis": "^3.0.2"
 	},
 	"peerDependencies": {
@@ -41,7 +41,7 @@
 		"simple-mock": "^0.8.0"
 	},
 	"scripts": {
-		"test": "mocha ./test --recursive -R spec", 
+		"test": "mocha ./test --recursive -R spec",
 		"postinstall": "node scripts/copyconf.js"
 	}
 }
