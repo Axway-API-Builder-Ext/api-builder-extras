@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-aws-lambda",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Invoke AWS Lambda functions from within your API-Builder flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
@@ -31,15 +31,16 @@
 		"LICENSE"
 	],
 	"dependencies": {
-		"@axway/api-builder-sdk": "^0.1.0",
-		"aws-sdk": "^2.619.0"
+		"@axway/api-builder-sdk": "^0.2.0",
+		"aws-sdk": "^2.656.0"
 	},
 	"peerDependencies": {
 		"@axway/api-builder-runtime": "^4.22.0"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
-		"mocha": "^6.2.3"
+		"mocha": "^6.2.3",
+		"simple-mock": "^0.8.0"
 	},
 	"scripts": {
 		"test": "mocha ./test --recursive -R spec",

@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
+var simple = require('simple-mock');
 
 const getPlugin = require('../src');
 const actions = require('../src/actions');
@@ -25,10 +26,6 @@ describe('flow-node lambda', () => {
 			expect(flownode.icon).to.be.a('string');
 		});
 
-		// It is vital to ensure that the generated node flow-nodes are valid
-		// for use in API Builder. Your unit tests should always include this
-		// validation to avoid potential issues when API Builder loads your
-		// node.
 		it('should define valid flow-nodes', () => {
 			expect(runtime.validate()).to.not.throw;
 		});
@@ -52,6 +49,19 @@ describe('flow-node lambda', () => {
 		it('should succeed with valid JavaScript argument.', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
 
+			simple.mock(runtime.plugin.flownodes.lambda.lambdaClient, 'invoke').callFn(function (params, callback) {
+				expect(params).to.be.an('Object');
+				expect(params.FunctionName).to.equals('greeting');
+				expect(params.Payload).to.be.an('string');
+				expect(params.Payload).to.deep.equal(JSON.stringify({key1: 'JavaScript-Object', key2: 'test2'}));
+				expect(params.LogType).to.equal('None');
+				expect(params.InvocationType).to.equal('RequestResponse');
+				callback(null, { Payload: JSON.stringify({
+					body: "Hello from JavaScript-Object from AWS-Lambda!",
+					statusCode: 200
+				})});
+			});
+
 			const result = await flowNode.invokeLambda({ func: 'greeting', payload: {key1: 'JavaScript-Object', key2: 'test2'} });
 
 			expect(result.callCount).to.equal(1);
@@ -61,10 +71,23 @@ describe('flow-node lambda', () => {
 					statusCode: 200
 				}
 			});
-		}).timeout(5000);
+		});
 
 		it('should succeed with valid JSON-String argument.', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
+
+			simple.mock(runtime.plugin.flownodes.lambda.lambdaClient, 'invoke').callFn(function (params, callback) {
+				expect(params).to.be.an('Object');
+				expect(params.FunctionName).to.equals('greeting');
+				expect(params.Payload).to.be.an('string');
+				expect(params.Payload).to.equal('{"key1": "JSON-String", "key2": "test2"}');
+				expect(params.LogType).to.equal('None');
+				expect(params.InvocationType).to.equal('RequestResponse');
+				callback(null, { Payload: JSON.stringify({
+					body: "Hello from JSON-String from AWS-Lambda!",
+					statusCode: 200
+				})});
+			});
 
 			const result = await flowNode.invokeLambda({ func: 'greeting', payload: '{"key1": "JSON-String", "key2": "test2"}' });
 
@@ -75,10 +98,20 @@ describe('flow-node lambda', () => {
 					statusCode: 200
 				}
 			});
-		}).timeout(5000);
+		});
 
 		it('ASync call should also succedd', async () => {
 			const flowNode = runtime.getFlowNode('lambda');
+
+			simple.mock(runtime.plugin.flownodes.lambda.lambdaClient, 'invoke').callFn(function (params, callback) {
+				expect(params).to.be.an('Object');
+				expect(params.FunctionName).to.equals('greeting');
+				expect(params.Payload).to.be.an('string');
+				expect(params.Payload).to.equal(JSON.stringify({key1: "JSON-String", key2: "test2"}));
+				expect(params.LogType).to.equal('None');
+				expect(params.InvocationType).to.equal('Event');
+				callback(null, { StatusCode: 202});
+			});
 
 			const result = await flowNode.invokeLambda({ func: 'greeting', payload: {key1: "JSON-String", key2: "test2"}, asynchronous: true });
 
@@ -86,6 +119,6 @@ describe('flow-node lambda', () => {
 			expect(result.context).to.deep.equal({
 				result: 'Accepted'
 			});
-		}).timeout(5000);
+		});
 	});
 });

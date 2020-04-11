@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- aws-sdk version changed from 2.619.0 to 2.656.0
+- Using Simple-Mock for Unit-Tests
 
 ## [1.0.1] 2020-03-30
 ### Security
