@@ -1,17 +1,20 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
-var simple = require('simple-mock');
-
+const simple = require('simple-mock');
 const getPlugin = require('../src');
-const actions = require('../src/actions');
-
 const pluginConfig = require('./test-config/invalid-config').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-redis'];
 
-describe('Redis not ready tests', function () {
+describe.skip('Redis not ready tests', function () {
+	const options = {
+		logger: {
+			trace: simple.mock(),
+			error: simple.mock()
+		}
+	};	
 	let runtime;
 	this.timeout(5000);
 	before(async () => {
-		runtime = new MockRuntime(await getPlugin(pluginConfig));
+		runtime = new MockRuntime(await getPlugin(pluginConfig, options));
 		// Wait a few seconds, as Redis needs a moment to report an error
 		await Sleep(3000);
 	})
@@ -22,7 +25,7 @@ describe('Redis not ready tests', function () {
 		it('Redis in error should be handled gracefully', () => {
 			console.log("Redis should have reported an error");
 			expect(runtime.plugin.flownodes.redis.redisClient.ready).to.equal(false);
-		})
+		});
 	});
 });
 
