@@ -31,16 +31,17 @@
 		"LICENSE"
 	],
 	"dependencies": {
-		"@axway/api-builder-sdk": "^0.1.0",
-		"athena-express": "^5.1.1",
-		"aws-sdk": "^2.648.0"
+		"@axway/api-builder-sdk": "^0.2.0",
+		"athena-express": "^5.2.0",
+		"aws-sdk": "^2.656.0"
 	},
 	"peerDependencies": {
 		"@axway/api-builder-runtime": "^4.5.0"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
-		"mocha": "^6.2.3"
+		"mocha": "^6.2.3",
+		"simple-mock": "^0.8.0"
 	},
 	"scripts": {
 		"test": "mocha ./test --recursive -R spec",

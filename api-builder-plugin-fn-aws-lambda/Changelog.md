@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - aws-sdk version changed from 2.619.0 to 2.656.0
 - Using Simple-Mock for Unit-Tests
+- Using a single AWS-Client initialized on API-Builder start
 
 ## [1.0.1] 2020-03-30
 ### Security

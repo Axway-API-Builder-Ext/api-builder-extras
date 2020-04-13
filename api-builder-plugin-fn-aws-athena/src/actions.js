@@ -1,6 +1,3 @@
-const AthenaExpress = require("athena-express");
-const aws = require("aws-sdk");
-
 /**
  * Action method.
  * @param {object} req - The flow request context passed in at runtime.  The
@@ -12,18 +9,10 @@ const aws = require("aws-sdk");
  * @return {undefined}
  */
 function query(req, outputs, options) {
-  const awsConfig = this.pluginConfig.aws;
   const db = req.params.db;
 	const table = req.params.table;
   const fields = req.params.fields;
   const limit = req.params.limit;
-
-  if(typeof awsConfig.credentials.region === 'undefined' || awsConfig.credentials.region == 'PROVIDE_YOUR_AWS_REGION' ||
-    typeof awsConfig.credentials.accessKeyId === 'undefined' || awsConfig.credentials.accessKeyId == 'PROVIDE_YOUR_AWS_ACCESS_KEY_ID' ||
-    typeof awsConfig.credentials.secretAccessKey === 'undefined' || awsConfig.credentials.secretAccessKey == 'PROVIDE_YOUR_AWS_SECRET')
-  {
-  	return outputs.error(null, new Error('Your AWS-Athena configuration file is incomplete. Please check conf/aws-athena.default.js'));
-  }
 
 
   if (!table) {
@@ -36,19 +25,6 @@ function query(req, outputs, options) {
 		return outputs.error(null, new Error('Missing required parameter: db'));
 	}
 
-  awsCredentials = {
-    region: awsConfig.credentials.region,
-    accessKeyId: awsConfig.credentials.accessKeyId,
-    secretAccessKey: awsConfig.credentials.secretAccessKey
-  };
-  aws.config.update(awsCredentials);
-
-  const athenaExpressConfig = {
-    aws
-  };
-
-  const athenaExpress = new AthenaExpress(athenaExpressConfig);
-
   (async () => {
     let myQuery = {
         sql: `SELECT ${fields} FROM ${table}`,
@@ -60,7 +36,7 @@ function query(req, outputs, options) {
       myQuery.sql = myQuery.sql + ` LIMIT 5`
     }
     try {
-      var results = await athenaExpress.query(myQuery);
+      var results = await this.athenaClient.query(myQuery);
       return outputs.next(null, results);
     } catch (error) {
       options.logger.error(`Failed to execute query: ${error}`)

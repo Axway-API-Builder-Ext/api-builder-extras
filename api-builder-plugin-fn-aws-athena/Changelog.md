@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- Changed version of the aws-sdk from 2.610.0 to 2.648.0
+- Using Simple-Mock for Unit-Tests
+- Using a single AWS-Client initialized on API-Builder start
 
 ## [1.0.1] 2020-03-30
 ### Changed
