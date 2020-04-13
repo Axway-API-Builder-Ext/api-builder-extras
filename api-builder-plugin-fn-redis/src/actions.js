@@ -1,4 +1,3 @@
-const redis = require("redis");
 
 /**
  * Action method.
@@ -15,7 +14,7 @@ const redis = require("redis");
  *
  * @return {undefined}
  */
-function set(req, outputs, options) {
+async function set(req, outputs) {
 	const key = req.params.key;
 	let value = req.params.value;
 	if (!key) {
@@ -27,36 +26,36 @@ function set(req, outputs, options) {
 	if (!value) {
 		return outputs.error(null, {message: 'Missing required parameter: value'});
 	}
-	debugger;
 	if(typeof value !== 'string' && !(value instanceof Date)) {
 		value = JSON.stringify(value);
 	}
 
-	this.redisClient.set(key, value, function(err, result) {
-		if(err) {
-			return outputs.error(null, {message: err});
-		}
+	let result;
+	try {
+		result = await this.redisClient.set(key, value);
 		return outputs.next(null, result);
-	})
+	} catch (err) {
+		return outputs.error(null, {message: err});
+	}
 }
 
-function get(req, outputs, options) {
-
+async function get(req, outputs) {
 	const key = req.params.key;
-
 	if (!key) {
 		return outputs.error(null, {message: 'Missing required parameter: key'});
 	}
 
-	this.redisClient.get(key, function(err, result) {
-		if(err) {
-			return outputs.error(null, {message: err});
-		}
+	let result;
+	try {
+		result = await this.redisClient.get(key);
 		if(!result) {
 			return outputs.error(null, {message: `No result found for key: '${key}'`});
+		} else {
+			return outputs.next(null, result);
 		}
-		return outputs.next(null, result);
-	});
+	} catch (err) {
+		return outputs.error(null, {message: err});
+	}
 }
 
 module.exports = {

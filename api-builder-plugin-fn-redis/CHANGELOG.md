@@ -5,7 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-### Security
+### Added
+- Prevents retry on connect
+- Throw exception in case of Redis connection failure
+- Facade for Redis client
+- Actions use async version of Redis client api
+- Register API Builder hooks for graceful disconnect
+- Reusable utils to register context for actions
 
 ## [0.0.1] 2020-04-08
 ### Added

@@ -1,20 +1,39 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-sdk');
-var simple = require('simple-mock');
-
-const getPlugin = require('../src');
+const simple = require('simple-mock');
+const mock = require('mock-require');
 const actions = require('../src/actions');
-
+let getPlugin = require('../src');
 const pluginConfig = require('./test-config/basic-config').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-redis'];
 
 describe('flow-node redis', () => {
-	let runtime;
-	before(async () => runtime = new MockRuntime(await getPlugin(pluginConfig)));
-
-	after(async () => {
-		if(runtime.plugin.flownodes.redis.redisClient) {
-			runtime.plugin.flownodes.redis.redisClient.quit()
+	const options = {
+		logger: {
+			trace: simple.mock(),
+			error: simple.mock()
 		}
+	};
+	let mockRedisClient, rcGetMock, rcSetMock;
+
+	beforeEach(async () => {
+		rcGetMock = simple.mock().callFn((val) => {
+			if (val === 'ABC') 
+				return `Hello ${val}!`;			
+			// Add variations here if needed to handle other inputs
+		});
+		rcSetMock = simple.mock();
+		mockRedisClient = simple.mock().returnWith({
+			get: rcGetMock,
+			set: rcSetMock
+		});
+		mock('../src/redis-client', mockRedisClient);
+		getPlugin = mock.reRequire('../src');
+		runtime = new MockRuntime(await getPlugin(pluginConfig, options));		
+	});
+
+	afterEach(async () => {
+		simple.restore();
+		mock.stopAll();
 	});
 
 	describe('#constructor', () => {
@@ -36,40 +55,28 @@ describe('flow-node redis', () => {
 		it('should error when missing parameter key', async () => {
 			const flowNode = runtime.getFlowNode('redis');
 
-			const result = await flowNode.get({
-				key: null
-			});
-
+			const result = await flowNode.get({ key: null });
+			
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('error');
 			expect(result.args[1]).to.be.instanceOf(Object)
 				.and.to.have.property('message', 'Missing required parameter: key');
 		});
 
-		it('should succeed with valid argument', async () => {
-			
+		it('should succeed with valid argument', async () => {			
 			const flowNode = runtime.getFlowNode('redis');
-
-			simple.mock(runtime.plugin.flownodes.redis.redisClient, 'get').callFn(function (key, callback) {
-				expect(key).to.equal('ABC');
-				callback(null, 'HELLO');
-			});
 
 			const result = await flowNode.get({ key: 'ABC' });
 
+			expect(rcGetMock.callCount).to.equal(1)
+			expect(rcGetMock.firstCall.arg).to.equal('ABC');
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
-			expect(result.args[1]).to.equal('HELLO');
+			expect(result.args[1]).to.equal('Hello ABC!');
 		});
 
-		it('should error with an unkown key', async () => {
-			
+		it('should error with an unkown key', async () => {			
 			const flowNode = runtime.getFlowNode('redis');
-
-			simple.mock(runtime.plugin.flownodes.redis.redisClient, 'get').callFn(function (key, callback) {
-				expect(key).to.equal('UNKNOWN');
-				callback(null, null);
-			});
 
 			const result = await flowNode.get({ key: 'UNKNOWN' });
 
@@ -84,9 +91,7 @@ describe('flow-node redis', () => {
 		it('should error when missing parameter key', async () => {
 			const flowNode = runtime.getFlowNode('redis');
 
-			const result = await flowNode.set({
-				key: null
-			});
+			const result = await flowNode.set({ key: null });
 
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('error');
@@ -111,28 +116,17 @@ describe('flow-node redis', () => {
 			
 			const flowNode = runtime.getFlowNode('redis');
 
-			simple.mock(runtime.plugin.flownodes.redis.redisClient, 'set').callFn(function (key, value, callback) {
-				expect(key).to.equal('key123');
-				expect(value).to.equal('value123');
-				callback(null, 'OK');
-			});
-
 			const result = await flowNode.set({ key: 'key123', value: 'value123' });
 
+			expect(rcSetMock.callCount).to.equal(1)
+			expect(rcSetMock.firstCall.args).to.deep.equal(['key123', 'value123']);
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
-			expect(result.args[1]).to.equal('OK');
+			expect(result.args).to.deep.equal([null, undefined]);
 		});
 
 		it('should succeed using a value with type: Object', async () => {
 			const flowNode = runtime.getFlowNode('redis');
-
-			simple.mock(runtime.plugin.flownodes.redis.redisClient, 'set').callFn(function (key, value, callback) {
-				expect(key).to.equal('objectKey');
-				expect(value).to.be.a('string');
-				expect(value).to.deep.equal(JSON.stringify({prop1: 'value1', prop2: 'value2'}));
-				callback(null, 'OK');
-			});
 
 			const result = await flowNode.set({ 
 				key: 'objectKey', 
@@ -140,50 +134,53 @@ describe('flow-node redis', () => {
 					prop1: 'value1', prop2: 'value2' 
 				}
 			});
+			expect(rcSetMock.callCount).to.equal(1)
+			expect(rcSetMock.firstCall.args).to.deep.equal([
+				'objectKey', 
+				JSON.stringify({
+					prop1: 'value1', prop2: 'value2' 
+				})
+			]);
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
-			expect(result.args[1]).to.equal('OK');
+			expect(result.args).to.deep.equal([null, undefined]);
 		});
 
 		it('should succeed using a value with type: Array', async () => {
 			const flowNode = runtime.getFlowNode('redis');
 			const testArray = ["value1", "value2"];
 
-			simple.mock(runtime.plugin.flownodes.redis.redisClient, 'set').callFn(function (key, value, callback) {
-				expect(key).to.equal('arrayKey');
-				expect(value).to.be.a('string');
-				expect(value).to.deep.equal(JSON.stringify(testArray));
-				callback(null, 'OK');
-			});
-
 			const result = await flowNode.set({ 
 				key: 'arrayKey', 
 				value: testArray
 			});
+			expect(rcSetMock.callCount).to.equal(1)
+			expect(rcSetMock.firstCall.args).to.deep.equal([
+				'arrayKey',
+				JSON.stringify(testArray)
+			]);			
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
-			expect(result.args[1]).to.equal('OK');
+			expect(result.args).to.deep.equal([null, undefined]);
 		});
 
 		it('should succeed using a value with type: Date', async () => {
 			const testDate = new Date('1995-12-17T03:24:00');
 			const flowNode = runtime.getFlowNode('redis');
 
-			simple.mock(runtime.plugin.flownodes.redis.redisClient, 'set').callFn(function (key, value, callback) {
-				expect(key).to.equal('objectKey');
-				expect(value).to.equal(testDate);
-				expect(value).to.be.a('date');
-				callback(null, 'OK');
-			});
-
-			const result = await flowNode.set({ 
+			const result = await flowNode.set({
 				key: 'objectKey', 
 				value: testDate
 			});
 
+			expect(rcSetMock.callCount).to.equal(1)
+			expect(rcSetMock.firstCall.args).to.deep.equal([
+				'objectKey',
+				testDate
+			]);
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
-			expect(result.args[1]).to.equal('OK');
+			expect(result.args).to.deep.equal([null, undefined]);
 		});
 
 		it('should fail using a key with type: Object', async () => {
