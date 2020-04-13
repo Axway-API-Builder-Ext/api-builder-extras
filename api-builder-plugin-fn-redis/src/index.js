@@ -18,7 +18,9 @@ async function getPlugin(pluginConfig, options) {
 		return Promise.reject(ex);
 	}
 	// All you pass here will be set as context for your actions
-	return createPluginWithContext({ redisClient });
+	var plugin = createPluginWithContext({ redisClient });
+	plugin.flownodes['redis'].redisClient = redisClient;
+	return plugin;
 }
 
 module.exports = getPlugin;
