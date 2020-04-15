@@ -35,7 +35,6 @@ flow-nodes:
             context: $.error
             schema:
               type: string
-
       get:
         name: Get
         description: Gets a value from Redis
@@ -57,3 +56,33 @@ flow-nodes:
             context: $.error
             schema:
               type: string
+      quit:
+        name: Quit
+        description: Sends the quit command to the Redis server and ends cleanly right after all running commands were properly handled.
+        parameters: []
+        outputs:
+          next:
+            name: Next
+            context: $.value
+            schema:
+              type: string
+          error:
+            name: Error
+            context: $.error
+            schema:
+              type: string
+      info:
+        name: Info
+        description: Gets info about the Redis environment
+        parameters: []
+        outputs:
+          next:
+            name: Next
+            context: $.value
+            schema:
+              type: string
+          error:
+            name: Error
+            context: $.error
+            schema:
+              type: string              

@@ -33,11 +33,6 @@ The _Get_ method tries to find an entry with the given _key_ from Redis
 | --- | --- | --- | --- |
 | key | string | y | They key of the object to lookup in Redis. |
 
-## Tests
-The project is mocking a Redis instance to execute tests and validate parameters and responses are handled correclty.
-And run the following command:  
-`npm test`  
-The tests are also automatically executed on every commit to this project.  
 
 ## Compatibility
 Tested with Redis 5.0.8  

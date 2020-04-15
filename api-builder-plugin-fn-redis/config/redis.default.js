@@ -1,9 +1,11 @@
 module.exports = {
 	pluginConfig: {
-		'@axway-api-builder-ext/api-builder-plugin-fn-redis': {
-			// During development you may set the variables in conf/.env
-			host: process.env.REDIS_NODE, 
-			port: parseInt(process.env.REDIS_PORT) || 6379
+		// During development you may set the environment variables in conf/.env
+		// More info at: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/environmentalization.html
+		'@axway-api-builder-ext/api-builder-plugin-fn-redis': {			
+			host: process.env.REDIS_HOST, // Redis server location
+			port: parseInt(process.env.REDIS_PORT) || 6379, // Redis server port
+			registerHooks: true // When true register callbacks to be excuted on runtime lifecycle events
 		}
 	}
 };

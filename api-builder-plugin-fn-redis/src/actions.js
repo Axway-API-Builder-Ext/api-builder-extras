@@ -58,6 +58,34 @@ async function get(req, outputs) {
 	}
 }
 
+async function quit(req, outputs) {
+	let result;
+	try {
+		result = await this.redisClient.quit();
+		if(!result) {
+			return outputs.error(null, {message: `Problem while quiting Redis`});
+		} else {
+			return outputs.next(null, result);
+		}
+	} catch (err) {
+		return outputs.error(null, {message: err});
+	}
+}
+
+async function info(req, outputs) {
+	let result;
+	try {
+		result = await this.redisClient.info();
+		if(!result) {
+			return outputs.error(null, {message: `Problem while obtaining Redis info`});
+		} else {
+			return outputs.next(null, result);
+		}
+	} catch (err) {
+		return outputs.error(null, {message: err});
+	}
+}
+
 module.exports = {
-	set, get
+	set, get, quit, info
 };

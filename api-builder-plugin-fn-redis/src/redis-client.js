@@ -33,13 +33,11 @@ module.exports = async (pluginConfig, options) => {
 			// before `error` so just trace and don't deal with the promise here.
 			options.logger.trace(`Redis server connection closed!`);
 		});
-		// Don't try to register runtime hooks when running tests.
-		if (!options.isTest) {
+		if (pluginConfig.registerHooks !== false) {
 			registerRuntimeHooks({
-				stopping: () => {
-					redisClient.quit(() => {
-						options.logger.trace(`Redis client quit!`);
-					})
+				stopping: async () => {
+					await redisClient.quit();
+					options.logger.trace(`Redis client quit!`);
 				}
 			});
 		}
@@ -58,6 +56,7 @@ function createInterface(redisClient) {
 	return {
 		get: promisify(redisClient.get).bind(redisClient),
 		set: promisify(redisClient.set).bind(redisClient), 
-		quit: promisify(redisClient.quit).bind(redisClient)
+		quit: promisify(redisClient.quit).bind(redisClient),
+		info: promisify(redisClient.info).bind(redisClient)
 	}
 }
