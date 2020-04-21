@@ -2,11 +2,6 @@
   "name": "@axway-api-builder-ext/api-builder-plugin-fc-jira",
   "version": "0.0.4",
   "description": "Use this connector to integrate with the JIRA Cloud Platform",
-  "main": "index.js",
-  "scripts": {
-    "postinstall": "node scripts/postinstall.js",
-    "uninstall": "node scripts/uninstall.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
@@ -25,11 +20,25 @@
     "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues"
   },
   "homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fc-jira",
+  "main": "index.js",
   "files": [
-    "swagger",
-    "scripts",
+    "openapi",
     "README.md",
     "LICENSE"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "@axway/api-builder-oas-flow-node": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@axway/api-builder-runtime": "^4.5.0"
+  },
+  "devDependencies": {
+    "@axway/api-builder-runtime": "^4.5.0",
+    "@axway/api-builder-sdk": "^0.2.0",
+    "chai": "^4.1.2",
+    "mocha": "^6.1.4"
+  },
+  "scripts": {
+    "test": "mocha ./test --recursive -R spec"
+  }
 }

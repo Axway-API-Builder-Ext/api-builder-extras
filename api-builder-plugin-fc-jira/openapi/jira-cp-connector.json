@@ -2613,12 +2613,6 @@
     }
   },
   "securityDefinitions": {
-    "OAuth": {
-      "type": "oauth2",
-      "flow": "accessCode",
-      "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
-      "tokenUrl": "https://accounts.google.com/o/oauth2/token"
-    },
     "HTTP Basic Authentication": {
       "type": "basic"
     }
@@ -2626,9 +2620,6 @@
   "security": [
     {
       "HTTP Basic Authentication": []
-    },
-    {
-      "OAuth": []
     }
   ],
   "tags": [
