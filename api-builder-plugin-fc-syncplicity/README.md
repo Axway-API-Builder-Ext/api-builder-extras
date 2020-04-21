@@ -85,8 +85,7 @@ Tested with Syncplicity version Q1/2020
 Requires API-Builder Independence or higher
 
 ## Changelog
-- 1.0.0 - 02.02.2020
-  - Initial version
+See [CHANGELOG](CHANGELOG.md)
 
 ## Limitations/Caveats
 - __Not required anymore with release: Independence__  

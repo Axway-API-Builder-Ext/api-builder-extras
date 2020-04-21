@@ -68,8 +68,7 @@ module.exports = {
 Tested with SAP Landscape Management 3.0
 
 ## Changelog
-- 1.0.2 - 11.12.2019
-  - Initial version
+See [CHANGELOG](CHANGELOG.md)
 
 ## Limitations/Caveats
 - Nothing known
