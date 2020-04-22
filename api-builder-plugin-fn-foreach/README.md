@@ -1,6 +1,6 @@
 [![Build Status](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/Foreach%20Flow-Node%20Tests/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions?query=XML+Flow)
 
-# Nested flows for API-Builder
+# Loops for API-Builder
 Today API-Builder doesn't support to execute Nested-Flows out of the box. However, a nested flow is for instance useful to execute a different flow based on an array of input objects. This is basically the same as writing a function in a classic programming language which is called from a loop.  
 This flow node allows to you iterate over an array and invoke a nested flow for each element.
 
