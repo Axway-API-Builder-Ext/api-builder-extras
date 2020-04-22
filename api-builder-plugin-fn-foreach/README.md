@@ -7,7 +7,7 @@ One of the unsupported features is to create a flow that isn't bound to an endpo
 That means, there's actually no UI for doing this.  
 However, just can manually create an empty flow in `/flows`.
 
-To streamline the process, we have install two sample flows
+To streamline the process, we have installed two sample flows
 during installation into your `flows` directory.
 - `/flows/ExampleParentFlow.json`
 - `/flows/PerItemFlow.json`
