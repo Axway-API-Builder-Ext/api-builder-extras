@@ -12,17 +12,17 @@ To streamline the process for you, we have installed two sample flows during ins
 - `/flows/ExampleParentFlow.json`
 - `/flows/PerItemFlow.json`
 
-_Consider both flows as examples. You can create your own flows, just by copy the existing ones and rename them them._
+_Consider both flows as examples. You can create your own flows, just by copy the existing ones and rename them._
 
 ### Main flow
-The main flow is typically a normal flow you have created using the API-Builder and attached to an API-Endpoint.  
-The sample Main-Flow is supposed just to give you an example how a to call a Nested-Flow as shown in the following screenshot:    
+The main flow is typically a normal flow you have created using the API-Builder UI and attached to an API-Endpoint.  
+The provided sample Main-Flow is supposed just to give you an example how a to call a Nested-Flow as shown in the following screenshot:    
 ![Main flow using nested flow](imgs/ExampleParentFlow.png)  
 If you would like to open the sample main flow in your API-Builder flow editor to see how it is working, use the following URL:  
 http://localhost:8080/console/project/flows/ExampleParentFlow/edit
 
 ### Nested flow
-This is the nested flow (see below) that is called by the sample main flow. You can do whatever you need in that flow by using all installed API-Builder plugins.  
+The nested flow (see below) is called by the sample main flow. You can do whatever you need in that flow by using all installed API-Builder plugins.  
 The result value of your nested flow is returned in `$.response`.  
 
 You may create as many Nested-Flows as you want just by copy an existing flow in the `flows` directory, rename the file and configure the [expected parameters](#nested-flow-parameters) within the JSON-File.  
@@ -30,14 +30,14 @@ You may create as many Nested-Flows as you want just by copy an existing flow in
 
 #### Sample nested flow
 ![Nested flow](imgs/ExampleNestedFlow.png)  
-You may open nested-flows in the API-Builder editor just by using the following URL:   
+You may open nested-flows in the API-Builder editor just by using the following URL with the correct flow name:   
 http://localhost:8080/console/project/flows/PerItemFlow/edit  
 _Obviously you can do the same with your own nested flows you have created. But please remember to restart the API-Builder process to make the flows available to the UI._ 
 
-_Best is to open both flows (Main and Nested) in parallel in two Browser-Tabs at the same time to be able to modify both._
+_Best is to open both flows (Main and Nested) in parallel in two Browser-Tabs at the same time to be able to modify both simultaneously._
 
 ### Nested flow parameters
-The nested flow is like a function and you need to tell the expected input parameters by using a Javascript object. The parameters given by the main flow have to pass schema validation in the nested flow.  
+The nested flow is like a function and you need to tell the expected input parameters. The parameters given by the main flow have to pass a schema validation in the nested flow.  
 For example when iterating in the main flow over an array of objects `[ { name: 'Tom' }, { name: 'Dick' }, { name: 'Harry' }]`
 the nested flow gets a single object: `{ name: 'Dick' }`, hence the parameter in the nested flow must be configured like so:   
 
@@ -50,9 +50,9 @@ the nested flow gets a single object: `{ name: 'Dick' }`, hence the parameter in
 		"required": []
 	},
 ```
-The `properties` field contains the expected object, which is in the example case an object having a field: `name` which must be of type `String`.
+The `properties` field contains the expected object, which is in the example an object having a field: `name` which must be of type `String`.
 
-To pass the schema validation when calling the nested flow, the flow parameter: `items` has to be an Array, that contains the object as defined above. Configured like so:  
+Therefore, to pass the schema validation when calling the nested flow, the flow parameter: `items` has to be an Array, that contains a Javascript object as defined above. Configured like so:  
 ![Correct items parameter][items-parameter]  
 
 :exclamation: Iterating over arrays of primitives (e.g. an Array of Strings) is not supported. Therefore, this example wont work:   
