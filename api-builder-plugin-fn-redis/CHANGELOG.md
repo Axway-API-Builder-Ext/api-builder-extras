@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.0.2] 2020-04-23
 ### Added
 - Prevents retry on connect
 - Throw exception in case of Redis connection failure
