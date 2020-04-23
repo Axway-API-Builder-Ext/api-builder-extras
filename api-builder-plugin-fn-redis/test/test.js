@@ -14,7 +14,6 @@ const { MockRuntime } = require('@axway/api-builder-sdk');
 const actions = require('../src/actions');
 let getPlugin = require('../src');
 
-const pluginConfig = require('./config').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-redis'];
 const testSuiteType = process.env.TEST_TYPE ? process.env.TEST_TYPE.toLowerCase() : 'unit';
 
 function isUnitTest() {
@@ -25,7 +24,7 @@ function isUnitTest() {
  * Construct the context needed for unit and integration test
  * execution - mocked runtime, mocked flow node, and mocked redis interface.
  * 
- * Note that 'mockedRedisInterface' is only used in unit test suite.
+ * Note that 'mockedRedisClient' is only used in unit test suite.
  */
 async function constructTestContext() {
 	const options = {
@@ -33,40 +32,59 @@ async function constructTestContext() {
 			trace: simple.mock(),
 			error: simple.mock()
 		}
-	};	
-	const mockedRedisInterface = {
+	};
+	const mockedRedisClient = {
 		get: simple.mock().callFn(() => 'OK'),
 		set: simple.mock().callFn(() => 'OK')
 	}
 	if (isUnitTest()) {
-		const mockedRedisClient = simple.mock().returnWith(mockedRedisInterface);
-		mock('../src/redis-client', mockedRedisClient);
+		mock(
+			'../src/redis-client', 
+			simple.mock().returnWith(mockedRedisClient)
+		);
 		getPlugin = mock.reRequire('../src');
 	}
-	const runtime = new MockRuntime(await getPlugin(pluginConfig, options));
+	const pluginConfig = {
+		host: process.env.REDIS_HOST,
+		port: parseInt(process.env.REDIS_PORT),
+		// hooks can't be registed in test mode so set to false
+		registerHooks: false
+	}
+	const plugin = await getPlugin(pluginConfig, options);
+	const runtime = new MockRuntime(plugin);
 	const flowNode = runtime.getFlowNode('redis');
-	return { runtime, flowNode, mockedRedisInterface }
+	if (isUnitTest()) {
+		return { runtime, flowNode, mockedRedisClient }
+	} else {
+		return { runtime, flowNode, redisClient: plugin.redisClient }
+	}
 }
 
 describe('flow-node redis', () => {
 	beforeEach(async function () {
 		const { ctx } = this.test;
-		const { runtime, flowNode, mockedRedisInterface} = await constructTestContext();
-		
+		const { 
+			runtime, 
+			flowNode, 
+			redisClient, 
+			mockedRedisClient 
+		} = await constructTestContext();
+
 		// Sets what we need into mocha ctx so we can use it in tests
 		// In order for this to work use arrow functions on 'describe' statements
 		// and normal functions on 'it' statements.
 		ctx.runtime = runtime;
 		ctx.flowNode = flowNode;
-		ctx.mockedRedisInterface = mockedRedisInterface;
+		ctx.redisClient = redisClient;
+		ctx.mockedRedisClient = mockedRedisClient;		
 	});
 
 	afterEach(async function () {
-		const { flowNode } = this;
+		const { redisClient } = this;
 		if (!isUnitTest()) {
 			// This is how we gracefully shutdown when we do
 			// integration testing
-			await flowNode.quit();
+			await redisClient.quit();
 		}
 		simple.restore();
 		mock.stopAll();
@@ -80,13 +98,11 @@ describe('flow-node redis', () => {
 			expect(actions).to.be.an('object');
 			expect(actions.get).to.be.a('function');
 			expect(actions.set).to.be.a('function');
-			expect(actions.quit).to.be.a('function');
 		});
 
 		it('should define valid flow-nodes', function () {
 			const { runtime } = this;
-			runtime.validate()
-			// expect(runtime.validate()).to.not.throw;
+			runtime.validate();
 		});
 	});
 
@@ -104,15 +120,15 @@ describe('flow-node redis', () => {
 		});
 
 		it('should succeed with valid argument', async function () {
-			const { flowNode, mockedRedisInterface} = this;
+			const { flowNode, mockedRedisClient } = this;
 			if (!isUnitTest()) { // Explicit that calling 'set' is needed only for Integration test suite
 				await flowNode.set({ key: '123456', value: 'OK' });
 			}
 			const result = await flowNode.get({ key: '123456' });
 
 			if (isUnitTest()) {
-				expect(mockedRedisInterface.get.callCount).to.equal(1)
-				expect(mockedRedisInterface.get.firstCall.arg).to.equal('123456');
+				expect(mockedRedisClient.get.callCount).to.equal(1)
+				expect(mockedRedisClient.get.firstCall.arg).to.equal('123456');
 			}
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
@@ -120,10 +136,10 @@ describe('flow-node redis', () => {
 		});
 
 		it('should error with an unkown key', async function () {
-			const { flowNode, mockedRedisInterface } = this;
+			const { flowNode, mockedRedisClient } = this;
 			if (isUnitTest()) {
 				// This is how we overide default behavior of mocked interface
-				mockedRedisInterface.get = simple.mock();
+				mockedRedisClient.get = simple.mock();
 			}
 
 			const result = await flowNode.get({ key: 'UNKNOWN' });
@@ -164,13 +180,13 @@ describe('flow-node redis', () => {
 		});
 
 		it('should succeed with valid arguments key and value', async function () {
-			const { flowNode, mockedRedisInterface } = this;
+			const { flowNode, mockedRedisClient } = this;
 
 			let result = await flowNode.set({ key: 'key123', value: 'value123' });
 
 			if (isUnitTest()) {
-				expect(mockedRedisInterface.set.callCount).to.equal(1)
-				expect(mockedRedisInterface.set.firstCall.args).to.deep.equal(['key123', 'value123']);
+				expect(mockedRedisClient.set.callCount).to.equal(1)
+				expect(mockedRedisClient.set.firstCall.args).to.deep.equal(['key123', 'value123']);
 			}
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
@@ -178,7 +194,7 @@ describe('flow-node redis', () => {
 		});
 
 		it('should succeed using a value with type: Object', async function () {
-			const { flowNode, mockedRedisInterface } = this;
+			const { flowNode, mockedRedisClient } = this;
 
 			const result = await flowNode.set({
 				key: 'objectKey',
@@ -187,8 +203,8 @@ describe('flow-node redis', () => {
 				}
 			});
 			if (isUnitTest()) {
-				expect(mockedRedisInterface.set.callCount).to.equal(1)
-				expect(mockedRedisInterface.set.firstCall.args).to.deep.equal([
+				expect(mockedRedisClient.set.callCount).to.equal(1)
+				expect(mockedRedisClient.set.firstCall.args).to.deep.equal([
 					'objectKey',
 					JSON.stringify({
 						prop1: 'value1', prop2: 'value2'
@@ -201,7 +217,7 @@ describe('flow-node redis', () => {
 		});
 
 		it('should succeed using a value with type: Array', async function () {
-			const { flowNode, mockedRedisInterface } = this;
+			const { flowNode, mockedRedisClient } = this;
 
 			const testArray = ["value1", "value2"];
 			const result = await flowNode.set({
@@ -210,8 +226,8 @@ describe('flow-node redis', () => {
 			});
 
 			if (isUnitTest()) {
-				expect(mockedRedisInterface.set.callCount).to.equal(1)
-				expect(mockedRedisInterface.set.firstCall.args).to.deep.equal([
+				expect(mockedRedisClient.set.callCount).to.equal(1)
+				expect(mockedRedisClient.set.firstCall.args).to.deep.equal([
 					'arrayKey',
 					JSON.stringify(testArray)
 				]);
@@ -221,8 +237,8 @@ describe('flow-node redis', () => {
 			expect(result.args).to.deep.equal([null, 'OK']);
 		});
 
-		it('should succeed using a value with type: Date', async function () {			
-			const { flowNode, mockedRedisInterface } = this;
+		it('should succeed using a value with type: Date', async function () {
+			const { flowNode, mockedRedisClient } = this;
 
 			const testDate = new Date('1995-12-17T03:24:00');
 			const result = await flowNode.set({
@@ -231,8 +247,8 @@ describe('flow-node redis', () => {
 			});
 
 			if (isUnitTest()) {
-				expect(mockedRedisInterface.set.callCount).to.equal(1)
-				expect(mockedRedisInterface.set.firstCall.args).to.deep.equal([
+				expect(mockedRedisClient.set.callCount).to.equal(1)
+				expect(mockedRedisClient.set.firstCall.args).to.deep.equal([
 					'objectKey',
 					testDate
 				]);
@@ -258,3 +274,35 @@ describe('flow-node redis', () => {
 		});
 	});
 });
+
+if (!isUnitTest()) {
+	describe('bad config', () => {
+			// Need to re-require because getPlugin might still point to 
+			// mocked redis client.
+			getPlugin = mock.reRequire('../src');
+			it('should throw when not configured properly', async () => {
+				const options = {
+					logger: {
+						trace: simple.mock(),
+						error: simple.mock()
+					}
+				};		
+				const pluginConfig = {
+					host: 'abc',
+					port: '123',
+					// hooks can't be registed in test mode so set to false
+					registerHooks: false
+				}
+				try {
+					await getPlugin(pluginConfig, options);
+					expect.fail('Unexpected');
+				} catch (ex) {
+					expect(options.logger.error.calls).to.have.length(1);
+					expect(
+						options.logger.error.calls[0].arg
+					).to.equal(`Failed to connect to Redis server. Make Redis server is running and conf/redis.default.js is configured`);
+					expect(ex.origin.message).to.equal('Redis connection to abc:123 failed - getaddrinfo ENOTFOUND abc')
+				}
+			});	
+	});
+}

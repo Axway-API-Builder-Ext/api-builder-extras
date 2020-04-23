@@ -8,13 +8,18 @@ Integrate [Redis](https://redis.io) into your [API-Builder flow][1] using this c
 
 Before you can make use of it in your flow you have to configure your Redis instance in your API-Builder project.
 
-During installation a new config file has been automatically created which must be completed with your Redis instance. You can do that directly from within the API-Builder UI: Configuration --> redis.default.js and set the Redis Node & Port.
+During installation of this plugin a new config file has been automatically created which must be completed with your Redis configuration details. You can do that directly from within the API-Builder UI:
+
+* Open `Configuration` tab
+* Select `redis.default.js`
+* Set values for `host` and `port`
+
 However, we recommend to setup your configuration in a [environmentalized][4] way keeping [sensitive information][5] away from the source-code repository.
 
 ## Redis
 This Connector is based on the https://www.npmjs.com/package/redis project. It's a good starting point to understand Redis reading their supported [commands](https://redis.io/commands).
 
-As of today, the flow node only supports the Get and Set methods.
+As of today, this flow-node only supports the Get and Set methods.
 
 ## Set
 
@@ -45,11 +50,13 @@ See [Change-Log][6]
 Only Get & Set methods are currently supported
 Authentication to the Redis instance is currently not supported
 
-If you require on the of the unsupported APIs or authentication don't hestitate to create an [issue][3]
+If you require an unsupported API or authentication don't hestitate to create an [issue][3]
 
 ## Contributing
 
-Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Common/blob/master/Contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.  
+Please read this guide for [details on how to contribute to this flow-node](https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/api-builder-plugin-fn-redis/DEVELOPMENT.md).
+
+Please read this guide for [details on how to develop and share a plugin, our code of conduct, and the process for submitting pull requests to us] (https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/README.md).
 
 ## Team
 

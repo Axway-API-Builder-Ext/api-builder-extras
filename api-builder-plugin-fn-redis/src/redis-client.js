@@ -55,8 +55,7 @@ module.exports = async (pluginConfig, options) => {
 function createInterface(redisClient) {
 	return {
 		get: promisify(redisClient.get).bind(redisClient),
-		set: promisify(redisClient.set).bind(redisClient), 
-		quit: promisify(redisClient.quit).bind(redisClient),
-		info: promisify(redisClient.info).bind(redisClient)
+		set: promisify(redisClient.set).bind(redisClient),
+		quit: promisify(redisClient.quit).bind(redisClient)
 	}
 }

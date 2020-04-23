@@ -9,12 +9,10 @@ async function getPlugin(pluginConfig, options) {
 	let redisClient;
 	try {
 		redisClient = await createRedisClient(pluginConfig, options);
-	} catch(ex) {
-		options.logger.error(`
-		Failed to connect to Redis server:
-			1. Make sure you have a running Redis server to connect to
-			2. Configure your client in conf/redis.default.js
-		`);
+	} catch (ex) {
+		options.logger.error(
+			`Failed to connect to Redis server. Make Redis server is running and conf/redis.default.js is configured`
+		);
 		return Promise.reject(ex);
 	}
 	// All you pass here will be set as context for your actions
