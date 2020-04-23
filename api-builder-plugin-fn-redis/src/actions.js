@@ -18,15 +18,15 @@ async function set(req, outputs) {
 	const key = req.params.key;
 	let value = req.params.value;
 	if (!key) {
-		return outputs.error(null, {message: 'Missing required parameter: key'});
+		return outputs.error(null, { message: 'Missing required parameter: key' });
 	}
 	if (typeof key !== 'string') {
-		return outputs.error(null, {message: '\'key\' must be a string.'});
+		return outputs.error(null, { message: '\'key\' must be a string.' });
 	}
 	if (!value) {
-		return outputs.error(null, {message: 'Missing required parameter: value'});
+		return outputs.error(null, { message: 'Missing required parameter: value' });
 	}
-	if(typeof value !== 'string' && !(value instanceof Date)) {
+	if (typeof value !== 'string' && !(value instanceof Date)) {
 		value = JSON.stringify(value);
 	}
 
@@ -35,26 +35,26 @@ async function set(req, outputs) {
 		result = await this.redisClient.set(key, value);
 		return outputs.next(null, result);
 	} catch (err) {
-		return outputs.error(null, {message: err});
+		return outputs.error(null, { message: err });
 	}
 }
 
 async function get(req, outputs) {
 	const key = req.params.key;
 	if (!key) {
-		return outputs.error(null, {message: 'Missing required parameter: key'});
+		return outputs.error(null, { message: 'Missing required parameter: key' });
 	}
 
 	let result;
 	try {
 		result = await this.redisClient.get(key);
-		if(!result) {
-			return outputs.error(null, {message: `No result found for key: '${key}'`});
+		if (!result) {
+			return outputs.error(null, { message: `No result found for key: '${key}'` });
 		} else {
 			return outputs.next(null, result);
 		}
 	} catch (err) {
-		return outputs.error(null, {message: err});
+		return outputs.error(null, { message: err });
 	}
 }
 

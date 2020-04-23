@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Actions use async version of Redis client api
 - Register API Builder hooks for graceful disconnect
 - Reusable utils to register context for actions
+- Set up approach to run unit and integration test suites
 
 ## [0.0.1] 2020-04-08
 ### Added

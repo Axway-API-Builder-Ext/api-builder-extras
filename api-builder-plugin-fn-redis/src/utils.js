@@ -21,13 +21,21 @@ module.exports = {
     const flownodeMethods = plugin.flownodes['redis'].methods;
     Object.keys(flownodeMethods).map((method) => {
       flownodeMethods[method].action = actions[method].bind(ctx);
-    })    
+    });
+    // Set ctx to plugin only in dev mode
+    if (process.env.TEST_TYPE === 'integration') {
+      plugin.redisClient = ctx.redisClient;
+    }
     return plugin;
   },
   /** 
-   * Allow you to register hooks executed on API Builder lifecycle events.
-   * Call this method once.
-   */  
+   * This method must be called once!
+   * 
+   * Register hooks executed on API Builder lifecycle events.
+   * 
+   * @param {object} hooks - object with a key that denotes a lifecycle
+   *  event and value that refer to the function to register for that event.
+   */
   registerRuntimeHooks: (hooks) => {
     let APIBuilder;
     try {
@@ -39,6 +47,8 @@ module.exports = {
     if (!instance) {
       throw new Error('No @axway/api-builder-runtime instance');
     }
-    instance.on('stopping', hooks.stopping);
+    Object.keys(hooks).forEach((event) => {
+      instance.on(event, hooks[event]);
+    });    
   }
 }

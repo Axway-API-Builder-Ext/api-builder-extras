@@ -29,7 +29,7 @@
 		"scripts"
 	],
 	"dependencies": {
-		"@axway/api-builder-sdk": "^0.2.0",
+		"@axway/api-builder-sdk": "0.2.0",
 		"redis": "^3.0.2"
 	},
 	"peerDependencies": {
@@ -37,12 +37,16 @@
 	},
 	"devDependencies": {
 		"chai": "^4.1.2",
-		"mocha": "^6.1.4",
+		"dotenv": "^8.2.0",
+		"mocha": "^7.1.1",
 		"mock-require": "^3.0.3",
 		"simple-mock": "^0.8.0"
 	},
 	"scripts": {
-		"test": "mocha ./test --recursive -R spec",
+		"test": "npx cross-env TEST_TYPE='unit' mocha ./test --recursive -R spec",
+		"test:debug": "npx cross-env TEST_TYPE='unit' mocha --inspect-brk ./test --recursive -R spec --timeout 10000",
+		"test:integration": "npx cross-env TEST_TYPE='integration' mocha ./test --recursive -R spec",
+		"test:integration:debug": "npx cross-env TEST_TYPE='integration' mocha  --inspect-brk ./test --recursive -R spec --timeout 10000",
 		"postinstall": "node scripts/copyconf.js"
 	}
 }

@@ -16,7 +16,7 @@ module.exports = async (pluginConfig, options) => {
 				}
 			}
 		});
-		
+
 		// Register redisClient hooks
 		redisClient.on("error", reject);
 		redisClient.on('connect', () => {
@@ -27,20 +27,20 @@ module.exports = async (pluginConfig, options) => {
 		redisClient.on('ready', () => {
 			options.logger.trace(`Redis client is ready!`);
 			return resolve(createInterface(redisClient));
-		});		
-		redisClient.on('end', function() {
+		});
+		redisClient.on('end', function () {
 			// For some reason when we overide retry strategy 'end' is emitted
 			// before `error` so just trace and don't deal with the promise here.
 			options.logger.trace(`Redis server connection closed!`);
 		});
-
-		registerRuntimeHooks({
-			stopping: () => {
-				redisClient.quit(() => {
+		if (pluginConfig.registerHooks !== false) {
+			registerRuntimeHooks({
+				stopping: async () => {
+					await redisClient.quit();
 					options.logger.trace(`Redis client quit!`);
-				})
-			}
-		});
+				}
+			});
+		}
 	});
 }
 
@@ -55,6 +55,7 @@ module.exports = async (pluginConfig, options) => {
 function createInterface(redisClient) {
 	return {
 		get: promisify(redisClient.get).bind(redisClient),
-		set: promisify(redisClient.set).bind(redisClient)
+		set: promisify(redisClient.set).bind(redisClient),
+		quit: promisify(redisClient.quit).bind(redisClient)
 	}
 }

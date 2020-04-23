@@ -2,7 +2,7 @@ flow-nodes:
   redis:
     name: Redis
     icon: redis-logo.png
-    description: Flow node for Redis communication.
+    description: A flow-node for communication with Redis.
     category: general
     methods:
       set:
@@ -16,7 +16,7 @@ flow-nodes:
             schema:
               type: string
           value:
-            description: The value to store in Redis along with the key. It must be either a String or Date, all other types are converted into Strings using JSON.stringify
+            description: The value to store in Redis along with the key. It must be either a String or Date, all other types are converted into Strings using JSON.stringify.
             required: true
             initialType: string
             schema:
@@ -35,13 +35,12 @@ flow-nodes:
             context: $.error
             schema:
               type: string
-
       get:
         name: Get
         description: Gets a value from Redis
         parameters:
           key:
-            description: They key used to store the value in Redis.
+            description: They key used to retrieve value from Redis.
             required: true
             initialType: string
             schema:
