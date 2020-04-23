@@ -56,7 +56,7 @@ If you require an unsupported API or authentication don't hestitate to create an
 
 Please read this guide for [details on how to contribute to this flow-node](https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/api-builder-plugin-fn-redis/DEVELOPMENT.md).
 
-Please read this guide for [details on how to develop and share a plugin, our code of conduct, and the process for submitting pull requests to us] (https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/README.md).
+Please read this guide for [details on how to develop and share a plugin, our code of conduct, and the process for submitting pull requests to us](https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/README.md).
 
 ## Team
 
