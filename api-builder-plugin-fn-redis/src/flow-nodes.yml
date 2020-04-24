@@ -48,6 +48,13 @@ flow-nodes:
         outputs:
           next:
             name: Next
+            description: The value retrieved from Redis will be stored in this variable.
+            context: $.value
+            schema:
+              type: string
+          noResult:
+            name: No Result
+            description: If for the given key no result could be found.
             context: $.value
             schema:
               type: string

@@ -11,7 +11,7 @@ async function getPlugin(pluginConfig, options) {
 		redisClient = await createRedisClient(pluginConfig, options);
 	} catch (ex) {
 		options.logger.error(
-			`Failed to connect to Redis server. Make Redis server is running and conf/redis.default.js is configured`
+			`\nFailed to connect to Redis server: ${pluginConfig.host}:${pluginConfig.port} \nMake sure Redis server is running and conf/redis.default.js is configured`
 		);
 		return Promise.reject(ex);
 	}

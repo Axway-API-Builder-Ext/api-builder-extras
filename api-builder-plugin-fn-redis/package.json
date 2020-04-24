@@ -43,8 +43,8 @@
 		"simple-mock": "^0.8.0"
 	},
 	"scripts": {
-		"test": "npx cross-env TEST_TYPE='unit' mocha ./test --recursive -R spec",
-		"test:debug": "npx cross-env TEST_TYPE='unit' mocha --inspect-brk ./test --recursive -R spec --timeout 10000",
+		"test": "mocha ./test --recursive -R spec",
+		"test:debug": "mocha --inspect-brk ./test --recursive -R spec --timeout 10000",
 		"test:integration": "npx cross-env TEST_TYPE='integration' mocha ./test --recursive -R spec",
 		"test:integration:debug": "npx cross-env TEST_TYPE='integration' mocha  --inspect-brk ./test --recursive -R spec --timeout 10000",
 		"postinstall": "node scripts/copyconf.js"

@@ -122,7 +122,7 @@ describe('flow-node redis', () => {
 		it('should succeed with valid argument', async function () {
 			const { flowNode, mockedRedisClient } = this;
 			if (!isUnitTest()) { // Explicit that calling 'set' is needed only for Integration test suite
-				await flowNode.set({ key: '123456', value: 'OK' });
+				await flowNode.set({ key: '123456', value: 'MyValue' });
 			}
 			const result = await flowNode.get({ key: '123456' });
 
@@ -132,10 +132,10 @@ describe('flow-node redis', () => {
 			}
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([null, 'OK']);
+			expect(result.args).to.deep.equal([null, 'MyValue']);
 		});
 
-		it('should error with an unkown key', async function () {
+		it('should end with noResult for an an unkown key', async function () {
 			const { flowNode, mockedRedisClient } = this;
 			if (isUnitTest()) {
 				// This is how we overide default behavior of mocked interface
@@ -145,10 +145,9 @@ describe('flow-node redis', () => {
 			const result = await flowNode.get({ key: 'UNKNOWN' });
 
 			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('error');
+			expect(result.output).to.equal('noResult');
 			expect(result.args[0]).to.be.null;
-			expect(result.args[1]).to.be.instanceOf(Object)
-				.and.to.have.property('message', 'No result found for key: \'UNKNOWN\'');
+			expect(result.args).to.deep.equal([null, '']);
 		});
 	});
 

@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- The Get-Method now has an additional exit: No result
+- Improved Test-Framework to run integration tests during release
 
 ## [0.0.2] 2020-04-23
 ### Added

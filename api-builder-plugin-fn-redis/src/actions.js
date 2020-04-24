@@ -47,9 +47,9 @@ async function get(req, outputs) {
 
 	let result;
 	try {
-		result = await this.redisClient.get(key);
+		result = await this.redisClient.get(key); // No result found for key: '${key}'
 		if (!result) {
-			return outputs.error(null, { message: `No result found for key: '${key}'` });
+			return outputs.noResult(null, `` );
 		} else {
 			return outputs.next(null, result);
 		}
