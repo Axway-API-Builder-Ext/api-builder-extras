@@ -119,10 +119,10 @@ describe('flow-node redis', () => {
 				.and.to.have.property('message', 'Missing required parameter: key');
 		});
 
-		it('should succeed with valid argument', async function () {
+		it.only('should succeed with valid argument', async function () {
 			const { flowNode, mockedRedisClient } = this;
 			if (!isUnitTest()) { // Explicit that calling 'set' is needed only for Integration test suite
-				await flowNode.set({ key: '123456', value: 'MyValue' });
+				await flowNode.set({ key: '123456', value: 'OK' });
 			}
 			const result = await flowNode.get({ key: '123456' });
 
@@ -132,7 +132,7 @@ describe('flow-node redis', () => {
 			}
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([null, 'MyValue']);
+			expect(result.args).to.deep.equal([null, 'OK']);
 		});
 
 		it('should end with noResult for an an unkown key', async function () {
