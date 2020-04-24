@@ -10,7 +10,7 @@ on:
       - '*plugin-fn-redis*'
 
 jobs:
-  container-job:
+  build:
     if: contains(github.ref, 'plugin-fn-redis')
     env:
       # This must be aligned with the folder-name of you plugin
