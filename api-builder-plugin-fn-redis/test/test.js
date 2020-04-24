@@ -299,7 +299,7 @@ if (!isUnitTest()) {
 					expect(options.logger.error.calls).to.have.length(1);
 					expect(
 						options.logger.error.calls[0].arg
-					).to.equal(`Failed to connect to Redis server. Make Redis server is running and conf/redis.default.js is configured`);
+					).to.equal(`\nFailed to connect to Redis server: abc:123 \nMake sure Redis server is running and conf/redis.default.js is configured`);
 					expect(ex.origin.message).to.equal('Redis connection to abc:123 failed - getaddrinfo ENOTFOUND abc')
 				}
 			});	
