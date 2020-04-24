@@ -10,12 +10,20 @@ on:
       - '*plugin-fn-redis*'
 
 jobs:
-  build:
-    # This is a required check, as the on:release can't be filtered on given tags
+  container-job:
     if: contains(github.ref, 'plugin-fn-redis')
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'api-builder-plugin-fn-redis'
+    
+    runs-on: ubuntu-latest
+    container: node:10.18-jessie
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -26,7 +34,10 @@ jobs:
         working-directory: ${{env.workingDirectory}}
         run: |
           npm ci
-          npm test
+          npm run test:integration
+        env:
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
 
   publish-gpr:
     env:
