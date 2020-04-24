@@ -119,7 +119,7 @@ describe('flow-node redis', () => {
 				.and.to.have.property('message', 'Missing required parameter: key');
 		});
 
-		it.only('should succeed with valid argument', async function () {
+		it('should succeed with valid argument', async function () {
 			const { flowNode, mockedRedisClient } = this;
 			if (!isUnitTest()) { // Explicit that calling 'set' is needed only for Integration test suite
 				await flowNode.set({ key: '123456', value: 'OK' });
