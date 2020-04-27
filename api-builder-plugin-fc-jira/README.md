@@ -25,8 +25,11 @@ Depending on the selected method different options appear on the right, when usi
 ![JIRA Cloud Platform Connector Settings][jira-connector-settings]   
 
 ## Setup JIRA Cloud Platform Host and Login
-A new config file has been automatically created for the SAP Landscape Management Connector which can be used to setup the connection details:  
-![JIRA Cloud Platform Connector Config][jira-connector-settings]  
+A new config file has been automatically created for the JIRA Connector which can be used to setup the connection details:  
+![JIRA Cloud Platform Connector Config][jira-connector-config]  
+You need to create autentication credentials on JIRA. Learn more:  
+https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/  
+
 Additional details can be found here: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html#Swaggerflow-node-ConfiguretheSwaggerplugin  
 
 
