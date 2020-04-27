@@ -30,6 +30,9 @@ A new config file has been automatically created for the JIRA Connector which ca
 You need to create autentication credentials on JIRA. Learn more:  
 https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/  
 
+To learn and play around with the JIRA-REST API you may use:  
+https://ffeathers.wordpress.com/tag/rest-api/
+
 Additional details can be found here: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html#Swaggerflow-node-ConfiguretheSwaggerplugin  
 
 
