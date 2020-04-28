@@ -59,9 +59,24 @@ A general recommendation during development / integration is to create entities 
 
 ## Examples
 ### Create issue
+Method "Create issue"  
+Body - Javascript Object:  
+```javascript
+{
+    "fields": {
+       "project":
+       {
+          "id": "10000"
+       },
+       "summary": "No REST for the Wicked.",
+       "description": "Creating of an issue using IDs for projects and issue types using the REST API",
+       "issuetype": {
+          "name": "Bug"
+       }
+   }
+}
 ```
-
-```
+More examples can be found here: https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/
 
 ## Troubleshot
 ### Error: 403 Basic auth with password is not allowed on this instance
