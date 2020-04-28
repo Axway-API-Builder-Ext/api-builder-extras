@@ -58,9 +58,9 @@ The JIRA-Connector is based on the JIRA [REST-API](https://developer.atlassian.c
 A general recommendation during development / integration is to create entities likes issues in JIRA using the UI and read them to understand the structure.  
 
 ## Examples
-### Create issue
-Method "Create issue"  
-Body - Javascript Object:  
+### Method Create issue
+__Using the project id and issue type id:__   
+Body:  
 ```javascript
 {
     "fields": {
@@ -71,11 +71,29 @@ Body - Javascript Object:
        "summary": "No REST for the Wicked.",
        "description": "Creating of an issue using IDs for projects and issue types using the REST API",
        "issuetype": {
+          "id": "10005"
+       }
+   }
+}
+```
+__Using the project key and issue type name:__   
+Body:  
+```javascript
+{
+    "fields": {
+       "project":
+       {
+          "key": "TP"
+       },
+       "summary": "No REST for the Wicked.",
+       "description": "Creating of an issue using IDs for projects and issue types using the REST API",
+       "issuetype": {
           "name": "Bug"
        }
    }
 }
 ```
+
 More examples can be found here: https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/
 
 ## Troubleshot
