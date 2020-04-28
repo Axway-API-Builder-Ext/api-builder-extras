@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Added better documentation / examples for the create issue method
+- improved README.md
 
 ## [0.0.5] 2020-04-21
 ### Added
