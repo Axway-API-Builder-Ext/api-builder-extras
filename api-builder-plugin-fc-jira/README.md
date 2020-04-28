@@ -55,8 +55,18 @@ Once the configuration is complete, the JIRA flow can be used.
 
 The JIRA-Connector is based on the JIRA [REST-API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/), hence understanding how the API works is a good start. You may install and use the [Atlassian Developer Toolbox](https://marketplace.atlassian.com/apps/1014904/atlassian-developer-toolbox) to learn the how the REST-API works.  
 
+A general recommendation during development / integration is to create entities likes issues in JIRA using the UI and read them to understand the structure.  
+
 ## Examples
-TODO
+### Create issue
+```
+
+```
+
+## Troubleshot
+### Error: 403 Basic auth with password is not allowed on this instance
+This error message is a bit misleading, as HTTP-Basic Auth still works, but you have to use an API-Token instead of your passwrd. Please double check you are using a valid API-Token. This error message appears, when the authentication fails using basic auth.
+
 
 ## Compatibility
 Tested with JIRA Cloud Platform 8.5.1
