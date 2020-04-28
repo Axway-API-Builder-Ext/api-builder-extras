@@ -9,23 +9,54 @@ After installing and restarting your API-Builder project you get the following c
 ![JIRA Cloud Platform Connector][jira-connector]   
 Which can be used to communicate with your JIRA-Instance to Create, Update issues. 
 
-## Setup JIRA Cloud Platform Host and Login
-In order to use the plugin you need to configure your JIRA-Account details in the automatically generated configuration file. 
-A new config file has been automatically created for the JIRA Connector which can be used to setup the connection details:  
-![JIRA Cloud Platform Connector Config][jira-connector-config]  
-You need to create autentication credentials on JIRA. Learn more:  
+### Setup JIRA Cloud Platform Host and Login
+In order to use the plugin you need to configure your JIRA-Account details in the configuration file: `jira-jira-cp-connector.default.js`.  
+We recommend to setup your configuration in a [environmentalized](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/environmentalization.html) way keeping [sensitive information](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/project_configuration.html#ProjectConfiguration-Configurationfiles) away from the source-code repository.. 
+```javascript
+module.exports = {
+	// The configuration settings for the OAS2 flow-node: JIRA Cloud Platform API
+	pluginConfig: {
+		'@axway-api-builder-ext/api-builder-plugin-fc-jira': {
+			'jira-cp-connector': {
+				// It is possible to override URI options when constructing
+				// outbound requests to this service.
+				uri: {
+					// protocol: 'https',
+					// host: 'hostname',
+					// port: 443,
+					// basePath: '/api'
+				}
+			}
+		}
+	},
+	// The following authorization credentials needed to use this service.
+	// Please follow this guide to manually configure these credentials:
+	// https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_credentials.html
+	authorization: {
+		credentials: {
+			'JIRA Cloud Platform API HTTP Basic Authentication': {
+				type: 'basic',
+				username: null,
+				password: null
+			}
+		}
+	}
+};
+```
+### Get JIRA Authentication credentials
+At the moment the plugin only supports HTTP-Basic based authentication. How to obtain the required API-Token you can read in the official documentation:  
 https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/  
+Details how to setup the HTTP-Basic credentials in API-Builder:  
+https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/http_basic_credentials.html
 
-To learn and play around with the JIRA-REST API you may use:  
-https://ffeathers.wordpress.com/tag/rest-api/
+Once the configuration is complete, the JIRA flow can be used.
 
-Additional details can be found here: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html#Swaggerflow-node-ConfiguretheSwaggerplugin  
+## Usage
 
+The JIRA-Connector is based on the JIRA [REST-API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/), hence understanding how the API works is a good start. You may install and use the [Atlassian Developer Toolbox](https://marketplace.atlassian.com/apps/1014904/atlassian-developer-toolbox) to learn the how the REST-API works.  
 
-Please note, that the connector is configured to use HTTP-Basic or OAuth to communicate with JIRA. In order to use that, please configure the Authentication-Credentials as described here:  
-https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/http_basic_credentials.html  
-https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/oauth_2_0_credentials.html  
-Alternatively you can pass on externally given user-credentials with the flow node.
+## Examples
+TODO
 
 ## Compatibility
 Tested with JIRA Cloud Platform 8.5.1
