@@ -2,29 +2,15 @@
 
 # API-Builder JIRA Cloud-Platform Connector
 
-Use this connector to communicate with the [JIRA Cloud-Platform](https://www.atlassian.com/software/jira) and make it part of your API-Management platform. It is based on the JIRA Cloud-Platform API (https://developer.atlassian.com/cloud/jira/platform/rest/v2/)  
-
-## Installation
-To install it into you API-Builder project execute:
-```npm
-npm install @axway-api-builder-ext/jira-cp-connector --no-optional
-```
-To install a specific version please use:
-```npm
-npm install @axway-api-builder-ext/jira-cp-connector@1.0.0 --no-optional
-```
-
-This connector is using the Swagger-Flow node:  
-https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html  
-
+Use this connector to communicate with the [JIRA Cloud-Platform](https://www.atlassian.com/software/jira) and make it part of your API-Management platform. It is based on the JIRA Cloud-Platform API (https://developer.atlassian.com/cloud/jira/platform/rest/v2/) and works On-Premise or with the Cloud-Instance.  
 
 ## Configuration
-After restarting your API-Builder project you get the following connector:  
+After installing and restarting your API-Builder project you get the following connector:  
 ![JIRA Cloud Platform Connector][jira-connector]   
-Depending on the selected method different options appear on the right, when using the connector as part of the flow.   
-![JIRA Cloud Platform Connector Settings][jira-connector-settings]   
+Which can be used to communicate with your JIRA-Instance to Create, Update issues. 
 
 ## Setup JIRA Cloud Platform Host and Login
+In order to use the plugin you need to configure your JIRA-Account details in the automatically generated configuration file. 
 A new config file has been automatically created for the JIRA Connector which can be used to setup the connection details:  
 ![JIRA Cloud Platform Connector Config][jira-connector-config]  
 You need to create autentication credentials on JIRA. Learn more:  
