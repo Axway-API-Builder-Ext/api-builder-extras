@@ -2,7 +2,7 @@ const { promisify } = require("util");
 const redis = require("redis");
 const { registerRuntimeHooks } = require('./utils');
 
-module.exports = async (pluginConfig, options) => {
+module.exports = async ({ pluginConfig, logger }) => {
 	return new Promise((resolve, reject) => {
 		const redisClient = redis.createClient({
 			host: pluginConfig.host,
@@ -22,25 +22,25 @@ module.exports = async (pluginConfig, options) => {
 		redisClient.on('connect', () => {
 			// 'ready' is emitted after 'connect' so just trace log here
 			// and resolve the promise in 'ready' handler
-			options.logger.trace(`Connection to Redis server successful!`);
+			logger.trace(`Connection to Redis server successful!`);
 		});
 		redisClient.on('ready', () => {
-			options.logger.trace(`Redis client is ready!`);
+			logger.trace(`Redis client is ready!`);
+			if (pluginConfig.registerHooks !== false) {
+				registerRuntimeHooks({
+					stopping: async () => {
+						await redisClient.quit();
+						logger.trace(`Redis client quit!`);
+					}
+				});
+			}			
 			return resolve(createInterface(redisClient));
 		});
 		redisClient.on('end', function () {
 			// For some reason when we overide retry strategy 'end' is emitted
 			// before `error` so just trace and don't deal with the promise here.
-			options.logger.trace(`Redis server connection closed!`);
+			logger.trace(`Redis server connection closed!`);
 		});
-		if (pluginConfig.registerHooks !== false) {
-			registerRuntimeHooks({
-				stopping: async () => {
-					await redisClient.quit();
-					options.logger.trace(`Redis client quit!`);
-				}
-			});
-		}
 	});
 }
 
