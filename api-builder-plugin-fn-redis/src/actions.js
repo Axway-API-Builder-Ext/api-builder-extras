@@ -1,6 +1,20 @@
+const createRedisClient = require('./redis-client');
+
+// Reconnects to Redis in case the flow-node has been registered
+// with inactive connection - usually developer mode.
+async function ensureClient(action, options) {
+	if (!action.redisClient) {
+		// In case the connection creation is deffered.
+		// Usually happens in developer mode.
+		if (!options.pluginConfig) {
+			options.pluginConfig = action.pluginConfig;
+		}
+		action.redisClient = await createRedisClient(options);
+	}
+}
 
 /**
- * Action method.
+ * Sets value to Redis.
  * @param {object} req - The flow request context passed in at runtime.  The
  *	 parameters are resolved as `req.params` and the available authorization
  * credentials are passed in as `req.authorizations`.
@@ -14,7 +28,8 @@
  *
  * @return {undefined}
  */
-async function set(req, outputs) {
+async function set(req, outputs, options) {
+	await ensureClient(this, options);
 	const key = req.params.key;
 	let value = req.params.value;
 	if (!key) {
@@ -39,7 +54,23 @@ async function set(req, outputs) {
 	}
 }
 
-async function get(req, outputs) {
+/**
+ * Gets value to Redis.
+ * @param {object} req - The flow request context passed in at runtime.  The
+ *	 parameters are resolved as `req.params` and the available authorization
+ * credentials are passed in as `req.authorizations`.
+ * @param {object} outputs - A set of output callbacks.  Use it to signal an
+ *	 event and pass the output result back to the runtime.  Only use an
+ *	 output callback once and only after all asyncronous tasks complete.
+ * @param {object} options - The additional options provided from the flow
+ * 	 engine.
+ * @param {object} The logger from API Builder that can be used to log messages
+ * 	 to the console. See https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
+ *
+ * @return {undefined}
+ */
+async function get(req, outputs, options) {
+	await ensureClient(this, options);
 	const key = req.params.key;
 	if (!key) {
 		return outputs.error(null, { message: 'Missing required parameter: key' });
@@ -49,7 +80,7 @@ async function get(req, outputs) {
 	try {
 		result = await this.redisClient.get(key); // No result found for key: '${key}'
 		if (!result) {
-			return outputs.noResult(null, `` );
+			return outputs.noResult(null, ``);
 		} else {
 			return outputs.next(null, result);
 		}
