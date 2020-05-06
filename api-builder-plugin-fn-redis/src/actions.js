@@ -29,7 +29,7 @@ async function ensureClient(action, options) {
  * @return {undefined}
  */
 async function set(req, outputs, options) {
-	ensureClient(this, options);
+	await ensureClient(this, options);
 	const key = req.params.key;
 	let value = req.params.value;
 	if (!key) {
@@ -70,7 +70,7 @@ async function set(req, outputs, options) {
  * @return {undefined}
  */
 async function get(req, outputs, options) {
-	ensureClient(this, options);
+	await ensureClient(this, options);
 	const key = req.params.key;
 	if (!key) {
 		return outputs.error(null, { message: 'Missing required parameter: key' });
