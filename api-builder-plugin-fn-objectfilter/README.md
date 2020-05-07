@@ -31,7 +31,7 @@ npm install --no-optional @axway-api-builder-ext/api-builder-plugin-fn-objectfil
 ## Changelog
 See [Change-Log][6]
 
-[6]: Changelog.md
+[6]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/api-builder-plugin-fn-objectfilter/Changelog.md
 
 [1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
 [2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.4] 2020-05-07
+### Added
+- Using an absolute path to the changelog to make is accessible from all locations.
+
 ## [0.0.3] 2020-05-07
 ### Security
 - Updated Dev-Dependencies nyc and cross-env to the latest version for security reasons
