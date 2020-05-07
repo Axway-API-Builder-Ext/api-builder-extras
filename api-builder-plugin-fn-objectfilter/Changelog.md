@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.0.3] 2020-05-07
 ### Security
-- Updated Dev-Dependencies nyc to the latest version for security reasons
+- Updated Dev-Dependencies nyc and cross-env to the latest version for security reasons
 
 ## [0.0.2] 2020-03-30
 ### Security
