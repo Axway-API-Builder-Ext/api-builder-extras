@@ -24,6 +24,12 @@ flow-nodes:
                 - type: array
                 - type: object
                 - type: string
+          expiremilliseconds:
+            description: The time-to-live for this key in milliseconds
+            required: false
+            initialType: number
+            schema:
+              type: number
         outputs:
           next:
             name: Next
