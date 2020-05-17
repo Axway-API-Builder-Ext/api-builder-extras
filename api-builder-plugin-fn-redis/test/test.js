@@ -199,7 +199,7 @@ describe('Redis flow-node', () => {
 
 			if (isUnitTest()) {
 				expect(mockedRedisClient.set.callCount).to.equal(1)
-				expect(mockedRedisClient.set.firstCall.args).to.deep.equal(['key123', 'value123']);
+				expect(mockedRedisClient.set.firstCall.args).to.deep.equal(['key123', 'value123', 'PX', '5000']);
 			}
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
