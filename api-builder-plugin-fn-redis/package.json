@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-redis",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "A plugin for Axway API Builder to communicate with Redis",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
