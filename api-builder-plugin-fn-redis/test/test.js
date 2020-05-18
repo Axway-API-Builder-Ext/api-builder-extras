@@ -195,11 +195,11 @@ describe('Redis flow-node', () => {
 		it('should succeed with valid arguments key and value and a ttl', async function () {
 			const { flowNode, mockedRedisClient } = this;
 
-			let result = await flowNode.set({ key: 'key123', value: 'value123', expiremilliseconds: '5000' });
+			let result = await flowNode.set({ key: 'key123', value: 'value123', expiremilliseconds: 5000 });
 
 			if (isUnitTest()) {
 				expect(mockedRedisClient.set.callCount).to.equal(1)
-				expect(mockedRedisClient.set.firstCall.args).to.deep.equal(['key123', 'value123', 'PX', '5000']);
+				expect(mockedRedisClient.set.firstCall.args).to.deep.equal(['key123', 'value123', 'PX', 5000]);
 			}
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('next');
