@@ -32,6 +32,8 @@ async function set(req, outputs, options) {
 	await ensureClient(this, options);
 	const key = req.params.key;
 	let value = req.params.value;
+	const expiremilliseconds = req.params.expiremilliseconds;
+	
 	if (!key) {
 		return outputs.error(null, { message: 'Missing required parameter: key' });
 	}
@@ -44,10 +46,14 @@ async function set(req, outputs, options) {
 	if (typeof value !== 'string' && !(value instanceof Date)) {
 		value = JSON.stringify(value);
 	}
-
+	
 	let result;
 	try {
-		result = await this.redisClient.set(key, value);
+		if (expiremilliseconds) {
+			result = await this.redisClient.set(key, value, 'PX', expiremilliseconds);
+		} else {
+			result = await this.redisClient.set(key, value);
+		}
 		return outputs.next(null, result);
 	} catch (err) {
 		return outputs.error(null, { message: err });
