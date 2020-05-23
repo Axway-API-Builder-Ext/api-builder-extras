@@ -29,7 +29,7 @@ The _Publish_ method is used to push messages onto Kafka topics.
 | topic | string | n | The topic to send your messages to. Mandatory if there is no messageObject array |
 | messages | String or Array | n | Either a string (single message) or an array of strings. Mandatory if there is no messageObject array |
 | key | string | n | You can optionally add a key with your messages. This allows you to associate messages together and keep them in the same partition. |
-| partition | n | You can optionally choose a specific partition for the key you supplied |
+| partition | number | n | You can optionally choose a specific partition for the key you supplied |
 
 
 ## Compatibility
