@@ -1,0 +1,54 @@
+flow-nodes:
+  producer:
+    name: Kafka Producer
+    icon: Apache_kafka.svg
+    description: A flow-node that puts JSON objects on Kafka topics.
+    category: general
+    methods:
+      publish: # This same key is used in `actions.js`
+        name: Add Message
+        description: Adds a messages to a topic.
+        parameters:
+          topic:
+            description: Topic to push message(s) to.
+            required: false
+            initialType: string
+            schema:
+              type: string
+          messages:
+            description: The message to add to the topic. Multi messages should be a array, single message can just be a string. All messages will be sent to all topics specified.
+            required: false
+            initialType: string
+            schema:
+              type: string
+          messageObjects:
+            description: Send a set of message objects to various queues with specific parameters. All other parameters will be ignored.
+            required: false
+            initialType: object
+            schema:
+              type: object
+          key:
+            description: Attaching a key to messages will ensure messages with the same key always go to the same partition in a topic. All messages will get the same key.
+            required: false
+            initialType: string
+            schema:
+              type: string
+          partition:
+            description: Choose a specific partition for this key.
+            required: false
+            initialType: number
+            schema:
+              type: number
+        outputs:
+          # success output(s) should be first
+          next:
+            name: Next
+            context: $.result
+            schema:
+              type: string
+          # error output(s) should be last
+          error:
+            name: Error
+            context: $.error
+            schema:
+              type: string
