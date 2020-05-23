@@ -25,8 +25,11 @@ The _Publish_ method is used to push messages onto Kafka topics.
 
 | Param | Type | Required | Description |
 | --- | --- | --- | --- |
-| key | string | y | They key of the object to store in Redis. |
-| value | String or Date | y | The value to store with they key. If other types than String or Date are used they get converted into a String using JSON.stringify |
+| messageObjects | Array | n | This allows you to build the messages you want to send to your own specifications as per the kafkajs spec. Using this will mean that all other parameters are ignored. |
+| topic | string | n | The topic to send your messages to. Mandatory if there is no messageObject array |
+| messages | String or Array | n | Either a string (single message) or an array of strings. Mandatory if there is no messageObject array |
+| key | string | n | You can optionally add a key with your messages. This allows you to associate messages together and keep them in the same partition. |
+| partition | n | You can optionally choose a specific partition for the key you supplied |
 
 
 ## Compatibility
@@ -37,7 +40,7 @@ Requires API-Builder [Oslo][6] or higher
 See [Change-Log][7]
 
 ## Limitations/Caveats
-Consume functionality will be handled in another way by API Builder in the future.
+Consume functionality will be handled in another way by API Builder in the future. Batch sends are not currently supported.
 This plugin can support any authentication scheme supported by Kafkajs.
 
 If you require an unsupported API or authentication don't hestitate to create an [issue][3]
