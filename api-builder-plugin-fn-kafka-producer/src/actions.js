@@ -1,6 +1,6 @@
 const { Kafka } = require('kafkajs')
 
-// This just sets the configuration. The connection is created when you create a producer during the "send" action
+// This just sets the configuration. The connection is created when you create a producer during the "publish" action
 async function ensurekafkaProducer(action, pluginConfig) {
 	if (!action.kafkaProducer) {
 		const kafka = new Kafka(pluginConfig.clientConfiguration);
@@ -103,5 +103,5 @@ async function publish(params, {logger, pluginConfig}) {
 }
 
 module.exports = {
-	send
+	publish
 };

@@ -19,11 +19,11 @@ describe('flow-node producer', () => {
 			expect(flowNode).to.be.a('object');
 
 			// Ensure the flow-node matches the spec
-			expect(flowNode.name).to.equal('Hello World');
-			expect(flowNode.description).to.equal('Example flow-node to say hello.');
+			expect(flowNode.name).to.equal('Kafka Producer');
+			expect(flowNode.description).to.equal('A flow-node that puts JSON objects on Kafka topics.');
 			expect(flowNode.icon).to.be.a('string');
 			expect(flowNode.getMethods()).to.deep.equal([
-				'hello'
+				'publish'
 			]);
 		});
 
