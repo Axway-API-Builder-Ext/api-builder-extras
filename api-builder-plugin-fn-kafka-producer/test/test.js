@@ -3,6 +3,7 @@ const { MockRuntime } = require('@axway/api-builder-sdk');
 const getPlugin = require('../src');
 const actions = require('../src/actions');
 
+
 describe('flow-node producer', () => {
 	let plugin;
 	before(async () => plugin = await MockRuntime.loadPlugin(getPlugin));
@@ -10,7 +11,7 @@ describe('flow-node producer', () => {
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
 			expect(actions).to.be.an('object');
-			expect(actions.hello).to.be.a('function');
+			expect(actions.publish).to.be.a('function');
 			expect(plugin).to.be.a('object');
 			expect(plugin.getFlowNodeIds()).to.deep.equal([
 				'producer'
@@ -37,36 +38,71 @@ describe('flow-node producer', () => {
 		});
 	});
 
-	describe('#hello', () => {
-		it('should error when missing required parameter', async () => {
+	describe('Publish to Kafka', () => {
+		it('should error if both messageObjects and messages do not exist', async () => {
 			const flowNode = plugin.getFlowNode('producer');
 
 			// Invoke #hello with a non-number and check error.
-			const result = await flowNode.hello({
-				name: null
+			const result = await flowNode.publish({
+				messageObjects: null,
+				messages: null,
+				topic: 'test=topic'
 			});
 
 			expect(result.callCount).to.equal(1);
 			expect(result.output).to.equal('error');
 			expect(result.args[0]).to.equal(undefined);
 			expect(result.args[1]).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Missing required parameter: name');
-			expect(result.context).to.be.an('Object');
-			expect(result.context.error).instanceOf(Error)
-				.and.to.have.property('message', 'Missing required parameter: name');
+				.and.to.have.property('message', 'Missing required parameter: messages');
 		});
-
-		it('should succeed with valid argument', async () => {
+		
+		it('should error if both messageObjects and topic do not exist', async () => {
 			const flowNode = plugin.getFlowNode('producer');
 
-			const result = await flowNode.hello({ name: 'World' });
+			// Invoke #hello with a non-number and check error.
+			const result = await flowNode.publish({
+				messageObjects: null,
+				messages: "a test message",
+				topic: null
+			});
 
 			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([ undefined, 'Hello World' ]);
-			expect(result.context).to.deep.equal({
-				hello: 'Hello World'
+			expect(result.output).to.equal('error');
+			expect(result.args[0]).to.equal(undefined);
+			expect(result.args[1]).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Missing required parameter: topic');
+		});
+		
+		it('should error if both messageObjects and messages / topic do not exist', async () => {
+			const flowNode = plugin.getFlowNode('producer');
+
+			// Invoke #hello with a non-number and check error.
+			const result = await flowNode.publish({
+				messageObjects: null,
+				messages: null,
+				topic: null
 			});
+
+			expect(result.callCount).to.equal(1);
+			expect(result.output).to.equal('error');
+			expect(result.args[0]).to.equal(undefined);
+			expect(result.args[1]).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Missing required parameter: messages');
+		});
+		
+		it('should succeed with messages and topic set (and not messageObjects)', async () => {
+			const flowNode = plugin.getFlowNode('producer');
+			
+			const result = await flowNode.publish({
+				messageObjects: null,
+				messages: "a test message",
+				topic: "test-topic"
+			});
+			
+			expect(result.callCount).to.equal(1);
+			expect(result.output).to.equal('error');
+			expect(result.args[1]).to.be.instanceOf(TypeError)
+				.and.to.have.property('message', 'Cannot destructure property \'brokers\' of \'undefined\' as it is undefined.');
 		});
 	});
 });

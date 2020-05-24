@@ -6,7 +6,7 @@ flow-nodes:
     category: general
     methods:
       publish: # This same key is used in `actions.js`
-        name: Add Message
+        name: Publish
         description: Adds a messages to a topic.
         parameters:
           topic:
