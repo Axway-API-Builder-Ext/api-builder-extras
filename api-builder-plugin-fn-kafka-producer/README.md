@@ -1,4 +1,4 @@
-![Kafka Tests](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/KafkaProducer%20Tests/badge.svg)
+![Kafka Tests](https://github.com/Axway-API-Builder-Ext/api-builder-extras/workflows/Kafka%20Producer%20Tests/badge.svg)
 
 # API-Builder Kafka Producer
 
