@@ -17,13 +17,7 @@ jobs:
       workingDirectory: 'api-builder-plugin-fn-kafka-producer'
     
     runs-on: ubuntu-latest
-    container: node:10.18-jessie
-    services:
-      kafka:
-        image: kafka
-        ports:
-          - 6379:6379
-
+	
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -33,10 +27,7 @@ jobs:
         working-directory: ${{env.workingDirectory}}
         run: |
           npm ci
-          npm run test:integration
-        env:
-          REDIS_HOST: kafka
-          REDIS_PORT: 9092
+          npm run test
 
   publish-gpr:
     env:
