@@ -21,7 +21,7 @@ This Connector is built using the [Kafkajs project][https://kafka.js.org]. It's 
 
 ## publish
 
-The _Publish_ method is used to push messages onto Kafka topics.
+The _publish_ method is used to push messages onto Kafka topics.
 
 | Param | Type | Required | Description |
 | --- | --- | --- | --- |
