@@ -1,0 +1,33 @@
+{
+	"name": "api-builder-plugin-solace",
+	"version": "0.0.1",
+	"description": "A plugin for connecting to Solace",
+	"author": "Community Plugin",
+	"license": "Apache-2.0",
+	"keywords": [
+		"amplify",
+		"api-builder"
+	],
+	"engines": {
+		"node": ">= 12.15"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"README.md"
+	],
+	"dependencies": {
+		"@axway/api-builder-sdk": "0.6.0",
+		"solclientjs": "^10.4.0"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.22.0"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^7.1.1"
+	},
+	"scripts": {
+		"test": "mocha ./test --recursive -R spec"
+	}
+}

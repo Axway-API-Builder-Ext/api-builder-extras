@@ -1,0 +1,69 @@
+flow-nodes:
+  solace:
+    name: Solace
+    icon: icon.png
+    description: Connect to Solace.
+    category: connector
+    methods:
+      subscribe:
+        name: Subscribe
+        description: Subscribe to Solace topic.
+        parameters:
+          topic:
+            name: Topic
+            description: The name of the topic to subscribe to.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          flowName:
+            name: Flow Name
+            description: The name of the flow to be executed.
+            required: true
+            initialType: string
+            schema:
+              type: string              
+        returns:
+          name: Next
+          description: next output.
+          context: $.status
+          schema:
+            type: string
+        throws:
+          name: Error
+          description: error output.
+          context: $.error
+          schema:
+            type: string
+      publish:
+        name: Publish
+        description: Publish message to Solace.
+        parameters:
+          topic:
+            name: Topic
+            description: The topic where messages are published.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          message:
+            name: Message
+            description: The message to be published.
+            required: true
+            initialType: array
+            schema:              
+              type: array
+              items:
+                type: string
+        returns:
+          name: Next
+          description: next output.
+          context: $.publisherStatus
+          schema:
+            type: string
+        throws:
+          name: Error
+          description: error output.
+          context: $.error
+          schema:
+            type: string
