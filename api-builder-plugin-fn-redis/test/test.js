@@ -50,14 +50,14 @@ async function constructTestContext() {
 		// hooks can't be registed in test mode so set to false
 		registerHooks: false
 	}
-	const plugin = await getPlugin(pluginConfig, options);
-	const runtime = new MockRuntime(plugin);
+	const getPluginSpy = simple.spy(getPlugin);
+	const runtime = await MockRuntime.loadPlugin(getPluginSpy, pluginConfig, options);
 	const flowNode = runtime.getFlowNode('redis');
-	if (isUnitTest()) {
-		return { runtime, flowNode, mockedRedisClient }
-	} else {
-		return { runtime, flowNode, redisClient: plugin.redisClient }
-	}
+	
+	// mockedRedisClient is used only in unit test suite.
+	// getPluginSpy is used only for integration test suite
+	// to use the pluginContext to close the redis connection
+	return { runtime, flowNode, mockedRedisClient, getPluginSpy }
 }
 
 describe('Redis flow-node', () => {
@@ -65,9 +65,9 @@ describe('Redis flow-node', () => {
 		const { ctx } = this.test;
 		const { 
 			runtime, 
-			flowNode, 
-			redisClient, 
-			mockedRedisClient 
+			flowNode,
+			mockedRedisClient,
+			getPluginSpy 
 		} = await constructTestContext();
 
 		// Sets what we need into mocha ctx so we can use it in tests
@@ -75,16 +75,22 @@ describe('Redis flow-node', () => {
 		// and normal functions on 'it' statements.
 		ctx.runtime = runtime;
 		ctx.flowNode = flowNode;
-		ctx.redisClient = redisClient;
-		ctx.mockedRedisClient = mockedRedisClient;		
+		ctx.mockedRedisClient = mockedRedisClient;
+		ctx.getPluginSpy = getPluginSpy;
 	});
 
 	afterEach(async function () {
-		const { redisClient } = this;
+		const { getPluginSpy } = this;
 		if (!isUnitTest()) {
-			// This is how we gracefully shutdown when we do
-			// integration testing
-			await redisClient.quit();
+			// Currently we don't offer conveniet way to test pluginContext
+			// so we spy getPlugin to get the response where the pluginContext
+			// is attached.
+			const getPluginResponsePromise = getPluginSpy.calls[0].returned
+			getPluginResponsePromise.then(async (value) => {
+				// This is how we gracefully shutdown when we do
+				// integration testing
+				await value.redisClient.quit();
+			});
 		}
 		simple.restore();
 		mock.stopAll();
@@ -110,12 +116,11 @@ describe('Redis flow-node', () => {
 		it('should error when missing parameter key', async function () {
 			const { flowNode } = this;
 
-			const result = await flowNode.get({ key: null });
+			const { value, callCount, output } = await flowNode.get({ key: null });
 
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('error');
-			expect(result.args[0]).to.be.null;
-			expect(result.args[1]).to.be.instanceOf(Object)
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('error');
+			expect(value).to.be.instanceOf(Object)
 				.and.to.have.property('message', 'Missing required parameter: key');
 		});
 
@@ -124,15 +129,15 @@ describe('Redis flow-node', () => {
 			if (!isUnitTest()) { // Explicit that calling 'set' is needed only for Integration test suite
 				await flowNode.set({ key: '123456', value: 'OK' });
 			}
-			const result = await flowNode.get({ key: '123456' });
+			const { value, callCount, output } = await flowNode.get({ key: '123456' });
 
 			if (isUnitTest()) {
 				expect(mockedRedisClient.get.callCount).to.equal(1)
 				expect(mockedRedisClient.get.firstCall.arg).to.equal('123456');
 			}
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([null, 'OK']);
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal('OK');
 		});
 
 		it('should end with noResult for an an unkown key', async function () {
@@ -142,12 +147,11 @@ describe('Redis flow-node', () => {
 				mockedRedisClient.get = simple.mock();
 			}
 
-			const result = await flowNode.get({ key: 'UNKNOWN' });
+			const { value, callCount, output } = await flowNode.get({ key: 'UNKNOWN' });
 
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('noResult');
-			expect(result.args[0]).to.be.null;
-			expect(result.args).to.deep.equal([null, '']);
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('noResult');
+			expect(value).to.deep.equal('');
 		});
 	});
 
@@ -155,61 +159,59 @@ describe('Redis flow-node', () => {
 		it('should error when missing parameter key', async function () {
 			const { flowNode } = this;
 
-			const result = await flowNode.set({ key: null });
+			const { value, callCount, output } = await flowNode.set({ key: null });
 
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('error');
-			expect(result.args[0]).to.be.null;
-			expect(result.args[1]).to.be.instanceOf(Object)
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('error');
+			expect(value).to.be.instanceOf(Object)
 				.and.to.have.property('message', 'Missing required parameter: key');
 		});
 
 		it('should error when missing parameter key', async function () {
 			const { flowNode } = this;
 
-			const result = await flowNode.set({
+			const { value, callCount, output } = await flowNode.set({
 				value: null, key: "key123"
 			});
 
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('error');
-			expect(result.args[0]).to.be.null;
-			expect(result.args[1]).to.be.instanceOf(Object)
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('error');
+			expect(value).to.be.instanceOf(Object)
 				.and.to.have.property('message', 'Missing required parameter: value');
 		});
 
 		it('should succeed with valid arguments key and value', async function () {
 			const { flowNode, mockedRedisClient } = this;
 
-			let result = await flowNode.set({ key: 'key123', value: 'value123' });
+			const { value, callCount, output } = await flowNode.set({ key: 'key123', value: 'value123' });
 
 			if (isUnitTest()) {
 				expect(mockedRedisClient.set.callCount).to.equal(1)
 				expect(mockedRedisClient.set.firstCall.args).to.deep.equal(['key123', 'value123']);
 			}
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([null, 'OK']);
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal('OK');
 		});
 
 		it('should succeed with valid arguments key and value and a ttl', async function () {
 			const { flowNode, mockedRedisClient } = this;
 
-			let result = await flowNode.set({ key: 'key123', value: 'value123', expiremilliseconds: 5000 });
+			const { value, callCount, output } = await flowNode.set({ key: 'key123', value: 'value123', expiremilliseconds: 5000 });
 
 			if (isUnitTest()) {
 				expect(mockedRedisClient.set.callCount).to.equal(1)
 				expect(mockedRedisClient.set.firstCall.args).to.deep.equal(['key123', 'value123', 'PX', 5000]);
 			}
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([null, 'OK']);
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal('OK');
 		});
 
 		it('should succeed using a value with type: Object', async function () {
 			const { flowNode, mockedRedisClient } = this;
 
-			const result = await flowNode.set({
+			const { value, callCount, output } = await flowNode.set({
 				key: 'objectKey',
 				value: {
 					prop1: 'value1', prop2: 'value2'
@@ -224,16 +226,16 @@ describe('Redis flow-node', () => {
 					})
 				]);
 			}
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([null, 'OK']);
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal('OK');
 		});
 
 		it('should succeed using a value with type: Array', async function () {
 			const { flowNode, mockedRedisClient } = this;
 
 			const testArray = ["value1", "value2"];
-			const result = await flowNode.set({
+			const { value, callCount, output } = await flowNode.set({
 				key: 'arrayKey',
 				value: testArray
 			});
@@ -245,16 +247,16 @@ describe('Redis flow-node', () => {
 					JSON.stringify(testArray)
 				]);
 			}
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([null, 'OK']);
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal('OK');
 		});
 
 		it('should succeed using a value with type: Date', async function () {
 			const { flowNode, mockedRedisClient } = this;
 
 			const testDate = new Date('1995-12-17T03:24:00');
-			const result = await flowNode.set({
+			const { value, callCount, output } = await flowNode.set({
 				key: 'objectKey',
 				value: testDate
 			});
@@ -266,23 +268,22 @@ describe('Redis flow-node', () => {
 					testDate
 				]);
 			}
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.args).to.deep.equal([null, 'OK']);
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal('OK');
 		});
 
 		it('should fail using a key with type: Object', async function () {
 			const { flowNode } = this;
 
-			const result = await flowNode.set({
+			const { value, callCount, output } = await flowNode.set({
 				key: { key: "123" },
 				value: 'SomeValue'
 			});
 
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('error');
-			expect(result.args[0]).to.be.null;
-			expect(result.args[1]).to.be.instanceOf(Object)
+			expect(callCount).to.equal(1);
+			expect(output).to.equal('error');
+			expect(value).to.be.instanceOf(Object)
 				.and.to.have.property('message', '\'key\' must be a string.');
 		});
 	});

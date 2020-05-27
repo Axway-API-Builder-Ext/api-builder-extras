@@ -26,7 +26,7 @@ async function getPlugin(pluginConfig, options) {
 		}
 	}
 	// All you pass here will be set as context for your actions
-	return createPluginWithContext(actions, { redisClient, pluginConfig });
+	return createPluginWithContext(actions, { pluginContext: { redisClient }, pluginConfig });
 }
 
 module.exports = getPlugin;

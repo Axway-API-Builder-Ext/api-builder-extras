@@ -2,96 +2,93 @@ const createRedisClient = require('./redis-client');
 
 // Reconnects to Redis in case the flow-node has been registered
 // with inactive connection - usually developer mode.
-async function ensureClient(action, options) {
-	if (!action.redisClient) {
-		// In case the connection creation is deffered.
-		// Usually happens in developer mode.
-		if (!options.pluginConfig) {
-			options.pluginConfig = action.pluginConfig;
-		}
-		action.redisClient = await createRedisClient(options);
+async function ensureClient(options) {
+	if (!options.pluginContext && !options.pluginContext.redisClient) {
+		options.pluginContext.redisClient = await createRedisClient(options);
 	}
 }
 
 /**
  * Sets value to Redis.
- * @param {object} req - The flow request context passed in at runtime.  The
- *	 parameters are resolved as `req.params` and the available authorization
- * credentials are passed in as `req.authorizations`.
- * @param {object} outputs - A set of output callbacks.  Use it to signal an
- *	 event and pass the output result back to the runtime.  Only use an
- *	 output callback once and only after all asyncronous tasks complete.
+ * 
+ * @param {object} params - A map of all the parameters passed from the flow.
  * @param {object} options - The additional options provided from the flow
- * 	 engine.
- * @param {object} The logger from API Builder that can be used to log messages
- * 	 to the console. See https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
- *
- * @return {undefined}
+ *	 engine.
+ * @param {object} options.pluginConfig - The service configuration for this
+ *	 plugin from API Builder config.pluginConfig['api-builder-plugin-pluginName']
+ * @param {object} options.logger - The API Builder logger which can be used
+ *	 to log messages to the console. When run in unit-tests, the messages are
+ *	 not logged.  If you wish to test logging, you will need to create a
+ *	 mocked logger (e.g. using `simple-mock`) and override in
+ *	 `MockRuntime.loadPlugin`.  For more information about the logger, see:
+ *	 https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
+ * @param {*} [options.pluginContext] - The data provided by passing the
+ *	 context to `sdk.load(file, actions, { pluginContext })` in `getPlugin`
+ *	 in `index.js`.
+ * @return {*} The response value (resolves to "next" output, or if the method
+ *	 does not define "next", the first defined output).
  */
-async function set(req, outputs, options) {
-	await ensureClient(this, options);
-	const key = req.params.key;
-	let value = req.params.value;
-	const expiremilliseconds = req.params.expiremilliseconds;
+async function set(params, options) {
+	await ensureClient(options);
+	const key = params.key;
+	let value = params.value;
+	const expiremilliseconds = params.expiremilliseconds;
 	
 	if (!key) {
-		return outputs.error(null, { message: 'Missing required parameter: key' });
+		throw new Error('Missing required parameter: key');
 	}
 	if (typeof key !== 'string') {
-		return outputs.error(null, { message: '\'key\' must be a string.' });
+		throw new Error('\'key\' must be a string.');
 	}
 	if (!value) {
-		return outputs.error(null, { message: 'Missing required parameter: value' });
+		throw new Error('Missing required parameter: value');
 	}
 	if (typeof value !== 'string' && !(value instanceof Date)) {
 		value = JSON.stringify(value);
 	}
 	
 	let result;
-	try {
-		if (expiremilliseconds) {
-			result = await this.redisClient.set(key, value, 'PX', expiremilliseconds);
-		} else {
-			result = await this.redisClient.set(key, value);
-		}
-		return outputs.next(null, result);
-	} catch (err) {
-		return outputs.error(null, { message: err });
+	if (expiremilliseconds) {
+		result = await options.pluginContext.redisClient.set(key, value, 'PX', expiremilliseconds);
+	} else {
+		result = await options.pluginContext.redisClient.set(key, value);
 	}
+	return result;
 }
 
 /**
  * Gets value to Redis.
- * @param {object} req - The flow request context passed in at runtime.  The
- *	 parameters are resolved as `req.params` and the available authorization
- * credentials are passed in as `req.authorizations`.
- * @param {object} outputs - A set of output callbacks.  Use it to signal an
- *	 event and pass the output result back to the runtime.  Only use an
- *	 output callback once and only after all asyncronous tasks complete.
- * @param {object} options - The additional options provided from the flow
- * 	 engine.
- * @param {object} The logger from API Builder that can be used to log messages
- * 	 to the console. See https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
  *
- * @return {undefined}
+ * @param {object} params - A map of all the parameters passed from the flow.
+ * @param {object} options - The additional options provided from the flow
+ *	 engine.
+ * @param {object} options.pluginConfig - The service configuration for this
+ *	 plugin from API Builder config.pluginConfig['api-builder-plugin-pluginName']
+ * @param {object} options.logger - The API Builder logger which can be used
+ *	 to log messages to the console. When run in unit-tests, the messages are
+ *	 not logged.  If you wish to test logging, you will need to create a
+ *	 mocked logger (e.g. using `simple-mock`) and override in
+ *	 `MockRuntime.loadPlugin`.  For more information about the logger, see:
+ *	 https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
+ * @param {*} [options.pluginContext] - The data provided by passing the
+ *	 context to `sdk.load(file, actions, { pluginContext })` in `getPlugin`
+ *	 in `index.js`.
+ * @return {*} The response value (resolves to "next" output, or if the method
+ *	 does not define "next", the first defined output).
  */
-async function get(req, outputs, options) {
-	await ensureClient(this, options);
-	const key = req.params.key;
+async function get(params, options) {
+	await ensureClient(options);
+	const key = params.key;
 	if (!key) {
-		return outputs.error(null, { message: 'Missing required parameter: key' });
+		throw new Error('Missing required parameter: key');
 	}
 
 	let result;
-	try {
-		result = await this.redisClient.get(key); // No result found for key: '${key}'
-		if (!result) {
-			return outputs.noResult(null, ``);
-		} else {
-			return outputs.next(null, result);
-		}
-	} catch (err) {
-		return outputs.error(null, { message: err });
+	result = await options.pluginContext.redisClient.get(key); // No result found for key: '${key}'
+	if (!result) {
+		return options.setOutput('noResult', '');
+	} else {
+		return result;
 	}
 }
 
