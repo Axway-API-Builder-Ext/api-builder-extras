@@ -13,18 +13,16 @@ module.exports = {
   /** 
    * Create the plugin and set the provided context to all actions.
    */
-  createPluginWithContext: (actions, ctx) => {
-    const sdk = new SDK();
-    sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), actions);
+  createPluginWithContext: (actions, { pluginConfig, pluginContext }) => {
+    const sdk = new SDK({ pluginConfig });
+    sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), actions, { pluginContext });
     const plugin = sdk.getPlugin();
-    const flownodeMethods = plugin.flownodes['redis'].methods;
-    Object.keys(flownodeMethods).map((method) => {
-      flownodeMethods[method].action = actions[method].bind(ctx);
-    });
-    // Set ctx to plugin only in dev mode
+
     if (process.env.TEST_TYPE === 'integration') {
-      plugin.redisClient = ctx.redisClient;
+      // Set ctx to plugin only in dev mode so we are able to test it
+      plugin.redisClient = pluginContext.redisClient;
     }
+    
     return plugin;
   },
   /** 
@@ -49,7 +47,7 @@ module.exports = {
     Object.keys(hooks).forEach((event) => {
       instance.on(event, hooks[event]);
     });    
-  },  
+  },
   /**
    * Tests whether or not the API Builder application is in developer mode.  The test
    * is to check to see if @axway/api-builder-admin exists.

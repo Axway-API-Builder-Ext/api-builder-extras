@@ -10,12 +10,14 @@ flow-nodes:
         description: Set a value into Redis
         parameters:
           key:
+            name: Key
             description: They key used to store the value in Redis.
             required: true
             initialType: string
             schema:
               type: string
           value:
+            name: Value
             description: The value to store in Redis along with the key. It must be either a String or Date, all other types are converted into Strings using JSON.stringify.
             required: true
             initialType: string
@@ -25,27 +27,30 @@ flow-nodes:
                 - type: object
                 - type: string
           expiremilliseconds:
+            name: Expire In Milliseconds
             description: The time-to-live for this key in milliseconds
             required: false
             initialType: number
             schema:
               type: number
-        outputs:
-          next:
-            name: Next
-            context: $.result
-            schema:
-              type: string
-          error:
-            name: Error
-            context: $.error
-            schema:
-              type: string
+        returns:
+          name: Next
+          description: next
+          context: $.result
+          schema:
+            type: string
+        throws:
+          name: Error
+          description: error
+          context: $.error
+          schema:
+            type: string
       get:
         name: Get
         description: Gets a value from Redis
         parameters:
           key:
+            name: Key
             description: They key used to retrieve value from Redis.
             required: true
             initialType: string
@@ -66,6 +71,7 @@ flow-nodes:
               type: string
           error:
             name: Error
+            description: error
             context: $.error
             schema:
               type: string
