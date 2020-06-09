@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Upgrade to @axway/api-builder-sdk v1.0.0
+- Test suite now using @axway/api-builder-test-utils v1.0.0
+
+## [0.0.5] 2020-05-28
+### Added
+- Upgrade to @axway/api-builder-sdk 0.6.0
+
 ## [0.0.4] 2020-05-18
 ### Added
 - Added the ability to define the Time-to-Live on set.

@@ -10,7 +10,7 @@ const envFilePath = path.join(__dirname, '.env');
 if (fs.existsSync(envFilePath)) {
 	envLoader.config({ path: envFilePath });
 }
-const { MockRuntime } = require('@axway/api-builder-sdk');
+const { MockRuntime } = require('@axway/api-builder-test-utils');
 const actions = require('../src/actions');
 let getPlugin = require('../src');
 
