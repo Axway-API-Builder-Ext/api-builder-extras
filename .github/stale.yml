@@ -26,11 +26,8 @@ pulls:
   limitPerRun: 1
 
 exemptLabels:
-#  - help wanted
-#  - kind/customer issue
-#  - kind/test failure
-#  - Epic
-#  - no stalebot
+  - pinned
+  - security
 
 # Issue specific configuration
 issues:
