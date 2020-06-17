@@ -1,43 +1,26 @@
 const { expect } = require('chai');
-const { MockRuntime } = require('@axway/api-builder-sdk');
+const { MockRuntime } = require('@axway/api-builder-test-utils');
 
 const getPlugin = require('../index');
 
-function getLogger () {
-	const logger = {
-		debug: () => {},
-		trace: () => {},
-		info: () => {},
-		warn: () => {},
-		error: () => {},
-		fatal: () => {}
-	};
-	logger.scope = () => logger;
-	return logger;
-}
-
 describe('Syncplicity flow-node', () => {
-	let runtime;
+	let plugin;
+	let flowNode;
 	before(async () => {
-		const plugin = await getPlugin({}, {
-			logger: getLogger()
-		});
-		runtime = new MockRuntime(plugin);
+		plugin = await MockRuntime.loadPlugin(getPlugin);
+		flowNode = plugin.getFlowNode('syncplicity');
 	});
 
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
-			expect(runtime).to.exist;
-			// Ensure there's a flow-node and schemas created for each OAS document
-            expect(Object.keys(runtime.plugin.flownodes)).to.have.length(1);
-			const flownode = runtime.getFlowNode('syncplicity');
-			expect(flownode).to.be.a('object');
+			expect(plugin).to.exist;
+			expect(flowNode).to.be.a('object');
 
 			// Ensure the flow-node matches the OAS document
-			expect(flownode.name).to.equal('Syncplicity');
-			expect(flownode.description).to.equal('Syncplicity Connector based on API-Version 1.1');
-			expect(flownode.icon).to.be.a('string');
-			expect(Object.keys(flownode.methods)).to.deep.equal([
+			expect(flowNode.name).to.equal('Syncplicity');
+			expect(flowNode.description).to.equal('Syncplicity Connector based on API-Version 1.1');
+			expect(flowNode.icon).to.be.a('string');
+			expect(Object.keys(flowNode.methods)).to.deep.equal([
                 'Company GET',
                 'Users POST',
                 'Users PUT',
@@ -98,7 +81,7 @@ describe('Syncplicity flow-node', () => {
 		});
 
 		it('should define valid flow-nodes', () => {
-			expect(runtime.validate()).to.not.throw;
+			plugin.validate();
 		});
 	});
 });
