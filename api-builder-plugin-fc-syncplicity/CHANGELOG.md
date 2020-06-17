@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Test suite now using @axway/api-builder-test-utils v1.0.0
 
 ## [1.0.1] 2020-04-21
 ### Added
