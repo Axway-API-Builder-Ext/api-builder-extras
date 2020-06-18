@@ -125,19 +125,19 @@ flow-nodes:
             schema:
               type: string
       writeFile:
-        name: Writes a file
-        description: Use this method to write payload information to disk.
+        name: Write file
+        description: Use this method to write content for instance from an attribute into a file.
         parameters:
           filename:
             name: Target filename
-            description: The filename you would like to write
+            description: The filename to write.
             required: true
             initialType: string
             schema:
               type: string
           data:
             name: Input data
-            description: The data you would like to write to the file
+            description: The data to write to the file
             required: true
             schema:
               type: object
@@ -166,6 +166,15 @@ flow-nodes:
                 - ascii
                 - base64
                 - hex
+          stringify:
+            name: Stringify
+            description: By default, if data is an Object, if will be converted into JSON. You may deactivate this option
+            required: false
+            group: Options
+            initialType: boolean
+            schema:
+              default: true
+              type: boolean
         outputs:
           next:
             name: Next

@@ -31,16 +31,30 @@ async function writeFile(params, options) {
 	const logger = options.logger;
 
 	let dataEncoding = 'utf8';
-	let outputDataEncoding = 'utf8';
+	let stringify = params.stringify;
+	let overwrite = params.overwrite;
+
+	let flag = 'wx';
 
 	checkParameter(params);
+
+	debugger;
 
 	if(params.dataEncoding) {
 		dataEncoding = params.dataEncoding;
 	}
+	if(typeof(params.stringify) == "undefined") {
+		stringify = true;
+	}
+	if(params.overwrite) {
+		flag = 'w';
+	}
 
+	if(data instanceof Object && stringify) {
+		data = JSON.stringify(data);
+	}
 	try {
-		await fs.writeFile(filename, data, {encoding: dataEncoding});
+		await fs.writeFile(filename, data, {encoding: dataEncoding, flag: flag});
 	} catch(ex) {
 		throw new Error(`Error writing file: ${filename}. Message: ${ex.message}`, ex)
 	};

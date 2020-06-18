@@ -68,7 +68,6 @@ describe('Standard file handling test', () => {
         });
 
 		it('Write standard file with default UTF-8 encoding and compare result.', async () => {
-            const testDir = tmp.dirSync({ prefix: 'builderFlowNodeFileTest_' });
             const testFile = getTestFilename('standardUTF8.txt')
             const inputData = fs.readFileSync('test/standardFiles/testFile1.txt', {encoding: 'utf-8'});
 			const { value, output } = await flowNode.writeFile({ filename: testFile, data: inputData });
@@ -82,7 +81,6 @@ describe('Standard file handling test', () => {
         });
         
 		it('Write chinese UTF-8 encoded file and compare result.', async () => {
-            const testDir = tmp.dirSync({ prefix: 'builderFlowNodeFileTest_' });
             const testFile = getTestFilename('chineseUTF8.txt')
             const inputData = fs.readFileSync('test/standardFiles/chineseUTF8.txt', {encoding: 'utf-8'});
 			const { value, output } = await flowNode.writeFile({ filename: testFile, data: inputData });
@@ -96,7 +94,6 @@ describe('Standard file handling test', () => {
         });
         
 		it('Write UTF-16LE encoded file and compare result.', async () => {
-            const testDir = tmp.dirSync({ prefix: 'builderFlowNodeFileTest_' });
             const testFile = getTestFilename('greekDataUTF16LE.txt')
             const inputData = fs.readFileSync('test/standardFiles/greekDataUTF16LE.txt', {encoding: 'utf16le'});
 			const { value, output } = await flowNode.writeFile({ 
@@ -109,6 +106,52 @@ describe('Standard file handling test', () => {
             const outputData = fs.readFileSync(testFile, {encoding: 'utf16le'});
 
             expect(inputData).to.equal(outputData);
+		});
+		
+		it('JS-Object should be STORED as JSON', async () => {
+            const testFile = getTestFilename('objectWrittenAsJSON.txt')
+            const inputData =  {testKey1: 'testData1', testKey2: 'testData2'}
+			const { value, output } = await flowNode.writeFile({ filename: testFile, data: inputData });
+
+			expect(value).to.equal(testFile);
+            expect(output).to.equal('next');
+            const outputData = fs.readFileSync(testFile, {encoding: 'utf8'});
+            expect('{"testKey1":"testData1","testKey2":"testData2"}').to.equal(outputData);
+		});
+		
+		it('JS-Object should STAY JS-Object', async () => {
+            const testFile = getTestFilename('objectWrittenAsJSON.txt')
+            const inputData =  {testKey1: 'testData1', testKey2: 'testData2'}
+			const { value, output } = await flowNode.writeFile({ filename: testFile, data: inputData, stringify: false });
+
+			expect(value).to.equal(testFile);
+            expect(output).to.equal('next');
+            const outputData = fs.readFileSync(testFile, {encoding: 'utf8'});
+            expect('[object Object]').to.equal(outputData);
+		});
+		
+		it('Make sure file is not overwritten', async () => {
+			const testFile = getTestFilename('objectWrittenAsJSON.txt');
+			fs.writeFileSync(testFile, 'Some data');
+            const inputData =  {testKey1: 'testData1', testKey2: 'testData2'}
+			const { value, output } = await flowNode.writeFile({ filename: testFile, data: inputData,  });
+
+			expect(value).to.be.instanceOf(Error)
+                .and.to.have.property('message');
+            expect(value.message).to.match(/.*Error writing file.*file already exists.*/)
+			expect(output).to.equal('error');
+		});
+		
+		it('Overwrite option is turned on', async () => {
+			const testFile = getTestFilename('objectWrittenAsJSON.txt');
+			fs.writeFileSync(testFile, 'Some data');
+            const inputData =  {testKey1: 'testData1', testKey2: 'testData2'}
+			const { value, output } = await flowNode.writeFile({ filename: testFile, data: inputData, overwrite: true });
+
+			expect(value).to.equal(testFile);
+            expect(output).to.equal('next');
+            const outputData = fs.readFileSync(testFile, {encoding: 'utf8'});
+            expect('{"testKey1":"testData1","testKey2":"testData2"}').to.equal(outputData);
         });
 	});
 });
