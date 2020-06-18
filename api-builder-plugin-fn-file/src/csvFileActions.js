@@ -53,31 +53,35 @@ async function readCVSFile(params, options) {
 	if (params.relax_column_count) csvParseOptions.relax_column_count = params.relax_column_count;
 	if (params.columns) csvParseOptions.columns = params.columns;
 
-	const endEvent = new Promise((resolve, reject) => {
-		fs.createReadStream(filename)
-			.pipe(parse(csvParseOptions))
-			.on('readable', function () {
-				let record;
-				while (record = this.read()) {
-					records.push(record);
-				}
-			})
-			.on('end', function () {
-				options.logger.info(`Found ${records.length} in the CSV-File: ${filename}.`);
-				if (records.length == 0 || (params.uniqueResult && records.length != 1)) {
-					if (params.filterValues) {
-						reject(Error(`No entry found in CSV-File: ${filename} using filterValues: ${params.filterValues} using filterColumn: ${params.filterColumn}`));
-					} else {
-						reject(Error(`No entry found in CSV-File: ${filename}`));
+	try {
+		const endEvent = new Promise((resolve, reject) => {
+			fs.createReadStream(filename)
+				.pipe(parse(csvParseOptions))
+				.on('readable', function () {
+					let record;
+					while (record = this.read()) {
+						records.push(record);
 					}
-				} else {
-					resolve(records);
-				}
-			})
-	});
+				})
+				.on('end', function () {
+					options.logger.info(`Found ${records.length} in the CSV-File: ${filename}.`);
+					if (records.length == 0 || (params.uniqueResult && records.length != 1)) {
+						if (params.filterValues) {
+							reject(Error(`No entry found in CSV-File: ${filename} using filterValues: ${params.filterValues} using filterColumn: ${params.filterColumn}`));
+						} else {
+							reject(Error(`No entry found in CSV-File: ${filename}`));
+						}
+					} else {
+						resolve(records);
+					}
+				})
+		});
 
-	result = await endEvent;
-	return result;
+		result = await endEvent;
+		return result;
+	} catch (ex) {
+		throw new Error(`Unexpected error reading CSV-File: ${filename}`)
+	}
 }
 
 function filterRecord(record, lines, params, options) {

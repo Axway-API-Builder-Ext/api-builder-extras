@@ -184,6 +184,18 @@ describe('flow-node file', () => {
 			);
 		});
 
+		it.only('Test Quoted CSV-File without providing a quota parameter', async () => {
+			const { value, output } = await flowNode.readCVSFile({
+				filename: 'test/csv/CSV-Having-Quoted-Field.csv'
+			});
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal(
+				[
+					{ReturnCode: '401', ResponseMessage: 'You have no permission, go axway', LastUpdate: '16.01.2020', Author: 'Chris'}
+				]
+			);
+		});
+
 		it('Test relax_column_count option', async () => {
 			const { value, output } = await flowNode.readCVSFile({
 				filename: 'test/csv/CSV-Inconsistent-ColumnCounts.csv', relax_column_count: true
