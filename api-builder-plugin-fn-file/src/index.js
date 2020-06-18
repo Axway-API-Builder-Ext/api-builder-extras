@@ -1,6 +1,6 @@
 const path = require('path');
 const { SDK } = require('@axway/api-builder-sdk');
-const actions = require('./csvFileActions.js');
+const actions = require('./actions.js');
 
 /**
  * Resolves the API Builder plugin.

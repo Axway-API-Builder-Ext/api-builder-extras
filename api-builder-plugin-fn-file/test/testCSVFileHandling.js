@@ -23,9 +23,7 @@ describe('flow-node file', () => {
 			expect(flowNode.name).to.equal('File');
 			expect(flowNode.description).to.equal('Flow node to read and write files');
 			expect(flowNode.icon).to.be.a('string');
-			expect(flowNode.getMethods()).to.deep.equal([
-				'readCVSFile'
-			]);
+			expect(flowNode.getMethods()).to.include('readCVSFile');
 		});
 
 		// It is vital to ensure that the generated node flow-nodes are valid
@@ -91,6 +89,15 @@ describe('flow-node file', () => {
 
 			expect(value).to.be.instanceOf(Error)
 				.and.to.have.property('message', 'No entry found in CSV-File: test/csv/Incorrect-Format.csv');
+			expect(output).to.equal('error');
+		});
+
+		it('Test Quoted CSV-File without providing a quota parameter', async () => {
+			const { value, output } = await flowNode.readCVSFile({
+				filename: 'test/csv/CSV-Having-Quoted-Field.csv'
+			});
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Unexpected error reading CSV-File: test/csv/CSV-Having-Quoted-Field.csv');
 			expect(output).to.equal('error');
 		});
 	});
@@ -175,18 +182,6 @@ describe('flow-node file', () => {
 		it('Test Quote instruction works', async () => {
 			const { value, output } = await flowNode.readCVSFile({
 				filename: 'test/csv/CSV-Having-Quoted-Field.csv', quote: '%', filterColumn: 'ReturnCode', filterValues: '401'
-			});
-			expect(output).to.equal('next');
-			expect(value).to.deep.equal(
-				[
-					{ReturnCode: '401', ResponseMessage: 'You have no permission, go axway', LastUpdate: '16.01.2020', Author: 'Chris'}
-				]
-			);
-		});
-
-		it.only('Test Quoted CSV-File without providing a quota parameter', async () => {
-			const { value, output } = await flowNode.readCVSFile({
-				filename: 'test/csv/CSV-Having-Quoted-Field.csv'
 			});
 			expect(output).to.equal('next');
 			expect(value).to.deep.equal(

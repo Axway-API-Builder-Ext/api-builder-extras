@@ -5,7 +5,7 @@ flow-nodes:
     description: Flow node to read and write files
     category: extension
     methods:
-      readCVSFile: # This same key is used in `actions.js`
+      readCVSFile:
         name: Read a CSV-File
         description: Flow node reads a CSV-File. Optionally filter for a specific entries, filter for fields you would like to get and additionally you can convert the fields into a Javascript-Object.
         parameters:
@@ -112,17 +112,70 @@ flow-nodes:
             schema:
               type: boolean
         outputs:
-          # success output(s) should be first
           next:
             name: Next
             description: Successfully read the CSV-File
             context: $.content
             schema:
               type: object
-          # error output(s) should be last
           error:
             name: Error
             description: Error reading the CSV-File
+            context: $.error
+            schema:
+              type: string
+      writeFile:
+        name: Writes a file
+        description: Use this method to write payload information to disk.
+        parameters:
+          filename:
+            name: Target filename
+            description: The filename you would like to write
+            required: true
+            initialType: string
+            schema:
+              type: string
+          data:
+            name: Input data
+            description: The data you would like to write to the file
+            required: true
+            schema:
+              type: object
+          overwrite:
+            name: Overwrite file
+            description: This controls if you would like to overwrite existing files or not. Default to false.
+            required: false
+            group: Options
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          dataEncoding:
+            name: Data encoding
+            description: Data encoding format. Defaults to UTF-8
+            required: false
+            group: Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - utf8
+                - ucs2
+                - utf16le
+                - latin1
+                - ascii
+                - base64
+                - hex
+        outputs:
+          next:
+            name: Next
+            description: The file has been successfully written. content contains the name of the file for reference.
+            context: $.content
+            schema:
+              type: object
+          error:
+            name: Error
+            description: The file couldn't be written. Error contains the error message.
             context: $.error
             schema:
               type: string

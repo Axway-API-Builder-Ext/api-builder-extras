@@ -75,6 +75,9 @@ async function readCVSFile(params, options) {
 						resolve(records);
 					}
 				})
+				.on('error', function () {
+					reject(Error(`Unexpected error reading CSV-File: ${filename}`));
+				})
 			} catch (ex) {
 				reject(Error(`Unexpected error reading CSV-File: ${filename}`));
 			}
