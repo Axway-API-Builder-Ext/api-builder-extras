@@ -10,12 +10,14 @@ flow-nodes:
         description: Flow node reads a CSV-File. Optionally filter for a specific entries, filter for fields you would like to get and additionally you can convert the fields into a Javascript-Object.
         parameters:
           filename:
+            name: CSV-Filename
             description: Filename you would like to read. Must be absolute or relativ to the API-Builder directory.
             required: true
             initialType: string
             schema:
               type: string
           delimiter:
+            name: Delimeter
             description: The delimeter of your CSV-File. Defaults to ,
             required: false
             initialType: string
@@ -24,6 +26,7 @@ flow-nodes:
               default: ","
               type: string
           filterValues:
+            name: Filter values
             description: This value is used to filter entries in the configured filterColumn. This parameter is ignored, if filterColumn is not set.
             required: false
             initialType: string
@@ -39,6 +42,7 @@ flow-nodes:
                   items:
                     - type: string
           filterColumn:
+            name: Filter column
             description: The CSV column name used to filter using the filterValue. This parameter is ignored, if filterValue is not set.
             required: false
             initialType: string
@@ -46,6 +50,7 @@ flow-nodes:
             schema:
               type: string
           uniqueResult:
+            name: Unique result
             description: Turn this on if you require a unique result (exactly 1). If not unique or nothing is found the flow node fails.
             required: false
             initialType: boolean
@@ -54,6 +59,7 @@ flow-nodes:
               default: false
               type: boolean
           resultColumns:
+            name: Result columns
             description: "An array of CSV column names you want in the result. The column names are expected in the first line. Example: [\"columnA\", \"columnF\", \"columnT\"]"
             required: false
             initialType: array
@@ -67,6 +73,7 @@ flow-nodes:
                   before: "[\n"
                   after: "\n]"
           quote:
+            name: Quote
             description: Optional character surrounding a field. This is required, when the delimiter is used as part of a field; one character only
             required: false
             initialType: string
@@ -75,6 +82,7 @@ flow-nodes:
               type: string
               default: Double quote
           comment:
+            name: Comment
             description: "Treat all the characters after this one as a comment. E.g. using a #"
             required: false
             initialType: string
@@ -82,6 +90,7 @@ flow-nodes:
             schema:
               type: string
           columns:
+            name: Columns
             description: Provide an array of column headers if your CSV has NO headers or you would like to have different property name in the result.
             required: false
             initialType: array
@@ -95,6 +104,7 @@ flow-nodes:
                   before: "[\n"
                   after: "\n]"
           relax_column_count:
+            name: Relax column count
             description: Discard inconsistent columns count. If a column is missing for a record a reduced dataset is returned.
             required: false
             initialType: boolean
@@ -105,12 +115,14 @@ flow-nodes:
           # success output(s) should be first
           next:
             name: Next
+            description: Successfully read the CSV-File
             context: $.content
             schema:
               type: object
           # error output(s) should be last
           error:
             name: Error
+            description: Error reading the CSV-File
             context: $.error
             schema:
               type: string
