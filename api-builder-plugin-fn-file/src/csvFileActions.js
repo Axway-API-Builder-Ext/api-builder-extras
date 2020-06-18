@@ -53,8 +53,8 @@ async function readCVSFile(params, options) {
 	if (params.relax_column_count) csvParseOptions.relax_column_count = params.relax_column_count;
 	if (params.columns) csvParseOptions.columns = params.columns;
 
-	try {
-		const endEvent = new Promise((resolve, reject) => {
+	const endEvent = new Promise((resolve, reject) => {
+		try {
 			fs.createReadStream(filename)
 				.pipe(parse(csvParseOptions))
 				.on('readable', function () {
@@ -75,13 +75,13 @@ async function readCVSFile(params, options) {
 						resolve(records);
 					}
 				})
-		});
+			} catch (ex) {
+				reject(Error(`Unexpected error reading CSV-File: ${filename}`));
+			}
+	});
 
-		result = await endEvent;
-		return result;
-	} catch (ex) {
-		throw new Error(`Unexpected error reading CSV-File: ${filename}`)
-	}
+	result = await endEvent;
+	return result;
 }
 
 function filterRecord(record, lines, params, options) {
