@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 - Added better documentation / examples for the create issue method
 - improved README.md
+- Test suite now using @axway/api-builder-test-utils v1.0.0
 
 ## [0.0.5] 2020-04-21
 ### Added

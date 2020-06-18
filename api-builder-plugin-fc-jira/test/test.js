@@ -1,43 +1,25 @@
 const { expect } = require('chai');
-const { MockRuntime } = require('@axway/api-builder-sdk');
+const { MockRuntime } = require('@axway/api-builder-test-utils');
 
 const getPlugin = require('../index');
 
-function getLogger () {
-	const logger = {
-		debug: () => {},
-		trace: () => {},
-		info: () => {},
-		warn: () => {},
-		error: () => {},
-		fatal: () => {}
-	};
-	logger.scope = () => logger;
-	return logger;
-}
-
 describe('Jira flow-node', () => {
-	let runtime;
+	let plugin;
+	let flowNode;
 	before(async () => {
-		const plugin = await getPlugin({}, {
-			logger: getLogger()
-		});
-		runtime = new MockRuntime(plugin);
+		plugin = await MockRuntime.loadPlugin(getPlugin);
+		flowNode = plugin.getFlowNode('jira-cp-connector');
 	});
-
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
-			expect(runtime).to.exist;
-			// Ensure there's a flow-node and schemas created for each OAS document
-            expect(Object.keys(runtime.plugin.flownodes)).to.have.length(1);
-			const flownode = runtime.getFlowNode('jira-cp-connector');
-			expect(flownode).to.be.a('object');
+			expect(plugin).to.exist;
+			expect(flowNode).to.be.a('object');
 
 			// Ensure the flow-node matches the OAS document
-			expect(flownode.name).to.equal('JIRA Cloud Platform API');
-			expect(flownode.description).to.equal('JIRA 8.4.3');
-			expect(flownode.icon).to.be.a('string');
-			expect(Object.keys(flownode.methods)).to.deep.equal([                
+			expect(flowNode.name).to.equal('JIRA Cloud Platform API');
+			expect(flowNode.description).to.equal('JIRA 8.4.3');
+			expect(flowNode.icon).to.be.a('string');
+			expect(Object.keys(flowNode.methods)).to.deep.equal([                
                 'Create-Issue',
                 'Create-Issues',
                 'Issue-Get',
@@ -78,7 +60,7 @@ describe('Jira flow-node', () => {
 		});
 
 		it('should define valid flow-nodes', () => {
-			expect(runtime.validate()).to.not.throw;
+			plugin.validate();
 		});
 	});
 });
