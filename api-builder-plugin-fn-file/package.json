@@ -23,7 +23,7 @@
 		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
 	},
 	"engines": {
-		"node": ">= 10.0"
+		"node": ">=10.0"
 	},
 	"main": "src/index.js",
 	"files": [
