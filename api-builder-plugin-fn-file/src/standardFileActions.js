@@ -1,4 +1,5 @@
-const fs = require('fs');
+const fs = require('fs').promises;
+const util = require('util');
 const path = require('path');
 
 /**
@@ -38,14 +39,11 @@ async function writeFile(params, options) {
 		dataEncoding = params.dataEncoding;
 	}
 
-	debugger;
-	options.logger.info(`Going to write to file: ${filename}`)
 	try {
-		fs.writeFileSync(filename, data, {encoding: dataEncoding})
-	} catch (ex) {
+		await fs.writeFile(filename, data, {encoding: dataEncoding});
+	} catch(ex) {
 		throw new Error(`Error writing file: ${filename}. Message: ${ex.message}`, ex)
-	}
-
+	};
 	return filename;
 }
 
