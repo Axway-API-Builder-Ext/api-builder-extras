@@ -62,7 +62,8 @@ describe('Standard file handling test', () => {
 			});
 
 			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Error writing file: /////invalidFilename///. Message: EPERM: operation not permitted, open \'/////invalidFilename///\'');
+                .and.to.have.property('message');
+            expect(value.message).to.match(/.*Error writing file.*invalidFilename.*/)
 			expect(output).to.equal('error');
         });
 
