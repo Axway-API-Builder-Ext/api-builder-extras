@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.6] 2020-06-19
 ### Added
 - Upgrade to @axway/api-builder-sdk v1.0.0
 - Test suite now using @axway/api-builder-test-utils v1.0.0
