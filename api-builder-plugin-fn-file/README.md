@@ -101,7 +101,27 @@ This is not yet supported. Please create an [issue][3] describing your use-case,
 
 ## Write
 
-This is not yet supported. Please create an [issue][3] describing your use-case, if you need support for it.
+The intention of this operation is to write the content of an attribute into a on your API-Builder project. As an API-Builder project is supposed to run in a docker container and the nature of it, the location should be an external share.
+
+### Input parameters
+
+The Write-Operation supports a number of input parameters:
+
+| Param       | Type        | Required | Description |
+| ----------- | ----------- | -------- | ----------- |
+| filename          | string | y | The name of the file you would like to write. This filename is given either absolute or relative to the API-Builder project. For instance, when using a filename like `conf/output.txt` the file is written in the conf folder within you API-Builder project.|
+| data         | string | Y | This is parameter contains the data to write to the filter. You can either use a hard-coded string, but very likely you use a selector to reference for instance the received content body|
+| overwrite      | boolean | n | Set this optional toggle to true, if you would like to overwrite already existing files. |
+| dataEncoding       | string | n | Optionally, set the data encoding, which is used to write the file. If not set UTF-8 is used. |
+| stringify      | boolean | n | By default, if data is an Object, it is automatially stringified (JSON.stringify). Using this option you can turn off that feature.|
+
+### Output
+
+#### Next 
+Is followed when the file has been successfully writen. The variable contains the filename of file.
+
+#### Error
+An error has occured and you get back the error message.
 
 After creating your API Builder service (`api-builder init`), you can install this plugin using npm:
 
