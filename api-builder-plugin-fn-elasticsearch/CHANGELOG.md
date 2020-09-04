@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.1] 2020-09-04
+### Changed
 - Upgraded Elastic client library to version 7.9.0
 - Upgraded to new API-Builder SDK 1.0.0
 
