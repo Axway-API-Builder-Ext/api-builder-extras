@@ -1,45 +1,47 @@
 const { expect } = require('chai');
-const { MockRuntime } = require('@axway/api-builder-sdk');
-
+const { MockRuntime } = require('@axway/api-builder-test-utils');
 const getPlugin = require('../../src');
-const { ElasticsearchClient } = require('../../src/actions/ElasticsearchClient');
 
+const { ElasticsearchClient } = require('../../src/actions/ElasticsearchClient');
 const { setupElasticsearchMock } = require('../basic/setupElasticsearchMock');
 
-const validConfig = require('../config/basic-config').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
-
-describe('Search: flow-node elasticsearch - Search action', () => {
-	let runtime;
+describe('Basic: flow-node elasticsearch', () => {
+	let plugin;
+	let flowNode;
 	var client = new ElasticsearchClient('http://mock-node:9200').client;
-	before(async () => runtime = new MockRuntime(await getPlugin(validConfig)));
+	var pluginConfig = require('../config/basic-config.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
+
+	beforeEach(async () => {
+		plugin = await MockRuntime.loadPlugin(getPlugin, pluginConfig);
+		plugin.setOptions({ validateOutputs: true });
+		flowNode = plugin.getFlowNode('elasticsearch');
+	});
 
 	describe('#search actions', () => {
 		it('should pass without any given parameter', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/search_all_response.json');
-			const flowNode = runtime.getFlowNode('elasticsearch');
+			const { value, output } = await flowNode.search({});
 
-			const result = await flowNode.search({});
-			expect(result.context.result.statusCode).to.equals(200);
+			expect(value.statusCode).to.equals(200);
+			expect(output).to.equal('next');
 			expect(mockedFn.callCount).to.equals(1);
 			expect(mockedFn.lastCall.arg).to.deep.equals({});
 		});
 
 		it('should pass when having an index parameter given', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/search_all_response.json');
-			const flowNode = runtime.getFlowNode('elasticsearch');
-
 			const inputParameter = { index: 'logstash-openlog' };
 
-			const result = await flowNode.search(inputParameter);
-			expect(result.context.result.statusCode).to.equals(200);
-			expect(result.context.result.body.hits).to.exist;
+			const { value, output } = await flowNode.search(inputParameter);
+			expect(value.statusCode).to.equals(200);
+			expect(value.body.hits).to.exist;
+			expect(output).to.equal('next');
 			expect(mockedFn.callCount).to.equals(1);
 			expect(mockedFn.lastCall.arg).to.deep.equals(inputParameter);
 		});
 
 		it('should pass when having a query parameter given', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/search_all_response.json');
-			const flowNode = runtime.getFlowNode('elasticsearch');
 
 			const bodyParams = {
 				"query": {
@@ -62,29 +64,23 @@ describe('Search: flow-node elasticsearch - Search action', () => {
 				body: bodyParams
 			}
 
-			const result = await flowNode.search(inputParameter);
-			expect(result.context.result.statusCode).to.equals(200);
+			const { value, output } = await flowNode.search(inputParameter);
+			expect(value.statusCode).to.equals(200);
+			expect(value.body.hits).to.exist;
+			expect(output).to.equal('next');
 			expect(mockedFn.callCount).to.equals(1);
 			expect(mockedFn.lastCall.arg).to.deep.equals(elasticRequest);
 		});
 
 		it('should fail with an invalid sort key given', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/wrong_sort_column.json', true);
-			const flowNode = runtime.getFlowNode('elasticsearch');
 
-			const inputParameter = {
-				index: 'logstash-openlog',
-				sort: 'XZY:desc', 
-			}
+			const inputParameter = { index: 'logstash-openlog', sort: 'XZY:desc' };
+			const { value, output } = await flowNode.search(inputParameter);
 
-			const result = await flowNode.search(inputParameter);
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('error');
-			expect(result.args[0]).to.equal(null);
-			expect(result.context).to.be.an('Object');
-			expect(result.context.error.root_cause[0]).to.deep.contains(
-				{reason: 'No mapping found for [XZY] in order to sort on'}
-			);
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'No mapping found for [XZY] in order to sort on');
+			expect(output).to.equal('error');
 			if(typeof mockedFn !== 'undefined') {
 				expect(mockedFn.lastCall.arg).to.deep.equals(inputParameter);
 			}
@@ -92,8 +88,6 @@ describe('Search: flow-node elasticsearch - Search action', () => {
 
 		it('should be okay having suggest_field and suggest_text only, as suggest_mode defaults to missing', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/suggest_response.json');
-			const flowNode = runtime.getFlowNode('elasticsearch');
-
 			const inputParameter = {
 				suggest_field: 'circuitPath.execTime',
 				//suggest_mode: 'missing', // This is not given as it should default to missing
@@ -105,12 +99,9 @@ describe('Search: flow-node elasticsearch - Search action', () => {
 				suggest_mode: 'missing'
 			};
 
-			const result = await flowNode.search(inputParameter);
-			expect(result.callCount).to.equal(1);
-			expect(result.output).to.equal('next');
-			expect(result.args[0]).to.equal(null);
-			expect(result.context).to.be.an('Object');
-			expect(result.context.result.statusCode).to.equal(200);
+			const { value, output } = await flowNode.search(inputParameter);
+			expect(output).to.equal('next');
+			expect(value.statusCode).to.equal(200);
 			if(typeof mockedFn !== 'undefined') {
 				expect(mockedFn.callCount).to.equals(1);
 				// Validate all given parameters has been passed to the JS-Elastic client
@@ -120,7 +111,6 @@ describe('Search: flow-node elasticsearch - Search action', () => {
 
 		it('should pass with all possible parameters', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/search_all_response.json');
-			const flowNode = runtime.getFlowNode('elasticsearch');
 
 			const bodyParams = {
 				"query": {
@@ -185,8 +175,9 @@ describe('Search: flow-node elasticsearch - Search action', () => {
 				...queryParams
 			}
 
-			const result = await flowNode.search(inputParameter);
-			expect(result.context.result.statusCode).to.equals(200);
+			const { value, output } = await flowNode.search(inputParameter);
+			expect(value.statusCode).to.equals(200);
+			expect(output).to.equal('next');
 			if(typeof mockedFn !== 'undefined') {
 				expect(mockedFn.callCount).to.equals(1);
 				// Validate all given parameters has been passed to the JS-Elastic client

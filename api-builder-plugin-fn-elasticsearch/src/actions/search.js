@@ -16,22 +16,21 @@ const { ElasticsearchClient } = require('./ElasticsearchClient');
  * @return {undefined}
  */
 
-function search(req, outputs, options) {
-	debugger;
-	const node = this.pluginConfig.elastic.node;
+function search(params, options) {
+	const node = options.pluginConfig.elastic.node;
 	if (typeof node === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: node is missing.');
-		return outputs.error(null, { message: 'Elasticsearch configuration is invalid: node is missing.' });
+		throw new Error('Elasticsearch configuration is invalid: node is missing.');
 	}
 
 	var client = new ElasticsearchClient(node).client;
 
 	addSuggestModeDefault();
 	const searchBody = {};
-	if(req.params.index != undefined) searchBody.index = req.params.index;
-	if(req.params.query != undefined) {
+	if(params.index != undefined) searchBody.index = params.index;
+	if(params.query != undefined) {
 		searchBody.body = {};
-		searchBody.body.query = req.params.query;
+		searchBody.body.query = params.query;
 	}
 	addQueryParam('from');
 	addQueryParam('size');
@@ -74,7 +73,7 @@ function search(req, outputs, options) {
 	addQueryParam("version");
 	
 	options.logger.debug(`Using elastic search query body: ${JSON.stringify(searchBody)}`);
-	client.search(searchBody, {
+	result = client.search(searchBody, {
 		ignore: [404],
 		maxRetries: 3
 	}, (err, result) => {
@@ -82,22 +81,23 @@ function search(req, outputs, options) {
 			if(!err.body) {
 				options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
 			}
-			return outputs.error(null, err.body.error);
+			throw new Error(err.body.error.root_cause[0].reason);
 		} else if(result.error) {
-			return outputs.error(null, result.error);
+			throw new Error(result.error);
 		} else {
-			return outputs.next(null, result);
+			return result;
 		}
 	});
+	return result;
 
 	function addQueryParam(field) {
 		//if(searchBody.querystring == undefined) searchBody.querystring = {};
-		if(req.params[field] != undefined) searchBody[field] = req.params[field];
+		if(params[field] != undefined) searchBody[field] = params[field];
 	}
 
 	function addSuggestModeDefault() {
-		if(req.params.suggest_field != undefined) {
-			if(req.params.suggest_mode == undefined) req.params.suggest_mode = 'missing';
+		if(params.suggest_field != undefined) {
+			if(params.suggest_mode == undefined) params.suggest_mode = 'missing';
 		}
 	}
 }

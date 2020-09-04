@@ -1,33 +1,33 @@
 const { expect } = require('chai');
-const { MockRuntime } = require('@axway/api-builder-sdk');
-
+const { MockRuntime } = require('@axway/api-builder-test-utils');
 const getPlugin = require('../../src');
-const actions = require('../../src/actions/search');
 
-const pluginConfig = require('../config/basic-config').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
-
-describe('Basic: flow-node elasticsearch', () => {
-	let runtime;
-	before(async () => runtime = new MockRuntime(await getPlugin(pluginConfig)));
+describe('flow-node newplugin', () => {
+	let plugin;
+	let flowNode;
+	beforeEach(async () => {
+		plugin = await MockRuntime.loadPlugin(getPlugin);
+		plugin.setOptions({ validateOutputs: true });
+		flowNode = plugin.getFlowNode('elasticsearch');
+	});
 
 	describe('#constructor', () => {
 		it('should define flow-nodes', () => {
-			expect(actions).to.be.an('object');
-			expect(actions.search).to.be.a('function');
-			expect(runtime).to.exist;
-			const flownode = runtime.getFlowNode('elasticsearch');
-			expect(flownode).to.be.a('object');
+			expect(plugin).to.be.a('object');
+			expect(plugin.getFlowNodeIds()).to.deep.equal([
+				'elasticsearch'
+			]);
+			expect(flowNode).to.be.a('object');
 
 			// Ensure the flow-node matches the spec
-			expect(flownode.name).to.equal('Elasticsearch');
+			expect(flowNode.name).to.equal('Elasticsearch');
+			expect(flowNode.getMethods()).to.deep.equal([
+				'search'
+			]);
 		});
 
-		// It is vital to ensure that the generated node flow-nodes are valid
-		// for use in API Builder. Your unit tests should always include this
-		// validation to avoid potential issues when API Builder loads your
-		// node.
 		it('should define valid flow-nodes', () => {
-			expect(runtime.validate()).to.not.throw;
+			plugin.validate();
 		});
 	});
 });

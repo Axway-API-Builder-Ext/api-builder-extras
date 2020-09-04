@@ -32,8 +32,7 @@ Tested with Elasticsearch 7.4.0
 Requires API-Builder Independence or higher
 
 ## Changelog
-- 1.0.0 - 13.03.2020
-  - Initial version
+See [Change-Log][CHANGELOG.md]
 
 ## Limitations/Caveats
 Only the search API is currently supported

@@ -30,15 +30,16 @@
 		"scripts"
 	],
 	"dependencies": {
-		"@axway/api-builder-sdk": "^0.1.0",
-		"@elastic/elasticsearch": "^7.6.0"
+		"@axway/api-builder-sdk": "^1.0.0",
+		"@elastic/elasticsearch": "^7.9.0"
 	},
 	"peerDependencies": {
-		"@axway/api-builder-runtime": "^4.22.0"
+		"@axway/api-builder-runtime": "^4.5.0"
 	},
 	"devDependencies": {
+		"@axway/api-builder-test-utils": "^1.1.0",
 		"chai": "^4.1.2",
-		"mocha": "^6.1.4",
+		"mocha": "^7.1.1",
 		"simple-mock": "^0.8.0"
 	},
 	"scripts": {
