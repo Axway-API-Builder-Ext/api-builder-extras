@@ -16,7 +16,7 @@ const { ElasticsearchClient } = require('./ElasticsearchClient');
  * @return {undefined}
  */
 
-function search(params, options) {
+async function search(params, options) {
 	const node = options.pluginConfig.elastic.node;
 	if (typeof node === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: node is missing.');
@@ -73,22 +73,13 @@ function search(params, options) {
 	addQueryParam("version");
 	
 	options.logger.debug(`Using elastic search query body: ${JSON.stringify(searchBody)}`);
-	result = client.search(searchBody, {
-		ignore: [404],
-		maxRetries: 3
-	}, (err, result) => {
-		if(err) {
-			if(!err.body) {
-				options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
-			}
-			throw new Error(err.body.error.root_cause[0].reason);
-		} else if(result.error) {
-			throw new Error(result.error);
-		} else {
-			return result;
-		}
-	});
-	return result;
+	try {
+		var queryResult = await executeQuery(searchBody);
+	} catch (ex) {
+		throw new Error(ex);
+	}
+
+	return queryResult;
 
 	function addQueryParam(field) {
 		//if(searchBody.querystring == undefined) searchBody.querystring = {};
@@ -99,6 +90,27 @@ function search(params, options) {
 		if(params.suggest_field != undefined) {
 			if(params.suggest_mode == undefined) params.suggest_mode = 'missing';
 		}
+	}
+
+	function executeQuery(searchBody) {
+		return new Promise((resolve, reject) => {
+			client.search(searchBody, {
+				ignore: [404],
+				maxRetries: 3
+			}, (err, result) => {
+				if(err) {
+					if(!err.body) {
+						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
+					}
+					reject(err.body.error.root_cause[0].reason);
+				} else if(result.error) {
+					reject(result.error);
+				} else {
+					resolve(result);
+				}
+			});
+	
+		})
 	}
 }
 

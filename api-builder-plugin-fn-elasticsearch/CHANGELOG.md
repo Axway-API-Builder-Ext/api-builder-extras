@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.5] 2020-09-05
+### Fixed
+- Query search results no properly returned
+
 ## [1.0.4] 2020-09-04
 ### Changed
 - Upgraded Elastic client library to version 7.9.0
