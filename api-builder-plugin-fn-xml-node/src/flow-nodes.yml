@@ -25,7 +25,7 @@ flow-nodes:
               type: boolean
           selectPath:
             name: Select object with path
-            description: 'The object within the returned structure with this path is returned. Example: $[\'soap:Envelope\'][\'soap:Body\']'
+            description: "The object within the returned structure with this path is returned. Example: $[\"soap:Envelope\"][\"soap:Body\"]"
             required: false
             initialType: string
             schema:
