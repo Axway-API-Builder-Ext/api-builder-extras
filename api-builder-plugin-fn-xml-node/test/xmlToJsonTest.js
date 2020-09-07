@@ -88,7 +88,7 @@ describe('api-builder-plugin-fn-xml-node', () => {
 		it('should return only the SOAP-Body instead of the complete message.', async () => {
 			var xmlMessage = require('fs').readFileSync('./test/testMessages/quote_soap_response.xml', 'utf8');
 			var jsonMessage = JSON.parse(require('fs').readFileSync('./test/testMessages/quote_soap_response_body.json', 'utf8'));
-			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '[soap:Envelope][soap:Body]' });
+			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '$[\'soap:Envelope\'][\'soap:Body\']' });
 
 			expect(output).to.equal('next');
 			expect(value).to.be.a('object');
@@ -97,17 +97,17 @@ describe('api-builder-plugin-fn-xml-node', () => {
 
 		it('should fail with a proper error message if the selectPath is wrong', async () => {
 			var xmlMessage = require('fs').readFileSync('./test/testMessages/airports_soap_response_namespace.xml', 'utf8');
-			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '[soap:Envelope][soap:Body]' });
+			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '$[\'soap:Envelope\'][\'soap:Body\']' });
 
 			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Nothing found in response message based on path: \'[soap:Envelope][soap:Body]\'.');
+				.and.to.have.property('message', 'Nothing found in response message based on path: \'$[\'soap:Envelope\'][\'soap:Body\']\'.');
 			expect(output).to.equal('error');
 		});
 
-		it.only('should return only the SOAP-Body and Namespaces removed', async () => {
+		it('should return only the SOAP-Body and Namespaces removed', async () => {
 			var xmlMessage = require('fs').readFileSync('./test/testMessages/airports_soap_response_namespace.xml', 'utf8');
 			var jsonMessage = JSON.parse(require('fs').readFileSync('./test/testMessages/airports_soap_body_no_namespace.json', 'utf8'));
-			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '[soapenv:Envelope][soapenv:Body]', removeNamespaces: ['v1', 'v2'] });
+			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '$[\'soapenv:Envelope\'][\'soapenv:Body\']', removeNamespaces: ['v1', 'v2'] });
 
 			expect(output).to.equal('next');
 			expect(value).to.be.a('object');

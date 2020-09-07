@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.7] 2020-09-07
+### Changed
+- now using the same selector ($.property) syntax as for any other context variable.
+
 ## [1.0.6] 2020-09-07
 ### Added
 - New feature to retrieve an object specified by a path

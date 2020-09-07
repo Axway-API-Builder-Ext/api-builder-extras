@@ -1,5 +1,5 @@
 const convert = require('xml-js');
-var _ = require('lodash');
+var jp = require('@livereach/jsonpath');
 /**
  * Action method.
  *
@@ -60,7 +60,7 @@ async function xml2json(params, options) {
 		throw new Error(`Failed to convert XML to JSON. Error: result is undefined`);
 	}
 	if(selectPath) {
-		result = _.get(result, selectPath);
+		result = jp.value(result, selectPath);
 		if(result == undefined) {
 			throw new Error(`Nothing found in response message based on path: '${selectPath}'.`);
 		}
