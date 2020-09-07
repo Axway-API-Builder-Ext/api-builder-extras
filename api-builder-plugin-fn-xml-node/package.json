@@ -41,7 +41,6 @@
 		"mocha": "^7.1.1"
 	},
 	"scripts": {
-		"build": "check-node-version --package && npm run test",
 		"test": "mocha ./test --recursive -R spec"
 	}
 }
