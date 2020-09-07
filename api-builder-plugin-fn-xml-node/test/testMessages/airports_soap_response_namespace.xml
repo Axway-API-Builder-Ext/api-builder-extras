@@ -1,0 +1,38 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://v1.airports.cache.conducivetech.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v1:radius_airportsResponse>
+         <!--Zero or more repetitions:-->
+         <v2:return>
+            <fs>TXL</fs>
+            <!--Optional:-->
+            <iata>TXL</iata>
+            <!--Optional:-->
+            <icao>TXL</icao>
+            <!--Optional:-->
+            <faa>TXL</faa>
+            <!--Optional:-->
+            <name>Berlin Tegel</name>
+            <!--Optional:-->
+            <street1>Saatwinkler Damm</street1>
+            <city>Berlin</city>
+            <!--Optional:-->
+            <cityCode>B</cityCode>
+            <!--Optional:-->
+            <stateCode>B</stateCode>
+            <!--Optional:-->
+            <postalCode>13405</postalCode>
+            <countryCode>DE</countryCode>
+            <countryName>Germany</countryName>
+            <regionName>DE</regionName>
+            <timeZoneRegionName>GMT</timeZoneRegionName>
+            <!--Optional:-->
+            <weatherZone>Germany</weatherZone>
+            <localTime>19:02</localTime>
+            <utcOffsetHours>-1</utcOffsetHours>
+            <latitude>39.0438</latitude>
+            <longitude>-77.4874</longitude>
+         </v2:return>
+      </v1:radius_airportsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>

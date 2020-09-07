@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [1.0.6] 2020-03-30
+## [1.0.6] 2020-09-07
+### Added
+- New feature to retrieve an object specified by a path
+- New feature to remove namespaces given in XML when converting into JSON
+- Refactored plugin using the new Flow-Node SDK
+
 ### Security
 - #10 Updated Dev-Dependencies mocha & chai to the latest version
 

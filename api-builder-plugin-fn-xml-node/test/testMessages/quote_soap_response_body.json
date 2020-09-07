@@ -1,0 +1,18 @@
+{
+  "GetQuoteResponse": {
+    "GetQuoteResult": {
+      "StockSymbol": "AAPL",
+      "LastTradeAmount": "0",
+      "LastTradeDateTime": "0001-01-01T00:00:00",
+      "StockChange": "0",
+      "OpenAmount": "0",
+      "DayHigh": "0",
+      "DayLow": "0",
+      "StockVolume": "0",
+      "PrevCls": "0",
+      "EarnPerShare": "0",
+      "PE": "0",
+      "QuoteError": "true"
+    }
+  }
+}

@@ -23,6 +23,20 @@ flow-nodes:
             initialType: boolean
             schema:
               type: boolean
+          selectPath:
+            name: Select object with path
+            description: 'The object within the returned structure with this path is returned. Example: [soap:Envelope][soap:Body]'
+            required: false
+            initialType: string
+            schema:
+              type: string
+          removeNamespaces:
+            name: Remove namespaces
+            description: 'An Array of namespaces to be removed from the JSON-Message. Example: ["v1"] will convert the following: "<v1:radius_airportsResponse>" into "radius_airportsResponse": {'
+            required: false
+            initialType: array
+            schema:
+              type: array
         returns:
           name: Next
           description: Created JSON data

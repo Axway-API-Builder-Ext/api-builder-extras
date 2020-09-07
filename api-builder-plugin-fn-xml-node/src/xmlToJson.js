@@ -1,4 +1,5 @@
 const convert = require('xml-js');
+var _ = require('lodash');
 /**
  * Action method.
  *
@@ -20,7 +21,7 @@ const convert = require('xml-js');
  *	 does not define "next", the first defined output).
  */
 async function xml2json(params, options) {
-	const { xmlData, asString } = params;
+	const { xmlData, asString, selectPath, removeNamespaces } = params;
 	const { logger } = options;
 	if (!xmlData) {
 		throw new Error('Missing required parameter: xmlData');
@@ -38,7 +39,10 @@ async function xml2json(params, options) {
 		ignoreDoctype: true,
 		textFn: removeJsonTextAttribute
 	};
-
+	if(removeNamespaces) {
+		xml2JsonOptions.elementNameFn = removeNamespacesFn;
+	}
+	
 	let result;
 	try {
 		if (asString) {
@@ -54,6 +58,12 @@ async function xml2json(params, options) {
 	}
 	if(typeof result === 'undefined') {
 		throw new Error(`Failed to convert XML to JSON. Error: result is undefined`);
+	}
+	if(selectPath) {
+		result = _.get(result, selectPath);
+		if(result == undefined) {
+			throw new Error(`Nothing found in response message based on path: '${selectPath}'.`);
+		}
 	}
 	return result;
 
@@ -78,9 +88,18 @@ async function xml2json(params, options) {
 			logger.error(e);
 		}
 	};
+
+	function removeNamespacesFn(val) {
+		if(val.indexOf(":")==-1) return val;
+		for (var i = 0; i < removeNamespaces.length; ++i) {
+			var namespace = removeNamespaces[i];
+			if(val.startsWith(`${namespace}:`)) {
+				return val.replace(`${namespace}:`,'');
+			}
+		}
+		return val;
+	}
 }
-
-
 
 module.exports = {
 	xml2json

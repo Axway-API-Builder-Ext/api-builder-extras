@@ -30,6 +30,7 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.0.0",
+		"lodash": "^4.17.20",
 		"xml-js": "1.6.11"
 	},
 	"peerDependencies": {
