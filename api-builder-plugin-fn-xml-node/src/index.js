@@ -1,59 +1,21 @@
-const sdk = require('axway-flow-sdk');
+const path = require('path');
+const { SDK } = require('@axway/api-builder-sdk');
 const xmlToJson = require('./xmlToJson');
 
-function getFlowNodes() {
-	const flownodes = sdk.init(module);
-
-	// The unique name of your flow-node.  You can define multiple flow-nodes in this
-	// file, but one is typical.
-	flownodes.add('xml-node', {
-		name: 'XML',
-		// file support for: svg, png, gif, bmp, jpg, and tiff
-		icon: 'xml-node-icon.png',
-		description: 'Provides support to handle XML-Payload'
-	})
-		// Add a method to your flow-node.
-		.method('xml2json', {
-			name: 'XML to JSON',
-			description: 'Converts XML payload into JSON data'
-		})
-		// Add parameter(s) to your method.
-		.parameter('xmlData', {
-			title: 'XML Data',
-			description: 'XML data to be converted',
-			type: 'string'
-		}, true)
-		.parameter('asString', {
-			title: 'As String',
-			description: 'Encode the JSON response as a String',
-			type: 'boolean'
-		}, false)
-		// Once all parameters for the method are defined, add output(s) to your method.
-		.output('next', {
-			name: 'Next',
-			description: 'JSON data created',
-			context: '$.jsonData',
-			schema: {
-				oneOf: [
-					{ type: 'string' },
-					{ type: 'object' }
-				]
-			}
-		})
-		.output('error', {
-			name: 'Error',
-			description: 'Failed to create JSON / JS-Object',
-			context: '$.error',
-			schema: {
-				oneOf: [
-					{ type: 'string' }
-				]
-			}
-		})
-		// Provide the actual javascript implementation.
-		.action(xmlToJson);
-
-	return Promise.resolve(flownodes);
+/**
+ * Resolves the API Builder plugin.
+ * @param {object} pluginConfig - The service configuration for this plugin
+ *   from API Builder config.pluginConfig['api-builder-plugin-pluginName']
+ * @param {string} pluginConfig.proxy - The configured API-builder proxy server
+ * @param {object} options - Additional options and configuration provided by API Builder
+ * @param {string} options.appDir - The current directory of the service using the plugin
+ * @param {string} options.logger - An API Builder logger scoped for this plugin
+ * @returns {object} An API Builder plugin.
+ */
+async function getPlugin(pluginConfig, options) {
+	const sdk = new SDK({ pluginConfig });
+	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), xmlToJson);
+	return sdk.getPlugin();
 }
 
-exports = module.exports = getFlowNodes;
+module.exports = getPlugin;

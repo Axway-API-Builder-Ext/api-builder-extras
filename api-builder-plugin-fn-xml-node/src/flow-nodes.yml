@@ -1,0 +1,43 @@
+flow-nodes:
+  xml-node:
+    name: XML
+    icon: xml-node-icon.png
+    description: Provides support to handle XML-Payload
+    category: Utils
+    methods:
+      xml2json:
+        name: XML to JSON
+        description: Converts XML payload into JSON data.
+        parameters:
+          xmlData:
+            name: XML Input data
+            description: 'XML Data. For instance: $.soapResponse.body'
+            required: true
+            initialType: string
+            schema:
+              type: string
+          asString:
+            name: As string
+            description: Encode the JSON response as a String.
+            required: false
+            initialType: boolean
+            schema:
+              type: boolean
+        returns:
+          name: Next
+          description: Created JSON data
+          context: $.jsonData
+          schema: 
+            oneOf: [
+              { type: 'string' },
+              { type: 'object' }
+            ]
+        throws:
+          name: Error
+          description: Failed to create JSON-String / JS-Object
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string

@@ -29,16 +29,16 @@
 		"xml-node-icon.png"
 	],
 	"dependencies": {
-		"axway-flow-sdk": "^3.0.0",
+		"@axway/api-builder-sdk": "^1.0.0",
 		"xml-js": "1.6.11"
 	},
 	"peerDependencies": {
 		"@axway/api-builder-runtime": "^4.5.0"
 	},
 	"devDependencies": {
-		"chai": "^4.2.0",
-		"check-node-version": "^4.0.2",
-		"mocha": "^6.2.3"
+		"@axway/api-builder-test-utils": "^1.1.0",
+		"chai": "^4.1.2",
+		"mocha": "^7.1.1"
 	},
 	"scripts": {
 		"build": "check-node-version --package && npm run test",
