@@ -8,7 +8,7 @@ const { setupElasticsearchMock } = require('../basic/setupElasticsearchMock');
 describe('Basic: flow-node elasticsearch', () => {
 	let plugin;
 	let flowNode;
-	var client = new ElasticsearchClient('http://mock-node:9200').client;
+	var client = new ElasticsearchClient({node:'http://mock-node:9200'}).client;
 	var pluginConfig = require('../config/basic-config.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
 
 	beforeEach(async () => {

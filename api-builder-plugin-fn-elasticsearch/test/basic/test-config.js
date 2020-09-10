@@ -11,19 +11,13 @@ const invalidConfig = require('../config/invalid-config').pluginConfig['@axway-a
 describe('Basic: flow-node elasticsearch', () => {
 	let plugin;
 	let flowNode;
-	var client = new ElasticsearchClient('http://mock-node:9200').client;
+	var client = new ElasticsearchClient({node:'http://mock-node:9200'}).client;
 	beforeEach(async () => {
 		plugin = await MockRuntime.loadPlugin(getPlugin, validConfig);
 		invalidPlugin = await MockRuntime.loadPlugin(getPlugin, invalidConfig);
 		plugin.setOptions({ validateOutputs: true });
 	});
 
-	//////////////
-	/*let runtime;
-	var client = new ElasticsearchClient('http://mock-node:9200').client;
-	before(async () => runtime = new MockRuntime(await getPlugin(validConfig)));
-	before(async () => invalidRuntime = new MockRuntime(await getPlugin(invalidConfig)));
-*/
 	describe('#validConfig', () => {
 		it('should pass, as we have a valid config', async () => {
 			flowNode = plugin.getFlowNode('elasticsearch');

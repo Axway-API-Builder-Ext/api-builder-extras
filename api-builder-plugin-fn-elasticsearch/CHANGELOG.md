@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.6] 2020-09-10
+### Changed
+- Now forwarding all given Elasticsearch config parameters to the Elasticsearch client
+
 ## [1.0.5] 2020-09-05
 ### Fixed
 - Query search results no properly returned
