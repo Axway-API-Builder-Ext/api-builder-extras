@@ -4,7 +4,7 @@ module.exports = {
 	pluginConfig: {
 		'@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch': {
 			'elastic': {
-				node: process.env.ELASTIC_NODE,
+				nodes: [process.env.ELASTIC_NODE],
 				auth: {
 					// Use an API-Key
 					apiKey: process.env.ELASTIC_API_KEY,
