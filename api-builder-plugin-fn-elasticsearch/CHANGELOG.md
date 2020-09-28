@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
 ## [1.0.7] 2020-09-28
 ### Changed
 - Default configuration now using nodes instead of node 
