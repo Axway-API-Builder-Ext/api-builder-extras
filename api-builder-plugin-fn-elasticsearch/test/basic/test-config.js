@@ -37,7 +37,7 @@ describe('Basic: flow-node elasticsearch', () => {
 			const { value, output } = await flowNode.search({ });
 
 			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Elasticsearch configuration is invalid: node is missing.');
+				.and.to.have.property('message', 'Elasticsearch configuration is invalid: nodes or node is missing.');
 			expect(output).to.equal('error');
 		});
 	});

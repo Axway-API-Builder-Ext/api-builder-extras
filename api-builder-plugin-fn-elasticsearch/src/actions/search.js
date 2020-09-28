@@ -18,9 +18,9 @@ const { ElasticsearchClient } = require('./ElasticsearchClient');
 
 async function search(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
-	if (typeof elasticSearchConfig.node === 'undefined') {
-		options.logger.error('Elasticsearch configuration is invalid: node is missing.');
-		throw new Error('Elasticsearch configuration is invalid: node is missing.');
+	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
+		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
+		throw new Error('Elasticsearch configuration is invalid: nodes or node is missing.');
 	}
 
 	var client = new ElasticsearchClient(elasticSearchConfig).client;
