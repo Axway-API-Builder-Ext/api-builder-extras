@@ -5,8 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.0.7] 2020-09-28
 ### Changed
-- By default using nodes instead of node to configure an Elasticsearch nodes cluster
+- Default configuration now using nodes instead of node 
+  parsed to an Array to configure multiple Elasticsearch nodes
 
 ## [1.0.6] 2020-09-10
 ### Changed
