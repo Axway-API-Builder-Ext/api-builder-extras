@@ -6,12 +6,10 @@ on:
     paths:
       # This must be aligned with the folder-name of your plugin
       - 'api-builder-plugin-fn-kafka-producer/**'
-      - '.github/workflows/**'
   pull_request:
     paths:
       # This must be aligned with the folder-name of your plugin
       - 'api-builder-plugin-fn-kafka-producer/**'
-      - '.github/workflows/**'
 
 jobs:
   build:

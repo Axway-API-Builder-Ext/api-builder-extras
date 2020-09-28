@@ -6,12 +6,10 @@ on:
     paths:
       # This must be aligned with the folder-name of you plugin
       - 'api-builder-plugin-fn-foreach/**'
-      - '.github/workflows/**'
   pull_request:
     paths:
       # This must be aligned with the folder-name of you plugin
       - 'api-builder-plugin-fn-foreach/**'
-      - '.github/workflows/**'
 
 jobs:
   build:
