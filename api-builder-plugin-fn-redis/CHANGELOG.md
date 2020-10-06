@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.7] 2020-10-06
+### Added
+- Added support to provide a password to Redis
+
 ## [0.0.6] 2020-06-19
 ### Added
 - Upgrade to @axway/api-builder-sdk v1.0.0

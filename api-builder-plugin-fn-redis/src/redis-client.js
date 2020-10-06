@@ -7,6 +7,7 @@ module.exports = async ({ pluginConfig, logger }) => {
 		const redisClient = redis.createClient({
 			host: pluginConfig.host,
 			port: pluginConfig.port,
+			password: pluginConfig.password,
 			// This method is needed to override retry strategy
 			// if not specified the client tries to connect multiple times
 			retry_strategy: (options) => {
@@ -22,7 +23,7 @@ module.exports = async ({ pluginConfig, logger }) => {
 		redisClient.on('connect', () => {
 			// 'ready' is emitted after 'connect' so just trace log here
 			// and resolve the promise in 'ready' handler
-			logger.trace(`Connection to Redis server successful!`);
+			logger.info(`Connection to Redis server successful!`);
 		});
 		redisClient.on('ready', () => {
 			logger.trace(`Redis client is ready!`);
