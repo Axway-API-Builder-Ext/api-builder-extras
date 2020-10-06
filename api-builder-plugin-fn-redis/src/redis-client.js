@@ -23,7 +23,7 @@ module.exports = async ({ pluginConfig, logger }) => {
 		redisClient.on('connect', () => {
 			// 'ready' is emitted after 'connect' so just trace log here
 			// and resolve the promise in 'ready' handler
-			logger.info(`Connection to Redis server successful!`);
+			logger.trace(`Connection to Redis server successful!`);
 		});
 		redisClient.on('ready', () => {
 			logger.trace(`Redis client is ready!`);
