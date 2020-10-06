@@ -29,6 +29,7 @@ function isUnitTest() {
 async function constructTestContext() {
 	const options = {
 		logger: {
+			info: simple.mock(),
 			trace: simple.mock(),
 			error: simple.mock()
 		}
