@@ -1,0 +1,252 @@
+{
+    "body": {
+      "apigw-traffic-summary-000001": {
+        "mappings": {
+          "dynamic": "false",
+          "properties": {
+            "@timestamp": {
+              "type": "date"
+            },
+            "correlationId": {
+              "type": "keyword",
+              "doc_values": false
+            },
+            "duration": {
+              "type": "integer"
+            },
+            "fileTransfer": {
+              "properties": {
+                "direction": {
+                  "type": "keyword"
+                },
+                "serviceType": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "finalStatus": {
+              "type": "keyword"
+            },
+            "http": {
+              "properties": {
+                "authSubjectId": {
+                  "type": "keyword"
+                },
+                "bytesReceived": {
+                  "type": "integer"
+                },
+                "bytesSent": {
+                  "type": "integer"
+                },
+                "localAddr": {
+                  "type": "keyword"
+                },
+                "localPort": {
+                  "type": "integer"
+                },
+                "method": {
+                  "type": "keyword"
+                },
+                "remoteAddr": {
+                  "type": "keyword"
+                },
+                "remoteName": {
+                  "type": "keyword"
+                },
+                "remotePort": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "integer"
+                },
+                "statusText": {
+                  "type": "keyword"
+                },
+                "uri": {
+                  "type": "text",
+                  "norms": false
+                },
+                "vhost": {
+                  "type": "keyword"
+                },
+                "wafStatus": {
+                  "type": "integer"
+                }
+              }
+            },
+            "processInfo": {
+              "properties": {
+                "gatewayName": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword"
+                    }
+                  },
+                  "norms": false
+                },
+                "gatewayRegion": {
+                  "type": "keyword"
+                },
+                "groupId": {
+                  "type": "keyword"
+                },
+                "groupName": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword"
+                    }
+                  },
+                  "norms": false
+                },
+                "hostname": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword"
+                    }
+                  },
+                  "norms": false
+                },
+                "serviceId": {
+                  "type": "keyword"
+                },
+                "version": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword"
+                    }
+                  },
+                  "norms": false
+                }
+              }
+            },
+            "protocol": {
+              "type": "keyword"
+            },
+            "protocolSrc": {
+              "type": "text",
+              "norms": false
+            },
+            "serviceContext": {
+              "properties": {
+                "apiDeprecated": {
+                  "type": "boolean"
+                },
+                "apiOrg": {
+                  "type": "keyword"
+                },
+                "apiSecurity": {
+                  "type": "keyword"
+                },
+                "apiState": {
+                  "type": "keyword"
+                },
+                "apiVersion": {
+                  "type": "keyword"
+                },
+                "app": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword"
+                    }
+                  },
+                  "norms": false
+                },
+                "appOrg": {
+                  "type": "keyword"
+                },
+                "backendBasePath": {
+                  "type": "keyword"
+                },
+                "faulthandlerPolicy": {
+                  "type": "keyword"
+                },
+                "method": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword"
+                    }
+                  },
+                  "norms": false
+                },
+                "monitor": {
+                  "type": "boolean"
+                },
+                "requestPolicy": {
+                  "type": "keyword"
+                },
+                "responsePolicy": {
+                  "type": "keyword"
+                },
+                "routingPolicy": {
+                  "type": "keyword"
+                },
+                "service": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword"
+                    }
+                  },
+                  "norms": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "statusCode": 200,
+    "headers": {
+      "content-type": "application/json; charset=UTF-8",
+      "content-length": "1981",
+      "access-control-allow-credentials": "true"
+    },
+    "meta": {
+      "context": null,
+      "request": {
+        "params": {
+          "method": "GET",
+          "path": "/apigw-traffic-summary-00*/_mapping",
+          "body": null,
+          "querystring": "",
+          "headers": {
+            "user-agent": "elasticsearch-js/7.9.1 (win32 10.0.19041-x64; Node.js v12.13.1)"
+          },
+          "timeout": 30000
+        },
+        "options": {
+          "ignore": [
+            404
+          ],
+          "maxRetries": 3
+        },
+        "id": 1
+      },
+      "name": "elasticsearch-js",
+      "connection": {
+        "url": "http://api-env:9200/",
+        "id": "http://api-env:9200/",
+        "headers": {
+          
+        },
+        "deadCount": 0,
+        "resurrectTimeout": 0,
+        "_openRequests": 0,
+        "status": "alive",
+        "roles": {
+          "master": true,
+          "data": true,
+          "ingest": true,
+          "ml": false
+        }
+      },
+      "attempts": 0,
+      "aborted": false
+    }
+  }

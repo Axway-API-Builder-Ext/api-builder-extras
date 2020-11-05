@@ -23,6 +23,7 @@ async function search(params, options) {
 		throw new Error('Elasticsearch configuration is invalid: nodes or node is missing.');
 	}
 
+	// Getting the client (which is a singleton)
 	var client = new ElasticsearchClient(elasticSearchConfig).client;
 
 	addSuggestModeDefault();
@@ -71,7 +72,7 @@ async function search(params, options) {
 	addQueryParam('track_total_hits'); 
 	addQueryParam('typed_keys'); 
 	addQueryParam("version");
-	
+
 	options.logger.debug(`Using elastic search query body: ${JSON.stringify(searchBody)}`);
 	try {
 		var queryResult = await executeQuery(searchBody);
@@ -94,10 +95,7 @@ async function search(params, options) {
 
 	function executeQuery(searchBody) {
 		return new Promise((resolve, reject) => {
-			client.search(searchBody, {
-				ignore: [404],
-				maxRetries: 3
-			}, (err, result) => {
+			client.search(searchBody, { ignore: [404], maxRetries: 3 }, (err, result) => {
 				if(err) {
 					if(!err.body) {
 						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);

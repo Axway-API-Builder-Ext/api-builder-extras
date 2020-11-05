@@ -5,7 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- new method to get legacy Elasticsearch index templates
+- new method to put/update legacy Elasticsearch index templates
+- new method to get index mappings
+- new method to put/update index an mapping
 
+### Changed
+- @axway/api-builder-sdk updated from version 1.0.0 to 1.0.7
+- @elastic/elasticsearch updated from version 7.9.0 to 7.9.1
 
 ## [1.0.7] 2020-09-28
 ### Changed

@@ -5,7 +5,7 @@ const getPlugin = require('../../src');
 const { ElasticsearchClient } = require('../../src/actions/ElasticsearchClient');
 const { setupElasticsearchMock } = require('../basic/setupElasticsearchMock');
 
-describe('Basic: flow-node elasticsearch', () => {
+describe('Search tests', () => {
 	let plugin;
 	let flowNode;
 	var client = new ElasticsearchClient({node:'http://mock-node:9200'}).client;

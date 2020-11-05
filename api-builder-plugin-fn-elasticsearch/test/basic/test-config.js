@@ -11,7 +11,7 @@ const invalidConfig = require('../config/invalid-config').pluginConfig['@axway-a
 describe('Basic: flow-node elasticsearch', () => {
 	let plugin;
 	let flowNode;
-	var client = new ElasticsearchClient({node:'http://mock-node:9200'}).client;
+	var client = new ElasticsearchClient({node:'http://api-env:9200'}).client;
 	beforeEach(async () => {
 		plugin = await MockRuntime.loadPlugin(getPlugin, validConfig);
 		invalidPlugin = await MockRuntime.loadPlugin(getPlugin, invalidConfig);

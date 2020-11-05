@@ -21,9 +21,6 @@ describe('flow-node newplugin', () => {
 
 			// Ensure the flow-node matches the spec
 			expect(flowNode.name).to.equal('Elasticsearch');
-			expect(flowNode.getMethods()).to.deep.equal([
-				'search'
-			]);
 		});
 
 		it('should define valid flow-nodes', () => {

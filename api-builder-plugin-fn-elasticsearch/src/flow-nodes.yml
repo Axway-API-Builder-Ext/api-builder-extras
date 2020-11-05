@@ -375,3 +375,228 @@ flow-nodes:
             properties:
               message:
                 type: string
+        
+      getTemplate: 
+        name: Get Index Template
+        description: The comma separated names of the legacy index templates
+        parameters:
+          name:
+            name: Index template name
+            description: Name of the legacy index template.
+            required: true
+            initialType: string
+            schema:
+              type: string
+        returns:
+          name: Next
+          description: The index template loaded from Elasticsearch.
+          context: $.indexTemplate
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+      putTemplate: 
+        name: Put Index Template
+        description: Updates a legacy index template
+        parameters:
+          name:
+            name: Index template name
+            description: Name of the legacy index template.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          body:
+            name: Template
+            description: The template definition.
+            required: true
+            initialType: object
+            schema:
+              type: object
+          create:
+            name: Index template name
+            description: Whether the index template should only be added if new or can also replace an existing one.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          order:
+            name: Order
+            description: The order for this template when merging multiple matching ones (higher numbers are merged later, overriding the lower numbers).
+            required: false
+            initialType: number
+            schema:
+              type: number
+        returns:
+          name: Next
+          description: The index template loaded from Elasticsearch.
+          context: $.indexTemplate
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+      getMapping: 
+        name: Get Index Mapping
+        description: Gets an index mapping from Elasticsearch
+        parameters:
+          index:
+            name: Index-Name
+            description: Name of the index the mapping should be retrieved
+            required: true
+            initialType: string
+            schema:
+              type: string
+          includeTypeName:
+            name: Include type name
+            description: "Whether to add the type name to the response (default: false)."
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          ignoreUnavailable:
+            name: Include Unavailable
+            description: Whether specified concrete indices should be ignored when unavailable (missing or closed).
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          allowNoIndices:
+            name: Allow no indices
+            description: Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes _all string or when no indices have been specified)
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          expandWildcards:
+            name: Expand wildcards
+            description: "Whether to expand wildcard expression to concrete indices that are open, closed or both. Default: open"
+            required: false
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - open
+                - closed
+                - hidden
+                - none
+                - all
+          masterTimeout:
+            name: Master timeout
+            description: Specify timeout for connection to master
+            required: false
+            initialType: number
+            schema:
+              type: number
+        returns:
+          name: Next
+          description: The mapping loaded from Elasticsearch.
+          context: $.indexMapping
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+      putMapping: 
+        name: Put Index Mapping
+        description: Updates an index mapping
+        parameters:
+          index:
+            name: Index-Name
+            description: A comma-separated list of index names the mapping should be added to (supports wildcards); use _all or omit to add the mapping on all indices.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          body:
+            name: Mapping
+            description: The mapping definition.
+            required: true
+            initialType: object
+            schema:
+              type: object
+          includeTypeName:
+            name: Include type name
+            description: "Whether to add the type name to the response (default: false)."
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          ignoreUnavailable:
+            name: Include Unavailable
+            description: Whether specified concrete indices should be ignored when unavailable (missing or closed).
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          allowNoIndices:
+            name: Allow no indices
+            description: Whether to ignore if a wildcard indices expression resolves into no concrete indices. (This includes _all string or when no indices have been specified)
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          expandWildcards:
+            name: Expand wildcards
+            description: "Whether to expand wildcard expression to concrete indices that are open, closed or both. Default: open"
+            required: false
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - open
+                - closed
+                - hidden
+                - none
+                - all
+          masterTimeout:
+            name: Master timeout
+            description: Specify timeout for connection to master
+            required: false
+            initialType: number
+            schema:
+              type: number
+        returns:
+          name: Next
+          description: The mapping loaded from Elasticsearch.
+          context: $.indexMapping
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
