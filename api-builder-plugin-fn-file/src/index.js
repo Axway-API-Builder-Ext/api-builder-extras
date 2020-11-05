@@ -1,6 +1,7 @@
 const path = require('path');
 const { SDK } = require('@axway/api-builder-sdk');
-const actions = require('./actions.js');
+const { readFile, writeFile} = require('./standardFileActions');
+const { readCVSFile } = require('./csvFileActions');
 
 /**
  * Resolves the API Builder plugin.
@@ -8,7 +9,7 @@ const actions = require('./actions.js');
  */
 async function getPlugin(pluginConfig, options) {
 	const sdk = new SDK({ pluginConfig });
-	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), actions);
+	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), { readFile, writeFile, readCVSFile });
 	return sdk.getPlugin();
 }
 

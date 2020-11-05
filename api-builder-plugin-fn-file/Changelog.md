@@ -6,9 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.4] 2020-11-05
+### Added
+- Support to read standard or JSON files
+
+### Changed
+- csv-parse version: 4.8.5 -> 4.14.0
+- lodash    version: 4.17.15 -> 4.17.20
+
 ## [0.0.3] 2020-06-19
 ### Added
-- Added support to write native files to the disk
+- Support to write native files to the disk
 - Upgrade to @axway/api-builder-sdk v1.0.0
 - Test suite now using @axway/api-builder-test-utils v1.0.0
 

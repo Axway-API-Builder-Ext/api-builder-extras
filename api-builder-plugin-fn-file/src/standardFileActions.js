@@ -25,25 +25,23 @@ const path = require('path');
  *	 does not define "next", the first defined output).
  */
 async function writeFile(params, options) {
-	var { filename } = params;
-	var { data } = params;
-
+	var { filename, data, stringify, overwrite } = params;
 	const logger = options.logger;
 
 	let dataEncoding = 'utf8';
-	let stringify = params.stringify;
-	let overwrite = params.overwrite;
-
 	let flag = 'wx';
 
-	checkParameter(params);
-
-	debugger;
+	if (!filename) {
+		throw new Error('Missing required parameter: filename');
+	}
+	if (!data) {
+		throw new Error('Missing required parameter: data');
+	}
 
 	if(params.dataEncoding) {
 		dataEncoding = params.dataEncoding;
 	}
-	if(typeof(params.stringify) == "undefined") {
+	if(typeof(stringify) == "undefined") {
 		stringify = true;
 	}
 	if(params.overwrite) {
@@ -61,19 +59,28 @@ async function writeFile(params, options) {
 	return filename;
 }
 
-function checkParameter(params) {
-	var { filename } = params;
-	var { data } = params;
-
+async function readFile(params, options) {
+	var { filename, encoding, parseJson } = params;
+	const { logger } = options;
 	if (!filename) {
 		throw new Error('Missing required parameter: filename');
 	}
-	if (!data) {
-		throw new Error('Missing required parameter: data');
+	if(!encoding) {
+		encoding = "utf8";
 	}
-	return true;
+	try {
+		var content = await fs.readFile(filename, {encoding: encoding});
+	} catch(ex) {
+		throw new Error(`Error reading file: ${filename}. ${ex}`);
+	} 
+	if(parseJson) {
+		content = JSON.parse(content);
+	}
+	
+	return content;
 }
 
 module.exports = {
-	writeFile
+	writeFile, 
+	readFile
 };

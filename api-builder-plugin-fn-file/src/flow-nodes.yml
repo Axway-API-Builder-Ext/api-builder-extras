@@ -124,6 +124,7 @@ flow-nodes:
             context: $.error
             schema:
               type: string
+
       writeFile:
         name: Write file
         description: Use this method to write content for instance from an attribute into a file.
@@ -188,3 +189,53 @@ flow-nodes:
             context: $.error
             schema:
               type: string
+
+      readFile:
+        name: Read file
+        description: Reads a file into an attribute.
+        parameters:
+          filename:
+            name: Source filename
+            description: The filename to read.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          encoding:
+            name: Data encoding
+            description: Data encoding format. Defaults to UTF-8
+            required: false
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - utf8
+                - ucs2
+                - utf16le
+                - latin1
+                - ascii
+                - base64
+                - hex
+          parseJson:
+            name: Parse JSON
+            description: Turn this option if you are reading s JSON-File and would like to parse it into a JS-Object.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        returns:
+          name: Next
+          description: The file has been successfully read and returned into the given variable.
+          context: $.fileContent
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: Error reading the file.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string

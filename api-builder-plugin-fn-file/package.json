@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-file",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "File Flow-Node to read/write files as part of an API-Builder flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
@@ -31,18 +31,18 @@
 		"README.md"
 	],
 	"dependencies": {
-		"@axway/api-builder-sdk": "^1.0.0",
-		"csv-parse": "^4.8.5",
-		"lodash": "^4.17.15"
+		"@axway/api-builder-sdk": "^1.0.7",
+		"csv-parse": "^4.14.0",
+		"lodash": "^4.17.20"
 	},
 	"peerDependencies": {
 		"@axway/api-builder-runtime": "^4.5.0"
 	},
 	"devDependencies": {
-		"@axway/api-builder-test-utils": "^1.0.0",
-		"tmp": "^0.2.1",
+		"@axway/api-builder-test-utils": "^1.1.4",
 		"chai": "^4.2.0",
-		"mocha": "^6.2.3"
+		"mocha": "^6.2.3",
+		"tmp": "^0.2.1"
 	},
 	"scripts": {
 		"test": "mocha ./test --recursive -R spec"

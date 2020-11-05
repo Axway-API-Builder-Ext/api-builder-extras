@@ -35,7 +35,7 @@ describe('Standard file handling test', () => {
 		});
 	});
 
-	describe('#Write Standard file - Error handling tests', () => {
+	describe('#Write Standard file tests', () => {
 		it('should error when file parameter is missng', async () => {
 			const { value, output } = await flowNode.writeFile({
 				filename: null
@@ -153,6 +153,62 @@ describe('Standard file handling test', () => {
             const outputData = fs.readFileSync(testFile, {encoding: 'utf8'});
             expect('{"testKey1":"testData1","testKey2":"testData2"}').to.equal(outputData);
         });
+	});
+
+	describe('#Read Standard file tests', () => {
+		it('should error when file parameter is missng', async () => {
+			const { value, output } = await flowNode.readFile({ });
+
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Missing required parameter: filename');
+			expect(output).to.equal('error');
+		});
+
+		it('should fail with an unknown file', async () => {
+			const { value, output } = await flowNode.readFile({ filename: 'UnknownFile' });
+
+			expect(value.message).to.match(/.*Error reading file: UnknownFile.*/)
+			expect(output).to.equal('error');
+		});
+
+		it('should read a standard file as normal text', async () => {
+			const testFile = getTestFilename('testFile.txt');
+			fs.writeFileSync(testFile, 'Some data');
+			const { value, output } = await flowNode.readFile({ filename: testFile });
+
+			expect(output).to.equal('next');
+			expect(value).to.equal('Some data');
+		});
+
+		it('should read a JSON file not parsing it.', async () => {
+			const testData = fs.readFileSync('test/standardFiles/JSON-File.json', {encoding: 'utf8'});
+			const { value, output } = await flowNode.readFile({ filename: 'test/standardFiles/JSON-File.json' });
+
+			expect(output).to.equal('next');
+			expect(value).to.equal(testData);
+		});
+
+		it('should read a JSON file parsed into JSON / JS-Object.', async () => {
+			const testData = JSON.parse(fs.readFileSync('test/standardFiles/JSON-File.json', {encoding: 'utf8'}));
+			const { value, output } = await flowNode.readFile({ 
+				filename: 'test/standardFiles/JSON-File.json', 
+				parseJson: true
+			});
+
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal(testData);
+		});
+
+		it('should read a UTF16LE encoded file', async () => {
+			const testData = fs.readFileSync('test/standardFiles/greekDataUTF16LE.txt', {encoding: 'utf16le'});
+			const { value, output } = await flowNode.readFile({ 
+				filename: 'test/standardFiles/greekDataUTF16LE.txt', 
+				encoding: 'utf16le'
+			});
+
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal(testData);
+		});
 	});
 });
 
