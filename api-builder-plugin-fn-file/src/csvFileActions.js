@@ -26,7 +26,6 @@ const _ = require('lodash');
  *	 does not define "next", the first defined output).
  */
 async function readCVSFile(params, options) {
-	debugger;
 	var { filename } = params;
 
 	const logger = options.logger;
