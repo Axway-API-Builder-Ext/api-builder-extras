@@ -31,9 +31,10 @@ async function getTemplate(params, options) {
 	var indexTemplate = await executeRequest(params);
 
 	if(Object.keys(indexTemplate.body).length === 0 && indexTemplate.body.constructor === Object) {
-		throw new Error(`No index template found with name [${params.name}]`);
+		return options.setOutput('notFound', `No index template found with name [${params.name}]`);
 	}
-	return indexTemplate;
+	// Return the template config itself - Not the surrounding object based on the template name
+	return indexTemplate.body[params.name];
 
 	function executeRequest(params) {
 		return new Promise((resolve, reject) => {

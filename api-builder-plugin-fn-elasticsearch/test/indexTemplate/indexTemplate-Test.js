@@ -28,15 +28,13 @@ describe('Template indices tests', () => {
 			expect(output).to.equal('error');
 		});
 
-		it('should fail giving an unknown Index-Template name', async () => {
+		it('should follow the Not found path giving an unknown Index-Template name', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateUnknownTemplateResponse.json', false);
 
 			const inputParameter = { name: 'doesntexists' };
 			const { value, output } = await flowNode.getTemplate(inputParameter);
-
-			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'No index template found with name [doesntexists]');
-			expect(output).to.equal('error');
+			expect(value).to.equal('No index template found with name [doesntexists]');
+			expect(output).to.equal('notFound');
 			expect(mockedFn.callCount).to.equals(1);
 		});
 
@@ -47,12 +45,11 @@ describe('Template indices tests', () => {
 			const { value, output } = await flowNode.getTemplate(inputParameter);
 
 			expect(output).to.equal('next');
-			expect(value.statusCode).to.equal(200);
 			expect(mockedFn.callCount).to.equals(1);
 			// Validate all given parameters has been passed to the JS-Elastic client
 			expect(mockedFn.lastCall.arg).to.deep.equals(inputParameter);
-			// Make sure a body is returned
-			expect(value.body).to.exist;
+			// Make sure mappings are is returned
+			expect(value.mappings).to.exist;
 		});
 	});
 

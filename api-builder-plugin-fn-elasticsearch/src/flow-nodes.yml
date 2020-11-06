@@ -387,21 +387,33 @@ flow-nodes:
             initialType: string
             schema:
               type: string
-        returns:
-          name: Next
-          description: The index template loaded from Elasticsearch.
-          context: $.indexTemplate
-          schema:
-            type: object
-        throws:
-          name: Error
-          description: An unexpected error was encountered.
-          context: $.error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
+          flatSettings:
+            name: Flat settings
+            description: "Return settings in flat format (default: false)"
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            description: Return the index template loaded from Elasticsearch.
+            context: $.indexTemplate
+            schema:
+              type: object
+          notFound:
+            name: Not found
+            description: Exit used if the index template is not present in Elasticsearch.
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
 
       putTemplate: 
         name: Put Index Template
