@@ -16,29 +16,32 @@ const { ElasticsearchClient } = require('./ElasticsearchClient');
  * @return {undefined}
  */
 
-async function getTemplate(params, options) {
+async function getRollupJobs(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
 
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
 		throw new Error('Elasticsearch configuration is invalid: nodes or node is missing.');
 	}
-	if (!params.name) {
-		throw new Error('Missing required parameter: name');
+	if (!params.id) {
+		throw new Error('Missing required parameter: id');
 	}
 
 	var client = new ElasticsearchClient(elasticSearchConfig).client;
-	var indexTemplate = await executeRequest(params);
+	var result = await executeRequest(params);
 
-	if(Object.keys(indexTemplate.body).length === 0 && indexTemplate.body.constructor === Object) {
-		return options.setOutput('notFound', `No index template found with name [${params.name}]`);
+	if(result.body.jobs.length == 0) {
+		return options.setOutput('notFound', `No Rollup job found with id [${params.id}]`);
+	}
+	if(result.body.jobs.length > 1) {
+		throw new Error(`Got ${result.body.jobs.length} Rollup jobs. Only one unique flow node is currently supported.`);
 	}
 	// Return the template config itself - Not the surrounding object based on the template name
-	return indexTemplate.body[params.name];
+	return result.body.jobs[0];
 
 	function executeRequest(params) {
 		return new Promise((resolve, reject) => {
-			client.indices.getTemplate( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
+			client.rollup.getJobs( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
 				if(err) {
 					if(!err.body) {
 						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
@@ -55,15 +58,15 @@ async function getTemplate(params, options) {
 	}
 }
 
-async function putTemplate(params, options) {
+async function putRollupJob(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
 
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
 		throw new Error('Elasticsearch configuration is invalid: nodes or node is missing.');
 	}
-	if (!params.name) {
-		throw new Error('Missing required parameter: name');
+	if (!params.id) {
+		throw new Error('Missing required parameter: id');
 	}
 	if (!params.body) {
 		throw new Error('Missing required parameter: body');
@@ -76,7 +79,7 @@ async function putTemplate(params, options) {
 
 	function executeRequest() {
 		return new Promise((resolve, reject) => {
-			client.indices.putTemplate( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
+			client.rollup.putJob( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
 				if(err) {
 					if(!err.body) {
 						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
@@ -94,6 +97,6 @@ async function putTemplate(params, options) {
 }
 
 module.exports = {
-	getTemplate, 
-	putTemplate
+	getRollupJobs, 
+	putRollupJob
 };

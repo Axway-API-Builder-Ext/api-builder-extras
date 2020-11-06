@@ -3,6 +3,9 @@ const { SDK } = require('@axway/api-builder-sdk');
 const { search } = require('./actions/search');
 const { getTemplate, putTemplate } = require('./actions/indexTemplate');
 const { getMapping, putMapping } = require('./actions/indexMapping');
+const { getILMPolicy, putILMPolicy } = require('./actions/ilmPolicy');
+const { getRollupJobs, putRollupJob } = require('./actions/rollupJobs');
+
 
 /**
  * Resolves the API Builder plugin.
@@ -16,7 +19,7 @@ const { getMapping, putMapping } = require('./actions/indexMapping');
  */
 async function getPlugin(pluginConfig, options) {
 	const sdk = new SDK({ pluginConfig });
-	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), {search, getTemplate, putTemplate, getMapping, putMapping}, pluginConfig);
+	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), {search, getTemplate, putTemplate, getMapping, putMapping, getILMPolicy, putILMPolicy, getRollupJobs, putRollupJob }, pluginConfig);
 	//sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), , pluginConfig);
 	const plugin = sdk.getPlugin();
 	//plugin.flownodes['elasticsearch'].methods.search.action = actions.search.bind({pluginConfig});

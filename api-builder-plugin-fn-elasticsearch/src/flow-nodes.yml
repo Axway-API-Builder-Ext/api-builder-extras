@@ -612,3 +612,133 @@ flow-nodes:
             properties:
               message:
                 type: string
+
+      getILMPolicy: 
+        name: Get ILM policy
+        description: Gets an ILM lifecycle policy. See ILM policy definition for definitions of policy components.
+        parameters:
+          policy:
+            name: Policy-Name
+            description: The name of the index lifecycle policy
+            required: true
+            initialType: string
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: The created or updated ILM Lifecycle policy.
+            context: $.ilmPolicy
+            schema:
+              type: object
+          notFound:
+            name: Not found
+            description: Exit used if the ILM Lifecycle policy is not present in Elasticsearch.
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
+
+      putILMPolicy: 
+        name: Put ILM policy
+        description: Creates or updates an ILM lifecycle policy. See ILM policy definition for definitions of policy components.
+        parameters:
+          policy:
+            name: Policy-Name
+            description: The name of the index lifecycle policy
+            required: true
+            initialType: string
+            schema:
+              type: string
+          body:
+            name: Policy-Body
+            description: The lifecycle policy definition to register
+            required: true
+            initialType: object
+            schema:
+              type: object
+        returns:
+          name: Next
+          description: The created or updated ILM Lifecycle policy.
+          context: $.ilmPolicy
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+      getRollupJobs: 
+        name: Get Rollup job
+        description: Retrieves the configuration, stats, and status of rollup jobs. Actually limited to ONE job only.
+        parameters:
+          id:
+            name: Job-ID
+            description: The ID of the job to fetch.
+            required: true
+            initialType: string
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Returns the Rollup job object.
+            context: $.rollupJob
+            schema:
+              type: object
+          notFound:
+            name: Not found
+            description: Exit used if the Rollup job is not present in Elasticsearch.
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
+
+      putRollupJob: 
+        name: Put Rollup job
+        description: Creates or updates an ILM lifecycle policy. See ILM policy definition for definitions of policy components.
+        parameters:
+          id:
+            name: Job-ID
+            description: Identifier for the rollup job. This can be any alphanumeric string and uniquely identifies the data that is associated with the rollup job.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          body:
+            name: Job configuration
+            description: The rollup job configuration
+            required: true
+            initialType: object
+            schema:
+              type: object
+        returns:
+          name: Next
+          description: The created or updated Rollup job
+          context: $.rollupJob
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string

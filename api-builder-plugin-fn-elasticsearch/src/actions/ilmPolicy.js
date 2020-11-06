@@ -16,29 +16,29 @@ const { ElasticsearchClient } = require('./ElasticsearchClient');
  * @return {undefined}
  */
 
-async function getTemplate(params, options) {
+async function getILMPolicy(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
 
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
 		throw new Error('Elasticsearch configuration is invalid: nodes or node is missing.');
 	}
-	if (!params.name) {
-		throw new Error('Missing required parameter: name');
+	if (!params.policy) {
+		throw new Error('Missing required parameter: policy');
 	}
 
 	var client = new ElasticsearchClient(elasticSearchConfig).client;
-	var indexTemplate = await executeRequest(params);
+	var result = await executeRequest(params);
 
-	if(Object.keys(indexTemplate.body).length === 0 && indexTemplate.body.constructor === Object) {
-		return options.setOutput('notFound', `No index template found with name [${params.name}]`);
+	if(result.statusCode == 404) {
+		return options.setOutput('notFound', `No ILM policy found with name [${params.policy}]`);
 	}
 	// Return the template config itself - Not the surrounding object based on the template name
-	return indexTemplate.body[params.name];
+	return result.body[params.policy];
 
 	function executeRequest(params) {
 		return new Promise((resolve, reject) => {
-			client.indices.getTemplate( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
+			client.ilm.getLifecycle( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
 				if(err) {
 					if(!err.body) {
 						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
@@ -55,15 +55,15 @@ async function getTemplate(params, options) {
 	}
 }
 
-async function putTemplate(params, options) {
+async function putILMPolicy(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
 
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
 		throw new Error('Elasticsearch configuration is invalid: nodes or node is missing.');
 	}
-	if (!params.name) {
-		throw new Error('Missing required parameter: name');
+	if (!params.policy) {
+		throw new Error('Missing required parameter: policy');
 	}
 	if (!params.body) {
 		throw new Error('Missing required parameter: body');
@@ -76,7 +76,7 @@ async function putTemplate(params, options) {
 
 	function executeRequest() {
 		return new Promise((resolve, reject) => {
-			client.indices.putTemplate( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
+			client.ilm.putLifecycle( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
 				if(err) {
 					if(!err.body) {
 						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
@@ -94,6 +94,6 @@ async function putTemplate(params, options) {
 }
 
 module.exports = {
-	getTemplate, 
-	putTemplate
+	getILMPolicy, 
+	putILMPolicy
 };
