@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.5] 2020-11-16
+### Added
+- New Exit: NotFound if the file cannot be found
+- New toggle, to let the flow-node still fail, if the file cannot be found
+
 ## [0.0.4] 2020-11-05
 ### Added
 - Support to read standard or JSON files

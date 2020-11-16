@@ -224,18 +224,30 @@ flow-nodes:
             schema:
               default: false
               type: boolean
-        returns:
-          name: Next
-          description: The file has been successfully read and returned into the given variable.
-          context: $.fileContent
-          schema:
-            type: object
-        throws:
-          name: Error
-          description: Error reading the file.
-          context: $.error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
+          notFoundFails: 
+            name: Not found fails
+            description: Set this flag, if you would like to have this flow node failed (Error) if the file cannot be found.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            description: The file has been successfully read and returned into the given variable.
+            context: $.fileContent
+            schema:
+              type: object
+          notFound:
+            name: Not found
+            description: Indicates that the file could not be found 
+            context: $.result
+            schema:
+              type: object
+          error:
+            name: Error
+            description: Error reading the file.
+            context: $.error
+            schema:
+              type: object

@@ -68,10 +68,18 @@ async function readFile(params, options) {
 	if(!encoding) {
 		encoding = "utf8";
 	}
+	var notFoundFails = false;
+	if(params.notFoundFails) {
+		notFoundFails = params.notFoundFails;
+	}
 	try {
 		var content = await fs.readFile(filename, {encoding: encoding});
 	} catch(ex) {
-		throw new Error(`Error reading file: ${filename}. ${ex}`);
+		if(notFoundFails) {
+			throw new Error(`Error reading file: ${filename}. ${ex}`);
+		} else {
+			return options.setOutput('notFound', `File: ${filename} not found.`);
+		}
 	} 
 	if(parseJson) {
 		content = JSON.parse(content);
