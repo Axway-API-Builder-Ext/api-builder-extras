@@ -5,9 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-### Security
-- Updated mocha from 6.2.3 to 7.2.0 to solve security dependency to yargs-parser@13.1.2
-- Updated eslint from 7.6.0 to 7.13.0
+
+## [1.0.0] 2020-11-16
+### Changed
+- Changed axway-flow-sdk from 2.0.0 to @axway/api-builder-sdk 1.0.7
+- Refactored implementation to standard SDK
 
 ## [0.0.4] 2020-05-07
 ### Added

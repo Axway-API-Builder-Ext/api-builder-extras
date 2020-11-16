@@ -1,0 +1,78 @@
+flow-nodes:
+  objectfilter:
+    name: Filter
+    icon: icon.svg
+    description: Filter the fields of an Object
+    category: extension
+    methods:
+      include:
+        name: Include
+        description: Include only the selected fields in the output.
+        parameters:
+          source:
+            name: Source
+            description: The source object to filter.
+            required: true
+            initialType: object
+            schema:
+              type: object
+          fields:
+            name: Fields
+            description: "Limit the output to the following fields. Example: [\"field1\", \"field2\", \"fieldn\"]"
+            required: false
+            initialType: array
+            schema:
+              type: array
+              items:
+                type: string
+        returns:
+          name: Next
+          description: Returns the filtered object
+          context: $.filtered
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+      exclude:
+        name: Exclude
+        description: Remove the selected fields from the generated output.
+        parameters:
+          source:
+            name: Source
+            description: The source object to filter.
+            required: true
+            initialType: object
+            schema:
+              type: object
+          fields:
+            name: Fields
+            description: "Remove the given fields from the source. Example: [\"field1\", \"field2\", \"fieldn\"]"
+            required: false
+            initialType: array
+            schema:
+              type: array
+              items:
+                type: string
+        returns:
+          name: Next
+          description: Returns the filtered object
+          context: $.filtered
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string

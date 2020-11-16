@@ -1,55 +1,64 @@
-const nodeModule = require('../src')();
-const action = require('../src/action');
-const expect = require('chai').expect;
-const { mocknode, validate } = require('axway-flow-sdk');
+const { expect } = require('chai');
+const { MockRuntime } = require('@axway/api-builder-test-utils');
+const getPlugin = require('../src');
 
-describe('api-builder-plugin-gm-objectfilter', () => {
-	let flownodes;
-	before(() => {
-		return nodeModule.then(resolvedSpecs => {
-			flownodes = resolvedSpecs;
-		});
+/*const nodeModule = require('../src')();
+const action = require('../src/actions');
+const expect = require('chai').expect;
+const { mocknode, validate } = require('axway-flow-sdk');*/
+
+describe('Flow-Node Objectfilter tests', () => {
+	let plugin;
+	let flowNode;
+	beforeEach(async () => {
+		plugin = await MockRuntime.loadPlugin(getPlugin);
+		flowNode = plugin.getFlowNode('objectfilter');
 	});
 
 	describe('#constructor', () => {
-		it('[TEST-1] should define node specs', () => {
-			expect(flownodes).to.exist;
-			expect(typeof action.include).to.equal('function');
-			expect(typeof action.exclude).to.equal('function');
-			expect(mocknode('gm-objectfilter')).to.exist;
+		it('should define flow-nodes', () => {
+			expect(plugin).to.be.a('object');
+			expect(plugin.getFlowNodeIds()).to.deep.equal([
+				'objectfilter'
+			]);
+			expect(flowNode).to.be.a('object');
+
+			// Ensure the flow-node matches the spec
+			expect(flowNode.name).to.equal('Filter');
+			expect(flowNode.description).to.equal('Filter the fields of an Object');
+			expect(flowNode.icon).to.be.a('string');
+			expect(flowNode.getMethods()).to.include('include');
+			expect(flowNode.getMethods()).to.include('exclude');
 		});
 
-		// It's vital to ensure that the generated node flownodes are valid for use
-		// in API Builder. Your unit tests should always include this validation
-		// to avoid potential issues when API Builder loads your node.
-		it('[TEST-2] should define valid flownodes', () => {
-			expect(validate(flownodes)).to.not.throw;
+		it('should define valid flow-nodes', () => {
+			// if this is invalid, it will throw and fail
+			plugin.validate();
 		});
 	});
 
 	describe('include', () => {
-		it('[TEST-3] should fail if no source', () => {
-			return mocknode(flownodes).node('gm-objectfilter').invoke('include', { source: undefined, fields: [] })
-				.then((data) => {
-					expect(data).to.deep.equal({
-						error: [ null, 'Invalid source, object required.' ]
-					});
-				});
-		});
+		it('[TEST-3] should fail if no source', async () => {
+			const { value, output } = await flowNode.include({
+				source: null, fields: []
+			});
 
-		it('[TEST-4] should fail if no fields', () => {
-			const source = {
-				hello: 'world'
-			};
-			return mocknode(flownodes).node('gm-objectfilter').invoke('include', { source, fields: undefined })
-				.then((data) => {
-					expect(data).to.deep.equal({
-						error: [ null, 'Invalid fields, array required.' ]
-					});
-				});
-		});
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Invalid source, object required.');
+			expect(output).to.equal('error');
+        });
 
-		it('[TEST-5] only includes specified fields', () => {
+		it('[TEST-4] should fail if no fields', async () => {
+			const { value, output } = await flowNode.include({
+				source: { hello: 'world' }, fields: undefined
+			});
+
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Invalid fields, array required.');
+			expect(output).to.equal('error');
+        });
+
+		it('[TEST-5] only includes specified fields', async () => {
 			const source = {
 				field1: 'one',
 				field2: 2,
@@ -57,38 +66,32 @@ describe('api-builder-plugin-gm-objectfilter', () => {
 				field4: true
 			};
 			const fields = [ 'field1', 'field3' ];
-			return mocknode(flownodes).node('gm-objectfilter').invoke('include', { source, fields })
-				.then((data) => {
-					expect(data).to.deep.equal({
-						next: [ null, { field1: 'one', field3: { hello: 'world' } } ]
-					});
-				});
-		});
+
+			const { value, output } = await flowNode.include({ source, fields });
+
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal( { field1: 'one', field3: { hello: 'world' } }	);
+        });
 	});
 
 	describe('exclude', () => {
-		it('[TEST-6] should fail if no source', () => {
-			return mocknode(flownodes).node('gm-objectfilter').invoke('exclude', { source: undefined, fields: [] })
-				.then((data) => {
-					expect(data).to.deep.equal({
-						error: [ null, 'Invalid source, object required.' ]
-					});
-				});
-		});
+		it('[TEST-6] should fail if no source', async () => {
+			const { value, output } = await flowNode.exclude({ source: undefined, fields:[] });
 
-		it('[TEST-7] should fail if no fields', () => {
-			const source = {
-				hello: 'world'
-			};
-			return mocknode(flownodes).node('gm-objectfilter').invoke('exclude', { source, fields: undefined })
-				.then((data) => {
-					expect(data).to.deep.equal({
-						error: [ null, 'Invalid fields, array required.' ]
-					});
-				});
-		});
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Invalid source, object required.');
+			expect(output).to.equal('error');
+        });
 
-		it('[TEST-8] only includes specified fields', () => {
+		it('[TEST-7] should fail if no fields', async () => {
+			const { value, output } = await flowNode.exclude({ source: { hello: 'world' }, fields: undefined });
+
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Invalid fields, array required.');
+			expect(output).to.equal('error');
+        });
+
+		it('[TEST-8] only includes specified fields', async () => {
 			const source = {
 				field1: 'one',
 				field2: 2,
@@ -96,12 +99,11 @@ describe('api-builder-plugin-gm-objectfilter', () => {
 				field4: true
 			};
 			const fields = [ 'field1', 'field3' ];
-			return mocknode(flownodes).node('gm-objectfilter').invoke('exclude', { source, fields })
-				.then((data) => {
-					expect(data).to.deep.equal({
-						next: [ null, { field2: 2, field4: true } ]
-					});
-				});
-		});
+
+			const { value, output } = await flowNode.exclude({ source, fields });
+
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal( { field2: 2, field4: true }	);
+        });
 	});
 });

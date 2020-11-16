@@ -1,3 +1,0 @@
-{
-  "extends": [ "axway/env-node", "axway/+mocha", "axway/+chai" ]
-}

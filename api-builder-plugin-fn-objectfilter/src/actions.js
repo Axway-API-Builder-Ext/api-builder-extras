@@ -1,11 +1,11 @@
-function filter(req, include, cb) {
-	const source = req.params.source;
-	const fields = req.params.fields;
+async function filter(params, include, options) {
+	const source = params.source;
+	const fields = params.fields;
 
 	if (!source || typeof source !== 'object') {
-		return cb.error(null, 'Invalid source, object required.');
+		throw new Error('Invalid source, object required.');
 	} else if (!fields || !Array.isArray(fields)) {
-		return cb.error(null, 'Invalid fields, array required.');
+		throw new Error('Invalid fields, array required.');
 	}
 
 	// JSON cloning to work with models better.
@@ -16,15 +16,15 @@ function filter(req, include, cb) {
 			delete obj[field];
 		}
 	});
-	cb.next(null, obj);
+	return obj;
 }
 
-function include(req, cb) {
-	filter(req, true, cb);
+async function include(params, options) {
+	return filter(params, true, options);
 }
 
-function exclude(req, cb) {
-	filter(req, false, cb);
+async function exclude(params, options) {
+	return filter(params, false, options);
 }
 
 exports = module.exports = {
