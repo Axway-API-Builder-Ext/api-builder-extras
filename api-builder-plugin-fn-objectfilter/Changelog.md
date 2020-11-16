@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Security
+- Updated mocha from 6.2.3 to 7.2.0 to solve security dependency to yargs-parser@13.1.2
+- Updated eslint from 7.6.0 to 7.13.0
 
 ## [0.0.4] 2020-05-07
 ### Added
