@@ -1,0 +1,69 @@
+{
+  "message": "status_exception",
+  "name": "ResponseError",
+  "meta": {
+    "body": {
+      "error": {
+        "root_cause": [
+          {
+            "type": "status_exception",
+            "reason": "Cannot create rollup job [traffic-summary-rollup-v2] because job was previously created (existing metadata)."
+          }
+        ],
+        "type": "status_exception",
+        "reason": "Cannot create rollup job [traffic-summary-rollup-v2] because job was previously created (existing metadata)."
+      },
+      "status": 409
+    },
+    "statusCode": 409,
+    "headers": {
+      "content-type": "application/json; charset=UTF-8",
+      "content-length": "333",
+      "access-control-allow-credentials": "true"
+    },
+    "meta": {
+      "context": null,
+      "request": {
+        "params": {
+          "method": "PUT",
+          "path": "/_rollup/job/traffic-summary-rollup-v2",
+          "body": "{\"index_pattern\":\"apigw-traffic-summary-*\",\"rollup_index\":\"rollup-apigw-traffic-summary\",\"cron\":\"0 0 0 ? * 7\",\"groups\":{\"date_histogram\":{\"fixed_interval\":\"50m\",\"field\":\"@timestamp\",\"delay\":\"1d\",\"time_zone\":\"UTC\"},\"histogram\":{\"interval\":3,\"fields\":[\"http.bytesSent\"]},\"terms\":{\"fields\":[\"http.status\"]}},\"metrics\":[],\"timeout\":\"20s\",\"page_size\":1000}",
+          "querystring": "",
+          "headers": {
+            "user-agent": "elasticsearch-js/7.10.0 (win32 10.0.19041-x64; Node.js v12.13.1)",
+            "content-type": "application/json",
+            "content-length": "351"
+          },
+          "timeout": 60000
+        },
+        "options": {
+          "ignore": [
+            404
+          ],
+          "maxRetries": 3
+        },
+        "id": 5
+      },
+      "name": "apibuilder4elastic",
+      "connection": {
+        "url": "https://api-env:9200/",
+        "id": "https://api-env:9200/",
+        "headers": {
+          
+        },
+        "deadCount": 0,
+        "resurrectTimeout": 0,
+        "_openRequests": 0,
+        "status": "alive",
+        "roles": {
+          "master": true,
+          "data": true,
+          "ingest": true,
+          "ml": false
+        }
+      },
+      "attempts": 0,
+      "aborted": false
+    }
+  }
+}

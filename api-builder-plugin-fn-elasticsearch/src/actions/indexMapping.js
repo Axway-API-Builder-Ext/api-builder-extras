@@ -26,31 +26,17 @@ async function getMapping(params, options) {
 	if (!params.index) {
 		throw new Error('Missing required parameter: index');
 	}
+	try {
+		var client = new ElasticsearchClient(elasticSearchConfig).client;
+		var result = await client.indices.getMapping( params, { ignore: [404], maxRetries: 3 });
 
-	var client = new ElasticsearchClient(elasticSearchConfig).client;
-	var result = await executeRequest(params);
-
-	if((Object.keys(result.body).length === 0 && result.body.constructor === Object) || result.statusCode == 404) {
-		throw new Error(`No mapping found for index [${params.index}]`);
-	}
-	return result;
-
-	function executeRequest(params) {
-		return new Promise((resolve, reject) => {
-			client.indices.getMapping( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
-				if(err) {
-					if(!err.body) {
-						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
-					}
-					reject(err.body.error.root_cause[0].reason);
-				} else if(result.error) {
-					reject(result.error);
-				} else {
-					resolve(result);
-				}
-			});
-	
-		})
+		if((Object.keys(result.body).length === 0 && result.body.constructor === Object) || result.statusCode == 404) {
+			throw new Error(`No mapping found for index [${params.index}]`);
+		}
+		return result;
+	} catch (e) {
+		if(e instanceof Error) throw e;
+		throw new Error(JSON.stringify(e));
 	}
 }
 
@@ -67,31 +53,18 @@ async function putMapping(params, options) {
 	if (!params.body) {
 		throw new Error('Missing required parameter: body');
 	}
+	try {
+		var client = new ElasticsearchClient(elasticSearchConfig).client;
+		var result = await client.indices.putMapping( params, { ignore: [404], maxRetries: 3 });
 
-	var client = new ElasticsearchClient(elasticSearchConfig).client;
-	var result = await executeRequest();
+		if(Object.keys(result.body).length === 0 && result.body.constructor === Object) {
+			throw new Error(`No index template found with name [${name}]`);
+		}
+		return result;
 
-	if(Object.keys(result.body).length === 0 && result.body.constructor === Object) {
-		throw new Error(`No index template found with name [${name}]`);
-	}
-	return result;
-
-	function executeRequest() {
-		return new Promise((resolve, reject) => {
-			client.indices.putMapping( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
-				if(err) {
-					if(!err.body) {
-						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
-					}
-					reject(err.body.error.root_cause[0].reason);
-				} else if(result.error) {
-					reject(result.error);
-				} else {
-					resolve(result);
-				}
-			});
-	
-		})
+	} catch (e) {
+		if(e instanceof Error) throw e;
+		throw new Error(JSON.stringify(e));
 	}
 }
 

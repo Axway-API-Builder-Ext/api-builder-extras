@@ -3,13 +3,63 @@
       "jobs": [
         {
           "config": {
-            "id": "traffic-summary-rollup-job",
-            "index_pattern": "apigw-*",
-            "rollup_index": "summary",
+            "id": "traffic-summary-rollup-v2-copy-2",
+            "index_pattern": "apigw-traffic-summary-*",
+            "rollup_index": "rollup-apigw-traffic-summary",
             "cron": "0 0 0 ? * 7",
             "groups": {
               "date_histogram": {
-                "fixed_interval": "60m",
+                "fixed_interval": "50m",
+                "field": "@timestamp",
+                "delay": "1d",
+                "time_zone": "UTC"
+              },
+              "histogram": {
+                "interval": 3,
+                "fields": [
+                  "http.bytesSent"
+                ]
+              },
+              "terms": {
+                "fields": [
+                  "http.status"
+                ]
+              }
+            },
+            "metrics": [
+              
+            ],
+            "timeout": "20s",
+            "page_size": 1000
+          },
+          "status": {
+            "job_state": "started",
+            "upgraded_doc_id": true
+          },
+          "stats": {
+            "pages_processed": 0,
+            "documents_processed": 0,
+            "rollups_indexed": 0,
+            "trigger_count": 0,
+            "index_time_in_ms": 0,
+            "index_total": 0,
+            "index_failures": 0,
+            "search_time_in_ms": 0,
+            "search_total": 0,
+            "search_failures": 0,
+            "processing_time_in_ms": 0,
+            "processing_total": 0
+          }
+        },
+        {
+          "config": {
+            "id": "traffic-summary-rollup-v2-copy",
+            "index_pattern": "apigw-traffic-summary-*",
+            "rollup_index": "rollup-apigw-traffic-summary",
+            "cron": "0 0  0 ? * 7",
+            "groups": {
+              "date_histogram": {
+                "fixed_interval": "50m",
                 "field": "@timestamp",
                 "delay": "1d",
                 "time_zone": "UTC"
@@ -56,7 +106,7 @@
     "statusCode": 200,
     "headers": {
       "content-type": "application/json; charset=UTF-8",
-      "content-length": "680",
+      "content-length": "1434",
       "access-control-allow-credentials": "true"
     },
     "meta": {
@@ -64,7 +114,7 @@
       "request": {
         "params": {
           "method": "GET",
-          "path": "/_rollup/job/traffic-summary-rollup-job",
+          "path": "/_rollup/job/_all",
           "body": null,
           "querystring": "",
           "headers": {

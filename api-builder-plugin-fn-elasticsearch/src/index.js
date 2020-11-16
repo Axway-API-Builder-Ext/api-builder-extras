@@ -5,6 +5,7 @@ const { getTemplate, putTemplate } = require('./actions/indexTemplate');
 const { getMapping, putMapping } = require('./actions/indexMapping');
 const { getILMPolicy, putILMPolicy } = require('./actions/ilmPolicy');
 const { getRollupJobs, putRollupJob } = require('./actions/rollupJobs');
+const { indicesRollover, indicesCreate, indicesExists } = require('./actions/indices');
 
 
 /**
@@ -19,10 +20,21 @@ const { getRollupJobs, putRollupJob } = require('./actions/rollupJobs');
  */
 async function getPlugin(pluginConfig, options) {
 	const sdk = new SDK({ pluginConfig });
-	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), {search, getTemplate, putTemplate, getMapping, putMapping, getILMPolicy, putILMPolicy, getRollupJobs, putRollupJob }, pluginConfig);
-	//sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), , pluginConfig);
+	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), {
+		search, 
+		getTemplate, 
+		putTemplate, 
+		getMapping, 
+		putMapping, 
+		getILMPolicy, 
+		putILMPolicy, 
+		getRollupJobs, 
+		putRollupJob, 
+		indicesRollover, 
+		indicesCreate, 
+		indicesExists 
+	}, pluginConfig);
 	const plugin = sdk.getPlugin();
-	//plugin.flownodes['elasticsearch'].methods.search.action = actions.search.bind({pluginConfig});
 	return plugin;
 }
 

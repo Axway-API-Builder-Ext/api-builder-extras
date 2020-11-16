@@ -72,7 +72,7 @@ describe('Template indices tests', () => {
 			expect(output).to.equal('error');
 		});
 
-		it('should pass without with valid parameters', async () => {
+		it('should pass with valid parameters - Version check is disabled', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'indices.putTemplate', './test/mock/indexTemplates/putTemplateResponse.json', false);
 
 			const inputParameter = { name: 'test-index-template', body: JSON.parse(fs.readFileSync('./test/mock/indexTemplates/putTemplateRequestBody.json')), create: true };
@@ -85,6 +85,82 @@ describe('Template indices tests', () => {
 			expect(mockedFn.lastCall.arg).to.deep.equals(inputParameter);
 			// Make sure a body is returned
 			expect(value.body).to.exist;
+		});
+
+		it('should update index template if version number is higher / existing ILM policy should be taken over', async () => {
+			// Response finally returned, when the index with version 2 has been created (can be generic, as the PUT-Response doesn't contain the version number)
+			const mockedPutTemplate = setupElasticsearchMock(client, 'indices.putTemplate', './test/mock/indexTemplates/putTemplateResponse.json', false);
+			// Implementation will try to find the existing template - This is the response with version 1
+			const mockedGetTemplate = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateResponseVersion1.json', false);
+
+			const inputParameter = { 
+				name: 'traffic-summary', 
+				updateWhenChanged: true,
+				body: JSON.parse(fs.readFileSync('./test/mock/indexTemplates/putTemplateRequestBodyVersion2.json')), create: true 
+			};
+			const { value, output } = await flowNode.putTemplate(inputParameter);
+
+			expect(output).to.equal('next');
+			expect(value.statusCode).to.equal(200);
+			expect(mockedPutTemplate.callCount).to.equals(1);
+			expect(mockedPutTemplate.lastCall.arg.body.version).to.equals(2); // Make sure version 2 is given
+			expect(mockedPutTemplate.lastCall.arg.body.aliases['apigw-traffic-summary']).to.exist; // Validate the existing mapping is returned
+			expect(mockedPutTemplate.lastCall.arg.body.settings.index.lifecycle).to.deep.equals({name: "logstash-policy", rollover_alias: "apigw-traffic-summary"}); // Validate the existing mapping is returned
+			// Make sure a body is returned
+			expect(value.body).to.exist;
+		});
+
+		it('should NOT update index template if desired version number equals or less than actual', async () => {
+			// Mock putTemplate to make sure it is not called
+			const mockedPutTemplate = setupElasticsearchMock(client, 'indices.putTemplate', './test/mock/indexTemplates/putTemplateResponse.json', false);
+			// Implementation will try to find the existing template - This is the response with version 1
+			const mockedFn2 = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateResponse.json', false);
+
+			const inputParameter = { 
+				name: 'traffic-summary', 
+				updateWhenChanged: true,
+				body: JSON.parse(fs.readFileSync('./test/mock/indexTemplates/putTemplateRequestBody.json')), create: true 
+			};
+			const { value, output } = await flowNode.putTemplate(inputParameter);
+
+			expect(output).to.equal('noUpdate');
+			expect(mockedPutTemplate.callCount).to.equals(0); // putTemplate should not have been called
+		});
+
+		it('should update the index template if there is no actual index template', async () => {
+			// Mock putTemplate to make sure it is not called
+			const mockedPutTemplate = setupElasticsearchMock(client, 'indices.putTemplate', './test/mock/indexTemplates/putTemplateResponse.json', false);
+			// Implementation will try to find the existing template - This is the response with version 1
+			const mockedGetTemplate = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateUnknownTemplateResponse.json', false);
+
+			const inputParameter = { 
+				name: 'does-not-exists', 
+				updateWhenChanged: true,
+				body: JSON.parse(fs.readFileSync('./test/mock/indexTemplates/putTemplateRequestBody.json')), create: true 
+			};
+			const { value, output } = await flowNode.putTemplate(inputParameter);
+
+			expect(output).to.equal('next');
+			expect(mockedPutTemplate.callCount).to.equals(1);
+		});
+
+		it('should update anyway, if recreate is set', async () => {
+			// Mock putTemplate which is called
+			const mockedPutTemplate = setupElasticsearchMock(client, 'indices.putTemplate', './test/mock/indexTemplates/putTemplateResponse.json', false);
+			// Implementation will try to find the existing template - This is the response with version 1
+			const mockedFn2 = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateResponseVersion2.json', false);
+
+			const inputParameter = { 
+				name: 'traffic-summary', 
+				updateWhenChanged: true,
+				recreate: true,
+				body: JSON.parse(fs.readFileSync('./test/mock/indexTemplates/putTemplateRequestBodyVersion2.json')), create: true 
+			};
+			const { value, output } = await flowNode.putTemplate(inputParameter);
+
+			expect(output).to.equal('next');
+			expect(mockedPutTemplate.callCount).to.equals(1); // putTemplate should not have been called
+			expect(mockedPutTemplate.lastCall.arg.body.version).to.equals(2); // Make sure version 2 is given
 		});
 	});
 });

@@ -1,4 +1,5 @@
 const { ElasticsearchClient } = require('./ElasticsearchClient');
+const assert = require('assert');
 
 /**
  * Action method.
@@ -26,32 +27,18 @@ async function getILMPolicy(params, options) {
 	if (!params.policy) {
 		throw new Error('Missing required parameter: policy');
 	}
+	try {
+		var client = new ElasticsearchClient(elasticSearchConfig).client;
+		var result = await client.ilm.getLifecycle(params, { ignore: [404], maxRetries: 3 });
 
-	var client = new ElasticsearchClient(elasticSearchConfig).client;
-	var result = await executeRequest(params);
-
-	if(result.statusCode == 404) {
-		return options.setOutput('notFound', `No ILM policy found with name [${params.policy}]`);
-	}
-	// Return the template config itself - Not the surrounding object based on the template name
-	return result.body[params.policy];
-
-	function executeRequest(params) {
-		return new Promise((resolve, reject) => {
-			client.ilm.getLifecycle( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
-				if(err) {
-					if(!err.body) {
-						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
-					}
-					reject(err.body.error.root_cause[0].reason);
-				} else if(result.error) {
-					reject(result.error);
-				} else {
-					resolve(result);
-				}
-			});
-	
-		})
+		if (result.statusCode == 404) {
+			return options.setOutput('notFound', `No ILM policy found with name [${params.policy}]`);
+		}
+		// Return the template config itself - Not the surrounding object based on the template name
+		return result.body[params.policy];
+	} catch (e) {
+		if (e instanceof Error) throw e;
+		throw new Error(JSON.stringify(e));
 	}
 }
 
@@ -68,32 +55,70 @@ async function putILMPolicy(params, options) {
 	if (!params.body) {
 		throw new Error('Missing required parameter: body');
 	}
+	var updateWhenChanged = false;
+	if (params.updateWhenChanged != undefined) {
+		updateWhenChanged = params.updateWhenChanged;
+		delete params.updateWhenChanged;
+	}
+	var attachToIndexTemplate = "";
+	if(params.attachToIndexTemplate != undefined) {
+		attachToIndexTemplate = params.attachToIndexTemplate;
+		delete params.attachToIndexTemplate;
+	}
 
-	var client = new ElasticsearchClient(elasticSearchConfig).client;
-	var result = await executeRequest();
-
-	return result;
-
-	function executeRequest() {
-		return new Promise((resolve, reject) => {
-			client.ilm.putLifecycle( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
-				if(err) {
-					if(!err.body) {
-						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
-					}
-					reject(err.body.error.root_cause[0].reason);
-				} else if(result.error) {
-					reject(result.error);
-				} else {
-					resolve(result);
+	try {
+		var client = new ElasticsearchClient(elasticSearchConfig).client;
+		// Should the ILM-Policy be compared before updating it?
+		if (updateWhenChanged) {
+			// Get the current/actual ILM-Policy based on the policy name
+			const response = await client.ilm.getLifecycle({ name: params.policy }, { ignore: [404], maxRetries: 3 });
+			const actualILMPolicy = response.body[params.policy];
+			if (actualILMPolicy == undefined) {
+				options.logger.info(`No ILM-Policy found with name: ${params.policy} creating new.`);
+			} else {
+				if (JSON.stringify(actualILMPolicy.policy) === JSON.stringify(params.body.policy)) {
+					return options.setOutput('noUpdate', `No update required as desired ILM-Policy equals to existing policy.`);
 				}
-			});
-	
-		})
+			}
+		}
+		var result = await client.ilm.putLifecycle(params, { ignore: [404], maxRetries: 3 });
+		// Perhaps the policy should be attached to some index templates (format is: templateName1, templateName2 or templateName1:alias, templateName2)
+		if(attachToIndexTemplate != undefined) {
+			const templates = attachToIndexTemplate.split(",");
+			
+			for (var i = 0; i < templates.length; ++i) {
+				try {
+					var field = templates[i].trim();
+					var templateName = field.split(":")[0];
+					var aliasName = field.split(":")[1];
+
+					var response = await client.indices.getTemplate({name: templateName}, { ignore: [404], maxRetries: 3 });
+					const indexTemplate = response.body[templateName];
+					if(indexTemplate == undefined) {
+						options.logger.error(`Error adding ILM-Policy: ${params.policy} to index template: ${templateName}. Index-Template not found!`);
+						continue;
+					}
+					indexTemplate.settings.index.lifecycle = {
+						name: params.policy, 
+						rollover_alias: aliasName
+					}
+					options.logger.info(`Attaching ILM-Policy: ${params.policy} to template: ${templateName} with alias: ${aliasName}.`);
+					var response = await client.indices.putTemplate({ name: templateName, body: indexTemplate}, { ignore: [404], maxRetries: 3 });
+					options.logger.info(JSON.stringify(response));
+				} catch (e) {
+					options.logger.error(`Error adding ILM-Policy to index template: ${JSON.stringify(e)}`);
+				}
+			}
+		}
+
+		return result;
+	} catch (e) {
+		if (e instanceof Error) throw e;
+		throw new Error(JSON.stringify(e));
 	}
 }
 
 module.exports = {
-	getILMPolicy, 
+	getILMPolicy,
 	putILMPolicy
 };

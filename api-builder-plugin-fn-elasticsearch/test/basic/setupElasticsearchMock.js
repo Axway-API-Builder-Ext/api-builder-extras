@@ -1,15 +1,26 @@
 const simple = require('simple-mock');
 const fs = require('fs');
+const { debug } = require('console');
 
 function setupElasticsearchMock(client, methodName, responeFilename, shouldError) {
     var mockedFn = simple.spy(function (params, options, callback) {
         const resonse = JSON.parse(fs.readFileSync(responeFilename), null);
-        if(shouldError) {
-            // Return the given response as an error
-            callback(resonse, null);
+        if(callback != undefined) {
+            if(shouldError) {
+                // Return the given response as an error
+                callback(resonse, null);
+            } else {
+                // Otherwise return the response as expected
+                callback(null, resonse);
+            }
         } else {
-            // Otherwise return the response as expected
-            callback(null, resonse);
+            return new Promise((resolve, reject) => {
+                if(shouldError) {
+                    reject(resonse);
+                } else {
+                    resolve(resonse);
+                }
+            });
         }
     });
 

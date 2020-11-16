@@ -10,10 +10,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - new method to put/update legacy Elasticsearch index templates
 - new method to get index mappings
 - new method to put/update index an mapping
+- new method to create a new index
+- new method check if an index exists
+- new method to rollover an index
+- new method get existing ILM Policies
+- new method to create or update an ILM-Policy
+- new method get existing rollup jobs
+- new method to create or replace an rollup job
 
 ### Changed
 - @axway/api-builder-sdk updated from version 1.0.0 to 1.0.7
-- @elastic/elasticsearch updated from version 7.9.0 to 7.9.1
+- @elastic/elasticsearch updated from version 7.9.0 to 7.10.0
 
 ## [1.0.7] 2020-09-28
 ### Changed

@@ -433,9 +433,25 @@ flow-nodes:
             initialType: object
             schema:
               type: object
+          updateWhenChanged:
+            name: Update when changed
+            description: If true, the flow-node load the existing template and if present, the version is compared. Only if the version of the given template is higher, the existing template will be updated. If there is no existing template a new template is created.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          recreate:
+            name: Recreate index template
+            description: If true, the index template is always updated.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
           create:
-            name: Index template name
-            description: Whether the index template should only be added if new or can also replace an existing one.
+            name: Create index template
+            description: If true, this request cannot replace or update existing index templates. Defaults to false.
             required: false
             initialType: boolean
             schema:
@@ -448,21 +464,25 @@ flow-nodes:
             initialType: number
             schema:
               type: number
-        returns:
-          name: Next
-          description: The index template loaded from Elasticsearch.
-          context: $.indexTemplate
-          schema:
-            type: object
-        throws:
-          name: Error
-          description: An unexpected error was encountered.
-          context: $.error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
+        outputs:
+          next:
+            name: Next
+            description: The index template acknowledge message
+            context: $.indexTemplateAck
+            schema:
+              type: object
+          noUpdate:
+            name: No update
+            description: Message contains the reason, why the index template has not being updated.
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
 
       getMapping: 
         name: Get Index Mapping
@@ -662,21 +682,40 @@ flow-nodes:
             initialType: object
             schema:
               type: object
-        returns:
-          name: Next
-          description: The created or updated ILM Lifecycle policy.
-          context: $.ilmPolicy
-          schema:
-            type: object
-        throws:
-          name: Error
-          description: An unexpected error was encountered.
-          context: $.error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
+          updateWhenChanged:
+            name: Update when changed
+            description: If set, the specified ILM policy and the ILM policy in Elasticsearch are compared and only updated if they are different. If the ILM policy does not exist in Elasticsearch, the ILM policy is created.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          attachToIndexTemplate:
+            name: Attach Policy to template
+            description: "If specified, the created/updated ILM policy is assigned to one more index templates. Index template names specified as a comma-separated list, each may contain an rollover alias. E.g. template1:aliasName1, template2"
+            required: false
+            initialType: string
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: The created or updated ILM Lifecycle policy.
+            context: $.ilmPolicy
+            schema:
+              type: object
+          noUpdate:
+            name: No update
+            description: ILM-Policy has not being updated. Message contains the reason.
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
 
       getRollupJobs: 
         name: Get Rollup job
@@ -711,12 +750,19 @@ flow-nodes:
 
       putRollupJob: 
         name: Put Rollup job
-        description: Creates or updates an ILM lifecycle policy. See ILM policy definition for definitions of policy components.
+        description: Creates or replaces a Rollup-Job. Technically, rollup jobs cannot be updated, only replaced. For this purpose, existing jobs are stopped/deleted and a new job with a new job ID (ID+Suffix) is created and started if requested.
         parameters:
           id:
             name: Job-ID
-            description: Identifier for the rollup job. This can be any alphanumeric string and uniquely identifies the data that is associated with the rollup job.
+            description: Identifier for the rollup job. This can be any alphanumeric string and uniquely identifies the data that is associated with the rollup job. The ID is persistent; it is stored with the rolled up data. If you create a job, let it run for a while, then delete the job, the data that the job rolled up is still be associated with this job ID. You cannot create a new job with the same ID since that could lead to problems with mismatched job configurations.
             required: true
+            initialType: string
+            schema:
+              type: string
+          idSuffix:
+            name: Job-ID Suffix
+            description: Mandatory if an existing job is to be replaced. The Job-ID suffix is used to generate the final Job-ID, which is used to create the job.  This suffix is especially necessary if an existing job is to be replaced. Existing jobs with the primary job ID are searched for, stopped/deleted and a new job with job ID + suffix is created.
+            required: false
             initialType: string
             schema:
               type: string
@@ -727,10 +773,166 @@ flow-nodes:
             initialType: object
             schema:
               type: object
+          replaceWhenChanged:
+            name: Recreate only when changed
+            description: If set, a possibly existing roll-up job is only replaced if the configuration is different. For this purpose, the entire job configuration is compared. If no roll-up job exists, this parameter is ignored and a new job is created.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          deletePreviousJob:
+            name: Delete previous job
+            description: If an existing job with the same primary job ID has been found which should be replaced, this switch decides whether the old job should be deleted. If the previous job is running, it will be stopped automatically.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          startJob:
+            name: Start job
+            description: This toggle controls if the created rollup job should be started automatically after creation.
+            required: false
+            initialType: boolean
+            schema:
+              default: true
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            description: The created or updated Rollup job
+            context: $.rollupJob
+            schema:
+              type: object
+          noUpdate:
+            name: No update
+            description: Rollup-Job has not being updated. Message contains the reason.
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
+
+      indicesCreate: 
+        name: Create index
+        description: Creates a new index.
+        parameters:
+          index:
+            name: Index
+            description: The name of the index
+            required: true
+            initialType: string
+            schema:
+              type: string
+          alias:
+            name: Alias name
+            description: The alias for the index. If an index configuration is given, this alias name is merged into it.
+            required: false
+            initialType: string
+            schema:
+              type: string
+          body:
+            name: Index configuration
+            description: The configuration for the index (settings and mappings)
+            required: false
+            initialType: object
+            schema:
+              type: object
         returns:
           name: Next
-          description: The created or updated Rollup job
-          context: $.rollupJob
+          description: Acknowledge message about the created index.
+          context: $.result
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+      indicesExists: 
+        name: Index exists
+        description: Checks if an index exists that optionally has an alias. Either parameter index, alias or both most be provided. An index alias is a secondary name used to refer to one or more existing indices. Most Elasticsearch APIs accept an index alias in place of an index name.
+        parameters:
+          index:
+            name: Indices
+            description: Comma-separated list or wildcard expression of index names used to limit the request.
+            required: false
+            initialType: string
+            schema:
+              type: string
+          name:
+            name: Alias
+            description: Comma-separated list or wildcard expression of index alias names used to limit the request
+            required: false
+            initialType: string
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Indicates the specified index incl. aliases exist.
+            context: $.result
+            schema:
+              type: object
+          notFound:
+            name: Not found
+            description: Indicates one or more specified index aliases do not exist. 
+            context: $.result
+            schema:
+              type: object
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
+
+      indicesRollover: 
+        name: Rollover index
+        description: The rollover index flow-node rolls a rollover target to a new index when the existing index meets a condition you provide. You can use this API to retire an index that becomes too large or too old.
+        parameters:
+          alias:
+            name: Alias
+            description: "Name of the existing index alias or data stream on which to the perform the rollover. Can be a string or an object. (e.g. { \"my-rollover-alias\": {} }). Only one alias is supported."
+            required: true
+            initialType: string
+            schema:
+              type: string
+          newIndex:
+            name: Target index
+            description: Optional name of the target index to create and assign the index alias.
+            required: false
+            initialType: string
+            schema:
+              type: string
+          body:
+            name: Optional rollover conditions
+            description: The conditions that needs to be met for executing rollover.
+            required: false
+            initialType: object
+            schema:
+              type: object
+          dryRun:
+            name: Dry-Run
+            description: If set to true the rollover action will only be validated but not actually performed even if a condition matches. The default is false
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        returns:
+          name: Next
+          description: Acknowledge message about the rollover.
+          context: $.result
           schema:
             type: object
         throws:

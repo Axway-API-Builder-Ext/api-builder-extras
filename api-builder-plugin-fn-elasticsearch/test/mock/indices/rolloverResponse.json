@@ -1,36 +1,28 @@
 {
     "body": {
-      "test-ilm-policy": {
-        "version": 4,
-        "modified_date": "2020-11-04T16:13:37.737Z",
-        "policy": {
-          "phases": {
-            "hot": {
-              "min_age": "0ms",
-              "actions": {
-                "rollover": {
-                  "max_size": "50gb",
-                  "max_age": "30d"
-                }
-              }
-            }
-          }
-        }
+      "acknowledged": true,
+      "shards_acknowledged": true,
+      "old_index": "apigw-traffic-summary-000002",
+      "new_index": "apigw-traffic-summary-000003",
+      "rolled_over": true,
+      "dry_run": false,
+      "conditions": {
+        
       }
     },
     "statusCode": 200,
     "headers": {
       "content-type": "application/json; charset=UTF-8",
-      "content-length": "181",
+      "content-length": "185",
       "access-control-allow-credentials": "true"
     },
     "meta": {
       "context": null,
       "request": {
         "params": {
-          "method": "GET",
-          "path": "/_ilm/policy/logstash-policy",
-          "body": null,
+          "method": "POST",
+          "path": "/apigw-traffic-summary/_rollover",
+          "body": "",
           "querystring": "",
           "headers": {
             "user-agent": "elasticsearch-js/7.9.1 (win32 10.0.19041-x64; Node.js v12.13.1)"

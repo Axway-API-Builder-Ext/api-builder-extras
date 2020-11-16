@@ -1,35 +1,16 @@
 {
-    "body": {
-      "test-ilm-policy": {
-        "version": 4,
-        "modified_date": "2020-11-04T16:13:37.737Z",
-        "policy": {
-          "phases": {
-            "hot": {
-              "min_age": "0ms",
-              "actions": {
-                "rollover": {
-                  "max_size": "50gb",
-                  "max_age": "30d"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "statusCode": 200,
+    "body": false,
+    "statusCode": 404,
     "headers": {
       "content-type": "application/json; charset=UTF-8",
-      "content-length": "181",
-      "access-control-allow-credentials": "true"
+      "content-length": "467"
     },
     "meta": {
       "context": null,
       "request": {
         "params": {
-          "method": "GET",
-          "path": "/_ilm/policy/logstash-policy",
+          "method": "HEAD",
+          "path": "/apigw-monitoring-0000Z1",
           "body": null,
           "querystring": "",
           "headers": {
