@@ -30,7 +30,7 @@
 		"scripts"
 	],
 	"dependencies": {
-		"@axway/api-builder-sdk": "^1.0.7",
+		"@axway/api-builder-sdk": "^1.0.8",
 		"@elastic/elasticsearch": "^7.10.0"
 	},
 	"peerDependencies": {

@@ -28,7 +28,7 @@ And run the following command:
 The tests are also automatically executed on every commit to this project.  
 
 ## Compatibility
-Tested with Elasticsearch 7.4.0  
+Tested with Elasticsearch 7.10.0  
 Requires API-Builder Independence or higher
 
 ## Changelog
