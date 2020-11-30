@@ -101,12 +101,11 @@ async function putILMPolicy(params, options) {
 						options.logger.error(`Error adding ILM-Policy: ${params.policy} to index template: ${templateName}. Index-Template not found!`);
 						continue;
 					}
-					debugger;
 					var lifecycle = {
 						name: params.policy, 
 						rollover_alias: aliasName
 					}
-					if(indexTemplate.settings.index.lifecycle != undefined && !deepEqual(indexTemplate.settings.index.lifecycle, lifecycle)) {
+					if(indexTemplate.settings.index.lifecycle == undefined || !deepEqual(indexTemplate.settings.index.lifecycle, lifecycle)) {
 						indexTemplate.settings.index.lifecycle = {
 							name: params.policy, 
 							rollover_alias: aliasName

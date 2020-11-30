@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.0.10] 2020-11-30
+## [1.0.11] 2020-11-30
 ### Changed
 - When putting an ILM-Policy, the policy it attached to the given Index-Template even if the policy is unchanged
 

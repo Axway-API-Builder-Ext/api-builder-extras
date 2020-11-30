@@ -223,6 +223,31 @@ describe('ILM Policy tests', () => {
 			expect(mockedPutILMPolicy.callCount).to.equals(0);
 			expect(mockedGetTemplate.callCount).to.equals(1); 
 			expect(mockedPutTemplate.callCount).to.equals(0); // Must be 0 as the ILM-Policy is already attached to the template
+		});
+
+		it('should attach the ILM-Policy if the Index-Template has no ILM-Policy attached yet', async () => {
+			// The ILM-Policy that equals to the desiered ILM-Policy --> No-Change
+			const mockedGetILMPolicy = setupElasticsearchMock(client, 'ilm.getLifecycle', './test/mock/ilm/getILMPolicyNotFoundResponse.json', false);
+			const mockedPutILMPolicy = setupElasticsearchMock(client, 'ilm.putLifecycle', './test/mock/ilm/putILMPolicyResponse.json', false);
+			const mockedPutTemplate = setupElasticsearchMock(client, 'indices.putTemplate', './test/mock/indexTemplates/putTemplateResponse.json', false);
+			const mockedGetTemplate = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateResponseNoILMPolicy.json', false);
+
+			const inputParameter = { 
+				policy: 'test-ilm-policy', 
+				body: JSON.parse(fs.readFileSync('./test/mock/ilm/putILMPolicyRequestBody.json')), 
+				updateWhenChanged: true, 
+				attachToIndexTemplate: "traffic-summary:myAlias"
+			 };
+			const { value, output } = await flowNode.putILMPolicy(inputParameter);
+
+			// We expect no update as a result
+			expect(output).to.equal('next');
+			expect(mockedGetILMPolicy.callCount).to.equals(1);
+			expect(mockedPutILMPolicy.callCount).to.equals(1);
+			expect(mockedGetTemplate.callCount).to.equals(1); 
+			expect(mockedPutTemplate.callCount).to.equals(1);
+			expect(mockedPutTemplate.lastCall.arg.body.settings.index.lifecycle.name).to.equals("test-ilm-policy");
+			expect(mockedPutTemplate.lastCall.arg.body.settings.index.lifecycle.rollover_alias).to.equals("myAlias");
 		});	
 	});
 });
