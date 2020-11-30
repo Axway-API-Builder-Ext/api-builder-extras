@@ -31,7 +31,8 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.0.8",
-		"@elastic/elasticsearch": "^7.10.0"
+		"@elastic/elasticsearch": "^7.10.0",
+		"deep-equal": "^2.0.4"
 	},
 	"peerDependencies": {
 		"@axway/api-builder-runtime": "^4.41.1"

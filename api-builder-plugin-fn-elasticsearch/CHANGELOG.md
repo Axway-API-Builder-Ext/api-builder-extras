@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.9] 2020-11-30
+- Now using deep-equal to compare if ILM policy is updated or not
+
 ## [1.0.8] 2020-11-24
 ### Added
 - new method to get legacy Elasticsearch index templates

@@ -1,5 +1,5 @@
 const { ElasticsearchClient } = require('./ElasticsearchClient');
-const assert = require('assert');
+var deepEqual = require('deep-equal')
 
 /**
  * Action method.
@@ -68,6 +68,7 @@ async function putILMPolicy(params, options) {
 
 	try {
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
+		debugger;
 		// Should the ILM-Policy be compared before updating it?
 		if (updateWhenChanged) {
 			// Get the current/actual ILM-Policy based on the policy name
@@ -76,7 +77,7 @@ async function putILMPolicy(params, options) {
 			if (actualILMPolicy == undefined) {
 				options.logger.info(`No ILM-Policy found with name: ${params.policy} creating new.`);
 			} else {
-				if (JSON.stringify(actualILMPolicy.policy) === JSON.stringify(params.body.policy)) {
+				if (deepEqual(actualILMPolicy.policy, params.body.policy)) {
 					return options.setOutput('noUpdate', `No update required as desired ILM-Policy equals to existing policy.`);
 				}
 			}
@@ -102,7 +103,7 @@ async function putILMPolicy(params, options) {
 						name: params.policy, 
 						rollover_alias: aliasName
 					}
-					options.logger.info(`Attaching ILM-Policy: ${params.policy} to template: ${templateName} with alias: ${aliasName}.`);
+					options.logger.info(`Assigning ILM-Policy: ${params.policy} to index template: ${templateName} with alias: ${aliasName}.`);
 					var response = await client.indices.putTemplate({ name: templateName, body: indexTemplate}, { ignore: [404], maxRetries: 3 });
 					options.logger.info(JSON.stringify(response));
 				} catch (e) {
