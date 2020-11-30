@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.9] 2020-11-30
+### Fixed
+- Put ILM-Policy may updated the ILM-Policy if not needed
+
+### Changed
 - Now using deep-equal to compare if ILM policy is updated or not
 
 ## [1.0.8] 2020-11-24
