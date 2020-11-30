@@ -9,8 +9,8 @@
         "settings": {
           "index": {
             "lifecycle": {
-              "name": "logstash-policy",
-              "rollover_alias": "apigw-traffic-summary"
+              "name": "traffic-summary",
+              "rollover_alias": "myAlias"
             },
             "codec": "best_compression",
             "number_of_shards": "5",

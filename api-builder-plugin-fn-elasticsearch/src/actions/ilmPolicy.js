@@ -67,6 +67,7 @@ async function putILMPolicy(params, options) {
 	}
 
 	try {
+		var noUpdate = false;
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
 		// Should the ILM-Policy be compared before updating it?
 		if (updateWhenChanged) {
@@ -77,11 +78,13 @@ async function putILMPolicy(params, options) {
 				options.logger.info(`No ILM-Policy found with name: ${params.policy} creating new.`);
 			} else {
 				if (deepEqual(actualILMPolicy.policy, params.body.policy)) {
-					return options.setOutput('noUpdate', `No update required as desired ILM-Policy equals to existing policy.`);
+					noUpdate = true;
 				}
 			}
 		}
-		var result = await client.ilm.putLifecycle(params, { ignore: [404], maxRetries: 3 });
+		if(!noUpdate) {
+			var result = await client.ilm.putLifecycle(params, { ignore: [404], maxRetries: 3 });
+		}
 		// Perhaps the policy should be attached to some index templates (format is: templateName1, templateName2 or templateName1:alias, templateName2)
 		if(attachToIndexTemplate != undefined) {
 			const templates = attachToIndexTemplate.split(",");
@@ -98,19 +101,31 @@ async function putILMPolicy(params, options) {
 						options.logger.error(`Error adding ILM-Policy: ${params.policy} to index template: ${templateName}. Index-Template not found!`);
 						continue;
 					}
-					indexTemplate.settings.index.lifecycle = {
+					debugger;
+					var lifecycle = {
 						name: params.policy, 
 						rollover_alias: aliasName
 					}
-					options.logger.info(`Assigning ILM-Policy: ${params.policy} to index template: ${templateName} with alias: ${aliasName}.`);
-					var response = await client.indices.putTemplate({ name: templateName, body: indexTemplate}, { ignore: [404], maxRetries: 3 });
-					options.logger.info(JSON.stringify(response));
+					if(indexTemplate.settings.index.lifecycle != undefined && !deepEqual(indexTemplate.settings.index.lifecycle, lifecycle)) {
+						indexTemplate.settings.index.lifecycle = {
+							name: params.policy, 
+							rollover_alias: aliasName
+						}
+						options.logger.info(`Assigning ILM-Policy: ${params.policy} to index template: ${templateName} with alias: ${aliasName}.`);
+						var response = await client.indices.putTemplate({ name: templateName, body: indexTemplate}, { ignore: [404], maxRetries: 3 });
+						options.logger.info(JSON.stringify(response));
+					} else {
+						options.logger.info(`ILM-Policy: ${params.policy} already assigned to index template: ${templateName} with alias: ${aliasName}.`);
+					}
+
 				} catch (e) {
 					options.logger.error(`Error adding ILM-Policy to index template: ${JSON.stringify(e)}`);
 				}
 			}
 		}
-
+		if(noUpdate) {
+			return options.setOutput('noUpdate', `No update required as desired ILM-Policy equals to existing policy.`);
+		}
 		return result;
 	} catch (e) {
 		if (e instanceof Error) throw e;

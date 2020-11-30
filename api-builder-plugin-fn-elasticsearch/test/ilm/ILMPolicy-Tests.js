@@ -176,5 +176,53 @@ describe('ILM Policy tests', () => {
 			expect(value).to.equal('No update required as desired ILM-Policy equals to existing policy.');
 			expect(mockedGetILMPolicy.callCount).to.equals(1);
 		});
+
+		it('should return with no update, but the ILM-Policy should be assigned to the template anyway', async () => {
+			// The ILM-Policy that equals to the desiered ILM-Policy --> No-Change
+			const mockedGetILMPolicy = setupElasticsearchMock(client, 'ilm.getLifecycle', './test/mock/ilm/getILMPolicyResponse.json', false);
+			const mockedPutILMPolicy = setupElasticsearchMock(client, 'ilm.putLifecycle', './test/mock/ilm/putILMPolicyResponse.json', false);
+			const mockedPutTemplate = setupElasticsearchMock(client, 'indices.putTemplate', './test/mock/indexTemplates/putTemplateResponse.json', false);
+			const mockedGetTemplate = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateResponse.json', false);
+
+			const inputParameter = { 
+				policy: 'test-ilm-policy', 
+				body: JSON.parse(fs.readFileSync('./test/mock/ilm/putILMPolicyRequestBody.json')), 
+				updateWhenChanged: true, 
+				attachToIndexTemplate: "traffic-summary:mynewAlias"
+			 };
+			const { value, output } = await flowNode.putILMPolicy(inputParameter);
+
+			// We expect no update as a result
+			expect(output).to.equal('noUpdate');
+			expect(mockedGetILMPolicy.callCount).to.equals(1);
+			expect(mockedPutILMPolicy.callCount).to.equals(0);
+			expect(mockedGetTemplate.callCount).to.equals(1); 
+			expect(mockedPutTemplate.callCount).to.equals(1); // Even if the ILM-Policy exists / The template is adjusted
+			expect(mockedPutTemplate.lastCall.arg.body.settings.index.lifecycle.name).to.equals("test-ilm-policy");
+			expect(mockedPutTemplate.lastCall.arg.body.settings.index.lifecycle.rollover_alias).to.equals("mynewAlias");
+		});	
+
+		it('should return with no update and no template update, if the ILM policy is already assigned to the template', async () => {
+			// The ILM-Policy that equals to the desiered ILM-Policy --> No-Change
+			const mockedGetILMPolicy = setupElasticsearchMock(client, 'ilm.getLifecycle', './test/mock/ilm/getILMPolicyResponse.json', false);
+			const mockedPutILMPolicy = setupElasticsearchMock(client, 'ilm.putLifecycle', './test/mock/ilm/putILMPolicyResponse.json', false);
+			const mockedPutTemplate = setupElasticsearchMock(client, 'indices.putTemplate', './test/mock/indexTemplates/putTemplateResponse.json', false);
+			const mockedGetTemplate = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateResponse.json', false);
+
+			const inputParameter = { 
+				policy: 'test-ilm-policy', 
+				body: JSON.parse(fs.readFileSync('./test/mock/ilm/putILMPolicyRequestBody.json')), 
+				updateWhenChanged: true, 
+				attachToIndexTemplate: "test-ilm-policy:myAlias"
+			 };
+			const { value, output } = await flowNode.putILMPolicy(inputParameter);
+
+			// We expect no update as a result
+			expect(output).to.equal('noUpdate');
+			expect(mockedGetILMPolicy.callCount).to.equals(1);
+			expect(mockedPutILMPolicy.callCount).to.equals(0);
+			expect(mockedGetTemplate.callCount).to.equals(1); 
+			expect(mockedPutTemplate.callCount).to.equals(0); // Must be 0 as the ILM-Policy is already attached to the template
+		});	
 	});
 });
