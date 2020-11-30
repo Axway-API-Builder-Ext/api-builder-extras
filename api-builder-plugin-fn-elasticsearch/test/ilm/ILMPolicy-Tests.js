@@ -158,7 +158,23 @@ describe('ILM Policy tests', () => {
 			expect(mockedPutTemplate.callCount).to.equals(1); // Only one, as the audit template is not returned
 			expect(mockedPutTemplate.lastCall.arg.body.settings.index.lifecycle.name).to.equals("test-ilm-policy");
 			expect(mockedPutTemplate.lastCall.arg.body.settings.index.lifecycle.rollover_alias).to.equals("11111");
-		});
+		});	
 
+		it('should return with noUpate, even if the structure of the given objects is slightly different and default are not given', async () => {
+			// The response (actual) has a different structure to the desired ILM-Policy
+			const mockedGetILMPolicy = setupElasticsearchMock(client, 'ilm.getLifecycle', './test/mock/ilm/getILMPolicyResponse2.json', false);
+
+			const inputParameter = { 
+				policy: 'test-ilm-policy', 
+				body: JSON.parse(fs.readFileSync('./test/mock/ilm/putILMPolicyRequestBody2.json')), 
+				updateWhenChanged: true
+			 };
+			const { value, output } = await flowNode.putILMPolicy(inputParameter);
+
+			console.log(`${value}`);
+			expect(output).to.equal('noUpdate');
+			expect(value).to.equal('No update required as desired ILM-Policy equals to existing policy.');
+			expect(mockedGetILMPolicy.callCount).to.equals(1);
+		});
 	});
 });

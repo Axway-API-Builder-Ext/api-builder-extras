@@ -68,7 +68,6 @@ async function putILMPolicy(params, options) {
 
 	try {
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
-		debugger;
 		// Should the ILM-Policy be compared before updating it?
 		if (updateWhenChanged) {
 			// Get the current/actual ILM-Policy based on the policy name

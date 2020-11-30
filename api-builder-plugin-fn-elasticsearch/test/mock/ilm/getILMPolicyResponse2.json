@@ -1,0 +1,111 @@
+{
+  "body": {
+    "test-ilm-policy": {
+      "version": 4,
+      "modified_date": "2020-11-04T16:13:37.737Z",
+      "policy": {
+        "phases": {
+          "warm": {
+            "min_age": "15d",
+            "actions": {
+              "allocate": {
+                "number_of_replicas": 1,
+                "include": {
+                  
+                },
+                "exclude": {
+                  
+                },
+                "require": {
+                  
+                }
+              },
+              "shrink": {
+                "number_of_shards": 1
+              },
+              "set_priority": {
+                "priority": 50
+              }
+            }
+          },
+          "cold": {
+            "min_age": "30d",
+            "actions": {
+              "set_priority": {
+                "priority": 0
+              }
+            }
+          },
+          "hot": {
+            "min_age": "0ms",
+            "actions": {
+              "rollover": {
+                "max_size": "30gb",
+                "max_age": "7d"
+              },
+              "set_priority": {
+                "priority": 100
+              }
+            }
+          },
+          "delete": {
+            "min_age": "10d",
+            "actions": {
+              "delete": {
+                "delete_searchable_snapshot": true
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "statusCode": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8",
+    "content-length": "181",
+    "access-control-allow-credentials": "true"
+  },
+  "meta": {
+    "context": null,
+    "request": {
+      "params": {
+        "method": "GET",
+        "path": "/_ilm/policy/logstash-policy",
+        "body": null,
+        "querystring": "",
+        "headers": {
+          "user-agent": "elasticsearch-js/7.9.1 (win32 10.0.19041-x64; Node.js v12.13.1)"
+        },
+        "timeout": 30000
+      },
+      "options": {
+        "ignore": [
+          404
+        ],
+        "maxRetries": 3
+      },
+      "id": 1
+    },
+    "name": "elasticsearch-js",
+    "connection": {
+      "url": "http://api-env:9200/",
+      "id": "http://api-env:9200/",
+      "headers": {
+        
+      },
+      "deadCount": 0,
+      "resurrectTimeout": 0,
+      "_openRequests": 0,
+      "status": "alive",
+      "roles": {
+        "master": true,
+        "data": true,
+        "ingest": true,
+        "ml": false
+      }
+    },
+    "attempts": 0,
+    "aborted": false
+  }
+}
