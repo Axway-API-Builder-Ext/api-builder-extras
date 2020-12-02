@@ -171,7 +171,7 @@ describe('Standard file handling test', () => {
 			expect(output).to.equal('error');
 		});
 
-		it.only('should fail with an unknown file when it should be treated as an error', async () => {
+		it('should NOT fail with an unknown file when it should be treated as an error', async () => {
 			const { value, output } = await flowNode.readFile({ filename: 'UnknownFile' });
 
 			expect(output).to.equal('notFound');
