@@ -112,7 +112,6 @@ async function putILMPolicy(params, options) {
 						}
 						options.logger.info(`Assigning ILM-Policy: ${params.policy} to index template: ${templateName} with alias: ${aliasName}.`);
 						var response = await client.indices.putTemplate({ name: templateName, body: indexTemplate}, { ignore: [404], maxRetries: 3 });
-						options.logger.info(JSON.stringify(response));
 					} else {
 						options.logger.info(`ILM-Policy: ${params.policy} already assigned to index template: ${templateName} with alias: ${aliasName}.`);
 					}
