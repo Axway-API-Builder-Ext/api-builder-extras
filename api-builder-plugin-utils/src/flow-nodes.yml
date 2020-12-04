@@ -1,0 +1,115 @@
+flow-nodes:
+  utils:
+    name: Utils
+    icon: tool-icon.png
+    description: For this flow node it is planned to provide several simple tools. The first one is a switch/case method.
+    category: core
+    methods:
+      switchCase:
+        name: Switch case
+        description: Switch case function
+        parameters:
+          source:
+            name: Source
+            description: The input to test.
+            required: true
+            schema:
+              type: string
+          value1:
+            name: Value 1
+            description: The first value to test input against. If this matches exit 1 is used.
+            required: true
+            schema:
+              type: string
+          value2:
+            name: Value 2
+            description: The second value to test input against. If this matches exit 2 is used.
+            required: false
+            schema:
+              type: string
+          value3:
+            name: Value 3
+            description: The third value to test input against. If this matches exit 3 is used.
+            required: false
+            schema:
+              type: string
+          value4:
+            name: Value 4
+            description: The fourth value to test input against. If this matches exit 4 is used.
+            required: false
+            schema:
+              type: string
+          value5:
+            name: Value 5
+            description: The fith value to test input against. If this matches exit 5 is used.
+            required: false
+            schema:
+              type: string
+          notMatchDefault:
+            name: No Match as default
+            description: If none of the values matches and this is true, the default exit is used. Default is false.
+            group: Advanced Options
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          1:
+            name: "1"
+            description: Exit followed, if the first value matches. Returns the given object.
+            context: $.source
+          2:
+            name: "2"
+            description: Exit followed, if the second value matches. Returns the given object.
+            context: $.source
+          3:
+            name: "3"
+            description: Exit followed, if the third value matches. Returns the given object.
+            context: $.source
+          4:
+            name: "4"
+            description: Exit followed, if the fourth value matches. Returns the given object.
+            context: $.source
+          5:
+            name: "5"
+            description: Exit followed, if the fith value matches. Returns the given object.
+            context: $.source
+          default:
+            name: Default
+            description: If none of the values matched and default handling is activated. Returns the given object.
+            context: $.source
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
+# Trace flow method
+      traceMessage:
+        name: Trace Message
+        description: Traces a message
+        parameters:
+          message:
+            name: Trace Message
+            description: The message to trace.
+            required: true
+            schema:
+              type: string
+          level:
+            name: Log level
+            description: Trace the message on the configured level.
+            required: true
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - info
+                - debug
+                - warn
+                - error
+        outputs:
+          next:
+            name: Next
+            description: Return nothing
+            context: $.message

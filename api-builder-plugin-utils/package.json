@@ -1,0 +1,46 @@
+{
+	"name": "api-builder-plugin-utils",
+	"version": "1.0.0",
+	"description": "For this flow node it is planned to provide several simple tools. The first one is a switch/case method.",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+	"license": "Apache-2.0",
+	"keywords": [
+		"amplify",
+		"api-builder",
+		"utils",
+		"switch",
+		"case",
+		"compare"
+	],
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-google-maps",
+	"bugs": {
+		"url": "https://github.com/Axway-API-Builder-Ext/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+	},
+	"engines": {
+		"node": ">= 12.15"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"README.md", 
+		"CHANGELOG.md"
+	],
+	"dependencies": {
+		"@axway/api-builder-sdk": "^1.0.0"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.5.0"
+	},
+	"devDependencies": {
+		"@axway/api-builder-test-utils": "^1.1.0",
+		"chai": "^4.1.2",
+		"mocha": "^7.1.1"
+	},
+	"scripts": {
+		"test": "mocha ./test --recursive -R spec"
+	}
+}
