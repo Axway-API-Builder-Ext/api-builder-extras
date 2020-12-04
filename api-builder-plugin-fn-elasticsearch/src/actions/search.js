@@ -28,7 +28,11 @@ async function search(params, options) {
 
 	addSuggestModeDefault();
 	const searchBody = {};
-	if(params.index != undefined) searchBody.index = params.index;
+	if(params.index == undefined) {
+		options.logger.warn(`Warning: No index given for the query!`);
+	} else {
+		searchBody.index = params.index;
+	}
 	if(params.query != undefined) {
 		searchBody.body = {};
 		searchBody.body.query = params.query;
@@ -73,7 +77,7 @@ async function search(params, options) {
 	addQueryParam('typed_keys'); 
 	addQueryParam("version");
 
-	options.logger.debug(`Using elastic search query body: ${JSON.stringify(searchBody)}`);
+	options.logger.debug(`Using elastic search body: ${JSON.stringify(searchBody)}`);
 	try {
 		var queryResult = await executeQuery(searchBody);
 	} catch (ex) {
