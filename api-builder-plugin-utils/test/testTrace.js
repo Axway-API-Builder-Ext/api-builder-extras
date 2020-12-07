@@ -33,10 +33,24 @@ describe('flow-node trace', () => {
 			expect(output).to.equal('next');
 		});
 
-		it('should error when missing required parameter', async () => {
-			const { value, output } = await flowNode.traceMessage({ message: "My Log message", level: "info" });
+		it('should replace simple variable with the given data object', async () => {
+			const { value, output } = await flowNode.traceMessage({ message: "My Log message for ${a}", data: { a: "Value a"}, level: "info" });
 
-			expect(value).to.equal('My Log message');
+			expect(value).to.equal('My Log message for Value a');
+			expect(output).to.equal('next');
+		});
+
+		it('should replace given placeholders with the given data', async () => {
+			const { value, output } = await flowNode.traceMessage({ message: "My Log message for ${a.b}", data: { a: { b: "Value b" }}, level: "info" });
+
+			expect(value).to.equal('My Log message for Value b');
+			expect(output).to.equal('next');
+		});
+
+		it('should replace given placeholders with the given data', async () => {
+			const { value, output } = await flowNode.traceMessage({ message: "My Log message for ${a[0]}", data: { a: ["Value TEST"]}, level: "info" });
+
+			expect(value).to.equal('My Log message for Value TEST');
 			expect(output).to.equal('next');
 		});
 	});

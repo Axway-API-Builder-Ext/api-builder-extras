@@ -28,10 +28,10 @@ async function switchCase(params, options) {
 		throw new Error('Missing required parameter: value1');
 	}
 	value1 = value1.trim();
-	if(value2) value2 = value2.trim();
-	if(value3) value3 = value3.trim();
-	if(value4) value4 = value4.trim();
-	if(value5) value5 = value5.trim();
+	if (value2) value2 = value2.trim();
+	if (value3) value3 = value3.trim();
+	if (value4) value4 = value4.trim();
+	if (value5) value5 = value5.trim();
 	source = source.trim();
 	switch (source) {
 		case value1:
@@ -45,14 +45,14 @@ async function switchCase(params, options) {
 		case value5:
 			return options.setOutput(5, source);
 		default:
-			if(notMatchDefault) return options.setOutput('default', source);
+			if (notMatchDefault) return options.setOutput('default', source);
 			break;
 	}
 	throw new Error(`No match for source: ${source} on given values.`);
 }
 
 async function traceMessage(params, options) {
-	var { message, level } = params;
+	var { message, level, data } = params;
 	const { logger } = options;
 	debugger;
 	if (!message) {
@@ -63,17 +63,20 @@ async function traceMessage(params, options) {
 		logger.error("Message Trace-Level is missing");
 		return "Message Trace-Level is missing";
 	}
-	switch(level) {
-		case "info": 
+	if(data) {
+		message = await interpolate(message, data);
+	}
+	switch (level) {
+		case "info":
 			logger.info(message);
 			break;
-		case "warn": 
+		case "warn":
 			logger.warn(message);
 			break;
-		case "debug": 
+		case "debug":
 			logger.debug(message);
 			break;
-		case "error": 
+		case "error":
 			logger.error(message);
 			break;
 		default:
@@ -83,7 +86,26 @@ async function traceMessage(params, options) {
 	return message;
 }
 
+const interpolate = (message, data) => {
+	return message.replace(/\${([^}]+)}/g, (_, target) => {
+		let keys = target.split(".");
+		return keys.reduce((prev, curr) => {
+			if (curr.search(/\[/g) > -1) {
+				//if element/key in target array is array, get the value and return
+				let m_curr = curr.replace(/\]/g, "");
+				let arr = m_curr.split("[");
+				return arr.reduce((pr, cu) => {
+					return pr && pr[cu];
+				}, prev);
+			} else {
+				//else it is a object, get the value and return
+				return prev && prev[curr];
+			}
+		}, data);
+	});
+};
+
 module.exports = {
-	switchCase, 
+	switchCase,
 	traceMessage
 };

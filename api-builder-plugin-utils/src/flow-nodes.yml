@@ -92,10 +92,16 @@ flow-nodes:
         parameters:
           message:
             name: Trace Message
-            description: The message to trace.
+            description: "The message to trace. It might contain variables in the following format: ${name}, ${name.sub} or ${name[0][1]}"
             required: true
             schema:
               type: string
+          data:
+            name: "Data used to replace variables in your trace message. Examples: ${a}, ${a[0]}, ${a.b}"
+            description: The message to trace.
+            required: false
+            schema:
+              type: object
           level:
             name: Log level
             description: Trace the message on the configured level.
