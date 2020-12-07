@@ -97,8 +97,8 @@ flow-nodes:
             schema:
               type: string
           data:
-            name: "Data used to replace variables in your trace message. Examples: ${a}, ${a[0]}, ${a.b}"
-            description: The message to trace.
+            name: Replacement data
+            description: "Data used to replace variables in your trace message. Examples: ${a}, ${a[0]}, ${a.b}"
             required: false
             schema:
               type: object
