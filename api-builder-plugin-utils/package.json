@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-utils",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "For this flow node it is planned to provide several simple tools. For now a switch/case and trace method.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
