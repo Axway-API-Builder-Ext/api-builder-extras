@@ -6,6 +6,8 @@ const { getMapping, putMapping } = require('./actions/indexMapping');
 const { getILMPolicy, putILMPolicy } = require('./actions/ilmPolicy');
 const { getRollupJobs, putRollupJob } = require('./actions/rollupJobs');
 const { indicesRollover, indicesCreate, indicesExists } = require('./actions/indices');
+const { ElasticsearchClient } = require('./actions/ElasticsearchClient');
+const { isDeveloperMode } = require('./utils');
 
 
 /**
@@ -19,20 +21,35 @@ const { indicesRollover, indicesCreate, indicesExists } = require('./actions/ind
  * @returns {object} An API Builder plugin.
  */
 async function getPlugin(pluginConfig, options) {
+	// Create a connection to Elasticsearch on startup
+	var client = new ElasticsearchClient(pluginConfig.elastic).client;
+	// Validate a healthy connection
+	try {
+		options.logger.info(`Validating connection to Elasticsearch: ${pluginConfig.elastic.nodes} ...`);
+		var pingResult = await client.ping({requestTimeout: 3000});
+		options.logger.info(`Connection to Elasticsearch: ${pluginConfig.elastic.nodes} successfully established.`);
+	} catch (ex) {
+		options.logger.error(`Connection to Elasticsearch: ${pluginConfig.elastic.nodes} not working. Error message: ${ex}`);
+		if (isDeveloperMode()) {
+			// In development mode we allow to defer the obtaining of successfull Elasticsearch connection.
+			// The promise is rejected only in production.
+			return Promise.reject(ex);
+		}
+	}
 	const sdk = new SDK({ pluginConfig });
 	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), {
-		search, 
-		getTemplate, 
-		putTemplate, 
-		getMapping, 
-		putMapping, 
-		getILMPolicy, 
-		putILMPolicy, 
-		getRollupJobs, 
-		putRollupJob, 
-		indicesRollover, 
-		indicesCreate, 
-		indicesExists 
+		search,
+		getTemplate,
+		putTemplate,
+		getMapping,
+		putMapping,
+		getILMPolicy,
+		putILMPolicy,
+		getRollupJobs,
+		putRollupJob,
+		indicesRollover,
+		indicesCreate,
+		indicesExists
 	}, pluginConfig);
 	const plugin = sdk.getPlugin();
 	return plugin;
