@@ -23,7 +23,6 @@ function setupElasticsearchMock(client, methodName, responeFilename, shouldError
             });
         }
     });
-
     // Use the extend functionality of the ES-Client to register the mocked method
     client.extend(methodName, { force: true }, ({ makeRequest }) => {
         return mockedFn;

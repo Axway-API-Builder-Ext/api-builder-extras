@@ -2,12 +2,14 @@ const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-test-utils');
 const getPlugin = require('../../src');
 const { ElasticsearchClient } = require('../../src/actions/ElasticsearchClient');
+const { setupElasticsearchMock } = require('./setupElasticsearchMock');
 
 describe('flow-node newplugin', () => {
 	let plugin;
 	let flowNode;
 	// The client is required because it's needed in getPlugin
-	new ElasticsearchClient({node:'http://api-env:9200'}).client;
+	var client = new ElasticsearchClient({nodes:'http://api-env:9200'}).client;
+	client.isMocked = true;
 	beforeEach(async () => {
 		plugin = await MockRuntime.loadPlugin(getPlugin);
 		plugin.setOptions({ validateOutputs: true });

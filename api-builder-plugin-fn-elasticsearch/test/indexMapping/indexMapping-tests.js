@@ -10,6 +10,7 @@ describe('Template mapping tests', () => {
 	let plugin;
 	let flowNode;
 	var client = new ElasticsearchClient({node:'http://api-env:9200'}).client;
+	client.isMocked = true;
 	var pluginConfig = require('../config/basic-config.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
 
 	beforeEach(async () => {

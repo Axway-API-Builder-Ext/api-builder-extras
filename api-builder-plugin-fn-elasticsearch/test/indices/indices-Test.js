@@ -10,6 +10,7 @@ describe('Indices rollover tests', () => {
 	let plugin;
 	let flowNode;
 	var client = new ElasticsearchClient({node:'http://api-env:9200'}).client;
+	client.isMocked = true;
 	var pluginConfig = require('../config/basic-config.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
 
 	beforeEach(async () => {
@@ -92,7 +93,6 @@ describe('Indices rollover tests', () => {
 			const { value, output } = await flowNode.indicesCreate(inputParameter);
 
 			expect(output).to.equal('next');
-			debugger;
 			expect(mockedIndicesCreate.callCount).to.equals(1);
 			expect(mockedIndicesCreate.lastCall.arg.body.aliases["alias_for_my_index"]).to.be.a('object');
 		});

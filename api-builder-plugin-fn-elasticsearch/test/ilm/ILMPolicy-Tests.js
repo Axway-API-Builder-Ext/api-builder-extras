@@ -10,8 +10,9 @@ describe('ILM Policy tests', () => {
 	let plugin;
 	let flowNode;
 	var client = new ElasticsearchClient({node:'http://api-env:9200'}).client;
-	var pluginConfig = require('../config/basic-config.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
+	client.isMocked = true;
 
+	var pluginConfig = require('../config/basic-config.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
 	beforeEach(async () => {
 		plugin = await MockRuntime.loadPlugin(getPlugin, pluginConfig);
 		plugin.setOptions({ validateOutputs: true });
@@ -71,6 +72,7 @@ describe('ILM Policy tests', () => {
 
 		it('should pass without with valid parameters', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'ilm.putLifecycle', './test/mock/ilm/putILMPolicyResponse.json', false);
+			const mockedGetTemplate = setupElasticsearchMock(client, 'indices.getTemplate', './test/mock/indexTemplates/getTemplateResponse.json', false);
 
 			const inputParameter = { policy: 'test-ilm-policy', body: JSON.parse(fs.readFileSync('./test/mock/ilm/putILMPolicyRequestBody.json')) };
 			const { value, output } = await flowNode.putILMPolicy(inputParameter);
