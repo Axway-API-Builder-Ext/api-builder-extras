@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-test-utils');
 const getPlugin = require('../../src');
+const { ElasticsearchClient } = require('../../src/actions/ElasticsearchClient');
 
 describe('flow-node newplugin', () => {
 	let plugin;
