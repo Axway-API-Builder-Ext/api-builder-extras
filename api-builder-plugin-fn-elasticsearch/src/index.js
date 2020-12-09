@@ -24,16 +24,18 @@ async function getPlugin(pluginConfig, options) {
 	// Create a connection to Elasticsearch on startup
 	var client = new ElasticsearchClient(pluginConfig.elastic).client;
 	// Validate a healthy connection
-	if (!isDeveloperMode() && !client.isMocked) {
+	if (!client.isMocked) {
 		try {
 			options.logger.info(`Validating connection to Elasticsearch: ${pluginConfig.elastic.nodes} ...`);
-			await client.ping({requestTimeout: 3000});
+			await client.ping();
 			options.logger.info(`Connection to Elasticsearch: ${pluginConfig.elastic.nodes} successfully established.`);
 		} catch (ex) {
-			options.logger.error(`Connection to Elasticsearch: ${pluginConfig.elastic.nodes} not working. Error message: ${ex}`);
+			options.logger.error(`Connection to Elasticsearch: ${pluginConfig.elastic.nodes} not working. Error message: ${JSON.stringify(ex)}`);
 			// In development mode we allow to defer the obtaining of successfull Elasticsearch connection.
 			// The promise is rejected only in production.
-			return Promise.reject(ex);
+			if(!isDeveloperMode()) {
+				return Promise.reject(ex);
+			}
 		}
 	}
 	const sdk = new SDK({ pluginConfig });
