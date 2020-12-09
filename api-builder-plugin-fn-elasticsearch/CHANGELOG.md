@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.13] 2020-12-09
+### Changed
+- Test & Logging of Elasticsearch connection improved
+
 ## [1.0.12] 2020-12-08
 ### Changed
 - Connection to Elasticsearch is now establihed & validated on API-Builder startup
