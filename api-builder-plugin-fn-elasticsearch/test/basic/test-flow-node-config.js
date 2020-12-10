@@ -9,9 +9,9 @@ describe('flow-node newplugin', () => {
 	let flowNode;
 	// The client is required because it's needed in getPlugin
 	var client = new ElasticsearchClient({nodes:'http://api-env:9200'}).client;
-	client.isMocked = true;
+
 	beforeEach(async () => {
-		plugin = await MockRuntime.loadPlugin(getPlugin);
+		plugin = await MockRuntime.loadPlugin(getPlugin, { validateConnection: false});
 		plugin.setOptions({ validateOutputs: true });
 		flowNode = plugin.getFlowNode('elasticsearch');
 	});

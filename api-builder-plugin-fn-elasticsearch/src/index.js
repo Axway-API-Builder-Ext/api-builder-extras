@@ -21,10 +21,11 @@ const { isDeveloperMode } = require('./utils');
  * @returns {object} An API Builder plugin.
  */
 async function getPlugin(pluginConfig, options) {
+	debugger;
 	// Create a connection to Elasticsearch on startup
 	var client = new ElasticsearchClient(pluginConfig.elastic).client;
 	// Validate a healthy connection
-	if (!client.isMocked) {
+	if (pluginConfig.validateConnection != false) {
 		try {
 			options.logger.info(`Validating connection to Elasticsearch: ${pluginConfig.elastic.nodes} ...`);
 			await client.ping();

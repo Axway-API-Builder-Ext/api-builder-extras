@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.15] 2020-12-10
+### Added
+- Added the option to disable the Elasticsearch connection validation during startup (e.g. environment variable: VALIDATE_ELASTIC_CONNECTION=false)
+
 ## [1.0.14] 2020-12-09
 ### Added
 - New method: mockElasticsearchMethod to mock requests to Elasticsearch
