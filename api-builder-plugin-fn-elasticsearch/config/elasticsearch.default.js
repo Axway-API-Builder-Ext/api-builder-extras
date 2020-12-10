@@ -25,7 +25,7 @@ module.exports = {
 			},
 			// The connection to Elasticsearch is validated on API-Builder startup by default
 			// It can be disabled by setting this to false.
-			validateConnection: process.env.VALIDATE_ELASTIC_CONNECTION
+			validateConnection: ("false" == process.env.VALIDATE_ELASTIC_CONNECTION) ? false : true
 		}
 	}
 };
