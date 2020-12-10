@@ -12,6 +12,8 @@ describe('Basic: flow-node elasticsearch', () => {
 	let plugin;
 	let flowNode;
 
+	validConfig.validateConnection = false;
+
 	var client = new ElasticsearchClient({nodes:'http://api-env:9200'}).client;
 	process.env.VALIDATE_ELASTIC_CONNECTION = false;
 	beforeEach(async () => {
