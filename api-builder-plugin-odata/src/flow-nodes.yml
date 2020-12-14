@@ -1,0 +1,110 @@
+flow-nodes:
+  odata:
+    name: OData
+    icon: odata-icon.png
+    description: OData Flow node
+    category: general
+    methods:
+      createQuery:
+        name: Create Query
+        description: Creates an OData query based on the given parameters
+        parameters:
+          data:
+            name: Data
+            description: Input-Data used to create the OData-Query. You can access the passed data in the Filters, Search, etc. using the ${myProp.mySubProp} notation.
+            required: true
+            schema:
+              type: object
+          filter:
+            name: Filter
+            description: 'Filter the returned objects. Examples: Filter for a single property using an object: { "PropName1": "${myProp1}" } or filter for multiple properties as an array: [{ "PropName1": "${myProp1}" },{ "PropName2": "${myProp2}" }, "startswith(myProp3, ${myProp3})" ]. For more examples please see: https://www.npmjs.com/package/odata-query#filtering'
+            required: true
+            initialType: object
+            schema:
+              oneOf:
+                - type: array
+                - type: object
+          search:
+            name: Search
+            description: 'Search objects with a given criteria. Example: "blue OR green". For more examples please see: https://www.npmjs.com/package/odata-query#search'
+            required: false
+            initialType: string
+            schema:
+              type: string
+          select:
+            name: Select
+            description: 'Select properties for the resultset. Example: ["Foo", "Bar"]. For more examples please see: https://www.npmjs.com/package/odata-query#selecting'
+            required: false
+            initialType: array
+            schema:
+              type: array
+          orderBy:
+            name: Order by
+            description: 'Order by given properties. Example: ["Foo desc", "Bar"] For more examples please see: https://www.npmjs.com/package/odata-query#ordering'
+            required: false
+            initialType: array
+            schema:
+              type: array
+          expand:
+            name: Expand
+            description: 'Expand options for the result-set. Examples: Single property using a string: "Friends/Photos", Nested expand using an object { "Friends": { "expand": "Photos" } }, Multiple properties using an array: ["${myExpandProp1}", "someFixedOrderProp"] For examples please see: https://www.npmjs.com/package/odata-query#expanding'
+            required: false
+            initialType: object
+            schema:
+              oneOf:
+                - type: array
+                - type: object
+                - type: string
+          top:
+            name: Top
+            description: 'Return only the given number of object. For examples please see: https://www.npmjs.com/package/odata-query#pagination-skip-and-top'
+            required: false
+            initialType: number
+            schema:
+              type: number
+          skip:
+            name: Skip
+            description: 'Skip the given number of results. For examples please see: https://www.npmjs.com/package/odata-query#pagination-skip-and-top'
+            required: false
+            initialType: number
+            schema:
+              type: number             
+          singleItem:
+            name: Single item
+            description: 'Get a single item. For examples please see: https://www.npmjs.com/package/odata-query#single-item-key'
+            required: false
+            initialType: number
+            schema:
+              type: number
+          count:
+            name: Count
+            description: 'Include count inline with result. For examples please see: https://www.npmjs.com/package/odata-query#single-item-key'
+            required: false
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - IncludeCount
+                - ReturnCount
+          url:
+            name: URL
+            description: The OData server URL (e.g. https://services.odata.org/V4/TripPinServiceRW). If given, the flow-node will return the given URL plus the generated OData-Query-String otherwise only the Query-String is returned.
+            required: false
+            group: Advanced Options
+            schema:
+              type: string
+        returns:
+          name: Next
+          description: Returns the created OData query if no URL is given, otherwise the entire URL +Query-String.
+          context: $.odataQuery
+          schema:
+            type: string
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
