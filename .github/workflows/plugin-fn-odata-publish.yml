@@ -7,12 +7,12 @@ on:
       - published
     tags:
       # If this tag is pushed, a release is created
-      - '*fn-odata-node*'
+      - '*odata-node*'
 
 jobs:
   build:
     # This is a required check, as the on:release can't be filtered on given tags
-    if: contains(github.ref, 'fn-odata-node')
+    if: contains(github.ref, 'odata-node')
     env:
       # This must be aligned with the folder-name of you plugin
       workingDirectory: 'api-builder-plugin-odata'
