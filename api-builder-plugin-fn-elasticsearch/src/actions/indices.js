@@ -17,29 +17,42 @@ const { ElasticsearchClient } = require('./ElasticsearchClient');
  */
 
 async function indicesRollover(params, options) {
-	const elasticSearchConfig = options.pluginConfig.elastic;
-
-	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
-		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
-		throw new Error('Elasticsearch configuration is invalid: nodes or node is missing.');
-	}
-	if (!params.alias) {
+	var { alias, wildcardAlias } = params;
+	var { logger } = options;
+	var client = new ElasticsearchClient().client;
+	debugger;
+	if (!alias) {
 		throw new Error('Missing required parameter: alias');
 	}
+	var aliasesToRollover = [];
 	// The alias might be a string or an object 
-	if(typeof params.alias === 'object') {
-		if(Object.keys(params.alias).length === 0 && params.alias.constructor === Object) {
-			throw new Error(`Given rollover alias object is empty.`);
-		}
-		for(var alias in params.alias) {
-			params.alias = alias;
+	if(typeof alias === 'object') {
+		for(var alias in alias) {
+			aliasesToRollover.push(alias);
 			break; // Only one alias is supported.
 		}
+	} else {
+		aliasesToRollover.push(alias);
+	}
+	// Is the given alias is a wildcard, search for other indicies starting with this alias
+	if(wildcardAlias) {
+		aliasesToRollover = [];
+		logger.debug(`Rolling over all indicies starting with alias: ${alias}`);
+		var indicesFound = await client.indices.getAlias({name: `${alias}*`}, { ignore: [404], maxRetries: 3 });
+		for (const index of Object.values(indicesFound.body)) {
+			var indexAlias = Object.keys(index.aliases)[0];
+			aliasesToRollover.push(indexAlias);
+		}	
+	}
+	if(aliasesToRollover.length == 0) {
+		throw new Error(`No index found to rollover for alias: ${JSON.stringify(alias)}`);
 	}
 	try {
-		var client = new ElasticsearchClient(elasticSearchConfig).client;
-		var result = await client.indices.rollover( params, { ignore: [404], maxRetries: 3 });
-
+		var result = [];
+		for(alias of aliasesToRollover) {
+			var rolloverResult = await client.indices.rollover( { alias: alias }, { ignore: [404], maxRetries: 3 });
+			result.push(rolloverResult);
+		}
 		return result;
 	} catch (e) {
 		if(e instanceof Error) throw e;

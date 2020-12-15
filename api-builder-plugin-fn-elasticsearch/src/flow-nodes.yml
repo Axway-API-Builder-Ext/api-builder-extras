@@ -929,12 +929,21 @@ flow-nodes:
             schema:
               default: false
               type: boolean
+          wildcardAlias:
+            name: Wildcard alias
+            description: Given alias is considered as a prefix. All indicies starting with the alias, will be rolled up.
+            required: false
+            group: Advanced
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
         returns:
           name: Next
           description: Acknowledge message about the rollover.
           context: $.result
           schema:
-            type: object
+            type: array
         throws:
           name: Error
           description: An unexpected error was encountered.

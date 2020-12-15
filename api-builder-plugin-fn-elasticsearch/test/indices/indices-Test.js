@@ -29,7 +29,7 @@ describe('Indices rollover tests', () => {
 			expect(output).to.equal('error');
 		});
 
-		it('should pass without with a valid alias name', async () => {
+		it('should pass with with a valid alias name', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'indices.rollover', './test/mock/indices/rolloverResponse.json', false);
 
 			const inputParameter = { alias: 'apigw-traffic-summary' };
@@ -53,6 +53,21 @@ describe('Indices rollover tests', () => {
 			expect(mockedFn.lastCall.arg).to.deep.equals({ alias: 'apigw-traffic-summary' });
 		});
 
+		it('should pass if the alias is a wildcard - Should rollover all indicies', async () => {
+			const mockedIndicesGetAliasResponse = setupElasticsearchMock(client, 'indices.getAlias', './test/mock/indices/twoIndicesForAliasFoundResponse.json', false);
+			const mockedRolloverResponse = setupElasticsearchMock(client, 'indices.rollover', './test/mock/indices/rolloverResponse.json', false);
+			// 
+
+			const inputParameter = { alias: 'apigw-traffic-summary', wildcardAlias: true };
+			const { value, output } = await flowNode.indicesRollover(inputParameter);
+			debugger;
+			expect(output).to.equal('next');
+			expect(mockedIndicesGetAliasResponse.callCount).to.equals(1);
+			expect(mockedRolloverResponse.callCount).to.equals(2);
+			// Given object should be translated into a single alias string
+			expect(mockedRolloverResponse.lastCall.arg).to.deep.equals({ alias: 'apigw-traffic-summary-us-dc1' });
+		});
+
 		it('should gracefully handle, if the alias object is empty', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'indices.rollover', './test/mock/indices/rolloverResponse.json', false);
 
@@ -62,7 +77,7 @@ describe('Indices rollover tests', () => {
 			expect(output).to.equal('error');
 			expect(mockedFn.callCount).to.equals(0);
 			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Given rollover alias object is empty.');
+				.and.to.have.property('message', 'No index found to rollover for alias: {}');
 		});
 	});
 

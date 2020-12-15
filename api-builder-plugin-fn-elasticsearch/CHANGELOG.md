@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.16] 2020-12-15
+### Added
+- Added the option to rollover multiple indicies based on a wildcard alias
+
 ## [1.0.15] 2020-12-10
 ### Added
 - Added the option to disable the Elasticsearch connection validation during startup (e.g. environment variable: VALIDATE_ELASTIC_CONNECTION=false)
