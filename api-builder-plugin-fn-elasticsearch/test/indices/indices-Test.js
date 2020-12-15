@@ -60,7 +60,6 @@ describe('Indices rollover tests', () => {
 
 			const inputParameter = { alias: 'apigw-traffic-summary', wildcardAlias: true };
 			const { value, output } = await flowNode.indicesRollover(inputParameter);
-			debugger;
 			expect(output).to.equal('next');
 			expect(mockedIndicesGetAliasResponse.callCount).to.equals(1);
 			expect(mockedRolloverResponse.callCount).to.equals(2);

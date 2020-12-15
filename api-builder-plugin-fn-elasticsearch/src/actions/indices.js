@@ -20,7 +20,6 @@ async function indicesRollover(params, options) {
 	var { alias, wildcardAlias } = params;
 	var { logger } = options;
 	var client = new ElasticsearchClient().client;
-	debugger;
 	if (!alias) {
 		throw new Error('Missing required parameter: alias');
 	}
