@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fc-syncplicity",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Use this connector to integrate with Axway Syncplicity",
   "repository": {
     "type": "git",
@@ -26,14 +26,14 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@axway/api-builder-oas-flow-node": "^1.0.0"
+    "@axway/api-builder-oas-flow-node": "^1.2.1"
   },
   "peerDependencies": {
     "@axway/api-builder-runtime": "^4.5.0"
   },
   "devDependencies": {
-    "@axway/api-builder-runtime": "^4.5.0",
-    "@axway/api-builder-test-utils": "^1.0.0",
+    "@axway/api-builder-runtime": "^4.45.0",
+    "@axway/api-builder-test-utils": "^1.1.5",
     "chai": "^4.1.2",
     "mocha": "^6.2.3"
   },
