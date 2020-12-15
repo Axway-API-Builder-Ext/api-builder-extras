@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fc-jira",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Use this connector to integrate with the JIRA Cloud Platform",
   "repository": {
     "type": "git",
@@ -30,11 +30,11 @@
     "@axway/api-builder-oas-flow-node": "^1.0.0"
   },
   "peerDependencies": {
-    "@axway/api-builder-runtime": "^4.5.0"
+    "@axway/api-builder-runtime": "^4.45.0"
   },
   "devDependencies": {
-    "@axway/api-builder-runtime": "^4.5.0",
-    "@axway/api-builder-test-utils": "^1.0.0",
+    "@axway/api-builder-runtime": "^4.45.0",
+    "@axway/api-builder-test-utils": "^1.1.5",
     "chai": "^4.1.2",
     "mocha": "^6.1.4"
   },

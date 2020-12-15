@@ -5,12 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.0.6] 2020-12-15
 ### Added
 - Improved documentation / examples for the create issue method
 - improved README.md
 - Test suite now using @axway/api-builder-test-utils v1.0.0
 ### Security
 - Changed lodash from version 4.17.15 to 4.17.19
+- Changed api-builder runtime to version 4.45.0 for security reasons
 
 ## [0.0.5] 2020-04-21
 ### Added
