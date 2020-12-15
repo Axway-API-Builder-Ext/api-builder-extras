@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fc-sap-lama",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Use this connector to integrate with SAP Landscape Management",
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
     "@axway/api-builder-runtime": "^4.44.0"
   },
   "devDependencies": {
-    "@axway/api-builder-runtime": "^4.44.0",
+    "@axway/api-builder-runtime": "^4.45.0",
     "@axway/api-builder-test-utils": "^1.1.5",
     "chai": "^4.1.2",
     "mocha": "^6.1.4"

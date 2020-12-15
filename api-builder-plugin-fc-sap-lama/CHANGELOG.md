@@ -5,10 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-### Changed
+
+## [1.0.8] 2020-12-15
+### Changed & Security
 - Updated dependencies
     - @axway/api-builder-test-utils v1.1.5
-    - @axway/api-builder-runtime from 4.5.0 to 4.44.0
+    - @axway/api-builder-runtime from 4.5.0 to 4.45.0
     - @axway/api-builder-oas-flow-node from 1.0.0 to 1.2.1
 
 ## [1.0.7] 2020-04-21
