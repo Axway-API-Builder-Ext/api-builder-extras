@@ -60,7 +60,7 @@ async function writeFile(params, options) {
 }
 
 async function readFile(params, options) {
-	var { filename, encoding, parseJson, data } = params;
+	var { filename, encoding, parseJson, data, limit } = params;
 	const { logger } = options;
 	if (!filename) {
 		throw new Error('Missing required parameter: filename');
@@ -72,10 +72,44 @@ async function readFile(params, options) {
 	if(params.notFoundFails) {
 		notFoundFails = params.notFoundFails;
 	}
-	debugger;
 	if(data) {
 		filename = await interpolate(filename, data, logger);
 	}
+
+	const chunkSize = 8192;
+	let bytesRead = 0;
+	let buffer = Buffer.alloc(chunkSize);
+	let content = "";
+	let fd;
+	try {
+		fd = await fs.open(filename, 'r');
+		const fileInfo = await fd.stat();
+		while (true) {
+			let data = await fd.read(buffer, 0, chunkSize, null);
+			if(limit && (bytesRead + data.bytesRead) > limit) {
+				content += buffer.toString(encoding, 0, limit - bytesRead);
+				break;
+			} else {
+				content += buffer.toString(encoding, 0, data.bytesRead);
+			}
+			if (bytesRead >= fileInfo.size) {
+				break;
+			}
+			bytesRead += chunkSize;
+		}
+	} catch(ex) {
+		if(notFoundFails) {
+			throw new Error(`Error reading file: ${filename}. ${ex}`);
+		} else {
+			return options.setOutput('notFound', `File: ${filename} not found.`);
+		}
+	} finally {
+		if(fd) {
+			await fd.close();
+		} 
+    }
+
+/*
 	try {
 		var content = await fs.readFile(filename, {encoding: encoding});
 	} catch(ex) {
@@ -84,7 +118,7 @@ async function readFile(params, options) {
 		} else {
 			return options.setOutput('notFound', `File: ${filename} not found.`);
 		}
-	} 
+	} */
 	if(parseJson) {
 		content = JSON.parse(content);
 	}

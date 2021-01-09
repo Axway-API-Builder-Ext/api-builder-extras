@@ -218,7 +218,6 @@ describe('Standard file handling test', () => {
 		});
 
 		it('should read a standard file as normal text using a dynamic path', async () => {
-			debugger;
 			const testFilename = getTestFilename('testFile.txt');
 			fs.writeFileSync(testFilename, 'Some data');
 			const testFile = path.parse(testFilename);
@@ -230,9 +229,37 @@ describe('Standard file handling test', () => {
 			const givenFilename = testFile.dir + "/${fileDetails.basename}"
 			
 			const { value, output } = await flowNode.readFile({ filename: givenFilename, data: data });
-
 			expect(output).to.equal('next');
 			expect(value).to.equal('Some data');
+		});
+
+		it('should read a bigger file without any limit', async () => {
+			const testData = fs.readFileSync('test/standardFiles/bigFile.txt', {encoding: 'utf8'});
+			const { value, output } = await flowNode.readFile({ 
+				filename: 'test/standardFiles/bigFile.txt'
+			});
+			expect(output).to.equal('next');
+			expect(value).to.equal(testData);
+		});
+
+		it('should read a bigger file without any limit', async () => {
+			const { value, output } = await flowNode.readFile({ 
+				filename: 'test/standardFiles/bigFile.txt', 
+				limit: 21
+			});
+			expect(output).to.equal('next');
+			expect(value).to.equal("This is a bigger file");
+		});
+
+		it('should read a bigger file with a given limit above the internally used chunk size', async () => {
+			const testData = fs.readFileSync('test/standardFiles/BigFileFirst10000.txt', {encoding: 'utf8'});
+			const { value, output } = await flowNode.readFile({ 
+				filename: 'test/standardFiles/bigFile.txt', 
+				limit: 10000
+			});
+
+			expect(output).to.equal('next');
+			expect(value).to.equal(testData);
 		});
 	});
 });

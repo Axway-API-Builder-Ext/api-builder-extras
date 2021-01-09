@@ -232,6 +232,12 @@ flow-nodes:
             schema:
               default: false
               type: boolean
+          limit:
+            name: Max read limit
+            description: Read the file up to a certain limit given in Bytes.
+            required: false
+            schema:
+              type: number
           data:
             name: Data
             description: 'If you are using a dynamic filename that contains variables, you need to provide this data object, which is used to replace your variables. Example: ${conf.myFolder}/some/static/${filename}'

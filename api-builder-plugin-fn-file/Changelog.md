@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.6] 2021-01-10
+### Added
+- Added the possibility to defined a max read limit
+
 ## [0.0.6] 2021-01-09
 ### Added
 - Added option for a dynamic path for readFile
