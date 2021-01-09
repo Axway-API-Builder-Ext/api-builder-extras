@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.6] 2021-01-09
+### Added
+- Added option for a dynamic path for readFile
+
 ## [0.0.5] 2020-11-16
 ### Added
 - New Exit: NotFound if the file cannot be found

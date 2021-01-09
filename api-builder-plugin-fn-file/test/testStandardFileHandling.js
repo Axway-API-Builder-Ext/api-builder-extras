@@ -216,6 +216,24 @@ describe('Standard file handling test', () => {
 			expect(output).to.equal('next');
 			expect(value).to.deep.equal(testData);
 		});
+
+		it('should read a standard file as normal text using a dynamic path', async () => {
+			debugger;
+			const testFilename = getTestFilename('testFile.txt');
+			fs.writeFileSync(testFilename, 'Some data');
+			const testFile = path.parse(testFilename);
+			const data = {
+				fileDetails: {
+					basename: testFile.base
+				}
+			}
+			const givenFilename = testFile.dir + "/${fileDetails.basename}"
+			
+			const { value, output } = await flowNode.readFile({ filename: givenFilename, data: data });
+
+			expect(output).to.equal('next');
+			expect(value).to.equal('Some data');
+		});
 	});
 });
 

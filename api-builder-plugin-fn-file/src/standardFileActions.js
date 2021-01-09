@@ -60,7 +60,7 @@ async function writeFile(params, options) {
 }
 
 async function readFile(params, options) {
-	var { filename, encoding, parseJson } = params;
+	var { filename, encoding, parseJson, data } = params;
 	const { logger } = options;
 	if (!filename) {
 		throw new Error('Missing required parameter: filename');
@@ -71,6 +71,10 @@ async function readFile(params, options) {
 	var notFoundFails = false;
 	if(params.notFoundFails) {
 		notFoundFails = params.notFoundFails;
+	}
+	debugger;
+	if(data) {
+		filename = await interpolate(filename, data, logger);
 	}
 	try {
 		var content = await fs.readFile(filename, {encoding: encoding});
@@ -87,6 +91,38 @@ async function readFile(params, options) {
 	
 	return content;
 }
+
+async function interpolate(string, data, logger) {
+	if(string) {
+		string = JSON.stringify(string);
+	} else {
+		return;
+	}
+	logger.debug(`Got string: ${string}`);
+	var result = string.replace(/\${([^}]+)}/g, (_, target) => {
+		let keys = target.split(".");
+		return keys.reduce((prev, curr) => {
+			if (curr.search(/\[/g) > -1) {
+				//if element/key in target array is array, get the value and return
+				let m_curr = curr.replace(/\]/g, "");
+				let arr = m_curr.split("[");
+				return arr.reduce((pr, cu) => {
+					if(pr[cu] == undefined) {
+						throw new Error(`Missing data for selector: \$\{${curr}\}`);
+					}
+					return pr && pr[cu];
+				}, prev);
+			} else {
+				//else it is a object, get the value and return
+				if(prev[curr] == undefined) {
+					throw new Error(`Missing data for selector: \$\{${curr}\}`);
+				}
+				return prev && prev[curr];
+			}
+		}, data);
+	});
+	return JSON.parse(result);
+};
 
 module.exports = {
 	writeFile, 
