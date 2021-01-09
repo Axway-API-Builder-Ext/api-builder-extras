@@ -139,4 +139,4 @@ Even if otherwise possible, it is recommended to deploy the individual component
 
 Watch this video for a demonstration: [Setup Single Node Elasticsearch cluster](https://youtu.be/x-OdAdV2N7I)  
 
-Open the `.env` file and configure the ELASTICSEAR
+Open the `.env` file and configure the ELASTICSEARCH_HOSTS. At this point please configure only one Elasticsearch node. You can start with a single node and add more nodes later. More about t
