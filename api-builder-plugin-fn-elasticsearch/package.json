@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch",
-	"version": "1.0.17",
+	"version": "1.0.18",
 	"description": "Integrate Elasticsearch into your API-Builder flow to combine search data for instance with other data available in your flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",

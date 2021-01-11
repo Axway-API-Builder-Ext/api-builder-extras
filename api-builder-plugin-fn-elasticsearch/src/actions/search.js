@@ -78,16 +78,17 @@ async function search(params, options) {
 	addQueryParam("version");
 
 	options.logger.debug(`Using elastic search body: ${JSON.stringify(searchBody)}`);
+	var queryResult;
 	try {
-		var queryResult = await executeQuery(searchBody);
+		queryResult = await client.search( searchBody, { ignore: [404], maxRetries: 3 });
 	} catch (ex) {
-		throw new Error(ex);
+		if(ex instanceof Error) throw ex;
+		throw new Error(JSON.stringify(ex));
 	}
 
 	return queryResult;
 
 	function addQueryParam(field) {
-		//if(searchBody.querystring == undefined) searchBody.querystring = {};
 		if(params[field] != undefined) searchBody[field] = params[field];
 	}
 
@@ -95,24 +96,6 @@ async function search(params, options) {
 		if(params.suggest_field != undefined) {
 			if(params.suggest_mode == undefined) params.suggest_mode = 'missing';
 		}
-	}
-
-	function executeQuery(searchBody) {
-		return new Promise((resolve, reject) => {
-			client.search(searchBody, { ignore: [404], maxRetries: 3 }, (err, result) => {
-				if(err) {
-					if(!err.body) {
-						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
-					}
-					reject(err.body.error.root_cause[0].reason);
-				} else if(result.error) {
-					reject(result.error);
-				} else {
-					resolve(result);
-				}
-			});
-	
-		})
 	}
 }
 

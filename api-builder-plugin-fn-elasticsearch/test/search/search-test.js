@@ -79,8 +79,8 @@ describe('Search tests', () => {
 			const inputParameter = { index: 'logstash-openlog', sort: 'XZY:desc' };
 			const { value, output } = await flowNode.search(inputParameter);
 
-			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'No mapping found for [XZY] in order to sort on');
+			expect(value).to.be.instanceOf(Error);
+			expect(value.message).to.contain('No mapping found for [XZY] in order to sort on');
 			expect(output).to.equal('error');
 			if(typeof mockedFn !== 'undefined') {
 				expect(mockedFn.lastCall.arg).to.deep.equals(inputParameter);

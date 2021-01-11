@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.18] 2021-01-11
+### Fixed
+- The API-Builder process will no longer die, if Elasticsearch is not available for search request
+
 ## [1.0.17] 2020-12-18
 ### Fixed
 - Fixed a problem, that API-Builder failed to start with split on undefined if the environment variable ELASTICSEARCH_HOSTS is not set
