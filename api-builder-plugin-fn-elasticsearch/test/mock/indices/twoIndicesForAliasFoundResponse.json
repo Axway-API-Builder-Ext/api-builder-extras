@@ -3,14 +3,28 @@
       "apigw-traffic-summary-000002": {
         "aliases": {
           "apigw-traffic-summary": {
-            
+            "is_write_index": true
+          }
+        }
+      },
+      "apigw-traffic-summary-000001": {
+        "aliases": {
+          "apigw-traffic-summary": {
+            "is_write_index": false
           }
         }
       },
       "apigw-traffic-summary-us-dc1-000001": {
         "aliases": {
           "apigw-traffic-summary-us-dc1": {
-            
+            "is_write_index": false
+          }
+        }
+      },
+      "apigw-traffic-summary-us-dc1-000002": {
+        "aliases": {
+          "apigw-traffic-summary-us-dc1": {
+            "is_write_index": true
           }
         }
       }

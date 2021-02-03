@@ -33,15 +33,32 @@ async function indicesRollover(params, options) {
 	} else {
 		aliasesToRollover.push(alias);
 	}
-	// Is the given alias is a wildcard, search for other indicies starting with this alias
+	/* Is the given alias is a wildcard (e.g. apigw-traffic-summary-*), search for other aliases starting with this alias
+	 * This the result we may get
+	 * alias                   index                          filter routing.index routing.search is_write_index
+	 * apigw-trace-messages-us apigw-trace-messages-us-000002 -      -             -              true
+	 * apigw-trace-messages-us apigw-trace-messages-us-000001 -      -             -              false
+	 * apigw-trace-messages-eu apigw-trace-messages-us-000001 -      -             -              false
+	 * apigw-trace-messages-eu apigw-trace-messages-us-000002 -      -             -              false
+	 * apigw-trace-messages-eu apigw-trace-messages-us-000003 -      -             -              true
+	 * 
+	 * For each found alias it must be rolled once, hence it must be the write index
+	 */
 	if(wildcardAlias) {
 		aliasesToRollover = [];
 		logger.debug(`Rolling over all indicies starting with alias: ${alias}`);
-		var indicesFound = await client.indices.getAlias({name: `${alias}*`}, { ignore: [404], maxRetries: 3 });
-		for (const index of Object.values(indicesFound.body)) {
-			var indexAlias = Object.keys(index.aliases)[0];
-			aliasesToRollover.push(indexAlias);
-		}	
+		var foundAliases = await client.indices.getAlias({name: `${alias}*`}, { ignore: [404], maxRetries: 3 });
+		// Based on the alias name we get all indicies
+		for (const [key, value] of Object.entries(foundAliases.body)) {
+			for (const [aliasName, aliasSettings] of Object.entries(value.aliases)) {
+				// Each can have only one write index, which we use to perform the rollover
+				if(aliasSettings.is_write_index) {
+					logger.debug(`Adding is write alias: ${aliasName} to the list of aliases to rollover`);
+					aliasesToRollover.push(aliasName);
+					break;
+				}
+			}
+		}
 	}
 	if(aliasesToRollover.length == 0) {
 		throw new Error(`No index found to rollover for alias: ${JSON.stringify(alias)}`);
@@ -49,6 +66,7 @@ async function indicesRollover(params, options) {
 	try {
 		var result = [];
 		for(alias of aliasesToRollover) {
+			logger.debug(`Rolling over index: ${alias}`);
 			var rolloverResult = await client.indices.rollover( { alias: alias }, { ignore: [404], maxRetries: 3 });
 			result.push(rolloverResult);
 		}
