@@ -113,5 +113,30 @@ describe('api-builder-plugin-fn-xml-node', () => {
 			expect(value).to.be.a('object');
 			expect(value).to.deep.equal(jsonMessage['soapenv:Envelope']['soapenv:Body']);
 		});
+
+		it('should return the JSON message including given CDATA', async () => {
+			var xmlMessage = require('fs').readFileSync('./test/testMessages/cdata_message.xml', 'utf8');
+			var jsonMessage = JSON.parse(require('fs').readFileSync('./test/testMessages/cdata_message.json', 'utf8'));
+			const { value, output } = await flowNode.xml2json({ 
+				xmlData: xmlMessage,  
+				removeNamespaces: ['soap', 'soapenv', 'ns0', 'ns1', 'ns2', 'ns3', 'ns4' ] });
+
+			expect(output).to.equal('next');
+			expect(value).to.be.a('object');
+			expect(value).to.deep.equal(jsonMessage);
+		});
+
+		it('should return the JSON messagewithout CDATA', async () => {
+			var xmlMessage = require('fs').readFileSync('./test/testMessages/cdata_message.xml', 'utf8');
+			var jsonMessage = JSON.parse(require('fs').readFileSync('./test/testMessages/cdata_message-no-cdata.json', 'utf8'));
+			const { value, output } = await flowNode.xml2json({
+				xmlData: xmlMessage,  
+				ignoreCdata: true,
+				removeNamespaces: ['soap', 'soapenv', 'ns0', 'ns1', 'ns2', 'ns3', 'ns4' ] });
+
+			expect(output).to.equal('next');
+			expect(value).to.be.a('object');
+			expect(value).to.deep.equal(jsonMessage);
+		});
 	});
 });

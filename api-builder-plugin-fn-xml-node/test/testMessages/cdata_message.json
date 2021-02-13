@@ -1,0 +1,38 @@
+{
+    "Envelope": {
+      "Body": {
+        "Consulta_SurtidoGerenteResponse": {
+          "out": {
+            "serviceContext": {
+              "pageContext": {
+                
+              }
+            },
+            "errorList": {
+              "errors": {
+                "BusinessError": {
+                  "messageArgs": {
+                    "anyType": [
+                      {
+                        "_cdata": "No existen los responsables solicitados. [{localeLanguage=es, localeVariant=null, cod_centro=2, cod_producto=2335, localeCountry=ES, fwk.security.securityInfo=www.customer.com.domain.security.SecurityInfoImpl@7d5064b4[principal=useranonimo,credentials=anonymous,authorities=[www.customer.com.domain.security.AuthorityImpl@6501b77f[startDate=<null>,endDate=<null>,id=<null>,name=ROL_ANONIMO,description=Perfil de usuario anonimo]],details=<null>,authenticated=false,companyAuthorities=<null>,authorityCompanies=<null>,companyAcl=<null>,aclCompanies=<null>,companyOpeGroups=<null>,opeGroupCompanies=<null>,opeGroups=<null>,operations=<null>]}]"
+                      },
+                      "www.customer.com.dto.ServiceDTOImpl@77782876[from=webservice,operationName=<null>,serviceId=mteisfw.business.surtidoGerente.consultaSurtidoGerente_2_0_0,parameters={localeLanguage=es, localeVariant=null, cod_centro=2, cod_producto=2335, localeCountry=ES},results={},parameterBindings=<null>,errorList=<null>,executionContext=<null>]",
+                      {
+                        
+                      },
+                      "true"
+                    ]
+                  },
+                  "messageKey": "mteisfw.exception.responsableInexistente",
+                  "type": "4"
+                }
+              }
+            },
+            "listaSurtidoGerente": {
+              
+            }
+          }
+        }
+      }
+    }
+  }

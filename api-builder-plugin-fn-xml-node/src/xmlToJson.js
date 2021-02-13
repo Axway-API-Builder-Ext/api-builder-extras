@@ -21,7 +21,7 @@ var jp = require('@livereach/jsonpath');
  *	 does not define "next", the first defined output).
  */
 async function xml2json(params, options) {
-	const { xmlData, asString, selectPath, removeNamespaces } = params;
+	const { xmlData, asString, selectPath, removeNamespaces, ignoreCdata } = params;
 	const { logger } = options;
 	if (!xmlData) {
 		throw new Error('Missing required parameter: xmlData');
@@ -35,7 +35,7 @@ async function xml2json(params, options) {
 		ignoreInstruction: true,
 		ignoreAttributes: true,
 		ignoreComment: true,
-		ignoreCdata: true,
+		ignoreCdata: ignoreCdata,
 		ignoreDoctype: true,
 		textFn: removeJsonTextAttribute
 	};

@@ -6,11 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [1.0.8] 2020-09-07
+## [1.0.8] 2021-02-13
+### Fixed
+- CDATA is no longer ignored and can be controlled with a new parameter [#36](https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues/36)
+
 ### Changed
 - updated @axway/api-builder-test-utils from 1.1.0 to 1.1.4
-- updated @axway/api-builder-sdk from 1.0.0 to 1.0.7
+- updated @axway/api-builder-sdk from 1.0.0 to 1.1.7
 - updated mocha from 7.1.1 to 7.2.0
+- updated chai from 4.1.2 to 4.3.0
 
 ## [1.0.7] 2020-09-07
 ### Changed

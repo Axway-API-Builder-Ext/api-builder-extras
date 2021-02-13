@@ -18,10 +18,11 @@ flow-nodes:
               type: string
           asString:
             name: As string
-            description: Encode the JSON response as a String.
+            description: Encode the JSON response as a String. Defaults to false.
             required: false
             initialType: boolean
             schema:
+              default: false
               type: boolean
           selectPath:
             name: Select object with path
@@ -37,6 +38,15 @@ flow-nodes:
             initialType: array
             schema:
               type: array
+          ignoreCdata:
+            name: Ignore CDATA
+            description: Whether to ignore parsing CData of the elements. That is, no cdata will be generated.
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
         returns:
           name: Next
           description: Created JSON data

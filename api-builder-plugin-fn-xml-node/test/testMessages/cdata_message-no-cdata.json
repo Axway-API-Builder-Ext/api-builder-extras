@@ -1,0 +1,37 @@
+{
+    "Envelope": {
+      "Body": {
+        "Consulta_SurtidoGerenteResponse": {
+          "out": {
+            "serviceContext": {
+              "pageContext": {
+                
+              }
+            },
+            "errorList": {
+              "errors": {
+                "BusinessError": {
+                  "messageArgs": {
+                    "anyType": [
+                      {
+                      },
+                      "www.customer.com.dto.ServiceDTOImpl@77782876[from=webservice,operationName=<null>,serviceId=mteisfw.business.surtidoGerente.consultaSurtidoGerente_2_0_0,parameters={localeLanguage=es, localeVariant=null, cod_centro=2, cod_producto=2335, localeCountry=ES},results={},parameterBindings=<null>,errorList=<null>,executionContext=<null>]",
+                      {
+                        
+                      },
+                      "true"
+                    ]
+                  },
+                  "messageKey": "mteisfw.exception.responsableInexistente",
+                  "type": "4"
+                }
+              }
+            },
+            "listaSurtidoGerente": {
+              
+            }
+          }
+        }
+      }
+    }
+  }
