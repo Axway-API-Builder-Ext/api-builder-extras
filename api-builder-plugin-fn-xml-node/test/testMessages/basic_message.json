@@ -1,6 +1,7 @@
 {
   "note": {
     "title": "Happy",
-    "todo": ["Work", "Play"]
+    "todo": ["Work", "Play"],
+    "aBoolean": "false"
   }
 }

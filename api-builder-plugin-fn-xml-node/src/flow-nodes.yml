@@ -47,6 +47,15 @@ flow-nodes:
             schema:
               default: false
               type: boolean
+          nativeBooleans:
+            name: Native booleans
+            description: Whether to attempt converting boolean strings to native booleans. For example "true" will be true.
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
         returns:
           name: Next
           description: Created JSON data

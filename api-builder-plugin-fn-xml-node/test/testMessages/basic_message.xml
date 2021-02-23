@@ -3,4 +3,5 @@
 	<title>Happy</title>
 	<todo>Work</todo>
 	<todo>Play</todo>
+	<aBoolean>false</aBoolean>
 </note>

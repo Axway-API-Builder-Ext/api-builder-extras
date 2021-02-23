@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope>
+   <Body>
+      <Contact>
+         <phone1>6459742342</phone1>
+         <avisoSMS>false</avisoSMS>
+         <newsLetter>true</newsLetter>
+         <mobil>645971787</mobil>
+         <email>email0815@customer.com</email>
+      </Contact>
+   </Body>
+</Envelope>

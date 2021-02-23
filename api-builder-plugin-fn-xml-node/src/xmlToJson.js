@@ -21,7 +21,7 @@ var jp = require('@livereach/jsonpath');
  *	 does not define "next", the first defined output).
  */
 async function xml2json(params, options) {
-	const { xmlData, asString, selectPath, removeNamespaces, ignoreCdata } = params;
+	const { xmlData, asString, selectPath, removeNamespaces, ignoreCdata, nativeBooleans } = params;
 	const { logger } = options;
 	if (!xmlData) {
 		throw new Error('Missing required parameter: xmlData');
@@ -30,19 +30,22 @@ async function xml2json(params, options) {
 	const xml2JsonOptions = {
 		compact: true,
 		trim: true,
-		nativeType: false,
+		nativeType: false, // Must be false (See: https://github.com/nashwaan/xml-js/issues/53)
 		ignoreDeclaration: true,
 		ignoreInstruction: true,
 		ignoreAttributes: true,
 		ignoreComment: true,
 		ignoreCdata: ignoreCdata,
 		ignoreDoctype: true,
-		textFn: removeJsonTextAttribute
+		textFn: handleTextFn
 	};
-	if(removeNamespaces) {
+	if(nativeBooleans) {
+		xml2JsonOptions.textFn = handleTextFnNativeBoolean;
+	}
+	if (removeNamespaces) {
 		xml2JsonOptions.elementNameFn = removeNamespacesFn;
 	}
-	
+
 	let result;
 	try {
 		if (asString) {
@@ -56,22 +59,28 @@ async function xml2json(params, options) {
 		logger.error(e.message);
 		throw new Error(`Failed to convert XML to JSON. Error: ${e.message}`);
 	}
-	if(typeof result === 'undefined') {
+	if (typeof result === 'undefined') {
 		throw new Error(`Failed to convert XML to JSON. Error: result is undefined`);
 	}
-	if(selectPath) {
+	if (selectPath) {
 		result = jp.value(result, selectPath);
-		if(result == undefined) {
+		if (result == undefined) {
 			throw new Error(`Nothing found in response message based on path: '${selectPath}'.`);
 		}
 	}
 	return result;
 
+	function handleTextFn(value, parentElement) {
+		_handleTextFn(value, parentElement);
+	}
 
-	function removeJsonTextAttribute(value, parentElement) {
+	function handleTextFnNativeBoolean(value, parentElement) {
+		_handleTextFn(value, parentElement, { nativeBoolean: true});
+	}
 
+	function _handleTextFn(value, parentElement, options) {
 		try {
-			if(typeof parentElement._parent === 'undefined') return;
+			if (typeof parentElement._parent === 'undefined') return;
 			const pOpKeys = Object.keys(parentElement._parent);
 			const keyNo = pOpKeys.length;
 			const keyName = pOpKeys[keyNo - 1];
@@ -82,19 +91,53 @@ async function xml2json(params, options) {
 				const arrIndex = arrOfKey.length - 1;
 				arr[arrIndex] = value;
 			} else {
-				parentElement._parent[keyName] = value;
+				parentElement._parent[keyName] = convertValue(value, options);
 			}
 		} catch (e) {
 			logger.error(e);
 		}
 	};
 
+	function convertValue(value, options) {
+		if(!options) return value;
+		if(options.nativeBoolean) {
+			return convertBoolean(value);
+		}
+		if(options.nativeNumbers) {
+			return convertNumber(value);
+		}
+	}
+
+	function convertBoolean(value) {
+		var bValue = value.toLowerCase();
+		if (bValue === 'true') {
+			return true;
+		} else if (bValue === 'false') {
+			return false;
+		}
+		return value;
+	}
+
+	function convertNumber(value) {
+		var nValue = Number(value);
+		if (!isNaN(nValue)) {
+			return nValue;
+		}
+		var bValue = value.toLowerCase();
+		if (bValue === 'true') {
+			return true;
+		} else if (bValue === 'false') {
+			return false;
+		}
+		return value;
+	}
+
 	function removeNamespacesFn(val) {
-		if(val.indexOf(":")==-1) return val;
+		if (val.indexOf(":") == -1) return val;
 		for (var i = 0; i < removeNamespaces.length; ++i) {
 			var namespace = removeNamespaces[i];
-			if(val.startsWith(`${namespace}:`)) {
-				return val.replace(`${namespace}:`,'');
+			if (val.startsWith(`${namespace}:`)) {
+				return val.replace(`${namespace}:`, '');
 			}
 		}
 		return val;

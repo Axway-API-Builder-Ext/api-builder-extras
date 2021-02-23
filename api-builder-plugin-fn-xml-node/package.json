@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-xml-node",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"description": "Axway API-Builder flow node to handle XML-Payload. For instance converting XML into JSON or JS-Objects.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",

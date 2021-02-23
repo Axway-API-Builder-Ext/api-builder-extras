@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.9] 2021-02-13
+### Added
+- New parameter: Native booleans to control if boolean strings should be converted into native booleans
+
 ## [1.0.8] 2021-02-13
 ### Fixed
 - CDATA is no longer ignored and can be controlled with a new parameter [#36](https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues/36)

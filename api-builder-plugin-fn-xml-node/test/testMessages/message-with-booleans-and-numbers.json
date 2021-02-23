@@ -1,0 +1,13 @@
+{
+  "Envelope": {
+    "Body": {
+      "Contact": {
+        "phone1": "6459742342",
+        "avisoSMS": false,
+        "newsLetter": true,
+        "mobil": "645971787",
+        "email": "email0815@customer.com"
+      }
+    }
+  }
+}

@@ -138,5 +138,18 @@ describe('api-builder-plugin-fn-xml-node', () => {
 			expect(value).to.be.a('object');
 			expect(value).to.deep.equal(jsonMessage);
 		});
+
+		it('should return boolean strings as a native booleans', async () => {
+			var xmlMessage = require('fs').readFileSync('./test/testMessages/message-with-booleans-and-numbers.xml', 'utf8');
+			var jsonMessage = JSON.parse(require('fs').readFileSync('./test/testMessages/message-with-booleans-and-numbers.json', 'utf8'));
+			const { value, output } = await flowNode.xml2json({
+				xmlData: xmlMessage,  
+				nativeBooleans: true
+			});
+
+			expect(output).to.equal('next');
+			expect(value).to.be.a('object');
+			expect(value).to.deep.equal(jsonMessage);
+		});
 	});
 });
