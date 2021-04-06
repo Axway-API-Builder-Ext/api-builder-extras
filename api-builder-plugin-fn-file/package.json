@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-file",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "File Flow-Node to read/write files as part of an API-Builder flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",

@@ -52,6 +52,8 @@ async function readCVSFile(params, options) {
 	if (params.relax_column_count) csvParseOptions.relax_column_count = params.relax_column_count;
 	if (params.columns) csvParseOptions.columns = params.columns;
 
+	options.logger.debug(`Trying to read file: '${filename}'`);
+
 	const endEvent = new Promise((resolve, reject) => {
 		try {
 			fs.createReadStream(filename)

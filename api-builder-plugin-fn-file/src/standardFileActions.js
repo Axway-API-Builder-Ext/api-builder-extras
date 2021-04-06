@@ -51,6 +51,7 @@ async function writeFile(params, options) {
 	if(data instanceof Object && stringify) {
 		data = JSON.stringify(data);
 	}
+	options.logger.debug(`Going to write to filename: '${filename}'`);
 	try {
 		await fs.writeFile(filename, data, {encoding: dataEncoding, flag: flag});
 	} catch(ex) {
@@ -75,6 +76,7 @@ async function readFile(params, options) {
 	if(data) {
 		filename = await interpolate(filename, data, logger);
 	}
+	options.logger.debug(`Trying to read file: '${filename}'`);
 
 	const chunkSize = 8192;
 	let bytesRead = 0;
