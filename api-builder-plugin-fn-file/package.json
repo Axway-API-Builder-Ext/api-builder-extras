@@ -32,16 +32,16 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.0.7",
-		"csv-parse": "^4.14.0",
-		"lodash": "^4.17.20"
+		"csv-parse": "^4.15.3",
+		"lodash": "^4.17.21"
 	},
 	"peerDependencies": {
 		"@axway/api-builder-runtime": "^4.5.0"
 	},
 	"devDependencies": {
 		"@axway/api-builder-test-utils": "^1.1.4",
-		"chai": "^4.2.0",
-		"mocha": "^6.2.3",
+		"chai": "^4.3.4",
+		"mocha": "^8.3.2",
 		"tmp": "^0.2.1"
 	},
 	"scripts": {

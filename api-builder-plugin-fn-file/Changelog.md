@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added debug messages to log filenames used to read and write files
 
+### Changed
+- Dependencies updated
+
 ## [0.0.7] 2021-01-10
 ### Added
 - Added the possibility to defined a max read limit
