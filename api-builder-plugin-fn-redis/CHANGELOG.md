@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.8] 2021-04-28
+### Added
+- Added log messages for Get & Set operations
+
 ## [0.0.7] 2020-10-06
 ### Added
 - Added support to provide a password to Redis

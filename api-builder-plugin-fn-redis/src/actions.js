@@ -49,8 +49,10 @@ async function set(params, options) {
 	
 	let result;
 	if (expiremilliseconds) {
+		options.logger.info(`Set to Redis cache with key: ${key} and expiremilliseconds: ${expiremilliseconds}`);
 		result = await options.pluginContext.redisClient.set(key, value, 'PX', expiremilliseconds);
 	} else {
+		options.logger.info(`Set to Redis cache with key: ${key}`);
 		result = await options.pluginContext.redisClient.set(key, value);
 	}
 	return result;
@@ -86,8 +88,10 @@ async function get(params, options) {
 	let result;
 	result = await options.pluginContext.redisClient.get(key); // No result found for key: '${key}'
 	if (!result) {
+		options.logger.info(`Got no result from Redis cache for key: ${key}`);
 		return options.setOutput('noResult', '');
 	} else {
+		options.logger.info(`Successfully got a result from Redis cache for key: ${key}`);
 		return result;
 	}
 }
