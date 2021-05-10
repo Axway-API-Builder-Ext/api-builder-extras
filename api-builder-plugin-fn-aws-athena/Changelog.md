@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.0.6] 2021-05-10
+### Security
+- Changed @axway/api-builder-sdk from version 0.2.0 to 1.1.5
+- Changed @axway/api-builder-runtime from version 4.5.0 to 4.64.1
+- Changed mocha from version 6.2.3 to 7.2.0
+- Changed chai from version 4.2.0 to 4.3.4
+
 ### Changed
 - Changed version of the aws-sdk from 2.610.0 to 2.648.0
 - Using Simple-Mock for Unit-Tests
