@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fc-jira",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Use this connector to integrate with the JIRA Cloud Platform",
   "repository": {
     "type": "git",
