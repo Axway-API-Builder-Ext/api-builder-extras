@@ -30,7 +30,7 @@
     "@axway/api-builder-oas-flow-node": "^1.2.3"
   },
   "peerDependencies": {
-    "@axway/api-builder-runtime": "^4.46.1"
+    "@axway/api-builder-runtime": "^4.64.1"
   },
   "devDependencies": {
     "@axway/api-builder-runtime": "^4.64.1",
