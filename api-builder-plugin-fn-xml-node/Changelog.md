@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.10] 2021-05-10
+### Security
+- Changed @axway/api-builder-sdk from version 1.1.0 to 1.1.5
+- Changed @axway/api-builder-runtime from version 4.5.0 to 4.64.1
+- Changed @axway/api-builder-test-utils from version 1.1.7 to 1.1.12
+
 ## [1.0.9] 2021-02-13
 ### Added
 - New parameter: Native booleans to control if boolean strings should be converted into native booleans
