@@ -1,5 +1,5 @@
 const convert = require('xml-js');
-var jp = require('@livereach/jsonpath');
+var jp = require('jsonpath');
 /**
  * Action method.
  *

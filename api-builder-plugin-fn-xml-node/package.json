@@ -30,7 +30,7 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.1.5",
-		"@livereach/jsonpath": "^1.2.2",
+		"jsonpath": "^1.1.1",
 		"xml-js": "1.6.11"
 	},
 	"peerDependencies": {
