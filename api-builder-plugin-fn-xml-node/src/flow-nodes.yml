@@ -26,13 +26,21 @@ flow-nodes:
               type: boolean
           selectPath:
             name: Select object with path
-            description: "Select the object within the returned structure using this path. Example: $[\"soap:Envelope\"][\"soap:Body\"]"
+            description: "Select the object within the returned structure using this path. Example: $[\"soap:Envelope\"][\"soap:Body\"]. If you remove namespaces, remember to also remove them here."
             required: false
             initialType: string
             schema:
               type: string
+          removeAllNamespaces:
+            name: Remove all namespaces
+            description: 'This will remove all namespaces from the JSON-message. Overrides Remove Specific Namespaces.'
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
           removeNamespaces:
-            name: Remove namespaces
+            name: Remove specific namespaces
             description: 'An Array of namespaces to be removed from the JSON-Message. Example: ["v1"] will convert the following: "<v1:radius_airportsResponse>" into "radius_airportsResponse": {'
             required: false
             initialType: array

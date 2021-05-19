@@ -104,7 +104,27 @@ describe('api-builder-plugin-fn-xml-node', () => {
 			expect(output).to.equal('error');
 		});
 
-		it('should return only the SOAP-Body and Namespaces removed', async () => {
+		it('should return only the SOAP-Body and all Namespaces removed and removeNamespaces not set', async () => {
+			var xmlMessage = require('fs').readFileSync('./test/testMessages/airports_soap_response_namespace.xml', 'utf8');
+			var jsonMessage = JSON.parse(require('fs').readFileSync('./test/testMessages/airports_soap_body_no_namespace_or_envelope.json', 'utf8'));
+			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '$[\"Envelope\"][\"Body\"]', removeAllNamespaces: true, removeNamespaces: null });
+				
+			expect(output).to.equal('next');
+			expect(value).to.be.a('object');
+			expect(value).to.deep.equal(jsonMessage['Envelope']['Body']);
+		});
+		
+		it('should return only the SOAP-Body and all Namespaces removed and removeNamespaces also set to only one value', async () => {
+			var xmlMessage = require('fs').readFileSync('./test/testMessages/airports_soap_response_namespace.xml', 'utf8');
+			var jsonMessage = JSON.parse(require('fs').readFileSync('./test/testMessages/airports_soap_body_no_namespace_or_envelope.json', 'utf8'));
+			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '$[\"Envelope\"][\"Body\"]', removeAllNamespaces: true, removeNamespaces: ['v1'] });
+
+			expect(output).to.equal('next');
+			expect(value).to.be.a('object');
+			expect(value).to.deep.equal(jsonMessage['Envelope']['Body']);
+		});
+
+		it('should return only the SOAP-Body and Namespaces removed and RemoveAllNamespaces not set', async () => {
 			var xmlMessage = require('fs').readFileSync('./test/testMessages/airports_soap_response_namespace.xml', 'utf8');
 			var jsonMessage = JSON.parse(require('fs').readFileSync('./test/testMessages/airports_soap_body_no_namespace.json', 'utf8'));
 			const { value, output } = await flowNode.xml2json({ xmlData: xmlMessage, selectPath: '$[\"soapenv:Envelope\"][\"soapenv:Body\"]', removeNamespaces: ['v1', 'v2'] });

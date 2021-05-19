@@ -1,0 +1,30 @@
+{
+  "Envelope": {
+    "Header": {},
+    "Body": {
+      "radius_airportsResponse": {
+        "return": {
+          "fs": "TXL",
+          "iata": "TXL",
+          "icao": "TXL",
+          "faa": "TXL",
+          "name": "Berlin Tegel",
+          "street1": "Saatwinkler Damm",
+          "city": "Berlin",
+          "cityCode": "B",
+          "stateCode": "B",
+          "postalCode": "13405",
+          "countryCode": "DE",
+          "countryName": "Germany",
+          "regionName": "DE",
+          "timeZoneRegionName": "GMT",
+          "weatherZone": "Germany",
+          "localTime": "19:02",
+          "utcOffsetHours": "-1",
+          "latitude": "39.0438",
+          "longitude": "-77.4874"
+        }
+      }
+    }
+  }
+}
