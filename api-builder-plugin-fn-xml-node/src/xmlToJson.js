@@ -21,7 +21,7 @@ var jp = require('jsonpath');
  *	 does not define "next", the first defined output).
  */
 async function xml2json(params, options) {
-	const { xmlData, asString, selectPath, removeNamespaces, ignoreCdata, nativeBooleans } = params;
+	const { xmlData, asString, selectPath, removeAllNamespaces, removeNamespaces, ignoreCdata, nativeBooleans } = params;
 	const { logger } = options;
 	if (!xmlData) {
 		throw new Error('Missing required parameter: xmlData');
@@ -42,7 +42,7 @@ async function xml2json(params, options) {
 	if(nativeBooleans) {
 		xml2JsonOptions.textFn = handleTextFnNativeBoolean;
 	}
-	if (removeNamespaces) {
+	if ((removeNamespaces) || (removeAllNamespaces)) {
 		xml2JsonOptions.elementNameFn = removeNamespacesFn;
 	}
 
@@ -59,15 +59,18 @@ async function xml2json(params, options) {
 		logger.error(e.message);
 		throw new Error(`Failed to convert XML to JSON. Error: ${e.message}`);
 	}
+	
 	if (typeof result === 'undefined') {
 		throw new Error(`Failed to convert XML to JSON. Error: result is undefined`);
 	}
+	
 	if (selectPath) {
 		result = jp.value(result, selectPath);
 		if (result == undefined) {
 			throw new Error(`Nothing found in response message based on path: '${selectPath}'.`);
 		}
 	}
+	
 	return result;
 
 	function handleTextFn(value, parentElement) {
@@ -133,13 +136,22 @@ async function xml2json(params, options) {
 	}
 
 	function removeNamespacesFn(val) {
-		if (val.indexOf(":") == -1) return val;
+		if (val.indexOf(":") == -1) {
+			return val;
+		}
+
+		if (removeAllNamespaces == true) {
+			// Don't need to check for ":" because of previous check
+			return val.split(":")[1];
+		}
+
 		for (var i = 0; i < removeNamespaces.length; ++i) {
 			var namespace = removeNamespaces[i];
 			if (val.startsWith(`${namespace}:`)) {
 				return val.replace(`${namespace}:`, '');
 			}
 		}
+
 		return val;
 	}
 }
