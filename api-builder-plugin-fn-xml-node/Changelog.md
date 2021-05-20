@@ -4,7 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.11] 2021-05-20
+### Added
+- Added ability to remove all namespaces with an asterisk [PR #63](https://github.com/Axway-API-Builder-Ext/api-builder-extras/pull/63)
+- Updated some packages (api-builder-test-utils, chai, pathval, api-builder-sdk)
 
 ## [1.0.10] 2021-05-10
 ### Security
