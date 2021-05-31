@@ -1,50 +1,21 @@
-const sdk = require('axway-flow-sdk');
-const action = require('./action');
+const path = require('path');
+const { SDK } = require('@axway/api-builder-sdk');
+const actions = require('./actions');
 
-function getFlowNodes() {
-	const flownodes = sdk.init(module);
-
-	flownodes.add('foreach', {
-		category: 'extension',
-		name: 'For Each',
-		icon: 'icon.svg',
-		description: 'Loop over items and execute specified flow.'
-	})
-		.method('flowforeach', {
-			name: 'Flow',
-			description: 'Execute a flow for each item.'
-		})
-		.parameter('flow', {
-			description: 'The flow to execute.',
-			type: 'string'
-		}, true)
-		.parameter('items', {
-			description: 'The list of inputs to the flow.',
-			type: 'array'
-		}, true)
-		.output('next', {
-			name: 'Next',
-			description: 'The list of results',
-			context: '$.results',
-			schema: {
-				type: 'array'
-			}
-		})
-		.output('flowNotFound', {
-			name: 'Flow not found',
-			context: '$.error',
-			schema: {
-				type: 'string'
-			}
-		})
-		.output('error', {
-			name: 'Error',
-			context: '$.error',
-			schema: {}
-		})
-		.action(action);
-
-	return Promise.resolve(flownodes);
+/**
+ * Resolves the API Builder plugin.
+ * @param {object} pluginConfig - The service configuration for this plugin
+ *   from API Builder config.pluginConfig['api-builder-plugin-pluginName']
+ * @param {string} pluginConfig.proxy - The configured API-builder proxy server
+ * @param {object} options - Additional options and configuration provided by API Builder
+ * @param {string} options.appDir - The current directory of the service using the plugin
+ * @param {string} options.logger - An API Builder logger scoped for this plugin
+ * @returns {object} An API Builder plugin.
+ */
+async function getPlugin(pluginConfig, options) {
+	const sdk = new SDK({ pluginConfig });
+	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), actions);
+	return sdk.getPlugin();
 }
 
-exports = module.exports = getFlowNodes;
+module.exports = getPlugin;

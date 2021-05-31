@@ -1,39 +1,45 @@
+const { expect } = require('chai');
+const { MockRuntime } = require('@axway/api-builder-test-utils');
+const getPlugin = require('../src');
+const APIBuilder = require('@axway/api-builder-runtime');
+
 const simple = require('simple-mock');
 const mockRequire = require('mock-require');
 const server = {};
-mockRequire('@axway/api-builder-runtime', server);
-
-const nodeModule = require('../src')();
-const action = require('../src/action');
-const expect = require('chai').expect;
-const { mocknode, validate } = require('axway-flow-sdk');
+mockRequire('@axway/api-builder-runtime', APIBuilder);
 
 describe('api-builder-plugin-fn-foreach', () => {
-	let flownodes;
-	before(() => {
-		return nodeModule.then(resolvedSpecs => {
-			flownodes = resolvedSpecs;
-		});
+	let plugin;
+	let flowNode;
+	beforeEach(async () => {
+		plugin = await MockRuntime.loadPlugin(getPlugin);
+		plugin.setOptions({ validateOutputs: true });
+		flowNode = plugin.getFlowNode('foreach');
 	});
 
 	describe('#constructor', () => {
-		it('[TEST-1] should define flownodes', () => {
-			expect(flownodes).to.exist;
-			expect(typeof action).to.equal('function');
-			expect(mocknode('foreach')).to.exist;
+		it('should define flow-nodes', () => {
+			expect(plugin).to.be.a('object');
+			expect(plugin.getFlowNodeIds()).to.deep.equal([
+				'foreach'
+			]);
+			expect(flowNode).to.be.a('object');
+
+			// Ensure the flow-node matches the spec
+			expect(flowNode.name).to.equal('For Each');
+			expect(flowNode.description).to.equal('Loop over items and execute specified flow.');
+			expect(flowNode.icon).to.be.a('string');
 		});
 
-		// It's vital to ensure that the generated node flownodes are valid for use
-		// in API Builder. Your unit tests should always include this validation
-		// to avoid potential issues when API Builder loads your node.
-		it('[TEST-2] should define valid flownodes', () => {
-			expect(validate(flownodes)).to.not.throw;
+		it('should define valid flow-nodes', () => {
+			// if this is invalid, it will throw and fail
+			plugin.validate();
 		});
 	});
 
 	describe('#foreach', () => {
 		beforeEach(() => {
-			server.getGlobal = () => server;
+			APIBuilder.getGlobal = () => server;
 			server.logger = simple.stub();
 			server.getFlow = simple.stub();
 			server.flowManager = {
@@ -41,7 +47,7 @@ describe('api-builder-plugin-fn-foreach', () => {
 			};
 		});
 
-		it('[FOREACH-1] should execute the specified flow with the supplied items', () => {
+		it('[FOREACH-1] should execute the specified flow with the supplied items', async () => {
 			const inputs = [
 				{ name: 'tom' },
 				{ name: 'dick' },
@@ -56,75 +62,62 @@ describe('api-builder-plugin-fn-foreach', () => {
 				.resolveWith(returns[1])
 				.resolveWith(returns[2]);
 
-			return mocknode(flownodes).node('foreach').invoke('flowforeach', {
-				flow: 'someFlow',
-				items: inputs
-			}).then((data) => {
-				expect(data).to.deep.equal({
-					next: [ null, [ 'one', 'two', 'three' ] ]
-				});
+			const { value, output } = await flowNode.flowforeach({ flow: 'someFlow', items: inputs });
 
-				expect(server.getFlow.callCount).to.equal(1);
-				expect(server.getFlow.calls[0].args).to.deep.equal([ 'someFlow' ]);
-				expect(server.flowManager.flow.callCount).to.equal(3);
-				expect(server.flowManager.flow.calls[0].args).to.deep.equal([ 'someFlow', inputs[0], { logger: server.logger } ]);
-				expect(server.flowManager.flow.calls[1].args).to.deep.equal([ 'someFlow', inputs[1], { logger: server.logger } ]);
-				expect(server.flowManager.flow.calls[2].args).to.deep.equal([ 'someFlow', inputs[2], { logger: server.logger } ]);
-			});
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal([ 'one', 'two', 'three' ]);
+
+			expect(server.getFlow.callCount).to.equal(1);
+			expect(server.getFlow.calls[0].args).to.deep.equal([ 'someFlow' ]);
+			expect(server.flowManager.flow.callCount).to.equal(3);
+			expect(server.flowManager.flow.calls[0].args[0]).to.equal( 'someFlow' );
+			expect(server.flowManager.flow.calls[0].args[1]).to.equal( inputs[0] );
+			expect(server.flowManager.flow.calls[1].args[0]).to.equal( 'someFlow' );
+			expect(server.flowManager.flow.calls[1].args[1]).to.equal( inputs[1] );
+			expect(server.flowManager.flow.calls[2].args[0]).to.equal( 'someFlow' );
+			expect(server.flowManager.flow.calls[2].args[1]).to.equal( inputs[2] );
 		});
 
-		it('[FOREACH-2] should handle empty items', () => {
+		it('[FOREACH-2] should handle empty items', async () => {
 			const inputs = [];
 			server.getFlow.returnWith(true);
 
-			return mocknode(flownodes).node('foreach').invoke('flowforeach', {
-				flow: 'someFlow',
-				items: inputs
-			}).then((data) => {
-				expect(data).to.deep.equal({
-					next: [ null, [] ]
-				});
+			const { value, output } = await flowNode.flowforeach({ flow: 'someFlow', items: inputs });
 
-				expect(server.getFlow.callCount).to.equal(1);
-				expect(server.getFlow.calls[0].args).to.deep.equal([ 'someFlow' ]);
-				expect(server.flowManager.flow.callCount).to.equal(0);
-			});
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal([]);
+
+			expect(server.getFlow.callCount).to.equal(1);
+			expect(server.getFlow.calls[0].args[0]).to.equal('someFlow');
+			expect(server.flowManager.flow.callCount).to.equal(0);
 		});
 
-		it('[FOREACH-3] should handle undefined items', () => {
+		it('[FOREACH-3] should handle undefined items', async () => {
 			server.getFlow.returnWith(true);
 
-			return mocknode(flownodes).node('foreach').invoke('flowforeach', {
-				flow: 'someFlow'
-			}).then((data) => {
-				expect(data).to.deep.equal({
-					next: [ null, [] ]
-				});
+			const { value, output } = await flowNode.flowforeach({ flow: 'someFlow' });
 
-				expect(server.getFlow.callCount).to.equal(1);
-				expect(server.getFlow.calls[0].args).to.deep.equal([ 'someFlow' ]);
-				expect(server.flowManager.flow.callCount).to.equal(0);
-			});
+			expect(output).to.equal('next');
+			expect(value).to.deep.equal([]);
+
+			expect(server.getFlow.callCount).to.equal(1);
+			expect(server.getFlow.calls[0].args[0]).to.equal('someFlow');
+			expect(server.flowManager.flow.callCount).to.equal(0);
 		});
 
-		it('[FOREACH-4] should fire flowNotFound', () => {
+		it('[FOREACH-4] should fire flowNotFound', async () => {
 			server.getFlow.returnWith(false);
 
-			return mocknode(flownodes).node('foreach').invoke('flowforeach', {
-				flow: 'someFlow',
-				items: []
-			}).then((data) => {
-				expect(data).to.deep.equal({
-					flowNotFound: [ null, 'someFlow' ]
-				});
+			const { value, output } = await flowNode.flowforeach({ flow: 'someFlow', items: [] });
 
-				expect(server.getFlow.callCount).to.equal(1);
-				expect(server.getFlow.calls[0].args).to.deep.equal([ 'someFlow' ]);
-				expect(server.flowManager.flow.callCount).to.equal(0);
-			});
+			expect(output).to.equal('flowNotFound');
+			expect(value).to.equal('The flow with name: \'someFlow\' could not be found.');
+			expect(server.getFlow.callCount).to.equal(1);
+			expect(server.getFlow.calls[0].args).to.deep.equal([ 'someFlow' ]);
+			expect(server.flowManager.flow.callCount).to.equal(0);
 		});
 
-		it('[FOREACH-5] should trigger error one exception', () => {
+		it('[FOREACH-5] should trigger error on exception', async () => {
 			const inputs = [
 				{ name: 'tom' },
 				{ name: 'dick' },
@@ -134,18 +127,13 @@ describe('api-builder-plugin-fn-foreach', () => {
 			server.getFlow.returnWith(true);
 			server.flowManager.flow.rejectWith(error);
 
-			return mocknode(flownodes).node('foreach').invoke('flowforeach', {
-				flow: 'someFlow',
-				items: inputs
-			}).then((data) => {
-				expect(data).to.deep.equal({
-					error: [ null, error ]
-				});
+			const { value, output } = await flowNode.flowforeach({ flow: 'someFlow', items: inputs });
 
-				expect(server.getFlow.callCount).to.equal(1);
-				expect(server.getFlow.calls[0].args).to.deep.equal([ 'someFlow' ]);
-				expect(server.flowManager.flow.callCount).to.equal(1);
-			});
+			expect(output).to.equal('error');
+
+			expect(server.getFlow.callCount).to.equal(1);
+			expect(server.getFlow.calls[0].args).to.deep.equal([ 'someFlow' ]);
+			expect(server.flowManager.flow.callCount).to.equal(1);
 		});
 	});
 });

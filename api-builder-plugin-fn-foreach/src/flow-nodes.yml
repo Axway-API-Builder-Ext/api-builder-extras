@@ -1,0 +1,44 @@
+flow-nodes:
+  foreach:
+    name: For Each
+    icon: icon.svg
+    description: Loop over items and execute specified flow.
+    category: extension
+    methods:
+      flowforeach:
+        name: Flow
+        description: Execute a flow for each item.
+        parameters:
+          flow:
+            name: Flow name
+            description: The flow to execute.
+            required: true
+            initialType: string
+            schema:
+              type: string
+          items:
+            name: Items
+            description: The list of inputs to the flow.
+            required: false
+            initialType: array
+            schema:
+              type: array
+        outputs:
+          next:
+            name: Next
+            description: The list of results
+            context: $.results
+            schema:
+              type: array
+          flowNotFound:
+            name: Flow not found
+            description: Returned error contains an error message.
+            context: $.error
+            schema:
+              type: string
+          error:
+            name: Error
+            description: error
+            context: $.error
+            schema:
+              type: object
