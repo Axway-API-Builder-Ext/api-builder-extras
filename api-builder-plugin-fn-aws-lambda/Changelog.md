@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.2] 2021-05-31
+### Security
+- Updated Mocha to solve security issues
 ### Added
 - aws-sdk version changed from 2.619.0 to 2.656.0
 - Using Simple-Mock for Unit-Tests
