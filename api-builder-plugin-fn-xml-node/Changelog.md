@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.12] 2021-06-14
+- Updated Dev-Dependency Mocha from version 7.2.0 to 8.4.0 to solve security issue
+- Integration pipeline now also tests with Node.js version 14.x
+
 ## [1.0.11] 2021-05-20
 ### Added
 - Added ability to remove all namespaces with an asterisk [PR #63](https://github.com/Axway-API-Builder-Ext/api-builder-extras/pull/63)

@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [12.x, 14.x]
     steps:
 #    - name: Debug
 #      uses: hmarr/debug-action@v1.0.0
