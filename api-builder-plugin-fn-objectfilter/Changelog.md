@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.1] 2021-06-14
+### Security
+- Upgrade Mocha Dev-Dependencies from 7.2.0 to 8.4.0
+
+### Changed
+- No longer testing with Node.js version 10.x
+- Added Node.js version 14.x to integration tests
 
 ## [1.0.0] 2020-11-16
 ### Changed

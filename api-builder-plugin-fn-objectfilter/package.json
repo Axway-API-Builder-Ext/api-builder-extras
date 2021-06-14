@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fn-objectfilter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node to filter object fields.",
   "author": "bladedancer",
   "license": "Apache-2.0",
@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "@axway/api-builder-test-utils": "^1.1.4",
-    "chai": "^4.2.0",
-    "mocha": "^7.2.0"
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0"
   },
   "scripts": {
     "test": "mocha ./test --recursive -R spec"
