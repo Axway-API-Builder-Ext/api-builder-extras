@@ -59,11 +59,12 @@ If you found an issue or you have improved an existing plugin yourself, we highl
 
 ### To share your plugin, please follow this process:
 1. Create a [fork][14] of this repository, which basically creates your own copy still linked to the original repository
-2. We recommend to [clone][15] your forked repository to your local disc (e.g. using GitHub Desktop)
+2. We recommend to [clone][15] __your forked repository__ to your local disc (e.g. using GitHub Desktop)
     - instead of working with the GitHub WebUI only
 3. Create a unique folder for your plugin
-    - basically what `axway builder plugin init ...` created for you
-5. Insert your new plugin code into that folder
+    - This is what `axway builder plugin init ...` created for you
+5. Plugin code 
+    - The structure is as created by the `plugin init` command
     - Review existing plugins to understand the structure
     - Please provide unit tests for your plugin wherever possible
 6. Update the package.json
@@ -79,6 +80,7 @@ If you found an issue or you have improved an existing plugin yourself, we highl
     - these workflows are used to automatically tests and release/publish your plugin
     - Replace all occurencies of `NAME_OF_YOUR_PLUGIN` in both workflow files with a valid name not longer than 20 characters
     - Replace all occurencies of `THE_FOLDER_NAME_OF_YOUR_PLUGIN` with the folder name of your plugin
+    - You may skip this step and we will add the workflows for you
 8. Provide a README.md 
     - What your plugin does
     - How to use it (e.g. add images, examples, etc.) to make it easy for developers to understand it
@@ -86,7 +88,7 @@ If you found an issue or you have improved an existing plugin yourself, we highl
 9. Create a package-lock.json
     - Run `npm install` to create a `package-lock.json`
     - This is required to lock down used modules before testing and releasing it
-10. Commit your changes to your forked repository and create a [Pull-Reuqest][13]
+10. Commit/Psuh your changes to your forked repository and create a [Pull-Reuqest][13]
     - We take it from there, review your plugin or changes you propose 
     - if required, we propose or add further changes or just start a conversation when having questions
     - Finally the changes are merged into the master branch of this repository 
