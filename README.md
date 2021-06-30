@@ -61,14 +61,12 @@ If you found an issue or you have improved an existing plugin yourself, we highl
 1. Create a [fork][14] of this repository, which basically creates your own copy still linked to the original repository
 2. We recommend to [clone][15] your forked repository to your local disc (e.g. using GitHub Desktop)
     - instead of working with the GitHub WebUI only
-3. Create a unique folder for your plugin using this naming convention:
-    - Flow-Nodes: `api-builder-plugin-fn-<name>`
-    - Flow-Node connectors: `api-builder-plugin-fc-<name>`
-    - Data-Connectors: `api-builder-plugin-dc-<name>`
-4. Insert your new plugin code into that folder
+3. Create a unique folder for your plugin
+    - basically what `axway builder plugin init ...` created for you
+5. Insert your new plugin code into that folder
     - Review existing plugins to understand the structure
     - Please provide unit tests for your plugin wherever possible
-5. Update the package.json
+6. Update the package.json
     - Especially the fields: 
         - __name__: should start with: `@axway-api-builder-ext/api-builder-plugin....`
         - __version__: Stable has a version 1.x.x, all other something 0.x.x
@@ -77,22 +75,22 @@ If you found an issue or you have improved an existing plugin yourself, we highl
         - __homepage__: Should point to your unique folder within this repository
         - __keywords__: Add more keywords to make it easier to discover your plugin
     - There might be more changes needed depending on what your plugin does
-6. Create new GitHub actions based on the templates `.github/workflows/*_template`
+7. Create new GitHub actions based on the templates `.github/workflows/*_template`
     - these workflows are used to automatically tests and release/publish your plugin
     - Replace all occurencies of `NAME_OF_YOUR_PLUGIN` in both workflow files with a valid name not longer than 20 characters
     - Replace all occurencies of `THE_FOLDER_NAME_OF_YOUR_PLUGIN` with the folder name of your plugin
-7. Provide a README.md 
+8. Provide a README.md 
     - What your plugin does
     - How to use it (e.g. add images, examples, etc.) to make it easy for developers to understand it
     - Mention potential limitions/caveats/known issues
-8. Create a package-lock.json
+9. Create a package-lock.json
     - Run `npm install` to create a `package-lock.json`
     - This is required to lock down used modules before testing and releasing it
-9. Commit your changes to your forked repository and create a [Pull-Reuqest][13]
+10. Commit your changes to your forked repository and create a [Pull-Reuqest][13]
     - We take it from there, review your plugin or changes you propose 
     - if required, we propose or add further changes or just start a conversation when having questions
     - Finally the changes are merged into the master branch of this repository 
-10. Release/Publish the plugin
+11. Release/Publish the plugin
     - we will test/release/publish the plugin as an NPM module using the workflows you provided
     - the API-Builder core team will ultimately decide if the plugin get listed in the next release
 
