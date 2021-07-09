@@ -19,7 +19,7 @@ described [below](#share-a-plugin).
 There are a number of benefits why it makes sense to share your plugin:  
 - Axway takes care about this repository to test, release and publish your package
 - upon Axway decision the plugin gets integrated into the API-Builder Plugin UI for simple installation and discovery
-- Broader community and Axway support will help to improve your plugin
+- Broader community and Axway will help on a best-effort basis to improve your plugin
 - Quality-Gate for changes on existing plugins  
 - Axway helps on a best-effort basis to support the community plugins
 
