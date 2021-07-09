@@ -88,12 +88,12 @@ If you found an issue or you have improved an existing plugin yourself, we highl
 9. Create a package-lock.json
     - Run `npm install` to create a `package-lock.json`
     - This is required to lock down used modules before testing and releasing it
-10. Commit/Psuh your changes to your forked repository and create a [Pull-Reuqest][13]
+10. Commit/Push your changes to your forked repository and finally create a [Pull-Reuqest][13]
     - We take it from there, review your plugin or changes you propose 
     - if required, we propose or add further changes or just start a conversation when having questions
     - Finally the changes are merged into the master branch of this repository 
 11. Release/Publish the plugin
-    - we will test/release/publish the plugin as an NPM module using the workflows you provided
+    - we will test/release/publish the plugin as an NPM module using the GitHub-Actions workflows
     - the API-Builder core team will ultimately decide if the plugin get listed in the next release
 
 
