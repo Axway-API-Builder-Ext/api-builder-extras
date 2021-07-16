@@ -33,9 +33,16 @@ describe('flow-node fn-mongodb', () => {
 
 		pluginConfig = {
 			url: process.env.MONGODB_URL,
-			collection: process.env.MONGODB_COLLECTION
+			collection: process.env.MONGODB_COLLECTION,
+			mongoClientOptions: {
+				auth: {
+					username: 'chris',
+					password: 'changeme'
+				},
+				appName: "MongoDB-Test-Suite"
+			}
 		}
-		mongoClient = new MongoClient(pluginConfig.url);
+		mongoClient = new MongoClient(pluginConfig.url, pluginConfig.mongoClientOptions);
 		mongoClient.connect();
 		mongoCollection = mongoClient.db().collection(pluginConfig.collection);
 

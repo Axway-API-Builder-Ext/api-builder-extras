@@ -14,6 +14,7 @@ MONGODB_COLLECTION=myMongoCollection
 They will be picked up by the configuration file: `mongodb.default.js`.
 
 ## Tests
+
 To run the tests:  
 ```
 set MONGODB_URL=mongodb://api-env:27017/myDatabase
@@ -23,10 +24,12 @@ npm test
 The tests are also automatically executed on every push or pullrequest to this project. 
 
 ## Compatibility
+
 Tested with API-Builder Quezes
 
 ## Limitations/Caveats
-- Authenticaion is not supported - Create an issue if this is required
+
+N/A
 
 ## Contributing
 

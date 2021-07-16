@@ -23,7 +23,7 @@ async function getPlugin(pluginConfig, options) {
 	} else {
 		try {
 			// Create a connection to MongoDB on startup
-			mongoClient = new MongoClient(pluginConfig.url);
+			mongoClient = new MongoClient(pluginConfig.url, pluginConfig.mongoClientOptions);
 			options.logger.debug(`Trying to connect to MongoDB: ${pluginConfig.url}`);
 			await mongoClient.connect();
 			options.logger.debug(`Selecting MongoDB collection: ${pluginConfig.collection}`);
