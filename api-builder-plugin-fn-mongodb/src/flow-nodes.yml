@@ -53,7 +53,7 @@ flow-nodes:
         parameters:
           filter:
             name: Filter
-            description: 'Filter documents. For example: { "a": "3" } or using given data: { "a": "${myProp.mySubProp}" }. If no filter is a given all documents are returned.'
+            description: 'Filter documents. For example: { "a": "3" } or using given data: { "a": "${myProp.mySubProp}" }. Please note that the data type in the filter must match the stored object. The following object stored in MongoDB: { orderId: "321322" } will not be found with the filter: { orderId: 321322 }. You may need to quote attributes in advance. If no filter is a given all documents are returned.'
             required: false
             initialType: object
             schema:
@@ -123,7 +123,7 @@ flow-nodes:
               type: object
           filter:
             name: Filter
-            description: 'By default all documents are updated that matches to the given filter. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }'
+            description: 'By default all documents are updated that matches to the given filter. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }. Please note that the data type in the filter must match the stored object. The following object stored in MongoDB: { orderId: "321322" } will not be found with the filter: { orderId: 321322 }. You may need to quote attributes in advance.'
             required: true
             initialType: object
             schema:
@@ -184,7 +184,7 @@ flow-nodes:
         parameters:
           filter:
             name: Filter
-            description: 'The method deletes all documents where the given filter matches. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }'
+            description: 'The method deletes all documents where the given filter matches. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }. Please note that the data type in the filter must match the stored object. The following object stored in MongoDB: { orderId: "321322" } will not be found with the filter: { orderId: 321322 }. You may need to quote attributes in advance.'
             required: true
             initialType: object
             schema:
@@ -245,7 +245,7 @@ flow-nodes:
         parameters:
           filter:
             name: Filter
-            description: 'Document count is returned based based on this filter. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }. If no given all documents are counted.'
+            description: 'Document count is returned based based on this filter. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }. Please note that the data type in the filter must match the stored object. The following object stored in MongoDB: { orderId: "321322" } will not be found with the filter: { orderId: 321322 }. You may need to quote attributes in advance. If no given all documents are counted.'
             required: false
             initialType: object
             schema:
