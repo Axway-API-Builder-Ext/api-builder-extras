@@ -29,20 +29,16 @@ jobs:
           - 27017:27017
 
     runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        node-version: [10.x, 12.x]
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: List current directory
-      run: |
-        ls -la
     - name: npm install, build, and test
-      working-directory: ${{env.workingDirectory}}
       run: |
         npm ci
         npm run build --if-present
@@ -65,7 +61,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@Axway-API-Builder-Ext'
       - name: Publish to GitHub package repo
-        working-directory: ${{env.workingDirectory}}
         env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
@@ -84,7 +79,6 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - name: Publish to NPM package repo
-        working-directory: ${{env.workingDirectory}}
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
         run: |

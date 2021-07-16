@@ -2,7 +2,7 @@
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-mongodb",
 	"version": "1.0.0",
 	"description": "Use this flow node to communicate directly with a MongoDB. You can use it to store, filter, load, etc. documents (primarily JSON) without the use of models. This approach is very well suited for an API-first approach.",
-	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com) ",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
 	"keywords": [
 		"amplify",
