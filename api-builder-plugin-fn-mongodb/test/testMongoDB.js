@@ -35,10 +35,11 @@ describe('flow-node fn-mongodb', () => {
 			url: process.env.MONGODB_URL,
 			collection: process.env.MONGODB_COLLECTION,
 			mongoClientOptions: {
+				/* Authentication is not required when running tests
 				auth: {
 					username: 'chris',
 					password: 'changeme'
-				},
+				},*/
 				appName: "MongoDB-Test-Suite"
 			}
 		}
