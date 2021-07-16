@@ -28,7 +28,7 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.0.0",
-		"mongodb": "^4.0.0", 
+		"mongodb": "^4.0.0",
 		"@axway/api-builder-project-utils": "^1.0.3"
 	},
 	"peerDependencies": {
