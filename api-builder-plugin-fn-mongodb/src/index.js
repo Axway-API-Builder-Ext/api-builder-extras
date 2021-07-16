@@ -30,9 +30,9 @@ async function getPlugin(pluginConfig, options) {
 			mongoCollection = mongoClient.db().collection(pluginConfig.collection);
 			options.logger.info(`Successfully connected to MongoDB: ${pluginConfig.url} using collection: ${pluginConfig.collection}`);
 		} catch (ex) {
-			options.logger.error(
-				`Failed to connect to MongoDB: ${pluginConfig.url}. Make sure MongoDB is running and conf/mongodb.default.js is configured. Perhaps set the environment variables: MONGODB_URL and MONGODB_COLLECTION in your .env file.`
-			);
+			options.logger.error(`Failed to connect to MongoDB: ${pluginConfig.url}. 
+				Make sure MongoDB is running and conf/mongodb.default.js is configured. Perhaps set the environment variables: MONGODB_URL, MONGODB_COLLECTION and configure authentication options.
+				Got error: ${ex} `);
 			if (!isDeveloperMode()) {
 				// In development mode we allow to defer the obtaining of successfull MongoDB connection.
 				// The promise is rejected only in production.
