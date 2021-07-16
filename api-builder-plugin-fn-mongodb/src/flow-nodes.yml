@@ -1,0 +1,261 @@
+flow-nodes:
+  fn-mongodb:
+    name: MongoDB 
+    icon: mongodb-icon.png
+    description: With the MongoDB Flow-Node plugin you can access a MongoDB without using a model in the API builder. You can use it to set data and read it accordingly.
+    category: general
+    methods:
+      insert: 
+        name: Insert
+        description: 'Inserts one document or many documents into your MongoDB. Example: { a: 1 } or [{ a: 1 }, { a: 2 }, { a: 3 }]'
+        parameters:
+          documents:
+            name: Documents
+            description: 'A single document to insert: { a: 1 } or an Array of documents [{ a: 1 }, { a: 2 }, { a: 3 }]'
+            required: true
+            schema:
+              oneOf:
+                - type: array
+                  items:
+                    type: object
+                - type: object
+          collectionName:
+            name: Collection
+            description: 'You may override the collection for this operation by providing a different collection name.'
+            group: Advanced
+            required: false
+            schema:
+              type: string
+        returns:
+          name: Next
+          description: Returns the inserted document
+          context: $.insertResult
+          schema:
+            oneOf:
+              - type: array
+                items:
+                  type: object
+              - type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+      find: 
+        name: Find
+        description: 'Find a single or a number of documents'
+        parameters:
+          filter:
+            name: Filter
+            description: 'Filter documents. For example: { a: ${myProp.mySubProp} }. If not filter is a given all documents are returned.'
+            required: false
+            schema:
+              type: object
+          data:
+            name: Data
+            description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.
+            required: false
+            schema:
+              type: object
+          collectionName:
+            name: Collection
+            description: 'You may override the collection for this operation by providing a different collection name.'
+            group: Advanced
+            required: false
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Returns the filtered documents
+            context: $.findResult
+            schema:
+              type: array
+              items:
+                type: object
+          noMatch:
+            name: No Match
+            description: Empty result set returned
+            context: $.findResult
+            schema:
+              type: array
+              items:
+                type: object
+          error:
+            name: Error
+            description: An unexpected error was encountered.
+            context: $.error
+            schema:
+              type: string
+
+      update: 
+        name: Update
+        description: 'Updates one or multiple documents'
+        parameters:
+          update:
+            name: Update
+            description: 'The update instruction. For example: { $set: { b: 1 } } or  a more complex example: {"$push": { "orderStatus": "${body}"}}'
+            required: true
+            schema:
+              type: object
+          filter:
+            name: Filter
+            description: 'By default all documents are updated that matches to the given filter. For example: { a: 3 }'
+            required: true
+            schema:
+              type: object
+          updateOnlyOne:
+            name: Update only one
+            description: If set to true, only one document will be updated. If multiple documents matches the flow-node will fail. 
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          data:
+            name: Data
+            description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.
+            required: false
+            schema:
+              type: object
+          collectionName:
+            name: Collection
+            description: 'You may override the collection for this operation by providing a different collection name.'
+            group: Advanced
+            required: false
+            schema:
+              type: string
+          failOnNoMatch:
+            name: Fail on no match
+            description: If set to true, the flow node fails, if the update had no match. 
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            description: Returns the filtered documents
+            context: $.updateResult
+            schema:
+              type: object
+          noMatch:
+            name: No Match
+            description: Used if no document has been updated
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error was encountered.
+            context: $.error
+            schema:
+              type: string
+
+      mongoDelete: 
+        name: Delete
+        description: 'Removes one or mutliples documents based on the given filter'
+        parameters:
+          filter:
+            name: Filter
+            description: 'The method deletes all documents where the given filter matches. For example: { a: 3 }'
+            required: true
+            schema:
+              type: object
+          data:
+            name: Data
+            description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.
+            required: false
+            schema:
+              type: object
+          collectionName:
+            name: Collection
+            description: 'You may override the collection for this operation by providing a different collection name.'
+            group: Advanced
+            required: false
+            schema:
+              type: string
+          deleteOnlyOne:
+            name: Delete only one
+            description: If set to true, only one document will be deleted. If multiple documents matches the flow-node will fail. 
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          failOnNoMatch:
+            name: Fail on no match
+            description: If set to true, the flow node fails, if the delete operation had no match. 
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            description: Returns the delete result information
+            context: $.deleteResult
+            schema:
+              type: object
+          noMatch:
+            name: No Match
+            description: Used if no document has been deleted
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error was encountered.
+            context: $.error
+            schema:
+              type: string
+                
+      countDocuments: 
+        name: Count Documents
+        description: 'Gets the number of documents matching the filter.'
+        parameters:
+          filter:
+            name: Filter
+            description: 'Document count is returned based based on this filter. For example: { a: 3 }. If not given all documents are counted.'
+            required: false
+            schema:
+              type: object
+          data:
+            name: Data
+            description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.
+            required: false
+            schema:
+              type: object
+          collectionName:
+            name: Collection
+            description: 'You may override the collection for this operation by providing a different collection name.'
+            group: Advanced
+            required: false
+            schema:
+              type: string
+        outputs:
+          next:
+            name: Next
+            description: Returns the number of documents
+            context: $.deleteResult
+            schema:
+              type: object
+          noMatch:
+            name: No Match
+            description: Used if no document has been deleted
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error was encountered.
+            context: $.error
+            schema:
+              type: string

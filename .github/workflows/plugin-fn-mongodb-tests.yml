@@ -1,0 +1,43 @@
+# The name of the workflow node to appear in the actions and badge!
+name: MongoDB Flow-Node Tests
+
+on:
+  push:
+    paths:
+      # This must be aligned with the folder-name of you plugin
+      - 'api-builder-plugin-fn-mongodb/**'
+  pull_request:
+    paths:
+      # This must be aligned with the folder-name of you plugin
+      - 'api-builder-plugin-fn-mongodb/**'
+
+jobs:
+  build:
+    services:
+      mongo:
+        image: mongo:latest
+        ports: 
+          - 27017:27017
+
+    env:
+      # This must be aligned with the folder-name of you plugin
+      workingDirectory: 'api-builder-plugin-fn-mongodb'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      working-directory: ${{env.workingDirectory}}
+      run: |
+        npm ci
+        npm run build --if-present
+        npm test
+      env:
+        MONGODB_URL: 'mongodb://localhost:27017/order'
+        MONGODB_COLLECTION: 'testcollection'

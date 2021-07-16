@@ -1,0 +1,48 @@
+{
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-mongodb",
+	"version": "1.0.0",
+	"description": "Use this flow node to communicate directly with a MongoDB. You can use it to store, filter, load, etc. documents (primarily JSON) without the use of models. This approach is very well suited for an API-first approach.",
+	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
+	"license": "Apache-2.0",
+	"keywords": [
+		"amplify",
+		"api-builder",
+		"mongodb"
+	],
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-mongodb",
+	"bugs": {
+		"url": "https://github.com/Axway-API-Builder-Ext/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
+	},
+	"engines": {
+		"node": ">= 12.15"
+	},
+	"main": "src/index.js",
+	"files": [
+		"src",
+		"config",
+		"README.md"
+	],
+	"dependencies": {
+		"@axway/api-builder-sdk": "^1.0.0",
+		"mongodb": "^4.0.0", 
+		"@axway/api-builder-project-utils": "^1.0.3"
+	},
+	"peerDependencies": {
+		"@axway/api-builder-runtime": "^4.5.0"
+	},
+	"devDependencies": {
+		"@axway/api-builder-test-utils": "^1.1.0",
+		"chai": "^4.1.2",
+		"mocha": "^7.1.1",
+		"dotenv": "^10.0.0",
+		"simple-mock": "^0.8.0"
+	},
+	"scripts": {
+		"test": "mocha ./test --recursive -R spec",
+		"postinstall": "api-builder-copy ./config/mongodb.default.js ./conf"
+	}
+}
