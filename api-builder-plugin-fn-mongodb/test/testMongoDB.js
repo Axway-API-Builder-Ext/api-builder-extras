@@ -32,7 +32,6 @@ describe('flow-node fn-mongodb', () => {
 
 		pluginConfig = {
 			url: process.env.MONGODB_URL,
-			dbName: process.env.MONGODB_NAME,
 			collection: process.env.MONGODB_COLLECTION
 		}
 		mongoClient = new MongoClient(pluginConfig.url);

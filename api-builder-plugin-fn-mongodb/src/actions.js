@@ -35,8 +35,10 @@ const { MongoClient } = require('mongodb')
 	let insertedDocuments;
 
 	if(Array.isArray(documents)) {
+		logger.debug(`Insert documents into MongoDB: ${JSON.stringify(documents)}`);
 		insertedDocuments = await mongoCollection.insertMany(documents);
 	} else {
+		logger.debug(`Insert single document into MongoDB: ${JSON.stringify(documents)}`);
 		insertedDocuments = await mongoCollection.insertOne(documents);
 	}
 
@@ -57,12 +59,13 @@ async function find(params, options) {
 	if (data) {
 		filter = await interpolate(filter, data, options);
 	}
-	logger.info(`Find documents using filter: ${JSON.stringify(filter)}`);
+	logger.debug(`Find documents using filter: ${JSON.stringify(filter)}`);
 	const findResult = await mongoCollection.find(filter, {limit: limit, skip: skip} ).toArray();
 	if (findResult.length==0) {
 		options.logger.info(`Found no document with filter: ${JSON.stringify(filter)}`);
 		return options.setOutput('noMatch', []);
 	} else {
+		logger.debug(`Find resultset for query: ${JSON.stringify(findResult)}`);
 		return findResult;
 	}
 }
@@ -85,7 +88,6 @@ async function update(params, options) {
 	if (data) {
 		filter = await interpolate(filter, data, options);
 	}
-
 	update = await interpolate(update, data, options);
 	let updateResult;
 	if(updateOnlyOne) {
@@ -93,15 +95,16 @@ async function update(params, options) {
 		if(documentsToUpdate.length>1) {
 			throw new Error(`Update of only one document failed, as the filter: ${JSON.stringify(filter)} matches ${documentsToUpdate.length} documents.`);
 		}
+		logger.debug(`Update a single document using filter: ${JSON.stringify(filter)} with update: ${update}`);
 		updateResult = await mongoCollection.findOneAndUpdate(filter, update);
 	} else {
-		logger.info(`Update documents: ${JSON.stringify(update)} using filter: ${JSON.stringify(filter)}`);
+		logger.debug(`Update documents: ${JSON.stringify(update)} using filter: ${JSON.stringify(filter)}`);
 		updateResult = await mongoCollection.updateMany(filter, update);
 	}
 	if(failOnNoMatch && updateResult.modifiedCount==0) {
 		throw new Error(`Update failed, as the filter: ${JSON.stringify(filter)} matches NO documents.`);
 	}
-	
+	logger.debug(`Update result: ${JSON.stringify(updateResult)}`);
 	return updateResult;
 }
 
@@ -128,13 +131,16 @@ async function mongoDelete(params, options) {
 		if(documentsToDelete.length>1) {
 			throw new Error(`Deletion of only one document failed, as the filter: ${JSON.stringify(filter)} matches ${documentsToDelete.length} documents.`);
 		}
+		logger.debug(`Delete single document using filter: ${JSON.stringify(filter)}`);
 		deleteResult = await mongoCollection.deleteOne(filter);
 	} else {
+		logger.debug(`Delete many documents using filter: ${JSON.stringify(filter)}`);
 		deleteResult = await mongoCollection.deleteMany(filter);
 	}
 	if(failOnNoMatch && deleteResult.deletedCount==0) {
 		throw new Error(`Delete failed, as the filter: ${JSON.stringify(filter)} matches NO documents.`);
 	}
+	logger.debug(`Delete result: ${JSON.stringify(deleteResult)}`);
 	return deleteResult;
 }
 
@@ -155,7 +161,9 @@ async function countDocuments(params, options) {
 	if (data) {
 		filter = await interpolate(filter, data, options);
 	}
+	logger.debug(`Counting documents using filter: ${JSON.stringify(filter)}`);
 	const documentCount = await mongoCollection.countDocuments(filter);
+	logger.debug(`Document count: ${documentCount}`);
 	return documentCount;
 }
 
@@ -167,7 +175,7 @@ async function interpolate(string, data, options) {
 	} else {
 		return;
 	}
-	options.logger.info(`Got string: ${string}`);
+	options.logger.debug(`Got string: ${string}`);
 	var result = string.replace(/"\${([^}]+)}"/g, (_, target) => {
 		let keys = target.split(".");
 		return keys.reduce((prev, curr) => {
@@ -190,7 +198,7 @@ async function interpolate(string, data, options) {
 			}
 		}, data);
 	});
-	options.logger.info(`Interpolated result: ${result}`);
+	options.logger.debug(`Interpolated result: ${result}`);
 	return JSON.parse(result);
 };
 

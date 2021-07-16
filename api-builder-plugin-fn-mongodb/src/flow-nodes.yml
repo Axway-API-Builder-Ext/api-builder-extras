@@ -116,7 +116,7 @@ flow-nodes:
         parameters:
           update:
             name: Update
-            description: 'The update instruction. For example: { "$set": { "b": "1" } } or  a more complex example: {"$push": { "orderStatus": "${body}"}}'
+            description: 'The update instruction. For example: { "$set": { "b": "1" } } or  a more complex example using given data: {"$push": { "orderStatus": "${body}"}}'
             required: true
             initialType: object
             schema:
@@ -138,7 +138,7 @@ flow-nodes:
               type: boolean
           data:
             name: Data
-            description: 'This data can be used in the filter statement. For example, if you specify as Data: $.params, which among other things contains the query parameters, then you can access them in the filter with the following statement: ${myQueryParam}. Alternatively you could use: $ and then in the filter: ${params.myQueryParam}'
+            description: 'This data can be used in the filter and update statement. For example, if you specify as Data: $.params, which among other things contains the query parameters, then you can access them in the filter with the following statement: ${myQueryParam}. Alternatively you could use: $ and then in the filter: ${params.myQueryParam}'
             required: false
             schema:
               type: object
