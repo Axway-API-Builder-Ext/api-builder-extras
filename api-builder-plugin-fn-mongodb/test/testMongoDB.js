@@ -24,6 +24,7 @@ describe('flow-node fn-mongodb', () => {
 		options = {
 			logger: {
 				info: simple.mock(),
+				debug: simple.mock(),
 				trace: simple.mock(),
 				error: simple.mock()
 			}, 
