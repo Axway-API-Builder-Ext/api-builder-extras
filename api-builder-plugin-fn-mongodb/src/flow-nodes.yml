@@ -7,11 +7,11 @@ flow-nodes:
     methods:
       insert: 
         name: Insert
-        description: 'Inserts one document or many documents into your MongoDB. Example: { a: 1 } or [{ a: 1 }, { a: 2 }, { a: 3 }]'
+        description: 'Inserts one or many documents into your MongoDB. So you can use it to write a JSON structure directly from the flow context to the Mongo DB. For example via a selector like $.params.body'
         parameters:
           documents:
             name: Documents
-            description: 'A single document to insert: { a: 1 } or an Array of documents [{ a: 1 }, { a: 2 }, { a: 3 }]'
+            description: 'A single document to insert: { "a": "1" } or an Array of documents [{ "a": "1" }, { "a": "2" }, { "a": "3" }]. Typically, you do not specify the documents manually, rather you use an appropriate selector such as $.params.body'
             required: true
             schema:
               oneOf:
@@ -24,6 +24,7 @@ flow-nodes:
             description: 'You may override the collection for this operation by providing a different collection name.'
             group: Advanced
             required: false
+            initialType: string
             schema:
               type: string
         returns:
@@ -52,8 +53,9 @@ flow-nodes:
         parameters:
           filter:
             name: Filter
-            description: 'Filter documents. For example: { a: ${myProp.mySubProp} }. If not filter is a given all documents are returned.'
+            description: 'Filter documents. For example: { "a": "3" } or using given data: { "a": "${myProp.mySubProp}" }. If no filter is a given all documents are returned.'
             required: false
+            initialType: object
             schema:
               type: object
           limit:
@@ -72,7 +74,7 @@ flow-nodes:
               type: number
           data:
             name: Data
-            description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.
+            description: 'This data can be used in the filter statement. For example, if you specify as Data: $.params, which among other things contains the query parameters, then you can access them in the filter with the following statement: ${myQueryParam}. Alternatively you could use: $ and then in the filter: ${params.myQueryParam}'
             required: false
             schema:
               type: object
@@ -81,6 +83,7 @@ flow-nodes:
             description: 'You may override the collection for this operation by providing a different collection name.'
             group: Advanced
             required: false
+            initialType: string
             schema:
               type: string
         outputs:
@@ -113,14 +116,16 @@ flow-nodes:
         parameters:
           update:
             name: Update
-            description: 'The update instruction. For example: { $set: { b: 1 } } or  a more complex example: {"$push": { "orderStatus": "${body}"}}'
+            description: 'The update instruction. For example: { "$set": { "b": "1" } } or  a more complex example: {"$push": { "orderStatus": "${body}"}}'
             required: true
+            initialType: object
             schema:
               type: object
           filter:
             name: Filter
-            description: 'By default all documents are updated that matches to the given filter. For example: { a: 3 }'
+            description: 'By default all documents are updated that matches to the given filter. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }'
             required: true
+            initialType: object
             schema:
               type: object
           updateOnlyOne:
@@ -133,7 +138,7 @@ flow-nodes:
               type: boolean
           data:
             name: Data
-            description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.
+            description: 'This data can be used in the filter statement. For example, if you specify as Data: $.params, which among other things contains the query parameters, then you can access them in the filter with the following statement: ${myQueryParam}. Alternatively you could use: $ and then in the filter: ${params.myQueryParam}'
             required: false
             schema:
               type: object
@@ -142,6 +147,7 @@ flow-nodes:
             description: 'You may override the collection for this operation by providing a different collection name.'
             group: Advanced
             required: false
+            initialType: string
             schema:
               type: string
           failOnNoMatch:
@@ -178,13 +184,14 @@ flow-nodes:
         parameters:
           filter:
             name: Filter
-            description: 'The method deletes all documents where the given filter matches. For example: { a: 3 }'
+            description: 'The method deletes all documents where the given filter matches. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }'
             required: true
+            initialType: object
             schema:
               type: object
           data:
             name: Data
-            description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.
+            description: 'This data can be used in the filter statement. For example, if you specify as Data: $.params, which among other things contains the query parameters, then you can access them in the filter with the following statement: ${myQueryParam}. Alternatively you could use: $ and then in the filter: ${params.myQueryParam}'
             required: false
             schema:
               type: object
@@ -193,6 +200,7 @@ flow-nodes:
             description: 'You may override the collection for this operation by providing a different collection name.'
             group: Advanced
             required: false
+            initialType: string
             schema:
               type: string
           deleteOnlyOne:
@@ -237,13 +245,14 @@ flow-nodes:
         parameters:
           filter:
             name: Filter
-            description: 'Document count is returned based based on this filter. For example: { a: 3 }. If not given all documents are counted.'
+            description: 'Document count is returned based based on this filter. For example: { "a": "3" } or using given data filtering on a specific ID: { "_id": "${givenId}" }. If no given all documents are counted.'
             required: false
+            initialType: object
             schema:
               type: object
           data:
             name: Data
-            description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.
+            description: 'This data can be used in the filter statement. For example, if you specify as Data: $.params, which among other things contains the query parameters, then you can access them in the filter with the following statement: ${myQueryParam}. Alternatively you could use: $ and then in the filter: ${params.myQueryParam}'
             required: false
             schema:
               type: object
@@ -252,6 +261,7 @@ flow-nodes:
             description: 'You may override the collection for this operation by providing a different collection name.'
             group: Advanced
             required: false
+            initialType: string
             schema:
               type: string
         outputs:
