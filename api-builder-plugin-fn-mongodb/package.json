@@ -7,7 +7,8 @@
 	"keywords": [
 		"amplify",
 		"api-builder",
-		"mongodb"
+		"mongodb",
+		"api-first"
 	],
 	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-mongodb",
 	"bugs": {
