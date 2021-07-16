@@ -56,6 +56,20 @@ flow-nodes:
             required: false
             schema:
               type: object
+          limit:
+            name: Limit
+            description: 'Sets the limit of documents returned in the query'
+            required: false
+            initialType: number
+            schema:
+              type: number
+          skip:
+            name: Skip
+            description: 'Set to skip N documents ahead in your query (useful for pagination).'
+            required: false
+            initialType: number
+            schema:
+              type: number
           data:
             name: Data
             description: Input-Data used to create the filter. You can access the passed data in the filter using the ${myProp.mySubProp} notation.

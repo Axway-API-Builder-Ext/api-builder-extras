@@ -44,7 +44,7 @@ const { MongoClient } = require('mongodb')
 }
 
 async function find(params, options) {
-	var { filter, data, collectionName } = params;
+	var { filter, data, collectionName, limit, skip } = params;
 	const { logger } = options;
 	var mongoCollection = options.pluginContext.mongoCollection;
 
@@ -58,7 +58,7 @@ async function find(params, options) {
 		filter = await interpolate(filter, data, options);
 	}
 	logger.info(`Find documents using filter: ${JSON.stringify(filter)}`);
-	const findResult = await mongoCollection.find(filter).toArray();
+	const findResult = await mongoCollection.find(filter, {limit: limit, skip: skip} ).toArray();
 	if (findResult.length==0) {
 		options.logger.info(`Found no document with filter: ${JSON.stringify(filter)}`);
 		return options.setOutput('noMatch', []);

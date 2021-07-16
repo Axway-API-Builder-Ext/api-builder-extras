@@ -132,7 +132,14 @@ describe('flow-node fn-mongodb', () => {
 			await mongoClient.db().collection(testCollectionName).insertMany([
 				{ "_id" : `1-${randomId}`, test: "123"},
 				{ "_id" : `2-${randomId}`, test: "456"},
-				{ "_id" : `3-${randomId}`, test: 789 }
+				{ "_id" : `3-${randomId}`, test: 789 },
+				{ "_id" : `4-${randomId}`, test: 31233 },
+				{ "_id" : `5-${randomId}`, test: 312312 },
+				{ "_id" : `6-${randomId}`, test: "3121232" },
+				{ "_id" : `7-${randomId}`, test: 099909 },
+				{ "_id" : `8-${randomId}`, test: 6546577 },
+				{ "_id" : `9-${randomId}`, test: 75898 },
+				{ "_id" : `10-${randomId}`, test: 5342123 },
 			]);
 		});
 
@@ -140,11 +147,11 @@ describe('flow-node fn-mongodb', () => {
 			const { value, output } = await flowNode.find({collectionName: testCollectionName});
 
 			expect(value).to.be.an('array').that.does.not.include(3);
-			expect(value).to.have.lengthOf(3);
+			expect(value).to.have.lengthOf(10);
 			expect(output).to.equal('next');
 		});
 
-		it('should succeed with a given filter hardcoded filter', async () => {
+		it('should succeed with a filter hardcoded filter', async () => {
 			const { value, output } = await flowNode.find({collectionName: testCollectionName, filter: { test: "456" } });
 
 			expect(value).to.be.an('array').that.does.not.include(3);
@@ -153,7 +160,7 @@ describe('flow-node fn-mongodb', () => {
 			expect(output).to.equal('next');
 		});
 
-		it('should succeed with a given flexible filter', async () => {
+		it('should succeed with a flexible filter', async () => {
 			const { value, output } = await flowNode.find({collectionName: testCollectionName, filter: { "test": "${documentId}" }, data: { documentId: "\"456\""} });
 
 			expect(value).to.be.an('array').that.does.not.include(3);
@@ -162,7 +169,7 @@ describe('flow-node fn-mongodb', () => {
 			expect(output).to.equal('next');
 		});
 
-		it('should succeed with a given nested flexible filter quoted value', async () => {
+		it('should succeed with a nested flexible filter quoted value', async () => {
 			const { value, output } = await flowNode.find({collectionName: testCollectionName, filter: { test: "${params.documentId}" }, data: { params: { documentId: "\"456\"" } } });
 
 			expect(value).to.be.an('array').that.does.not.include(3);
@@ -171,12 +178,27 @@ describe('flow-node fn-mongodb', () => {
 			expect(output).to.equal('next');
 		});
 
-		it('should succeed with a given nested flexible filter', async () => {
+		it('should succeed with a nested flexible filter', async () => {
 			const { value, output } = await flowNode.find({collectionName: testCollectionName, filter: { test: "${params.documentId}" }, data: { params: { documentId: "789" } } });
 
 			expect(value).to.be.an('array').that.does.not.include(3);
 			expect(value).to.have.lengthOf(1);
 			expect(value[0]).and.to.have.property('test', 789);
+			expect(output).to.equal('next');
+		});
+
+		it('should succeed without a filter limited to 2 results', async () => {
+			const { value, output } = await flowNode.find({collectionName: testCollectionName, limit: 2 });
+
+			expect(value).to.have.lengthOf(2);
+			expect(output).to.equal('next');
+		});
+
+		it('should succeed without a filter, skipped the first 3 entries limited to 4 results', async () => {
+			const { value, output } = await flowNode.find({collectionName: testCollectionName, skip: 3, limit: 4 });
+
+			expect(value[0]).and.to.have.property('test', 31233);
+			expect(value).to.have.lengthOf(4);
 			expect(output).to.equal('next');
 		});
 	});
