@@ -16,6 +16,10 @@ on:
     tags:
       - '*plugin-fn-mongodb*'
 
+defaults:
+  run:
+    working-directory: api-builder-plugin-fn-mongodb
+
 jobs:
   build:
     services:
@@ -24,9 +28,6 @@ jobs:
         ports: 
           - 27017:27017
 
-    env:
-      # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fn-mongodb'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -46,3 +47,44 @@ jobs:
       env:
         MONGODB_URL: 'mongodb://localhost:27017/order'
         MONGODB_COLLECTION: 'testcollection'
+
+  publish-gpr:
+    if: github.event.release.tag_name
+    env:
+      CI: true
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@Axway-API-Builder-Ext'
+      - name: Publish to GitHub package repo
+        working-directory: ${{env.workingDirectory}}
+        env:
+            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          npm ci
+          npm publish
+
+  publish-npm:
+    env:
+      CI: true
+    needs: [build, publish-gpr]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Publish to NPM package repo
+        working-directory: ${{env.workingDirectory}}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        run: |
+          npm ci
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.npm_token }}" > ~/.npmrc
+          npm publish --access public
