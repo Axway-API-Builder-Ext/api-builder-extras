@@ -1,0 +1,46 @@
+flow-nodes:
+  power:
+    name: Power
+    icon: power-icon.png
+    description: This flow node allows you to stop the API Builder process if, for example, an error condition occurs that can no longer be corrected without restarting.
+    category: general
+    methods:
+      shutdown:
+        name: Shutdown
+        description: Stop the API-Builder process
+        parameters:
+          errorCode:
+            name: Error code
+            description: An integer number used for the process to exit. Defaults to -1.
+            required: false
+            initialType: number
+            schema:
+              type: number       
+          errorMessage:
+            name: Error message
+            description: An optional message which is logged when the process is terminated. Helpful to make clear the reason for the shutdown.
+            required: false
+            schema:
+              type: string
+          skipInDevelopment:
+            name: Skip in development
+            description: If set to true, the API-Builder process will not be stopped, when in development mode. Instead only the errorCode and errorMessage is logged.
+            required: false
+            initialType: boolean
+            schema:
+              type: boolean
+        returns:
+          name: Next
+          description: Is normally not used to, because the process is terminated directly. When skipInDevelopment is set to true the errorMessage including the errorCode is returned.
+          context: $.errorMessage
+          schema:
+            type: string
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
