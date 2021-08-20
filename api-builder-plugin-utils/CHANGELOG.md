@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.0] 2020-12-04
 ### Added
-- Trace message supports variables
+- Trace message supports variables 
 
 ## [1.0.0] 2020-12-04
 ### Added
