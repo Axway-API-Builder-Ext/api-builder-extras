@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] 2021-06-14
 ### Security
-- Upgrade Mocha Dev-Dependencies from 7.2.0 to 8.4.0
+- Upgrade Mocha Dev-Dependencies from 7.2.0 to 8.4.0 
 
 ### Changed
 - No longer testing with Node.js version 10.x
