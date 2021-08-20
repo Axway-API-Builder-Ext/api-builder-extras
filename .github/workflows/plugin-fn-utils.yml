@@ -3,10 +3,10 @@ name: Utils Flow-Node
 on:
   push:
     paths:
-      - 'api-builder-plugin-fn-utils/**'
+      - 'api-builder-plugin-utils/**'
   pull_request:
     paths:
-      - 'api-builder-plugin-fn-utils/**'
+      - 'api-builder-plugin-utils/**'
   release:
     types:
       - published
@@ -15,7 +15,7 @@ on:
 
 defaults:
   run:
-    working-directory: api-builder-plugin-fn-utils
+    working-directory: api-builder-plugin-utils
 
 jobs:
   build:
