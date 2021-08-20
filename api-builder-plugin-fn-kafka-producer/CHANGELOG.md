@@ -6,4 +6,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.0.1] 2020-05-23 
 ### Added
-- Initial version
+- Initial version 
