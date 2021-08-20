@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.20] 2021-08-20
 ### Fixed
-- When updating Rollup-Job existing job was not deleted, even if configured
+- When updating Rollup-Job existing job was not deleted, even if configured 
 
 ### Changed
 - Elasticsearch client updated to version 7.14.0
