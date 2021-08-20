@@ -1,17 +1,16 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"description": "Integrate Elasticsearch into your API-Builder flow to combine search data for instance with other data available in your flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
 	"keywords": [
 		"amplify",
 		"api-builder",
-		"google",
-		"maps",
-		"googlemaps"
+		"elasticsearch",
+		"elastic"
 	],
-	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-google-maps",
+	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-elasticsearch",
 	"bugs": {
 		"url": "https://github.com/Axway-API-Builder-Ext/issues"
 	},
