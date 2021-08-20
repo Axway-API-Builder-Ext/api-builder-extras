@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Elasticsearch client updated to version 7.14.0
+- Drop Node.js v8.x support
 
 ## [1.0.19] 2021-02-03
 ### Fixed
