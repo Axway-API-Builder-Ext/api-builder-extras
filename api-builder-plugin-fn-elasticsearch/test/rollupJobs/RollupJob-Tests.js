@@ -185,6 +185,37 @@ describe('Rollup Job tests', () => {
 			expect(mockedPutRollupJob.lastCall.arg).to.deep.equals(inputParameter);
 		});
 
+		it('should update/recreate the job if configuration is changed and the previous job should be deleted', async () => {
+			const mockedDeleteRollupJob = setupElasticsearchMock(client, 'rollup.deleteJob', './test/mock/rollupJobs/putRollupJobResponse.json', false);
+			const mockedPutRollupJob = setupElasticsearchMock(client, 'rollup.putJob', './test/mock/rollupJobs/putRollupJobResponse.json', false);
+			const mockedGetRollupJob = setupElasticsearchMock(client, 'rollup.getJobs', './test/mock/rollupJobs/getRollupJobsResponse.json', false);
+			const mockedStopRollupJob = setupElasticsearchMock(client, 'rollup.stopJob', './test/mock/rollupJobs/putRollupJobResponse.json', false);
+			const mockedStartRollupJob = setupElasticsearchMock(client, 'rollup.startJob', './test/mock/rollupJobs/putRollupJobResponse.json', false);
+
+			var rollupJobConfig = JSON.parse(fs.readFileSync('./test/mock/rollupJobs/putRollupJobRequestBody.json'))
+			rollupJobConfig.page_size = 500;
+			const inputParameter = { 
+				id: 'traffic-summary-rollup-job', 
+				idSuffix: 'v1', 
+				replaceWhenChanged: true,
+				deletePreviousJob: true,
+				body: rollupJobConfig };
+			const { value, output } = await flowNode.putRollupJob(inputParameter);
+
+			expect(output).to.equal('next');
+			expect(mockedGetRollupJob.callCount).to.equals(1);
+			expect(mockedPutRollupJob.callCount).to.equals(1);
+			expect(mockedDeleteRollupJob.callCount).to.equals(1);
+			expect(mockedStopRollupJob.callCount).to.equals(1);
+			expect(mockedStartRollupJob.callCount).to.equals(1);
+			// Additionally in this test make sure, the internal API-Params are removed and NOT send to ES
+			inputParameter.id = `${inputParameter.id}-${inputParameter.idSuffix}`;
+			delete inputParameter.replaceWhenChanged;
+			delete inputParameter.deletePreviousJob;
+			delete inputParameter.idSuffix;
+			expect(mockedPutRollupJob.lastCall.arg).to.deep.equals(inputParameter);
+		});
+
 		it('should update/recreate the job if not yet exists', async () => {
 			const mockedDeleteRollupJob = setupElasticsearchMock(client, 'rollup.deleteJob', './test/mock/rollupJobs/putRollupJobResponse.json', false);
 			const mockedPutRollupJob = setupElasticsearchMock(client, 'rollup.putJob', './test/mock/rollupJobs/putRollupJobResponse.json', false);

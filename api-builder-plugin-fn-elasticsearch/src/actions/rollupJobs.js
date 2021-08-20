@@ -82,6 +82,12 @@ async function putRollupJob(params, options) {
 		delete params.replaceWhenChanged;
 	}
 
+	var deletePreviousJob = false;
+	if(params.deletePreviousJob != undefined) {
+		deletePreviousJob = params.deletePreviousJob;
+		delete params.deletePreviousJob;
+	}
+
 	var jobIdSuffix = `-${params.idSuffix}`
 	if(params.idSuffix == undefined) {
 		jobIdSuffix = "";
@@ -92,7 +98,7 @@ async function putRollupJob(params, options) {
 	try {
 		var actualJob;
 		var actualJobId
-		// Get all active (RUNNING ONLY) jobs
+		// Get all active (RUNNING ONLY) jobs with the given Job-ID
 		const allJobs = await client.rollup.getJobs({ id: "_all" }, { ignore: [404], maxRetries: 3 });
 		var runningJobs = [];
 		for (i = 0; i < allJobs.body.jobs.length; i++) { 
@@ -128,7 +134,7 @@ async function putRollupJob(params, options) {
 			if(actualJobId == params.id && jobIdSuffix == "") {
 				throw new Error(`Cannot replace existing Rollup job using the same Job-ID: '${actualJobId}'. Please provide an ID-Suffix.`);
 			}
-			options.logger.info(`Existing Rollup-Job found: ${actualJobId}. Going to stop before create new job.`);
+			options.logger.info(`Existing Rollup-Job found: ${actualJobId}. Going to stop before creating new job.`);
 			var stopResult = await client.rollup.stopJob( {id: actualJobId}, { ignore: [404], maxRetries: 3 });
 		} else {
 			options.logger.info(`No running Rollup-Job found with primary ID: ${params.id}. Creating new job with ID: '${params.id}${jobIdSuffix}'.`);
@@ -145,6 +151,9 @@ async function putRollupJob(params, options) {
 		}
 		if(startJob) {
 			await client.rollup.startJob( {id: params.id}, { ignore: [404], maxRetries: 3 });
+		}
+		if(deletePreviousJob && actualJobId) {
+			await client.rollup.deleteJob( {id: actualJobId}, { ignore: [404], maxRetries: 3 });
 		}
 		return putJobResult;
 	} catch (e) {

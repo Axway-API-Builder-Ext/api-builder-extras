@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.20] 2021-08-20
+### Fixed
+- When updating Rollup-Job existing job was not deleted, even if configured
+
+### Changed
+- Elasticsearch client updated to version 7.14.0
+
 ## [1.0.19] 2021-02-03
 ### Fixed
 - Index-Rollup method was rolling over indices too often depending on the number of existing indices
