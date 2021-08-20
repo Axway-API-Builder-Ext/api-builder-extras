@@ -1,37 +1,43 @@
-# The name of the plugin to appear in the actions and badge!
-name: JIRA CP Connector Release
+name: JIRA-CP Connector 
 
 on:
+  push:
+    paths:
+      - 'api-builder-plugin-fc-jira/**'
+  pull_request:
+    paths:
+      - 'api-builder-plugin-fc-jira/**'
   release:
     types:
       - published
     tags:
-      # If this tag is pushed, a release is created
       - '*plugin-fc-jira*'
+
+defaults:
+  run:
+    working-directory: api-builder-plugin-fc-jira
 
 jobs:
   build:
-    # This is a required check, as the on:release can't be filtered on given tags
-    if: contains(github.ref, 'plugin-fc-jira')
-    env:
-      # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fc-jira'
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Run npm tests
-        working-directory: ${{env.workingDirectory}}
-        run: |
-          npm ci
-          npm test
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      run: |
+        npm ci
+        npm run build --if-present
+        npm test
 
   publish-gpr:
+    if: github.event.release.tag_name
     env:
-      # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fc-jira'
       CI: true
     needs: build
     runs-on: ubuntu-latest
@@ -43,7 +49,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@Axway-API-Builder-Ext'
       - name: Publish to GitHub package repo
-        working-directory: ${{env.workingDirectory}}
         env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
@@ -52,8 +57,6 @@ jobs:
 
   publish-npm:
     env:
-      # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fc-jira'
       CI: true
     needs: [build, publish-gpr]
     runs-on: ubuntu-latest
@@ -64,7 +67,6 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - name: Publish to NPM package repo
-        working-directory: ${{env.workingDirectory}}
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
         run: |
