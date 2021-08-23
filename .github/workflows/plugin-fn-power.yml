@@ -43,6 +43,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Debug
+        uses: hmarr/debug-action@v1.0.0
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
