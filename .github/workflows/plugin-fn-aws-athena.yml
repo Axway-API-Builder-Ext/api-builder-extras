@@ -1,32 +1,26 @@
 # The name of the workflow node to appear in the actions and badge!
-name: MongoDB Flow-Node
-
+name: AWS Athena Flow-Node
 on:
   push:
     paths:
       # This must be aligned with the folder-name of you plugin
-      - 'api-builder-plugin-fn-mongodb/**'
+      - 'api-builder-plugin-fn-aws-athena/**'
   pull_request:
     paths:
       # This must be aligned with the folder-name of you plugin
-      - 'api-builder-plugin-fn-mongodb/**'
+      - 'api-builder-plugin-fn-aws-athena/**'
   release:
     types:
       - published
     tags:
-      - '*plugin-fn-mongodb*'
+      - '*plugin-fn-aws-athena*'
 
 defaults:
   run:
-    working-directory: api-builder-plugin-fn-mongodb
+    working-directory: api-builder-plugin-fn-aws-athena
 
 jobs:
   build:
-    services:
-      mongo:
-        image: mongo:latest
-        ports: 
-          - 27017:27017
 
     runs-on: ubuntu-latest
     strategy:
@@ -39,13 +33,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
+      env:
+        CI: true
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       run: |
         npm ci
         npm run build --if-present
         npm test
-      env:
-        MONGODB_URL: 'mongodb://localhost:27017/order'
-        MONGODB_COLLECTION: 'testcollection'
 
   publish-gpr:
     if: github.event.release.tag_name

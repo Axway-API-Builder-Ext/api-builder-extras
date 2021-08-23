@@ -1,39 +1,46 @@
-# The name of the plugin to appear in the actions and badge!
-name: Foreach Flow-Node Release
-
+# The name of the workflow node to appear in the actions and badge!
+name: Foreach Flow-Node
 on:
+  push:
+    paths:
+      # This must be aligned with the folder-name of you plugin
+      - 'api-builder-plugin-fn-foreach/**'
+  pull_request:
+    paths:
+      # This must be aligned with the folder-name of you plugin
+      - 'api-builder-plugin-fn-foreach/**'
   release:
     types:
       - published
     tags:
-      # If this tag is pushed, a release is created
       - '*plugin-fn-foreach*'
+
+defaults:
+  run:
+    working-directory: api-builder-plugin-fn-foreach
 
 jobs:
   build:
-    # This is a required check, as the on:release can't be filtered on given tags
-    if: contains(github.ref, 'plugin-fn-foreach')
-    env:
-      # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fn-foreach'
+
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
     steps:
-      - name: Debug
-        uses: hmarr/debug-action@v1.0.0
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Run npm tests
-        working-directory: ${{env.workingDirectory}}
-        run: |
-          npm ci
-          npm test
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      run: |
+        npm ci
+        npm run build --if-present
+        npm test
 
   publish-gpr:
+    if: github.event.release.tag_name
     env:
-      # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fn-foreach'
       CI: true
     needs: build
     runs-on: ubuntu-latest
@@ -45,7 +52,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@Axway-API-Builder-Ext'
       - name: Publish to GitHub package repo
-        working-directory: ${{env.workingDirectory}}
         env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
@@ -54,8 +60,6 @@ jobs:
 
   publish-npm:
     env:
-      # This must be aligned with the folder-name of you plugin
-      workingDirectory: 'api-builder-plugin-fn-foreach'
       CI: true
     needs: [build, publish-gpr]
     runs-on: ubuntu-latest
@@ -66,7 +70,6 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - name: Publish to NPM package repo
-        working-directory: ${{env.workingDirectory}}
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
         run: |

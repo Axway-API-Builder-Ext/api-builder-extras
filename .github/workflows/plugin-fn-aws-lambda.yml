@@ -1,32 +1,26 @@
 # The name of the workflow node to appear in the actions and badge!
-name: MongoDB Flow-Node
-
+name: AWS Lambda Flow-Node
 on:
   push:
     paths:
       # This must be aligned with the folder-name of you plugin
-      - 'api-builder-plugin-fn-mongodb/**'
+      - 'api-builder-plugin-fn-aws-lambda/**'
   pull_request:
     paths:
       # This must be aligned with the folder-name of you plugin
-      - 'api-builder-plugin-fn-mongodb/**'
+      - 'api-builder-plugin-fn-aws-lambda/**'
   release:
     types:
       - published
     tags:
-      - '*plugin-fn-mongodb*'
+      - '*plugin-fn-aws-lambda*'
 
 defaults:
   run:
-    working-directory: api-builder-plugin-fn-mongodb
+    working-directory: api-builder-plugin-fn-aws-lambda
 
 jobs:
   build:
-    services:
-      mongo:
-        image: mongo:latest
-        ports: 
-          - 27017:27017
 
     runs-on: ubuntu-latest
     strategy:
@@ -34,6 +28,14 @@ jobs:
         node-version: [12.x, 14.x]
     steps:
     - uses: actions/checkout@v1
+    - name: default deploy
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: us-east-1
+        function_name: greeting
+        source: api-builder-plugin-fn-aws-lambda/test/lambdaFunction/index.js
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -44,8 +46,9 @@ jobs:
         npm run build --if-present
         npm test
       env:
-        MONGODB_URL: 'mongodb://localhost:27017/order'
-        MONGODB_COLLECTION: 'testcollection'
+        CI: true
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
 
   publish-gpr:
     if: github.event.release.tag_name
