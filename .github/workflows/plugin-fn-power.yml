@@ -2,12 +2,12 @@
 name: Power Flow-Node Tests
 
 on:
-  push:
-    paths:
-      - 'api-builder-plugin-fn-power/**'
-  pull_request:
-    paths:
-      - 'api-builder-plugin-fn-power/**'
+#  push:
+#    paths:
+#      - 'api-builder-plugin-fn-power/**'
+#  pull_request:
+#    paths:
+#      - 'api-builder-plugin-fn-power/**'
   release:
     types:
       - published
