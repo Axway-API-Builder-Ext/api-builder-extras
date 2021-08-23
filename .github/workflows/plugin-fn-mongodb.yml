@@ -13,8 +13,6 @@ on:
   release:
     types:
       - published
-    tags:
-      - '*plugin-fn-mongodb*'
 
 defaults:
   run:
@@ -48,7 +46,7 @@ jobs:
         MONGODB_COLLECTION: 'testcollection'
 
   publish-gpr:
-    if: github.event.release.tag_name
+    if: contains(github.event.release.tag_name, 'plugin-fn-mongodb')
     env:
       CI: true
     needs: build

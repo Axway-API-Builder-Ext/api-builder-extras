@@ -12,8 +12,6 @@ on:
   release:
     types:
       - published
-    tags:
-      - '*plugin-fn-foreach*'
 
 defaults:
   run:
@@ -39,7 +37,7 @@ jobs:
         npm test
 
   publish-gpr:
-    if: github.event.release.tag_name
+    if: contains(github.event.release.tag_name, 'plugin-fn-foreach')
     env:
       CI: true
     needs: build

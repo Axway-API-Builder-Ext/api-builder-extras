@@ -2,17 +2,15 @@
 name: Power Flow-Node Tests
 
 on:
-#  push:
-#    paths:
-#      - 'api-builder-plugin-fn-power/**'
-#  pull_request:
-#    paths:
-#      - 'api-builder-plugin-fn-power/**'
+  push:
+    paths:
+      - 'api-builder-plugin-fn-power/**'
+  pull_request:
+    paths:
+      - 'api-builder-plugin-fn-power/**'
   release:
     types:
       - published
-    tags:
-      - '*plugin-fn-power*'
 
 defaults:
   run:
@@ -37,7 +35,7 @@ jobs:
         npm test
 
   publish-gpr:
-    if: github.event.release.tag_name
+    if: contains(github.event.release.tag_name, 'plugin-fn-power')
     env:
       CI: true
     needs: build
