@@ -1,10 +1,16 @@
 # API-Builder MongoDB Flow-Node
 
+[![MongoDB Flow-Node](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions/workflows/plugin-fn-mongodb.yml/badge.svg)](https://github.com/Axway-API-Builder-Ext/api-builder-extras/actions/workflows/plugin-fn-mongodb.yml)
+
 ## About this Flow-Node
 
 With this flow node you can communicate directly with a MongoDB, for example to store, update JSON documents, etc. directly on the API builder flow out. So it is not necessary to have a corresponding model. You can use this flow node for the API-First approach of the API Builder.
 
-## Configuration
+## Installation and configuration
+
+```
+npm install @axway-api-builder-ext/api-builder-plugin-fn-mongodb
+```
 
 Declare the environment variables: MONGODB_URL and MONGODB_COLLECTION. For example:  
 ```
