@@ -4,7 +4,9 @@
 
 ## About this Flow-Node
 
-With this flow node you can communicate directly with a MongoDB, for example to store, update JSON documents, etc. directly on the API builder flow out. So it is not necessary to have a corresponding model. You can use this flow node for the API-First approach of the API Builder.
+With this flow node you can communicate directly with a MongoDB, for example to store, update JSON documents, etc. directly on the API builder flow out. So it is not necessary to have a corresponding model. You can use this flow node for the API-First approach of the API Builder.  
+
+![MongoDB Flow-Node Methods](https://github.com/Axway-API-Builder-Ext/api-builder-extras/blob/master/api-builder-plugin-fn-mongodb/images/flow-node-methods.png)
 
 ## Installation and configuration
 
