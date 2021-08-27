@@ -953,3 +953,77 @@ flow-nodes:
             properties:
               message:
                 type: string
+
+      putTransform: 
+        name: Create transform
+        description: Creates a transform which copies data from source indices, transforms it, and persists it into an entity-centric destination index. If you choose to use the pivot method for your transform, the entities are defined by the set of group_by fields in the pivot object. If you choose to use the latest method, the entities are defined by the unique_key field values in the latest object.
+        parameters:
+          transformId:
+            name: Transform-ID
+            description: The id of the new transform.
+            required: true
+            schema:
+              type: string
+          idSuffix:
+            name: Transform-ID Suffix
+            description: Mandatory if an existing transform is to be replaced. The Transform-ID suffix is used to generate the final Transform-ID, which is used to create the transform. This suffix is especially necessary if an existing transform is used to be replaced. Existing transforms with the primary transforms ID are searched for, stopped/deleted and a new transform with transform ID + suffix is created.
+            required: false
+            schema:
+              type: string
+          body:
+            name: Transform configuration
+            description: The transform job configuration
+            required: true
+            schema:
+              type: object
+          replaceWhenChanged:
+            name: Recreate only when changed
+            description: If set, a possibly existing transform is only replaced if the configuration is different. For this purpose, the entire transform configuration is compared. If no transform exists, this parameter is ignored and a new job is created.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          deletePreviousTransform:
+            name: Delete previous transform
+            description: If an existing transform with the same primary ID has been found which should be replaced, this switch decides whether the old transform should be deleted. If the previous transform is running, it will be stopped automatically.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          startTransform:
+            name: Start transform
+            description: This toggle controls if the created transform job should be started automatically after creation.
+            required: false
+            initialType: boolean
+            schema:
+              default: true
+              type: boolean
+          deferValidation:
+            name: Defer validation
+            description: When true, deferrable validations are not run. This behavior may be desired if the source index does not exist until after the transform is created.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        outputs:
+          next:
+            name: Next
+            description: The created or updated transform
+            context: $.transform
+            schema:
+              type: object
+          noUpdate:
+            name: No update
+            description: Transform has not being updated. Message contains the reason.
+            context: $.message
+            schema:
+              type: string
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object

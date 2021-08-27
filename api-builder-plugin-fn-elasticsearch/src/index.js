@@ -5,6 +5,7 @@ const { getTemplate, putTemplate } = require('./actions/indexTemplate');
 const { getMapping, putMapping } = require('./actions/indexMapping');
 const { getILMPolicy, putILMPolicy } = require('./actions/ilmPolicy');
 const { getRollupJobs, putRollupJob } = require('./actions/rollupJobs');
+const { putTransform } = require('./actions/transform');
 const { indicesRollover, indicesCreate, indicesExists } = require('./actions/indices');
 const { ElasticsearchClient } = require('./actions/ElasticsearchClient');
 const { isDeveloperMode } = require('./utils');
@@ -51,7 +52,8 @@ async function getPlugin(pluginConfig, options) {
 		putRollupJob,
 		indicesRollover,
 		indicesCreate,
-		indicesExists
+		indicesExists,
+		putTransform
 	}, pluginConfig);
 	const plugin = sdk.getPlugin();
 	return plugin;

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.21] 2021-08-27
+### Added
+- Added Create Transform method
+
 ## [1.0.20] 2021-08-20
 ### Fixed
 - When updating Rollup-Job existing job was not deleted, even if configured 
