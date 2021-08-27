@@ -4,6 +4,13 @@
 
 Integrate Elasticsearch information into your [API-Builder flow][1] using this connector. 
 
+## Installation
+
+```
+npm install @axway-api-builder-ext/api-builder-plugin-fn-elasticsearch
+```
+Or use the API-Builder plugin page.
+
 ## Configuration
 
 After installation and restarting your API-Builder project you get the following new flow-nodes:  
