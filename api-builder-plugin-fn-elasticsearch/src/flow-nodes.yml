@@ -966,7 +966,7 @@ flow-nodes:
               type: string
           idSuffix:
             name: Transform-ID Suffix
-            description: Mandatory if an existing transform is to be replaced. The Transform-ID suffix is used to generate the final Transform-ID, which is used to create the transform. This suffix is especially necessary if an existing transform is used to be replaced. Existing transforms with the primary transforms ID are searched for, stopped/deleted and a new transform with transform ID + suffix is created.
+            description: Mandatory if an existing transform is to be replaced. The Transform-ID suffix is used to generate the final Transform-ID, which is used to create the transform. Existing transforms with the primary transforms ID are searched for, stopped/deleted and a new transform with transform ID + suffix is created.
             required: false
             schema:
               type: string
@@ -976,14 +976,6 @@ flow-nodes:
             required: true
             schema:
               type: object
-          replaceWhenChanged:
-            name: Recreate only when changed
-            description: If set, a possibly existing transform is only replaced if the configuration is different. For this purpose, the entire transform configuration is compared. If no transform exists, this parameter is ignored and a new job is created.
-            required: false
-            initialType: boolean
-            schema:
-              default: false
-              type: boolean
           deletePreviousTransform:
             name: Delete previous transform
             description: If an existing transform with the same primary ID has been found which should be replaced, this switch decides whether the old transform should be deleted. If the previous transform is running, it will be stopped automatically.

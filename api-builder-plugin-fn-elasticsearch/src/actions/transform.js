@@ -35,12 +35,6 @@ async function putTransform(params, options) {
 		delete params.startTransform;
 	}
 
-	var replaceWhenChanged = false;
-	if(params.replaceWhenChanged != undefined) {
-		replaceWhenChanged = params.replaceWhenChanged;
-		delete params.replaceWhenChanged;
-	}
-
 	var deletePreviousTransform = false;
 	if(params.deletePreviousTransform != undefined) {
 		deletePreviousTransform = params.deletePreviousTransform;
@@ -52,63 +46,38 @@ async function putTransform(params, options) {
 		idSuffix = "";
 	}
 	delete params.idSuffix;
-	debugger;
+
 	var client = new ElasticsearchClient(elasticSearchConfig).client;
 	try {
 		var actualTransform;
 		var actualTransformId
-		// Get all active (RUNNING ONLY) transforms with the given Transform-ID
+		// Get all active (RUNNING ONLY) transforms with the given primary Transform-ID
 		const allTransforms = await client.transform.getTransformStats({ transformId: `${params.transformId}*` }, { ignore: [404], maxRetries: 3 });
 		var runningTransforms = [];
 		for (i = 0; i < allTransforms.body.transforms.length; i++) { 
 			const transform = allTransforms.body.transforms[i];
-			// Check if the Transform-ID+Suffix already exists
+			// Check if the Transform already exists, which means nothing to do
 			if(transform.id==`${params.transformId}${idSuffix}`) {
-				options.logger.info(`Transform found: ${params.transformId}${idSuffix} already exists with state: ${transform.state}`);
+				options.logger.info(`Transform found: ${params.transformId}${idSuffix} already exists with state: ${transform.state}. To update this transform, please provide an idSuffix (e.g. v2)`);
 				if(startTransform && transform.state != "started" && transform.state != "indexing") {
 					options.logger.info(`Existing transform: ${params.transformId}${idSuffix} is not running, going to start it.`);
 					await client.transform.startTransform( {transformId: transform.id}, { ignore: [404], maxRetries: 3 });
-					return transform;
+				}
+				actualTransform = transform;
+			} else {
+				// Stop all other transforms 
+				if(transform.state == "started" || transform.state == "indexing") {
+					await client.transform.stopTransform( {transformId: transform.id}, { ignore: [404], maxRetries: 3 });
 				}
 			}
-			if(transform.state == "started" || transform.state == "indexing") {
-				runningTransforms.push(transform);
-			}
 		}
-		// If we have multiple transforms running, we cannot determine, which one should be used to compare the config with, 
-		// But it's important to stop them, as we should have only ONE running at the same time
-		if(runningTransforms.length>1) {
-			for (i = 0; i < runningTransforms.length; i++) { 
-				const runningTransform = runningTransforms[i];
-				await client.transform.stopTransform( {transformId: runningTransform.id}, { ignore: [404], maxRetries: 3 });
-			}
-		} else if (runningTransforms.length==1) {
-			// Otherwise we consider the currently running transform as to be the actual and load the configuration
-			const response = await client.transform.getTransform( {transformId: runningTransforms[0].id}, { ignore: [404], maxRetries: 3 });
-			actualTransform = response.body.transforms[0];
-			actualTransformId = actualTransform.id;
+		if(actualTransform) return actualTransform;
+		// Stop all running transforms, as we expect only one transform to run
+		for (i = 0; i < runningTransforms.length; i++) { 
+			const runningTransform = runningTransforms[i];
+			await client.transform.stopTransform( {transformId: runningTransform.id}, { ignore: [404], maxRetries: 3 });
 		}
 
-		// Compare the configuration with the currently running (actual) transform
-		if(actualTransform != undefined && replaceWhenChanged) {
-			delete actualTransform.id;
-			delete actualTransform.create_time;
-			delete actualTransform.version;
-			if(JSON.stringify(actualTransform) === JSON.stringify(params.body)) {
-				return options.setOutput('noUpdate', `No update required as desired Transform with new ID: '${params.transformId}${idSuffix}' equals to existing transform with ID: '${actualTransformId}'.`);
-			}
-		}
-
-		// If an existing transform exists, the transform should be stopped as we only want one transform running at a time (this is by design of how this action works, not ES)
-		if(actualTransform != undefined) {
-			if(actualTransformId == params.transformId && idSuffix == "") {
-				throw new Error(`Cannot replace existing transform using the same Transform-ID: '${actualTransformId}'. Please provide an ID-Suffix.`);
-			}
-			options.logger.info(`Existing Transform found: ${actualTransformId}. Going to stop before creating new transform.`);
-			var stopResult = await client.transform.stopTransform( {transformId: actualTransformId, force: true}, { ignore: [404], maxRetries: 3 });
-		} else {
-			options.logger.info(`No running Transform found with primary ID: ${params.transformId}. Creating new transform with ID: '${params.transformId}${idSuffix}'.`);
-		}
 		params.transformId = `${params.transformId}${idSuffix}`;
 		try {
 			var putTransformResult = await client.transform.putTransform( params, { ignore: [404], maxRetries: 3 });

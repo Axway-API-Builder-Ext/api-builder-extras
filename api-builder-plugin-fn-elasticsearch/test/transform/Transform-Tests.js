@@ -38,20 +38,6 @@ describe('Transform tests', () => {
 			expect(output).to.equal('error');
 		});
 
-		it('should fail if the same transform-id is re-used without a suffix', async () => {
-			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseOneStarted.json', false);
-			const mockedGetTransform = setupElasticsearchMock(client, 'transform.getTransform', './test/mock/transform/getTransformResponseOneResult.json', false);
-
-			const inputParameter = { transformId: 'apigw-summary-transform-hourly', body: JSON.parse(fs.readFileSync('./test/mock/transform/putTransformRequestBody.json')) };
-			const { value, output } = await flowNode.putTransform(inputParameter);
-
-			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Cannot replace existing transform using the same Transform-ID: \'apigw-summary-transform-hourly\'. Please provide an ID-Suffix.');
-			expect(output).to.equal('error');
-			expect(mockedGetTransformStats.callCount).to.equals(1);
-			expect(mockedGetTransform.callCount).to.equals(1);
-		});
-
 		it('should pass - with 2 running transforms (means no actual) - Created & Started new transform', async () => {
 			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseTwoStarted.json', false);
 			const mockedStopTransform = setupElasticsearchMock(client, 'transform.stopTransform', './test/mock/transform/stopTransformResponse.json', false);
@@ -76,7 +62,6 @@ describe('Transform tests', () => {
 
 		it('should pass - 1 running transform (is the actual transform) - Created & Started new transform - Old stopped', async () => {
 			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseOneStarted.json', false);
-			const mockedGetTransform = setupElasticsearchMock(client, 'transform.getTransform', './test/mock/transform/getTransformResponseOneResult.json', false);
 			const mockedPutTransform = setupElasticsearchMock(client, 'transform.putTransform', './test/mock/transform/putTransformResponse.json', false);
 			const mockedDeleteTransform = setupElasticsearchMock(client, 'transform.deleteTransform', './test/mock/transform/stopTransformResponse.json', false);
 			const mockedStartTransform = setupElasticsearchMock(client, 'transform.startTransform', './test/mock/transform/startTransformResponse.json', false);
@@ -90,7 +75,6 @@ describe('Transform tests', () => {
 
 			expect(output).to.equal('next');
 			expect(mockedGetTransformStats.callCount).to.equals(1); // should be called once to get all transforms
-			expect(mockedGetTransform.callCount).to.equals(1); // used to retrieve the transform configuration
 			expect(mockedPutTransform.callCount).to.equals(1); // a new transform should be created
 			expect(mockedStartTransform.callCount).to.equals(1); // and started
 			expect(mockedDeleteTransform.callCount).to.equals(0); // There is nothing to delete
@@ -117,86 +101,6 @@ describe('Transform tests', () => {
 			expect(value.body.acknowledged).to.equal(true);
 		});
 
-		it('should result in NoUpdate if the Transform config is unchanged', async () => {
-			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseOneStarted.json', false);
-			const mockedGetTransform = setupElasticsearchMock(client, 'transform.getTransform', './test/mock/transform/getTransformResponseOneResult.json', false);
-			const mockedPutTransform = setupElasticsearchMock(client, 'transform.putTransform', null, false);
-
-			const inputParameter = { 
-				transformId: 'traffic-summary-hourly', 
-				replaceWhenChanged: true,
-				body: JSON.parse(fs.readFileSync('./test/mock/transform/putTransformRequestBody.json')) };
-			const { value, output } = await flowNode.putTransform(inputParameter);
-
-			expect(output).to.equal('noUpdate');
-			expect(value).to.equal('No update required as desired Transform with new ID: \'traffic-summary-hourly\' equals to existing transform with ID: \'apigw-summary-transform-hourly\'.');
-			expect(mockedGetTransformStats.callCount).to.equals(1);
-			expect(mockedGetTransform.callCount).to.equals(1);
-			expect(mockedPutTransform.callCount).to.equals(0);
-		});
-
-		it('should update/recreate the transformation if configuration is changed', async () => {
-			const mockedDeleteTransform = setupElasticsearchMock(client, 'transform.deleteTransform', './test/mock/transform/stopTransformResponse.json', false);
-			const mockedPutTransform = setupElasticsearchMock(client, 'transform.putTransform', null, false);
-			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseOneStarted.json', false);
-			const mockedGetTransform = setupElasticsearchMock(client, 'transform.getTransform', './test/mock/transform/getTransformResponseConfigChanged.json', false);
-			const mockedStartTransform = setupElasticsearchMock(client, 'transform.startTransform', './test/mock/transform/startTransformResponse.json', false);
-			const mockedStopTransform = setupElasticsearchMock(client, 'transform.stopTransform', './test/mock/transform/stopTransformResponse.json', false);
-
-			var rollupJobConfig = JSON.parse(fs.readFileSync('./test/mock/transform/putTransformRequestBody.json'))
-			const inputParameter = { 
-				transformId: 'traffic-summary-yearly', 
-				idSuffix: 'v1', 
-				replaceWhenChanged: true,
-				body: rollupJobConfig };
-			const { value, output } = await flowNode.putTransform(inputParameter);
-
-			expect(output).to.equal('next');
-			expect(mockedGetTransformStats.callCount).to.equals(1);
-			expect(mockedGetTransform.callCount).to.equals(1);
-			expect(mockedPutTransform.callCount).to.equals(1);
-			expect(mockedDeleteTransform.callCount).to.equals(0);
-			expect(mockedStopTransform.callCount).to.equals(1);
-			expect(mockedStartTransform.callCount).to.equals(1);
-			// Additionally in this test make sure, the internal API-Params are removed and NOT send to ES
-			inputParameter.transformId = `${inputParameter.transformId}-${inputParameter.idSuffix}`;
-			delete inputParameter.replaceWhenChanged;
-			delete inputParameter.idSuffix;
-			expect(mockedPutTransform.lastCall.arg).to.deep.equals(inputParameter);
-		});
-
-		it('should update/recreate the transform if configuration is changed and the previous job should be deleted', async () => {
-			const mockedDeleteTransform = setupElasticsearchMock(client, 'transform.deleteTransform', './test/mock/transform/stopTransformResponse.json', false);
-			const mockedPutTransform = setupElasticsearchMock(client, 'transform.putTransform', null, false);
-			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseOneStarted.json', false);
-			const mockedGetTransform = setupElasticsearchMock(client, 'transform.getTransform', './test/mock/transform/getTransformResponseConfigChanged.json', false);
-			const mockedStartTransform = setupElasticsearchMock(client, 'transform.startTransform', './test/mock/transform/startTransformResponse.json', false);
-			const mockedStopTransform = setupElasticsearchMock(client, 'transform.stopTransform', './test/mock/transform/stopTransformResponse.json', false);
-
-			var rollupJobConfig = JSON.parse(fs.readFileSync('./test/mock/transform/putTransformRequestBody.json'))
-			const inputParameter = { 
-				transformId: 'traffic-summary-daily', 
-				idSuffix: 'v1', 
-				replaceWhenChanged: true,
-				deletePreviousTransform: true,
-				body: rollupJobConfig };
-			const { value, output } = await flowNode.putTransform(inputParameter);
-
-			expect(output).to.equal('next');
-			expect(mockedGetTransform.callCount).to.equals(1);
-			expect(mockedGetTransformStats.callCount).to.equals(1);
-			expect(mockedPutTransform.callCount).to.equals(1);
-			expect(mockedDeleteTransform.callCount).to.equals(1);
-			expect(mockedStopTransform.callCount).to.equals(1);
-			expect(mockedStartTransform.callCount).to.equals(1);
-			// Additionally in this test make sure, the internal API-Params are removed and NOT send to ES
-			inputParameter.transformId = `${inputParameter.transformId}-${inputParameter.idSuffix}`;
-			delete inputParameter.replaceWhenChanged;
-			delete inputParameter.deletePreviousTransform;
-			delete inputParameter.idSuffix;
-			expect(mockedPutTransform.lastCall.arg).to.deep.equals(inputParameter);
-		});
-
 		it('should create the transform not yet exists', async () => {
 			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseZeroResult.json', false);
 			const mockedPutTransform = setupElasticsearchMock(client, 'transform.putTransform', null, false);
@@ -206,7 +110,6 @@ describe('Transform tests', () => {
 
 			const inputParameter = { 
 				transformId: 'traffic-summary-rollup-job', 
-				replaceWhenChanged: true,
 				body: JSON.parse(fs.readFileSync('./test/mock/transform/putTransformRequestBody.json')) };
 			const { value, output } = await flowNode.putTransform(inputParameter);
 
