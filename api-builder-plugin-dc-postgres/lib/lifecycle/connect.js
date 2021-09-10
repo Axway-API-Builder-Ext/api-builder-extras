@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { Pool, Client } = require('pg');
 
 /**
  * Connects to your data store; this connection can later be used by your connector's methods.
@@ -21,7 +21,16 @@ exports.connect = function (next) {
 			}
 		});
 	} else {
-		this.connection = pg.createConnection(this.config);
-		this.connection.connect(next);
+		this.connection = new Client(this.config);
+		this.connection.connect((err, connection) => {
+			if (err) {
+				if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
+					err.message = 'Connecting to your Postgres server failed; either it isn\'t running, or your connection details are invalid.';
+				}
+				next(err);
+			} else {
+				next();
+			}
+		});
 	}
 };
