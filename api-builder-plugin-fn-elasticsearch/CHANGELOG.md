@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.23] 2021-09-10
+### Fixed
+- No longer trying to read ca.pem
+
 ## [1.0.22] 2021-08-27
 ### Fixed
 - Create transform method fixed

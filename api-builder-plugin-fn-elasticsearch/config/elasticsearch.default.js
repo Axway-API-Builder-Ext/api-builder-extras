@@ -18,10 +18,10 @@ module.exports = {
 				// https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/7.x/client-configuration.html
 				maxRetries: 5,
 				requestTimeout: 60000,
-				ssl: {
-					ca: fs.readFileSync('./cacert.pem'),
-					rejectUnauthorized: false
-				}
+				//ssl: {
+				//	ca: fs.readFileSync('./cacert.pem'),
+				//	rejectUnauthorized: false
+				//}
 			},
 			// The connection to Elasticsearch is validated on API-Builder startup by default
 			// It can be disabled by setting this to false.
