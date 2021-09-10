@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.23] 2021-09-10
 ### Fixed
 - No longer trying to read ca.pem
+- Now using api-builder-copy top copy default Elasticsearch-Configuration file
 
 ## [1.0.22] 2021-08-27
 ### Fixed

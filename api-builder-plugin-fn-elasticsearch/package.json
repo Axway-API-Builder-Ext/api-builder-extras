@@ -25,11 +25,11 @@
 	"files": [
 		"src",
 		"README.md",
-		"config",
-		"scripts"
+		"config"
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.1.12",
+		"@axway/api-builder-project-utils": "^1.0.3",
 		"@elastic/elasticsearch": "^7.14.0",
 		"deep-equal": "^2.0.5",
 		"simple-mock": "^0.8.0"
@@ -44,6 +44,6 @@
 	},
 	"scripts": {
 		"test": "mocha ./test --recursive -R spec",
-		"postinstall": "node scripts/copyconf.js"
+		"postinstall": "api-builder-copy ./config/elasticsearch.default.js ./conf"
 	}
 }
