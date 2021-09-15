@@ -360,21 +360,31 @@ flow-nodes:
             schema:
               default: false
               type: boolean
-        returns:
-          name: Next
-          description: Context variable will contain the Elasticsearch result
-          context: $.result
-          schema:
-            type: object
-        throws:
-          name: Error
-          description: An unexpected error was encountered.
-          context: $.error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
+        outputs:
+          next:
+            name: Next
+            description: Variable contains the Elasticsearch result
+            context: $.result
+            schema:
+              type: object
+          noResult:
+            name: No result
+            description: Exit used if the query result contains no hits.
+            context: $.result
+            schema:
+              type: object
+          missingIndex:
+            name: Missing index
+            description: Exit used if the index does not exists in Elasticsearch.
+            context: $.error
+            schema:
+              type: object
+          error:
+            name: Error
+            description: An unexpected error happened
+            context: $.error
+            schema:
+              type: object
         
       getTemplate: 
         name: Get Index Template
@@ -483,6 +493,148 @@ flow-nodes:
             context: $.error
             schema:
               type: object
+
+      indexDocument: 
+        name: Index document
+        description: This method sends a document to Elasticsearch
+        parameters:
+          index:
+            name: Index-Name
+            description: The name of the index
+            required: true
+            schema:
+              type: string
+          body:
+            name: Body
+            description: "Body of the document to index"
+            required: true
+            schema:
+              type: object
+          id:
+            name: ID
+            description: Document ID. If not given Elasticsearch creates a unique document ID.
+            required: false
+            schema:
+              type: string
+          addTimestamp:
+            name: Add timestamp
+            description: If a field name (e.g. @timestamp) is given, the flow-node will add the current Unix epoch time to the body of the document.
+            required: false
+            initialType: string
+            schema:
+              type: string
+          waitForActiveShards:
+            name: Wait for active shards
+            description: Sets the number of shard copies that must be active before proceeding with the index operation. Defaults to 1, meaning the primary shard only. Set to all for all shard copies, otherwise set to any non-negative value less than or equal to the total number of copies for the shard (number of replicas + 1)
+            required: false
+            group: Advanced Options
+            schema:
+              type: string
+          opType:
+            name: Explicit operation type
+            description: Defaults to index for requests with an explicit document ID, and to `create`for requests without an explicit document ID
+            required: false
+            group: Advanced Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - index
+                - create
+          refresh:
+            name: Refresh
+            description: If true then refresh the affected shards to make this operation visible to search, if wait_for then wait for a refresh to make this operation visible to search, if false (the default) then do nothing with refreshes.
+            required: false
+            group: Advanced Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - true
+                - false
+                - wait_for
+          routing:
+            name: Routing
+            description: Specific routing value
+            required: false
+            group: Advanced Options
+            initialType: string
+            schema:
+              type: string
+          timeout:
+            name: Timeout
+            description: Explicit operation timeout. https://www.elastic.co/guide/en/elasticsearch/reference/7.x/common-options.html#time-units
+            required: false
+            group: Advanced Options
+            initialType: string
+            schema:
+              type: string
+          version:
+            name: Version
+            description: Explicit version number for concurrency control
+            required: false
+            group: Advanced Options
+            initialType: string
+            schema:
+              type: string
+          versionType:
+            name: Version Type
+            description: Specific version type
+            required: false
+            group: Advanced Options
+            initialType: string
+            schema:
+              type: string
+              enum:
+                - internal
+                - external
+                - external_gte
+          ifSeqNo:
+            name: Version Type
+            description: Only perform the index operation if the last operation that has changed the document has the specified sequence number
+            required: false
+            group: Advanced Options
+            schema:
+              type: number
+          ifPrimaryTerm:
+            name: If primary term
+            description: Only perform the index operation if the last operation that has changed the document has the specified primary term
+            required: false
+            group: Advanced Options
+            schema:
+              type: number
+          pipeline:
+            name: Pipeline
+            description: The pipeline id to preprocess incoming documents with
+            required: false
+            group: Advanced Options
+            initialType: string
+            schema:
+              type: string
+          requireAlias:
+            name: Require alias
+            description: When true, requires destination to be an alias. Default is false
+            required: false
+            group: Advanced Options
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        returns:
+          name: Next
+          description: The response returned from Elasticsearch for the indexed document
+          context: $.result
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
 
       getMapping: 
         name: Get Index Mapping
@@ -830,7 +982,7 @@ flow-nodes:
               type: string
           alias:
             name: Alias name
-            description: The alias for the index. If an index configuration is given, this alias name is merged into it.
+            description: The alias for the index. If an index configuration is given, this alias name is merged into it. Please note, that the index- and alias-name must be different.
             required: false
             initialType: string
             schema:

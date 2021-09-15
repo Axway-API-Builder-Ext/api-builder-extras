@@ -78,12 +78,21 @@ async function search(params, options) {
 	addQueryParam("version");
 
 	options.logger.debug(`Using elastic search body: ${JSON.stringify(searchBody)}`);
+
 	var queryResult;
 	try {
 		queryResult = await client.search( searchBody, { ignore: [404], maxRetries: 3 });
 	} catch (ex) {
 		if(ex instanceof Error) throw ex;
 		throw new Error(JSON.stringify(ex));
+	}
+
+	if(queryResult.statusCode === 404 && queryResult.body.error.type == "index_not_found_exception") {
+		return options.setOutput('missingIndex', queryResult);
+	}
+
+	if(queryResult.body.hits.total.value === 0) {
+		return options.setOutput('noResult', queryResult);
 	}
 
 	return queryResult;

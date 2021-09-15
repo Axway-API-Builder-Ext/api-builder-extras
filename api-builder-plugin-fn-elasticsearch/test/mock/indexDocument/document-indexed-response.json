@@ -1,0 +1,68 @@
+{
+    "body": {
+      "_index": "my-index",
+      "_type": "_doc",
+      "_id": "cscV6HsBynbpmcc0kVTw",
+      "_version": 1,
+      "result": "created",
+      "_shards": {
+        "total": 2,
+        "successful": 1,
+        "failed": 0
+      },
+      "_seq_no": 1,
+      "_primary_term": 1
+    },
+    "statusCode": 201,
+    "headers": {
+      "location": "/my-index/_doc/cscV6HsBynbpmcc0kVTw",
+      "x-elastic-product": "Elasticsearch",
+      "content-type": "application/json; charset=UTF-8",
+      "content-length": "175"
+    },
+    "meta": {
+      "context": null,
+      "request": {
+        "params": {
+          "method": "POST",
+          "path": "/my-index/_doc",
+          "body": "{\"message\":\"A document to index\"}",
+          "querystring": "",
+          "headers": {
+            "user-agent": "elasticsearch-js/7.14.1 (win32 10.0.19043-x64; Node.js v12.13.1)",
+            "x-elastic-client-meta": "es=7.14.1,js=12.13.1,t=7.14.1,hc=12.13.1",
+            "content-type": "application/json",
+            "content-length": "33"
+          },
+          "timeout": 30000
+        },
+        "options": {
+          "ignore": [
+            404
+          ],
+          "maxRetries": 3
+        },
+        "id": 1
+      },
+      "name": "elasticsearch-js",
+      "connection": {
+        "url": "https://api-env:9200/",
+        "id": "https://api-env:9200/",
+        "headers": {
+          
+        },
+        "deadCount": 0,
+        "resurrectTimeout": 0,
+        "_openRequests": 0,
+        "status": "alive",
+        "roles": {
+          "master": true,
+          "data": true,
+          "ingest": true,
+          "ml": false
+        }
+      },
+      "attempts": 0,
+      "aborted": false
+    }
+  }

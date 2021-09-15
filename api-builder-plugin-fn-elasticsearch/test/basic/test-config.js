@@ -12,7 +12,7 @@ describe('Basic: flow-node elasticsearch', () => {
 	let plugin;
 	let flowNode;
 
-	var client = new ElasticsearchClient({nodes:'http://api-env:9200'}).client;
+	var client = new ElasticsearchClient({nodes:'https://api-env:9200', ssl: { rejectUnauthorized: false }}).client;
 	beforeEach(async () => {
 		plugin = await MockRuntime.loadPlugin(getPlugin, validConfig);
 		validConfig.validateConnection = false;

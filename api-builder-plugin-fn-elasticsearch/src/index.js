@@ -7,6 +7,7 @@ const { getILMPolicy, putILMPolicy } = require('./actions/ilmPolicy');
 const { getRollupJobs, putRollupJob } = require('./actions/rollupJobs');
 const { putTransform } = require('./actions/transform');
 const { indicesRollover, indicesCreate, indicesExists } = require('./actions/indices');
+const { indexDocument } = require('./actions/indexDocument');
 const { ElasticsearchClient } = require('./actions/ElasticsearchClient');
 const { isDeveloperMode } = require('./utils');
 
@@ -53,7 +54,8 @@ async function getPlugin(pluginConfig, options) {
 		indicesRollover,
 		indicesCreate,
 		indicesExists,
-		putTransform
+		putTransform,
+		indexDocument
 	}, pluginConfig);
 	const plugin = sdk.getPlugin();
 	return plugin;

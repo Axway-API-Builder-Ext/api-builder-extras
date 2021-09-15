@@ -1,0 +1,72 @@
+{
+    "body": {
+      "error": {
+        "root_cause": [
+          {
+            "type": "index_not_found_exception",
+            "reason": "no such index [apigw-management-kpis]",
+            "resource.type": "index_or_alias",
+            "resource.id": "apigw-management-kpis",
+            "index_uuid": "_na_",
+            "index": "apigw-management-kpis"
+          }
+        ],
+        "type": "index_not_found_exception",
+        "reason": "no such index [apigw-management-kpis]",
+        "resource.type": "index_or_alias",
+        "resource.id": "apigw-management-kpis",
+        "index_uuid": "_na_",
+        "index": "apigw-management-kpis"
+      },
+      "status": 404
+    },
+    "statusCode": 404,
+    "headers": {
+      "x-elastic-product": "Elasticsearch",
+      "content-type": "application/json; charset=UTF-8",
+      "content-length": "455"
+    },
+    "meta": {
+      "context": null,
+      "request": {
+        "params": {
+          "method": "GET",
+          "path": "/apigw-management-kpis/_search",
+          "body": "",
+          "querystring": "size=0&sort=%40timestamp%3Adesc&_source=true&allow_no_indices=true",
+          "headers": {
+            "user-agent": "elasticsearch-js/7.14.1 (win32 10.0.19043-x64; Node.js v12.13.1)",
+            "x-elastic-client-meta": "es=7.14.1,js=12.13.1,t=7.14.1,hc=12.13.1"
+          },
+          "timeout": 60000
+        },
+        "options": {
+          "ignore": [
+            404
+          ],
+          "maxRetries": 3
+        },
+        "id": 93
+      },
+      "name": "apibuilder4elastic",
+      "connection": {
+        "url": "https://api-env:9200/",
+        "id": "https://api-env:9200/",
+        "headers": {
+          
+        },
+        "deadCount": 0,
+        "resurrectTimeout": 0,
+        "_openRequests": 0,
+        "status": "alive",
+        "roles": {
+          "master": true,
+          "data": true,
+          "ingest": true,
+          "ml": false
+        }
+      },
+      "attempts": 0,
+      "aborted": false
+    }
+  }

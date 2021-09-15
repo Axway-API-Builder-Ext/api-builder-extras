@@ -8,7 +8,7 @@ const { setupElasticsearchMock } = require('../basic/setupElasticsearchMock');
 describe('Search tests', () => {
 	let plugin;
 	let flowNode;
-	var client = new ElasticsearchClient({node:'http://mock-node:9200'}).client;
+	var client = new ElasticsearchClient({node:'https://mock-node:9200'}).client;
 	var pluginConfig = require('../config/basic-config.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
 	pluginConfig.validateConnection = false;
 
@@ -87,12 +87,37 @@ describe('Search tests', () => {
 			}
 		});
 
+		it('should return with missing index, if the index does not exists', async () => {
+			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/search/index_not_found_response.json');
+
+			const inputParameter = { index: 'missing-index-name' };
+			const { value, output } = await flowNode.search(inputParameter);
+
+			expect(output).to.equal('missingIndex');
+			expect(value.body.error.reason).to.equal('no such index [apigw-management-kpis]');
+		});
+
+		it('should return with no result, if the query has no hits.', async () => {
+			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/search/not-hit-response.json');
+
+			const inputParameter = {
+				index: 'some_index',
+				"query": {
+					"match_all": {}
+				}
+			};
+
+			const { value, output } = await flowNode.search(inputParameter);
+
+			expect(output).to.equal('noResult');
+		});
+
 		it('should be okay having suggest_field and suggest_text only, as suggest_mode defaults to missing', async () => {
 			const mockedFn = setupElasticsearchMock(client, 'search', './test/mock/suggest_response.json');
 			const inputParameter = {
-				suggest_field: 'circuitPath.execTime',
+				suggest_field: 'http.authSubjectId',
 				//suggest_mode: 'missing', // This is not given as it should default to missing
-				suggest_text: 'Some text'
+				suggest_text: 'Axway Client'
 			};
 
 			const elasticRequest = {

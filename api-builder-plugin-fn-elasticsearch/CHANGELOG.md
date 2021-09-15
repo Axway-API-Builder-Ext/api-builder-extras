@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] 2021-09-14
+### Changed
+- Search method now provides missingIndex & noResult exists making it easier to control your flow
+- New method Index document
+
 ## [1.0.23] 2021-09-10
 ### Fixed
 - No longer trying to read ca.pem
