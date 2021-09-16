@@ -136,7 +136,7 @@ describe('Indices rollover tests', () => {
 			expect(mockedIndicesCreate.lastCall.arg.body.settings["number_of_shards"]).to.equal(1);
 		});
 
-		it.only('should fail if the given index-template does not exist', async () => {
+		it('should fail if the given index-template does not exist', async () => {
 			const mockedIndexTemplateExists = setupElasticsearchMock(client, 'indices.existsTemplate', './test/mock/indexTemplates/indexTemplateNotExistsResponse.json', false);
 
 			const inputParameter = { index: "my_index_to_be_created", indexTemplate: "this_template_is_missing" };
@@ -148,7 +148,7 @@ describe('Indices rollover tests', () => {
 			expect(mockedIndexTemplateExists.callCount).to.equals(1);
 		});
 
-		it.only('should pass when the index is created including a given index_template name', async () => {
+		it('should pass when the index is created including a given index_template name', async () => {
 			const mockedIndexTemplateExists = setupElasticsearchMock(client, 'indices.existsTemplate', './test/mock/indexTemplates/indexTemplateExistsResponse.json', false);
 			const mockedIndicesCreate = setupElasticsearchMock(client, 'indices.create', './test/mock/indices/indexCreatedResponse.json', false);
 
