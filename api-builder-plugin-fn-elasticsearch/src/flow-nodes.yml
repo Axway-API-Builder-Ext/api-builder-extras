@@ -987,6 +987,13 @@ flow-nodes:
             initialType: string
             schema:
               type: string
+          indexTemplate:
+            name: Index template name
+            description: If given, the index will only be created if the index-template already exists.
+            required: false
+            initialType: string
+            schema:
+              type: string
           body:
             name: Index configuration
             description: The configuration for the index (settings and mappings)

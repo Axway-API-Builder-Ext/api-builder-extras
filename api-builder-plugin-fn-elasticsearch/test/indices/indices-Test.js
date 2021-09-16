@@ -135,6 +135,30 @@ describe('Indices rollover tests', () => {
 			expect(mockedIndicesCreate.lastCall.arg.body.aliases["existingAlias"]).to.be.a('object');
 			expect(mockedIndicesCreate.lastCall.arg.body.settings["number_of_shards"]).to.equal(1);
 		});
+
+		it.only('should fail if the given index-template does not exist', async () => {
+			const mockedIndexTemplateExists = setupElasticsearchMock(client, 'indices.existsTemplate', './test/mock/indexTemplates/indexTemplateNotExistsResponse.json', false);
+
+			const inputParameter = { index: "my_index_to_be_created", indexTemplate: "this_template_is_missing" };
+			const { value, output } = await flowNode.indicesCreate(inputParameter);
+
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', "The index template: 'this_template_is_missing' is missing. Index wont be created.");
+			expect(output).to.equal('error');
+			expect(mockedIndexTemplateExists.callCount).to.equals(1);
+		});
+
+		it.only('should pass when the index is created including a given index_template name', async () => {
+			const mockedIndexTemplateExists = setupElasticsearchMock(client, 'indices.existsTemplate', './test/mock/indexTemplates/indexTemplateExistsResponse.json', false);
+			const mockedIndicesCreate = setupElasticsearchMock(client, 'indices.create', './test/mock/indices/indexCreatedResponse.json', false);
+
+			const inputParameter = { index: "my_index_to_be_created", indexTemplate: "management-kpis"  }; 
+			const { value, output } = await flowNode.indicesCreate(inputParameter);
+
+			expect(output).to.equal('next');
+			expect(mockedIndexTemplateExists.callCount).to.equals(1);
+			expect(mockedIndicesCreate.callCount).to.equals(1);
+		});
 	});
 
 	describe('#Index exists tests', () => {

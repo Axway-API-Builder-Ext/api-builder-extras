@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] 2021-09-16
+### Added
+- Create Index method now checks if a given Index-Template exists
+
 ## [2.0.0] 2021-09-14
 ### Changed
 - Search method now provides missingIndex & noResult exists making it easier to control your flow

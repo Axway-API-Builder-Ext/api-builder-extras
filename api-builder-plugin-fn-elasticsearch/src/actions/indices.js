@@ -79,19 +79,17 @@ async function indicesRollover(params, options) {
 
 async function indicesCreate(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
+	const { index, alias, indexTemplate } = params;
 
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
 		throw new Error('Elasticsearch configuration is invalid: nodes or node is missing.');
 	}
-	if (!params.index) {
+	if (!index) {
 		throw new Error('Missing required parameter: index');
 	}
 	try {
-		var aliasName;
-		if(params.alias) {
-			aliasName = params.alias;
-			delete params.alias;
+		if(alias) {
 			if(params.body) { // a body might be given
 				if(params.body.aliases == undefined) {
 					params.body.aliases = {};
@@ -99,7 +97,17 @@ async function indicesCreate(params, options) {
 			} else {
 				params.body = { aliases: { }};
 			}
-			params.body.aliases[aliasName] = {};
+			params.body.aliases[alias] = {};
+			delete params.alias;
+		}
+		// Check if the index template exists
+		if(indexTemplate) {
+			var client = new ElasticsearchClient(elasticSearchConfig).client;
+			var result = await client.indices.existsTemplate( { name: indexTemplate }, { maxRetries: 3 });
+			if(result.statusCode == 404) {
+				throw new Error(`The index template: '${indexTemplate}' is missing. Index wont be created.`);
+			}
+			delete params.indexTemplate;
 		}
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
 		var result = await client.indices.create( params, { ignore: [404], maxRetries: 3 });
