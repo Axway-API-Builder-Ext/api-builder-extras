@@ -9,11 +9,11 @@
  * @param {object} options - The additional options provided from the flow
  * 	 engine.
  * @param {object} The logger from API Builder that can be used to log messages
- * 	 to the console. See https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
+ * 	 to the console. See https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/project/logging/index.html
  *
  * @return {undefined}
  */
-function findPlaceFromText(req, outputs, options) {
+ function findPlaceFromText(req, outputs, options) {
 	const input = req.params.input;
   const inputtype = req.params.inputtype;
   const language = req.params.language;

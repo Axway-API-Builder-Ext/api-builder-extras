@@ -12,7 +12,7 @@ var deepEqual = require('deep-equal')
  * @param {object} options - The additional options provided from the flow
  * 	 engine.
  * @param {object} The logger from API Builder that can be used to log messages
- * 	 to the console. See https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
+ * 	 to the console. See https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/project/logging/index.html
  *
  * @return {undefined}
  */

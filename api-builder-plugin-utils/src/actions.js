@@ -11,14 +11,14 @@
  *	 not logged.  If you wish to test logging, you will need to create a
  *	 mocked logger (e.g. using `simple-mock`) and override in
  *	 `MockRuntime.loadPlugin`.  For more information about the logger, see:
- *	 https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
+ *	 https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/project/logging/index.html#environmentalization
  * @param {*} [options.pluginContext] - The data provided by passing the
  *	 context to `sdk.load(file, actions, { pluginContext })` in `getPlugin`
  *	 in `index.js`.
  * @return {*} The response value (resolves to "next" output, or if the method
  *	 does not define "next", the first defined output).
  */
-async function switchCase(params, options) {
+ async function switchCase(params, options) {
 	var { source, value1, value2, value3, value4, value5, notMatchDefault } = params;
 	const { logger } = options;
 	if (!source) {

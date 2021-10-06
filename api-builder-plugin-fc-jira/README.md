@@ -11,7 +11,7 @@ Which can be used to communicate with your JIRA-Instance to Create, Update issue
 
 ### Setup JIRA Cloud Platform Host and Login
 In order to use the plugin you need to configure your JIRA-Account details in the configuration file: `jira-jira-cp-connector.default.js`.  
-We recommend to setup your configuration in a [environmentalized](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/environmentalization.html) way keeping [sensitive information](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/project_configuration.html#ProjectConfiguration-Configurationfiles) away from the source-code repository.. 
+We recommend to setup your configuration in a [environmentalized](https://docs.axway.com/bundle/api-builder/page/docs/security_guide/index.html#environmentalization) way keeping [sensitive information](https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/project/configuration/project_configuration/index.html#configuration-files) away from the source-code repository.. 
 ```javascript
 module.exports = {
 	// The configuration settings for the OAS2 flow-node: JIRA Cloud Platform API
@@ -31,7 +31,7 @@ module.exports = {
 	},
 	// The following authorization credentials needed to use this service.
 	// Please follow this guide to manually configure these credentials:
-	// https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_credentials.html
+	// https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/credentials/index.html
 	authorization: {
 		credentials: {
 			'JIRA Cloud Platform API HTTP Basic Authentication': {
@@ -47,7 +47,7 @@ module.exports = {
 At the moment the plugin only supports HTTP-Basic based authentication. How to obtain the required API-Token you can read in the official documentation:  
 https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/  
 Details how to setup the HTTP-Basic credentials in API-Builder:  
-https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/http_basic_credentials.html
+https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/credentials/configuring_credentials/http_basic_credentials/index.html
 
 Once the configuration is complete, the JIRA flow can be used.
 

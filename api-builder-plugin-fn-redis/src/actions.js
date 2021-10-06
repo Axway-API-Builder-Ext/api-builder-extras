@@ -21,7 +21,7 @@ async function ensureClient(options) {
  *	 not logged.  If you wish to test logging, you will need to create a
  *	 mocked logger (e.g. using `simple-mock`) and override in
  *	 `MockRuntime.loadPlugin`.  For more information about the logger, see:
- *	 https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
+ *	 https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/project/logging/index.html
  * @param {*} [options.pluginContext] - The data provided by passing the
  *	 context to `sdk.load(file, actions, { pluginContext })` in `getPlugin`
  *	 in `index.js`.
@@ -71,7 +71,7 @@ async function set(params, options) {
  *	 not logged.  If you wish to test logging, you will need to create a
  *	 mocked logger (e.g. using `simple-mock`) and override in
  *	 `MockRuntime.loadPlugin`.  For more information about the logger, see:
- *	 https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/logging.html
+ *	 https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/project/logging/index.html#environmentalization
  * @param {*} [options.pluginContext] - The data provided by passing the
  *	 context to `sdk.load(file, actions, { pluginContext })` in `getPlugin`
  *	 in `index.js`.
