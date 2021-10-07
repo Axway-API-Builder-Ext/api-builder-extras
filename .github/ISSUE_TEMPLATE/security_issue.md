@@ -3,7 +3,8 @@ name: Security issue
 about: Creates a security issue
 title: "[SECURITY]"
 labels: security
-
+assignees: 
+  - cwiechmann
 ---
 
 **Artefact version you are using**

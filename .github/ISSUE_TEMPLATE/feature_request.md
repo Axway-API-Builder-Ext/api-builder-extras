@@ -3,7 +3,8 @@ name: Feature request
 about: Tell us what you need to improve this API-Builder artefact
 title: "[Feature]"
 labels: enhancement
-
+assignees: 
+  - cwiechmann
 ---
 
 **User story**
