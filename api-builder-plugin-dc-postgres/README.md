@@ -85,11 +85,6 @@ const Account = APIBuilder.Model.extend('account', {
 1. Does not support views.
 1. Does not support stored procedures.
 
-## Changes
-
-#### 1.0.1
-- Initial version of the connector
-
 ## Contributing
 
 Please read [Contributing.md](https://github.com/Axway-API-Management-Plus/Common/blob/master/Contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.  
