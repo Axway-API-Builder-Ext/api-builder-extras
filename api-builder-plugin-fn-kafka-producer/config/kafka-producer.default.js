@@ -1,7 +1,7 @@
 module.exports = {
 	pluginConfig: {
 		// During development you may set the environment variables in conf/.env
-		// More info at: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/environmentalization.html
+		// More info at: https://docs.axway.com/bundle/api-builder/page/docs/security_guide/index.html#environmentalization
 		'api-builder-plugin-fn-kafka-producer': {
 			clientConfiguration: {
 				clientId: '', // Identify your client here

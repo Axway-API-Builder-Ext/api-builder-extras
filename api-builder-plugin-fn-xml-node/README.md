@@ -2,7 +2,7 @@
 
 # API-Builder XML-Flow node
 
-Use this extension to add an XML-Flow node to your [Axway API-Builder](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder.html) project. With that you can convert XML-Payload you may have received from a backend stream (e.g. a SOAP-Service) into a Javascript Object for further processing or directly into a JSON-String. That allows you to easily merge data from different sources and formats into a JSON-Based-REST-API.  
+Use this extension to add an XML-Flow node to your [Axway API-Builder](https://docs.axway.com/bundle/api-builder/page/docs/index.html) project. With that you can convert XML-Payload you may have received from a backend stream (e.g. a SOAP-Service) into a Javascript Object for further processing or directly into a JSON-String. That allows you to easily merge data from different sources and formats into a JSON-Based-REST-API.  
 The Flow-Node is based on the [XML-JS](https://www.npmjs.com/package/xml-js) Library.
 
 ## Convert XML to JSON

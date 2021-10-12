@@ -13,7 +13,7 @@ npm install @axway-api-builder-ext/sap-lama-connector@1.0.0 --no-optional
 ```
 
 This connector is using the Swagger-Flow node:  
-https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html  
+https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/flows/flow_nodes/swagger_flow_node/index.html
 
 
 ## Configuration
@@ -25,11 +25,11 @@ Depending on the selected method different options appear on the right, when usi
 ## Setup SAP Landscape Management Host and Login
 A new config file has been automatically created for the SAP Landscape Management Connector which can be used to setup the connection details:  
 ![XML Node Settings][connector-config]  
-Additional details can be found here: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/swagger_flow-node.html#Swaggerflow-node-ConfiguretheSwaggerplugin  
+Additional details can be found here: https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/flows/flow_nodes/swagger_flow_node/index.html#configure-the-swagger-plugin  
 
 
 Please note, that the connector is configured to use HTTP-Basic to communicate with the SAP Landscape Management. In order to use that, please configure the Authentication-Credentials as described here:  
-https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/http_basic_credentials.html  
+https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/credentials/configuring_credentials/http_basic_credentials/index.html  
 Alternatively you can pass on externally given user-credentials with the flow node.
 
 ```javascript
@@ -51,7 +51,7 @@ module.exports = {
 	},
 	// The following authorization credentials needed to use the Swagger service.
 	// Please follow this guide to manually configure the credentials:
-	// https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_credentials.html
+	// https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/credentials/index.html
 	authorization: {
 		credentials: {
 			'LaMa API Basic Authentication': {

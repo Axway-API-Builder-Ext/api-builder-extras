@@ -24,8 +24,8 @@ A default configuration file has been generated under: conf/aws-athena.default.j
 See [Change-Log][6]
 
 
-[1]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_flows.html
-[2]: https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/api_builder_getting_started_guide.html
+[1]: https://docs.axway.com/bundle/api-builder/page/docs/developer_guide/flows/index.html
+[2]: https://docs.axway.com/bundle/api-builder/page/docs/getting_started/index.html
 [3]: https://github.com/Axway-API-Builder-Ext/api-builder-extras/issues
 [6]: Changelog.md
 
