@@ -3,7 +3,8 @@ name: Bug report
 about: Create a report to help us improving this API-Builder artefact
 title: "[BUG]"
 labels: bug
-
+assignees: 
+  - cwiechmann
 ---
 
 **Artefact version you are using**

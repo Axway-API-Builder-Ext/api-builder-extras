@@ -1,4 +1,4 @@
-# Elasticsearch Connector Change Log
+# Postgres Connector Change Log
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Fixed
 - Documentation links
+
+## [2.0.0] 2021-10-07
+### Fixed
+- API-Builder crashes when using Postgres connector with Node.js 14 (See issue [#71](https://github.com/Axway-API-Management-Plus/apim-cli/issues/71))
+
+### Changed
+- Updated underlying PG-Library from version 7.18.2 to 8.7.1 (See issue [#71](https://github.com/Axway-API-Management-Plus/apim-cli/issues/71))
 
 ## [1.0.3] 2021-09-10
 ### Fixed
