@@ -4,14 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.14] 2021-11-04 
 ### Fixed
 - Documentation links
 
+### Security
+- Updated dependencies to fix security issues
+
 ## [1.0.13] 2021-08-23 
+### Security
 - Updated dependencies to solve security issues
 
 ## [1.0.12] 2021-06-14 
+### Security
 - Updated Dev-Dependency Mocha from version 7.2.0 to 8.4.0 to solve security issue
 - Integration pipeline now also tests with Node.js version 14.x
 
