@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Fixed
 - Documentation links
+- Updated dependencies to solve security issues: 
+  - https://github.com/advisories/GHSA-93q8-gq69-wqmw (ansi-regex)
+  - https://github.com/advisories/GHSA-896r-f27r-55mw (json-schema)
+  - https://github.com/advisories/GHSA-qgmg-gppg-76g5 (validator)
+  - https://github.com/advisories/GHSA-v5vg-g7rq-363w (json-pointer)
 
 ## [2.1.0] 2021-09-16
 ### Added
