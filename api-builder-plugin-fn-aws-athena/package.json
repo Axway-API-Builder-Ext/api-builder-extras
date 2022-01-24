@@ -45,6 +45,6 @@
 	},
 	"scripts": {
 		"test": "mocha ./test --recursive -R spec",
-		"postinstall": "node scripts/copyconf.js"
+		"postinstall": "api-builder-copy ./config/aws-athena.default.js ./conf"
 	}
 }

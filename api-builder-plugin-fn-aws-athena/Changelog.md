@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Fixed
 - Documentation links
+- Now using standard api-builder-copy instead of copyconf script
 
 ### Security
 - Updated depencencies to fix security issues
