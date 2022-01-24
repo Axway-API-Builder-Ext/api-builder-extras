@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Documentation links
 
+### Security
+- Updated depencencies to fix security issues
+
 ## [1.0.9] 2021-05-10
 ### Security
 - Changed @axway/api-builder-oas-flow-node from version 1.1.2 to 1.2.3
