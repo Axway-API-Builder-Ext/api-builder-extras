@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Documentation links
 
+### Security
+- Updated depencencies to fix security issues
+
 ## [0.0.8] 2021-04-06
 ### Added
 - Added debug messages to log filenames used to read and write files
