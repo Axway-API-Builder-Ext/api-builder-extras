@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Documentation links
 
+### Security
+- Updated depencencies to fix security issues
+
 ## [0.0.6] 2021-05-10
 ### Security
 - Changed @axway/api-builder-sdk from version 0.2.0 to 1.1.5
