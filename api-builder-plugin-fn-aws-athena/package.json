@@ -32,6 +32,7 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.1.5",
+		"@axway/api-builder-project-utils": "^1.0.3",
 		"athena-express": "^7.0.3",
 		"aws-sdk": "^2.903.0"
 	},
