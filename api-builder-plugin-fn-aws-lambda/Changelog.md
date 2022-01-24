@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Documentation links
 
+### Security
+- Updated depencencies to fix security issues
+
 ## [1.0.2] 2021-05-31
 ### Security
 - Updated Mocha to solve security issues
