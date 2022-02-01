@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-utils",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "For this flow node it is planned to provide several simple tools. For now a switch/case and trace method.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
@@ -39,7 +39,7 @@
 	"devDependencies": {
 		"@axway/api-builder-test-utils": "^1.1.0",
 		"chai": "^4.1.2",
-		"mocha": "^7.1.1"
+		"mocha": "^9.2.0"
 	},
 	"scripts": {
 		"test": "mocha ./test --recursive -R spec"
