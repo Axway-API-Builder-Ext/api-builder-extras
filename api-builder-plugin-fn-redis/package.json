@@ -30,6 +30,7 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.0.0",
+		"@axway/api-builder-project-utils": "^1.0.3",
 		"redis": "^3.0.2"
 	},
 	"peerDependencies": {
