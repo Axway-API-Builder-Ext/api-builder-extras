@@ -34,7 +34,7 @@ jobs:
         npm test
 
   publish-gpr:
-    if: contains(github.event.release.tag_name, 'plugin-fn-xml-node')
+    if: contains(github.event.release.tag_name, 'fn-xml-node')
     env:
       CI: true
     needs: build
