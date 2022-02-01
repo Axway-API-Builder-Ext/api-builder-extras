@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.1] 2022-02-01
 
 ### Security
-- Updated depencencies to fix security issues
+- Updated dependencies to fix security issues
 
 ## [1.0.0] 2021-06-17
 

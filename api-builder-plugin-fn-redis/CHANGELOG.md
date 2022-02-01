@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Documentation links
 
 ### Security
-- Updated depencencies to fix security issues
+- Updated dependencies to fix security issues
 
 ## [0.0.8] 2021-04-28
 ### Added

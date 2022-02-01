@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-odata",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "With this OData flow node, you can create an OData query based on parameters you have defined for a REST API, for example. This allows you to include data from backend OData services in your flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
@@ -35,7 +35,7 @@
 	"devDependencies": {
 		"@axway/api-builder-test-utils": "^1.1.0",
 		"chai": "^4.1.2",
-		"mocha": "^7.1.1"
+		"mocha": "^9.2.0"
 	},
 	"scripts": {
 		"test": "mocha ./test --recursive -R spec"
