@@ -4,17 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.0.16] 2022-02-1
+## [1.0.14] 2022-02-1
 
-### Security
-- Updated dependencies to fix security issues
-
-## [1.0.15] 2022-01-17 
-
-### Security
-- Updated dependencies to fix security issues
-
-## [1.0.14] 2021-11-04 
 ### Fixed
 - Documentation links
 
