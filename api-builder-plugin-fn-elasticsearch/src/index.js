@@ -35,6 +35,7 @@ async function getPlugin(pluginConfig, options) {
 			options.logger.error(`Connection to Elasticsearch: ${pluginConfig.elastic.nodes} not working. Error message: ${JSON.stringify(ex)}`);
 			// In development mode we allow to defer the obtaining of successfull Elasticsearch connection.
 			// The promise is rejected only in production.
+			options.logger.debug(`Used Elasticsearch config: ${JSON.stringify(pluginConfig.elastic)}`);
 			if(!isDeveloperMode()) {
 				return Promise.reject(ex);
 			}
