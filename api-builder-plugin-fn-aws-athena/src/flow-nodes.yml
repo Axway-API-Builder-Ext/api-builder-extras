@@ -10,37 +10,45 @@ flow-nodes:
         description: Execute queries using AWS Athena
         parameters:
           db:
+            name: DB
             description: The database to query.
             required: true
             initialType: string
             schema:
               type: string
           table:
+            name: Table
             description: The name of the table you would like to query
             required: true
             initialType: string
             schema:
               type: string
           fields:
+            name: Fields
             description: The comma seprataed list of fields you would like to get back in the result
             required: true
             initialType: string
             schema:
               type: string
           limit:
+            name: Limit
             description: Limit the number of results. Defaults to 5 elements.
             required: false
             initialType: string
             schema:
               type: string
-        outputs:
-          next:
-            name: Next
-            context: $.result
-            schema:
-              type: string
-          error:
-            name: Error
-            context: $.error
-            schema:
-              type: string
+        returns:
+          name: Next
+          description: Returns the query result
+          context: $.result
+          schema:
+            type: object
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
