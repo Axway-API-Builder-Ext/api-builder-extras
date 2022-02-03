@@ -32,18 +32,19 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^0.2.0",
-		"@googlemaps/google-maps-services-js": "^3.3.6"
+		"@axway/api-builder-project-utils": "^1.0.3",
+		"@googlemaps/google-maps-services-js": "^3.3.8"
 	},
 	"peerDependencies": {
 		"@axway/api-builder-runtime": "^4.22.0"
 	},
 	"devDependencies": {
 		"chai": "^4.3.4",
-		"mocha": "^9.1.4",
+		"mocha": "^9.2.0",
 		"simple-mock": "^0.8.0"
 	},
 	"scripts": {
 		"test": "mocha ./test --recursive -R spec",
-		"postinstall": "node scripts/copyconf.js"
+		"postinstall": "api-builder-copy ./config/google-maps.default.js ./conf"
 	}
 }
