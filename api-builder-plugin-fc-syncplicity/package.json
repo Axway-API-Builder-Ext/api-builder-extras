@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fc-syncplicity",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Use this connector to integrate with Axway Syncplicity",
   "repository": {
     "type": "git",

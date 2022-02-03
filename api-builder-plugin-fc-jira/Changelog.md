@@ -8,14 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.0.8] 2022-02-03
 
 ### Security
-- Updated depencencies to fix security issues
+- Updated dependencies to fix security issues
 
 ## [0.0.7] 2021-07-15
 ### Fixed
 - Documentation links
 
 ### Security
-- Updated depencencies to fix security issues
+- Updated dependencies to fix security issues
 
 ## [0.0.6] 2020-12-15
 ### Security
