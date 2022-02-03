@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fc-sap-lama",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Use this connector to integrate with SAP Landscape Management",
   "repository": {
     "type": "git",
