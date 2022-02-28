@@ -30,7 +30,7 @@
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.1.12",
 		"@axway/api-builder-project-utils": "^1.0.3",
-		"@elastic/elasticsearch": "^7.14.0",
+		"@elastic/elasticsearch": "^8.0.0",
 		"deep-equal": "^2.0.5",
 		"simple-mock": "^0.8.0"
 	},
