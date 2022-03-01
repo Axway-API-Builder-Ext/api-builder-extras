@@ -67,6 +67,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14'
+    # Wait a few secs to get some monitoing data into the .monitoring-es* index
+    - name: Sleep for 30sec 
+      uses: juliangruber/sleep-action@v1
+      with:
+        time: 30s
     - name: Run integration tests
       env:
         CI: true
@@ -103,6 +108,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14'
+    # Wait a few secs to get some monitoing data into the .monitoring-es* index
+    - name: Sleep for 30sec 
+      uses: juliangruber/sleep-action@v1
+      with:
+        time: 30s
     - name: Run integration tests
       env:
         CI: true
