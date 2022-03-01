@@ -114,7 +114,7 @@ jobs:
     if: contains(github.event.release.tag_name, 'plugin-fn-elasticsearch')
     env:
       CI: true
-    needs: integration-tests-es-v7
+    needs: [integration-tests-es-v7, integration-tests-es-v8]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
