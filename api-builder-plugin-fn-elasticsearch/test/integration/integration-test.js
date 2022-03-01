@@ -9,13 +9,14 @@ const simple = require('simple-mock');
 describe('Integration tests', () => {
 	let plugin;
 	let flowNode;
-	//process.env.ELASTICSEARCH_HOSTS = "http://api-env:9200";
+	process.env.ELASTICSEARCH_HOSTS = "http://api-env:9200";
 
 	const options = {
 		logger: {
 			info: simple.mock().callFn((message) => console.log(message)),
 			trace: simple.mock().callFn((message) => console.log(message)),
 			error: simple.mock().callFn((message) => console.log(message)),
+			warn: simple.mock().callFn((message) => console.log(message)),
 			debug: simple.mock().callFn((message) => console.log(message))
 		}
 	};
@@ -29,7 +30,7 @@ describe('Integration tests', () => {
 	});
 
 	describe('#Search integration test', () => {
-		it('should pass without any given parameter', async () => {
+		it.only('should pass without any given parameter', async () => {
 			const { value, output } = await flowNode.search({});
 
 			expect(value.hits).to.be.a('object');
