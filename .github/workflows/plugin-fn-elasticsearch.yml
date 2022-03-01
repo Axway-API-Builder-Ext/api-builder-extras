@@ -114,7 +114,7 @@ jobs:
     if: contains(github.event.release.tag_name, 'plugin-fn-elasticsearch')
     env:
       CI: true
-    needs: integration-tests
+    needs: integration-tests-es-v7
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -133,7 +133,7 @@ jobs:
   publish-npm:
     env:
       CI: true
-    needs: [integration-tests, publish-gpr]
+    needs: [integration-tests-es-v7, publish-gpr]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
