@@ -48,9 +48,8 @@ jobs:
         ports: 
           - 9200:9200
           - 9300:9300
-
         env:
-          - xpack.security.enabled: false
+          xpack.security.enabled: false
         options: >-
           -e "discovery.type=single-node"
           -e "xpack.security.enabled=false"
