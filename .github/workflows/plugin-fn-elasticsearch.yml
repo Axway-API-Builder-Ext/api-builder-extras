@@ -52,6 +52,7 @@ jobs:
           - 9300:9300
         env:
           xpack.security.enabled: false
+          action.auto_create_index: '-apigw-*,+*'
         options: >-
           -e "discovery.type=single-node"
           -e "xpack.security.enabled=false"
