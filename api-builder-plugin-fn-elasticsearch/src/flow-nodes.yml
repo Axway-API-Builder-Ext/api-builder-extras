@@ -1041,13 +1041,13 @@ flow-nodes:
             description: Indicates the specified index incl. aliases exist.
             context: $.result
             schema:
-              type: object
+              type: boolean
           notFound:
             name: Not found
             description: Indicates one or more specified index aliases do not exist. 
             context: $.result
             schema:
-              type: object
+              type: boolean
           error:
             name: Error
             description: An unexpected error happened

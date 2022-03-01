@@ -222,7 +222,7 @@ describe('Indices rollover tests', () => {
 
 		it('should pass when the INDEX name is given', async () => {
 			const mockedAliasExists = setupElasticsearchMock(client, 'indices.existsAlias', './test/unit/mock/indices/aliasExistsResponse.json', false);
-			const mockedIndicesExists = setupElasticsearchMock(client, 'indices.exists', './test/unit/mock/dummy.json', false);
+			const mockedIndicesExists = setupElasticsearchMock(client, 'indices.exists', './test/unit/mock/indices/indexExistsResponse.json', false);
 
 			const inputParameter = { index: "apigw-monitoring" };
 			const { value, output } = await flowNode.indicesExists(inputParameter);

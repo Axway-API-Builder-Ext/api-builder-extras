@@ -49,7 +49,7 @@ async function indicesRollover(params, options) {
 		logger.debug(`Rolling over all indicies starting with alias: ${alias}`);
 		var foundAliases = await client.indices.getAlias({name: `${alias}*`}, { ignore: [404], maxRetries: 3 });
 		// Based on the alias name we get all indicies
-		for (const [key, value] of Object.entries(foundAliases.body)) {
+		for (const [key, value] of Object.entries(foundAliases)) {
 			for (const [aliasName, aliasSettings] of Object.entries(value.aliases)) {
 				// Each can have only one write index, which we use to perform the rollover
 				if(aliasSettings.is_write_index) {
@@ -121,6 +121,7 @@ async function indicesCreate(params, options) {
 
 async function indicesExists(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
+	debugger;
 
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
@@ -140,7 +141,7 @@ async function indicesExists(params, options) {
 			// This searches for indices only
 			result = await client.indices.exists( params, { ignore: [404], maxRetries: 3 });
 		}
-		if(result.statusCode == 404) {
+		if(!result) {
 			return options.setOutput('notFound', result);
 		}
 

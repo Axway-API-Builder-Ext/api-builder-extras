@@ -80,12 +80,10 @@ describe('Template indices tests', () => {
 			const { value, output } = await flowNode.putTemplate(inputParameter);
 
 			expect(output).to.equal('next');
-			expect(value.statusCode).to.equal(200);
+			expect(value.acknowledged).to.equal(true);
 			expect(mockedFn.callCount).to.equals(1);
 			// Validate all given parameters has been passed to the JS-Elastic client
 			expect(mockedFn.lastCall.arg).to.deep.equals(inputParameter);
-			// Make sure a body is returned
-			expect(value.body).to.exist;
 		});
 
 		it('should update index template if version number is higher / existing ILM policy should be taken over', async () => {
@@ -101,14 +99,13 @@ describe('Template indices tests', () => {
 			};
 			const { value, output } = await flowNode.putTemplate(inputParameter);
 
+			debugger;
 			expect(output).to.equal('next');
-			expect(value.statusCode).to.equal(200);
+			expect(value.acknowledged).to.equal(true);
 			expect(mockedPutTemplate.callCount).to.equals(1);
 			expect(mockedPutTemplate.lastCall.arg.body.version).to.equals(2); // Make sure version 2 is given
 			expect(mockedPutTemplate.lastCall.arg.body.aliases['apigw-traffic-summary']).to.exist; // Validate the existing mapping is returned
 			expect(mockedPutTemplate.lastCall.arg.body.settings.index.lifecycle).to.deep.equals({name: "logstash-policy", rollover_alias: "apigw-traffic-summary"}); // Validate the existing mapping is returned
-			// Make sure a body is returned
-			expect(value.body).to.exist;
 		});
 
 		it('should NOT update index template if desired version number equals or less than actual', async () => {

@@ -1,164 +1,109 @@
 {
-    "body": {
-      "count": 1,
-      "transforms": [
-        {
-          "id": "apigw-summary-transform-hourly",
-          "version": "7.14.0",
-          "create_time": 1630074467205,
-          "source": {
-            "index": [
-              "apigw-traffic-summary*"
-            ],
-            "query": {
-              "match_all": {
-                
-              }
+  "count": 1,
+  "transforms": [
+    {
+      "id": "apigw-summary-transform-hourly",
+      "version": "7.14.0",
+      "create_time": 1630074467205,
+      "source": {
+        "index": ["apigw-traffic-summary*"],
+        "query": {
+          "match_all": {}
+        }
+      },
+      "dest": {
+        "index": "apigw-traffic-hourly-2-00001"
+      },
+      "frequency": "1m",
+      "pivot": {
+        "group_by": {
+          "@timestamp": {
+            "date_histogram": {
+              "field": "@timestamp",
+              "calendar_interval": "1h",
+              "missing_bucket": false
             }
           },
-          "dest": {
-            "index": "apigw-traffic-hourly-2-00001"
-          },
-          "frequency": "1m",
-          "pivot": {
-            "group_by": {
-              "@timestamp": {
-                "date_histogram": {
-                  "field": "@timestamp",
-                  "calendar_interval": "1h",
-                  "missing_bucket": false
-                }
-              },
-              "serviceContext.app.keyword": {
-                "terms": {
-                  "field": "serviceContext.app.keyword",
-                  "missing_bucket": true
-                }
-              },
-              "finalStatus": {
-                "terms": {
-                  "field": "finalStatus",
-                  "missing_bucket": true
-                }
-              },
-              "serviceContext.apiOrg": {
-                "terms": {
-                  "field": "serviceContext.apiOrg",
-                  "missing_bucket": true
-                }
-              },
-              "serviceContext.apiVersion": {
-                "terms": {
-                  "field": "serviceContext.apiVersion",
-                  "missing_bucket": true
-                }
-              },
-              "processInfo.gatewayRegion": {
-                "terms": {
-                  "field": "processInfo.gatewayRegion",
-                  "missing_bucket": true
-                }
-              },
-              "processInfo.gatewayName.keyword": {
-                "terms": {
-                  "field": "processInfo.gatewayName.keyword",
-                  "missing_bucket": true
-                }
-              },
-              "http.method": {
-                "terms": {
-                  "field": "http.method",
-                  "missing_bucket": true
-                }
-              },
-              "serviceContext.method.keyword": {
-                "terms": {
-                  "field": "serviceContext.method.keyword",
-                  "missing_bucket": true
-                }
-              }
-            },
-            "aggregations": {
-              "correlationId.value_count": {
-                "value_count": {
-                  "field": "correlationId"
-                }
-              },
-              "transactionId.value_count": {
-                "value_count": {
-                  "field": "transactionId"
-                }
-              },
-              "duration.avg": {
-                "avg": {
-                  "field": "duration"
-                }
-              },
-              "http.bytesReceived.sum": {
-                "sum": {
-                  "field": "http.bytesReceived"
-                }
-              },
-              "http.bytesSent.sum": {
-                "sum": {
-                  "field": "http.bytesSent"
-                }
-              }
+          "serviceContext.app.keyword": {
+            "terms": {
+              "field": "serviceContext.app.keyword",
+              "missing_bucket": true
             }
           },
-          "settings": {
-            "max_page_search_size": 500
+          "finalStatus": {
+            "terms": {
+              "field": "finalStatus",
+              "missing_bucket": true
+            }
+          },
+          "serviceContext.apiOrg": {
+            "terms": {
+              "field": "serviceContext.apiOrg",
+              "missing_bucket": true
+            }
+          },
+          "serviceContext.apiVersion": {
+            "terms": {
+              "field": "serviceContext.apiVersion",
+              "missing_bucket": true
+            }
+          },
+          "processInfo.gatewayRegion": {
+            "terms": {
+              "field": "processInfo.gatewayRegion",
+              "missing_bucket": true
+            }
+          },
+          "processInfo.gatewayName.keyword": {
+            "terms": {
+              "field": "processInfo.gatewayName.keyword",
+              "missing_bucket": true
+            }
+          },
+          "http.method": {
+            "terms": {
+              "field": "http.method",
+              "missing_bucket": true
+            }
+          },
+          "serviceContext.method.keyword": {
+            "terms": {
+              "field": "serviceContext.method.keyword",
+              "missing_bucket": true
+            }
+          }
+        },
+        "aggregations": {
+          "correlationId.value_count": {
+            "value_count": {
+              "field": "correlationId"
+            }
+          },
+          "transactionId.value_count": {
+            "value_count": {
+              "field": "transactionId"
+            }
+          },
+          "duration.avg": {
+            "avg": {
+              "field": "duration"
+            }
+          },
+          "http.bytesReceived.sum": {
+            "sum": {
+              "field": "http.bytesReceived"
+            }
+          },
+          "http.bytesSent.sum": {
+            "sum": {
+              "field": "http.bytesSent"
+            }
           }
         }
-      ]
-    },
-    "statusCode": 200,
-    "headers": {
-      "x-elastic-product": "Elasticsearch",
-      "content-type": "application/json; charset=UTF-8",
-      "content-length": "1478"
-    },
-    "meta": {
-      "context": null,
-      "request": {
-        "params": {
-          "method": "GET",
-          "path": "/_transform/apigw-summary-transform-hourly",
-          "body": null,
-          "querystring": "",
-          "headers": {
-            "user-agent": "elasticsearch-js/7.14.0 (win32 10.0.19043-x64; Node.js v12.13.1)",
-            "x-elastic-client-meta": "es=7.14.0,js=12.13.1,t=7.14.0,hc=12.13.1"
-          },
-          "timeout": 30000
-        },
-        "options": {
-          "ignore": [
-            404
-          ],
-          "maxRetries": 3
-        },
-        "id": 1
       },
-      "name": "elasticsearch-js",
-      "connection": {
-        "url": "http://api-env:9200/",
-        "id": "http://api-env:9200/",
-        "headers": {
-          
-        },
-        "deadCount": 0,
-        "resurrectTimeout": 0,
-        "_openRequests": 0,
-        "status": "alive",
-        "roles": {
-          "master": true,
-          "data": true,
-          "ingest": true,
-          "ml": false
-        }
-      },
-      "attempts": 0,
-      "aborted": false
+      "settings": {
+        "max_page_search_size": 500
+      }
     }
-  }
+  ]
+}

@@ -55,7 +55,6 @@ describe('Integration tests', () => {
 	});
 
 	describe('#Indices integration test', () => {
-
 		it('should fail if the given index-template does not exist', async () => {
 			const inputParameter = { index: "my_index_to_be_created", indexTemplate: "this_template_is_missing" };
 			const { value, output } = await flowNode.indicesCreate(inputParameter);
@@ -63,7 +62,15 @@ describe('Integration tests', () => {
 			expect(value).to.be.instanceOf(Error)
 				.and.to.have.property('message', "The index template: 'this_template_is_missing' is missing. Index wont be created.");
 			expect(output).to.equal('error');
-		});		
+		});
+
+		it('should return with not found for an unknown ALIAS', async () => {
+
+			const inputParameter = { name: "unknown-alias" };
+			const { value, output } = await flowNode.indicesExists(inputParameter);
+
+			expect(output).to.equal('notFound');
+		});
 	});
 
 	describe('#Index mapping integration test', () => {
@@ -128,4 +135,16 @@ describe('Integration tests', () => {
 			expect(output).to.equal('notFound');
 		});
 	});
+
+	describe('#Transform jobs integration test', () => {
+		it('should create the transform not yet exists', async () => {
+			const inputParameter = { 
+				transformId: 'traffic-summary-rollup-job', 
+				body: JSON.parse(fs.readFileSync('./test/unit/mock/transform/putTransformRequestBody.json')) };
+			const { value, output } = await flowNode.putTransform(inputParameter);
+
+			expect(output).to.equal('next');
+		});
+	});
+
 });

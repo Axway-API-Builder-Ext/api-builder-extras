@@ -88,17 +88,16 @@ describe('Transform tests', () => {
 
 			const inputParameter = { transformId: 'myTestTransform', body: JSON.parse(fs.readFileSync('./test/unit/mock/transform/putTransformRequestBody.json')) };
 			const { value, output } = await flowNode.putTransform(inputParameter);
+			debugger;
 
 			expect(output).to.equal('next');
-			expect(value.statusCode).to.equal(200);
+			expect(value.acknowledged).to.equal(true);
 			expect(mockedGetTransformStats.callCount).to.equals(1); // should be called once to get all transforms
 			expect(mockedPutTransform.callCount).to.equals(1); // a new transform should be created
 			expect(mockedStartTransform.callCount).to.equals(1); // and started
-			// Validate all given parameters has been passed to the JS-Elastic client
-			expect(mockedPutTransform.lastCall.arg).to.deep.equals(inputParameter);
-			// Make sure a body is returned
-			expect(value.body).to.exist;
-			expect(value.body.acknowledged).to.equal(true);
+			// Validate all given parameters has been passed to the JS-Elastic client (Disabled see issue: https://github.com/elastic/elasticsearch-js/issues/1645)
+			// expect(mockedPutTransform.lastCall.arg).to.deep.equals(inputParameter);
+			expect(value.acknowledged).to.equal(true);
 		});
 
 		it('should create the transform not yet exists', async () => {
