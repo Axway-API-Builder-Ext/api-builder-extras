@@ -55,6 +55,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Show ES Logs
+      run: |
+        echo "Logs of ES-Service container: ${{ job.services.elasticsearch.id }}"
+        docker logs "${{ job.services.elasticsearch.id }}"
     - name: Run integration tests
       env:
         CI: true
