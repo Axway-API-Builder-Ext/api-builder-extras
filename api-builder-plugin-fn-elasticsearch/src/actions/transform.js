@@ -17,7 +17,6 @@ const { ElasticsearchClient } = require('./ElasticsearchClient');
  */
 
 async function putTransform(params, options) {
-	debugger;
 	const elasticSearchConfig = options.pluginConfig.elastic;
 	
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {

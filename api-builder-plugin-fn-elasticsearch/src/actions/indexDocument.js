@@ -38,7 +38,6 @@ async function indexDocument(params, options) {
 		body[addTimestamp] = Date.now();
 		delete params.addTimestamp;
 	}
-	debugger;
 	var result;
 	try {
 		result = await client.index( params, { ignore: [404], maxRetries: 3 });

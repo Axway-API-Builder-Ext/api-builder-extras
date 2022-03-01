@@ -26,7 +26,6 @@ async function getRollupJobs(params, options) {
 	if (!params.id) {
 		throw new Error('Missing required parameter: id');
 	}
-	debugger;
 
 	var client = new ElasticsearchClient(elasticSearchConfig).client;
 	var result = await client.rollup.getJobs( params, { ignore: [404], maxRetries: 3 });

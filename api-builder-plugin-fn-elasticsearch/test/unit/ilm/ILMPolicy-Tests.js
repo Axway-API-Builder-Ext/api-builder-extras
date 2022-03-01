@@ -77,7 +77,6 @@ describe('ILM Policy tests', () => {
 			const inputParameter = { policy: 'test-ilm-policy', body: JSON.parse(fs.readFileSync('./test/unit/mock/ilm/putILMPolicyRequestBody.json')) };
 			const { value, output } = await flowNode.putILMPolicy(inputParameter);
 
-			debugger;
 			expect(output).to.equal('next');
 			expect(value.acknowledged).to.equal(true);
 			expect(mockedFn.callCount).to.equals(1);

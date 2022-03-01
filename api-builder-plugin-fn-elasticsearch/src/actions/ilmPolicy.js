@@ -27,7 +27,6 @@ async function getILMPolicy(params, options) {
 	if (!params.policy) {
 		throw new Error('Missing required parameter: policy');
 	}
-	debugger;
 	try {
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
 		var result = await client.ilm.getLifecycle(params, { ignore: [404], maxRetries: 3 });
@@ -66,7 +65,6 @@ async function putILMPolicy(params, options) {
 		attachToIndexTemplate = params.attachToIndexTemplate;
 		delete params.attachToIndexTemplate;
 	}
-	debugger;
 
 	try {
 		var noUpdate = false;

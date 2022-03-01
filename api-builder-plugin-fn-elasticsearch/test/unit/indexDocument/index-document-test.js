@@ -67,8 +67,6 @@ describe('Index document tests', () => {
 			const inputParameter = { index: "apigw-some-new-index", body: {message: "A document to index"}, refresh: "wait_for" };
 			const { value, output } = await flowNode.indexDocument(inputParameter);
 
-			debugger;
-
 			expect(value).to.be.instanceOf(Error);
 			expect(value.message).to.contain('index_not_found_exception');
 			expect(output).to.equal('error');

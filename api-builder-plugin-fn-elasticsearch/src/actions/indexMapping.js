@@ -27,7 +27,6 @@ async function getMapping(params, options) {
 		throw new Error('Missing required parameter: index');
 	}
 	try {
-		debugger;
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
 		var result = await client.indices.getMapping( params, { ignore: [404], maxRetries: 3 });
 
@@ -44,7 +43,6 @@ async function getMapping(params, options) {
 
 async function putMapping(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
-	debugger;
 
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');

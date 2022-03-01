@@ -46,7 +46,7 @@ describe('Template mapping tests', () => {
 
 			const inputParameter = { index: 'apigw-traffic-summary-00*' };
 			const { value, output } = await flowNode.getMapping(inputParameter);
-			debugger;
+
 			expect(output).to.equal('next');
 			expect(value['apigw-traffic-summary-000001']).to.exists;
 			expect(mockedFn.callCount).to.equals(1);

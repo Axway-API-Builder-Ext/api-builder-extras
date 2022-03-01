@@ -124,7 +124,7 @@ describe('Search tests', () => {
 			};
 
 			const { value, output } = await flowNode.search(inputParameter);
-			debugger;
+
 			expect(output).to.equal('next');
 			expect(value.hits).to.exist;
 			expect(value.suggest).to.exist;

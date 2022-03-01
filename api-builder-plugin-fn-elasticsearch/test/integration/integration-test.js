@@ -114,7 +114,7 @@ describe('Integration tests', () => {
 	});
 
 	describe('#Rollup jobs integration test', () => {
-		it.only('should follow notFound with an invalid Job ID', async () => {
+		it('should follow notFound with an invalid Job ID', async () => {
 			const inputParameter = { id: 'unknown-job' };
 			const { value, output } = await flowNode.getRollupJobs(inputParameter);
 

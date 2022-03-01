@@ -88,7 +88,6 @@ async function indicesCreate(params, options) {
 	if (!index) {
 		throw new Error('Missing required parameter: index');
 	}
-	debugger;
 	try {
 		if(alias) {
 			if(params.body) { // a body might be given

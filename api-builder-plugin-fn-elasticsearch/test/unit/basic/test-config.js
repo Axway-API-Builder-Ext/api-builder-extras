@@ -27,7 +27,7 @@ describe('Basic: flow-node elasticsearch', () => {
 			setupElasticsearchMock(client, 'search', './test/unit/mock/search_all_response.json');
 
 			const { value, output } = await flowNode.search({ });
-			debugger;
+
 			expect(output).to.equal('next');
 			expect(value.hits).to.exist;
 		});
