@@ -50,6 +50,7 @@ jobs:
           - 9300:9300
         options: >-
           -e "discovery.type=single-node"
+          -e "xpack.security.enabled=false"
           --health-cmd "curl -f http://localhost:9200"
           --health-interval 30s
           --health-timeout 2s
