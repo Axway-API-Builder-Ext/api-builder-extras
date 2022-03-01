@@ -30,7 +30,7 @@ describe('Integration tests', () => {
 	});
 
 	describe('#Search integration test', () => {
-		it.only('should pass without any given parameter', async () => {
+		it('should pass without any given parameter', async () => {
 			const { value, output } = await flowNode.search({});
 
 			expect(value.hits).to.be.a('object');
@@ -47,7 +47,7 @@ describe('Integration tests', () => {
 
 		it('should return with no result, if the query has no hits.', async () => {
 			const inputParameter = {
-				index: '.fleet-policies',
+				index: '.monitoring-es*',
 				"query": {
 					"match": {
 						"someField": "someValue"
@@ -83,7 +83,7 @@ describe('Integration tests', () => {
 
 		it('should pass with a valid template name', async () => {
 
-			const inputParameter = { name: 'apigw-trace-traffic_test_6168' };
+			const inputParameter = { name: '.monitoring-es' };
 			const { value, output } = await flowNode.getTemplate(inputParameter);
 
 			expect(output).to.equal('next');
