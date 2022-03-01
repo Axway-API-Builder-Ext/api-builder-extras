@@ -2,6 +2,7 @@ const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-test-utils');
 const getPlugin = require('../../src');
 const fs = require('fs');
+const simple = require('simple-mock');
 
 //const { ElasticsearchClient } = require('../../../src/actions/ElasticsearchClient');
 
@@ -9,10 +10,20 @@ describe('Integration tests', () => {
 	let plugin;
 	let flowNode;
 	//process.env.ELASTICSEARCH_HOSTS = "http://api-env:9200";
+
+	const options = {
+		logger: {
+			info: simple.mock().callFn((message) => console.log(message)),
+			trace: simple.mock().callFn((message) => console.log(message)),
+			error: simple.mock().callFn((message) => console.log(message)),
+			debug: simple.mock().callFn((message) => console.log(message))
+		}
+	};
+
 	var pluginConfig = require('../../config/elasticsearch.default.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
 
 	beforeEach(async () => {
-		plugin = await MockRuntime.loadPlugin(getPlugin, pluginConfig);
+		plugin = await MockRuntime.loadPlugin(getPlugin, pluginConfig, options);
 		plugin.setOptions({ validateOutputs: true });
 		flowNode = plugin.getFlowNode('elasticsearch');
 	});
