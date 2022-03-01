@@ -27,11 +27,13 @@ async function getMapping(params, options) {
 		throw new Error('Missing required parameter: index');
 	}
 	try {
+		debugger;
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
 		var result = await client.indices.getMapping( params, { ignore: [404], maxRetries: 3 });
 
-		if((Object.keys(result.body).length === 0 && result.body.constructor === Object) || result.statusCode == 404) {
-			throw new Error(`No mapping found for index [${params.index}]`);
+		if(result.status === 404) {
+			throw new Error(result.error.reason);
+			//throw new Error(`No mapping found for index [${params.index}]`);
 		}
 		return result;
 	} catch (e) {
@@ -42,6 +44,7 @@ async function getMapping(params, options) {
 
 async function putMapping(params, options) {
 	const elasticSearchConfig = options.pluginConfig.elastic;
+	debugger;
 
 	if (typeof elasticSearchConfig.node === 'undefined' && typeof elasticSearchConfig.nodes === 'undefined') {
 		options.logger.error('Elasticsearch configuration is invalid: nodes or node is missing.');
@@ -57,8 +60,8 @@ async function putMapping(params, options) {
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
 		var result = await client.indices.putMapping( params, { ignore: [404], maxRetries: 3 });
 
-		if(Object.keys(result.body).length === 0 && result.body.constructor === Object) {
-			throw new Error(`No index template found with name [${name}]`);
+		if(result.status === 404) {
+			throw new Error(result.error.reason);
 		}
 		return result;
 

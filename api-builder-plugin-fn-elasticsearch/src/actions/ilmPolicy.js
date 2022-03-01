@@ -27,15 +27,16 @@ async function getILMPolicy(params, options) {
 	if (!params.policy) {
 		throw new Error('Missing required parameter: policy');
 	}
+	debugger;
 	try {
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
 		var result = await client.ilm.getLifecycle(params, { ignore: [404], maxRetries: 3 });
 
-		if (result.statusCode == 404) {
+		if (result.status == 404) {
 			return options.setOutput('notFound', `No ILM policy found with name [${params.policy}]`);
 		}
 		// Return the template config itself - Not the surrounding object based on the template name
-		return result.body[params.policy];
+		return result[params.policy];
 	} catch (e) {
 		if (e instanceof Error) throw e;
 		throw new Error(JSON.stringify(e));
@@ -65,6 +66,7 @@ async function putILMPolicy(params, options) {
 		attachToIndexTemplate = params.attachToIndexTemplate;
 		delete params.attachToIndexTemplate;
 	}
+	debugger;
 
 	try {
 		var noUpdate = false;
@@ -73,7 +75,7 @@ async function putILMPolicy(params, options) {
 		if (updateWhenChanged) {
 			// Get the current/actual ILM-Policy based on the policy name
 			const response = await client.ilm.getLifecycle({ name: params.policy }, { ignore: [404], maxRetries: 3 });
-			const actualILMPolicy = response.body[params.policy];
+			const actualILMPolicy = response[params.policy];
 			if (actualILMPolicy == undefined) {
 				options.logger.info(`No ILM-Policy found with name: ${params.policy} creating new.`);
 			} else {
@@ -96,7 +98,7 @@ async function putILMPolicy(params, options) {
 					var aliasName = field.split(":")[1];
 
 					var response = await client.indices.getTemplate({name: templateName}, { ignore: [404], maxRetries: 3 });
-					const indexTemplate = response.body[templateName];
+					const indexTemplate = response[templateName];
 					if(indexTemplate == undefined) {
 						options.logger.error(`Error adding ILM-Policy: ${params.policy} to index template: ${templateName}. Index-Template not found!`);
 						continue;

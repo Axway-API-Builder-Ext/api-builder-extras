@@ -43,7 +43,9 @@
 		"mocha": "^9.1.4"
 	},
 	"scripts": {
-		"test": "mocha ./test --recursive -R spec",
+		"unit-test": "mocha ./test/unit --recursive -R spec",
+		"integration-test": "mocha ./test/integration --recursive -R spec",
+		"test": "mocha ./test/unit --recursive -R spec",
 		"postinstall": "api-builder-copy ./config/elasticsearch.default.js ./conf"
 	}
 }

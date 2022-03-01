@@ -1,0 +1,101 @@
+{
+  "took": 723,
+  "timed_out": false,
+  "_shards": {
+    "total": 15,
+    "successful": 15,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 10000,
+      "relation": "gte"
+    },
+    "max_score": 1.0,
+    "hits": [
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "c2822c61dcb3c3c93d8411ff",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "ec822c61e0b3d2250a54dc0c",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "68822c61d3b3caad97068275",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "0e832c6104b4ee0ebad93f6f",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "a0832c61f2b388d8d53e3ef4",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "e1822c6100b4c6efc461fd9f",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "4b822c61f1b3e0731d9682c8",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "1c832c61e5b3293ef7634765",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "3a832c61e8b329b9f2f906fa",
+        "_score": 1.0
+      },
+      {
+        "_index": "apigw-traffic-summary-000003",
+        "_type": "_doc",
+        "_id": "58832c61ebb3f317146f6a63",
+        "_score": 1.0
+      }
+    ]
+  },
+  "suggest": {
+    "http.authSubjectId": [
+      {
+        "text": "axway",
+        "offset": 0,
+        "length": 5,
+        "options": []
+      },
+      {
+        "text": "client",
+        "offset": 6,
+        "length": 6,
+        "options": []
+      },
+      {
+        "text": "app",
+        "offset": 13,
+        "length": 3,
+        "options": []
+      }
+    ]
+  }
+}

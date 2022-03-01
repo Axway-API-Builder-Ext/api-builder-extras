@@ -88,6 +88,7 @@ async function indicesCreate(params, options) {
 	if (!index) {
 		throw new Error('Missing required parameter: index');
 	}
+	debugger;
 	try {
 		if(alias) {
 			if(params.body) { // a body might be given
@@ -104,7 +105,7 @@ async function indicesCreate(params, options) {
 		if(indexTemplate) {
 			var client = new ElasticsearchClient(elasticSearchConfig).client;
 			var result = await client.indices.existsTemplate( { name: indexTemplate }, { maxRetries: 3 });
-			if(result.statusCode == 404) {
+			if(!result) { // If template exists true is returned
 				throw new Error(`The index template: '${indexTemplate}' is missing. Index wont be created.`);
 			}
 			delete params.indexTemplate;

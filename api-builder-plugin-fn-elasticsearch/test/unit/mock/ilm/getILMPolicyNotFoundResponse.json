@@ -1,0 +1,13 @@
+{
+  "error": {
+    "root_cause": [
+      {
+        "type": "resource_not_found_exception",
+        "reason": "Lifecycle policy not found: logstash-plicy"
+      }
+    ],
+    "type": "resource_not_found_exception",
+    "reason": "Lifecycle policy not found: logstash-plicy"
+  },
+  "status": 404
+}

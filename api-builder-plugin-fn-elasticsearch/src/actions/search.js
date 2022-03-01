@@ -87,11 +87,11 @@ async function search(params, options) {
 		throw new Error(JSON.stringify(ex));
 	}
 
-	if(queryResult.statusCode === 404 && queryResult.body.error.type == "index_not_found_exception") {
+	if(queryResult.status === 404 && queryResult.error.type == "index_not_found_exception") {
 		return options.setOutput('missingIndex', queryResult);
 	}
 
-	if(queryResult.body.hits.total.value === 0) {
+	if(queryResult.hits.total.value === 0) {
 		return options.setOutput('noResult', queryResult);
 	}
 
