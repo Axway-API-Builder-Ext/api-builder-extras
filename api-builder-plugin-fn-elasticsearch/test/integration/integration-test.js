@@ -98,13 +98,6 @@ describe('Integration tests', () => {
 	});
 
 	describe('#Search integration test', () => {
-		it('should pass without any given parameter', async () => {
-			const { value, output } = await flowNode.search({});
-
-			expect(value.hits).to.be.a('object');
-			expect(output).to.equal('next');
-		});
-
 		it('should pass when having an index parameter given', async () => {
 			const inputParameter = { index: 'apigw-management-kpis' };
 
