@@ -2,14 +2,15 @@ const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-test-utils');
 const getPlugin = require('../../src');
 const fs = require('fs');
+const path = require('path');
 const simple = require('simple-mock');
+const dotenv = require('dotenv');
 
 //const { ElasticsearchClient } = require('../../../src/actions/ElasticsearchClient');
 
 describe('Integration tests', () => {
 	let plugin;
 	let flowNode;
-	process.env.ELASTICSEARCH_HOSTS = "http://api-env:9200";
 
 	const options = {
 		logger: {
@@ -20,6 +21,12 @@ describe('Integration tests', () => {
 			debug: simple.mock().callFn((message) => console.log(message))
 		}
 	};
+
+	// Loads test environment variables from test/.env if the file exists
+	const envFilePath = path.join(__dirname, '.env');
+	if (fs.existsSync(envFilePath)) {
+		dotenv.config({ path: envFilePath });
+	}
 
 	var pluginConfig = require('../../config/elasticsearch.default.js').pluginConfig['@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch'];
 
