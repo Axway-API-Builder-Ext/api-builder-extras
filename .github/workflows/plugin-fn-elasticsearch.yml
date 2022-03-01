@@ -5,6 +5,8 @@ on:
   push:
     paths:
       - 'api-builder-plugin-fn-elasticsearch/**'
+    branches:
+      - 'master'
   pull_request:
     paths:
       - 'api-builder-plugin-fn-elasticsearch/**'
