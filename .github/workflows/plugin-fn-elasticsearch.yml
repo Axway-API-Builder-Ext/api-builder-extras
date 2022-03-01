@@ -48,7 +48,13 @@ jobs:
         ports: 
           - 9200:9200
           - 9300:9300
-        options: -e "discovery.type=single-node"
+        options: >-
+          -e "discovery.type=single-node"
+          --health-cmd "curl -f http://localhost:9200"
+          --health-interval 30s
+          --health-timeout 2s
+          --health-retries 5
+          --health-start-period 30s
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -62,7 +68,7 @@ jobs:
     - name: Run integration tests
       env:
         CI: true
-        ELASTICSEARCH_HOSTS: "http://localhost:9200"
+        ELASTICSEARCH_HOSTS: 'http://localhost:9200'
       run: |
         npm ci
         npm run build --if-present
