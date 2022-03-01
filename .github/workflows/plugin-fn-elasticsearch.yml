@@ -94,9 +94,9 @@ jobs:
           - 9300:9300
         env:
           xpack.security.enabled: false
+          action.auto_create_index: '-apigw-*,+*'
         options: >-
           -e "discovery.type=single-node"
-          -e "xpack.security.enabled=false"
           --health-cmd "curl -f http://localhost:9200"
           --health-interval 30s
           --health-timeout 2s
@@ -108,11 +108,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14'
-    # Wait a few secs to get some monitoing data into the .monitoring-es* index
-    - name: Sleep for 30sec 
-      uses: juliangruber/sleep-action@v1
-      with:
-        time: 30s
     - name: Run integration tests
       env:
         CI: true
