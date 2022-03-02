@@ -38,7 +38,6 @@ async function indexDocument(params, options) {
 		body[addTimestamp] = Date.now();
 		delete params.addTimestamp;
 	}
-	
 	var result;
 	try {
 		result = await client.index( params, { ignore: [404], maxRetries: 3 });
@@ -46,7 +45,7 @@ async function indexDocument(params, options) {
 		if(ex instanceof Error) throw ex;
 		throw new Error(JSON.stringify(ex));
 	}
-	if(result.statusCode!=201) {
+	if(result.result!="created") {
 		throw new Error(JSON.stringify(result));
 	}
 	return result;

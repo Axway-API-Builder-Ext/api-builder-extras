@@ -1,0 +1,17 @@
+{
+  "error": {
+    "root_cause": [
+      {
+        "type": "index_not_found_exception",
+        "reason": "no such index [apigw-some-new-index] and [action.auto_create_index] contains [-apigw-*] which forbids automatic creation of the index",
+        "index_uuid": "_na_",
+        "index": "apigw-some-new-index"
+      }
+    ],
+    "type": "index_not_found_exception",
+    "reason": "no such index [apigw-some-new-index] and [action.auto_create_index] contains [-apigw-*] which forbids automatic creation of the index",
+    "index_uuid": "_na_",
+    "index": "apigw-some-new-index"
+  },
+  "status": 404
+}

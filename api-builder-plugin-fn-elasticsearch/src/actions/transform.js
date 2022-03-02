@@ -52,22 +52,23 @@ async function putTransform(params, options) {
 		var actualTransform;
 		var actualTransformId
 		// Get all active (RUNNING ONLY) transforms with the given primary Transform-ID
-		const allTransforms = await client.transform.getTransformStats({ transformId: `${params.transformId}*` }, { ignore: [404], maxRetries: 3 });
+		debugger;
+		const allTransforms = await client.transform.getTransformStats({ transform_id: `${params.transformId}*` }, { ignore: [404], maxRetries: 3, allowNoMatch: true });
 		var runningTransforms = [];
-		for (i = 0; i < allTransforms.body.transforms.length; i++) { 
-			const transform = allTransforms.body.transforms[i];
+		for (i = 0; i < allTransforms.transforms.length; i++) { 
+			const transform = allTransforms.transforms[i];
 			// Check if the Transform already exists, which means nothing to do
 			if(transform.id==`${params.transformId}${idSuffix}`) {
 				options.logger.info(`Transform found: ${params.transformId}${idSuffix} already exists with state: ${transform.state}. To update this transform, please provide an idSuffix (e.g. v2)`);
 				if(startTransform && transform.state != "started" && transform.state != "indexing") {
 					options.logger.info(`Existing transform: ${params.transformId}${idSuffix} is not running, going to start it.`);
-					await client.transform.startTransform( {transformId: transform.id}, { ignore: [404], maxRetries: 3 });
+					await client.transform.startTransform( {transform_id: transform.id}, { ignore: [404], maxRetries: 3 });
 				}
 				actualTransform = transform;
 			} else {
 				// Stop all other transforms 
 				if(transform.state == "started" || transform.state == "indexing") {
-					await client.transform.stopTransform( {transformId: transform.id}, { ignore: [404], maxRetries: 3 });
+					await client.transform.stopTransform( {transform_id: transform.id}, { ignore: [404], maxRetries: 3 });
 				}
 			}
 		}
@@ -75,26 +76,27 @@ async function putTransform(params, options) {
 		// Stop all running transforms, as we expect only one transform to run
 		for (i = 0; i < runningTransforms.length; i++) { 
 			const runningTransform = runningTransforms[i];
-			await client.transform.stopTransform( {transformId: runningTransform.id}, { ignore: [404], maxRetries: 3 });
+			await client.transform.stopTransform( {transform_id: runningTransform.id}, { ignore: [404], maxRetries: 3 });
 		}
 
-		params.transformId = `${params.transformId}${idSuffix}`;
+		params.transform_id = `${params.transformId}${idSuffix}`;
+		delete params.transformId; // Currently not supported by the JS-Library (See https://github.com/elastic/elasticsearch-js/issues/1645)
 		try {
 			var putTransformResult = await client.transform.putTransform( params, { ignore: [404], maxRetries: 3 });
 		} catch (e) {
 			if(e.meta.statusCode == 409) {
-				throw new Error(`Error creating the transform. The transform id: \'${params.transformId}\' was used previously. This includes deleted transforms.`);
+				throw new Error(`Error creating the transform. The transform id: \'${params.transform_id}\' was used previously. This includes deleted transforms.`);
 			} else {
 				throw e;
 			}
 		}
 		if(startTransform) {
-			options.logger.info(`Starting created transform with ID: ${params.transformId}`);
-			await client.transform.startTransform( {transformId: params.transformId}, { ignore: [404], maxRetries: 3 });
+			options.logger.info(`Starting created transform with ID: ${params.transform_id}`);
+			await client.transform.startTransform( {transform_id: params.transform_id}, { ignore: [404], maxRetries: 3 });
 		}
 		if(deletePreviousTransform && actualTransformId) {
 			options.logger.info(`Deleting previous transform with ID: ${actualTransformId}`);
-			await client.transform.deleteTransform( {transformId: actualTransformId}, { ignore: [404], maxRetries: 3 });
+			await client.transform.deleteTransform( {transform_id: actualTransformId}, { ignore: [404], maxRetries: 3 });
 		}
 		return putTransformResult;
 	} catch (e) {

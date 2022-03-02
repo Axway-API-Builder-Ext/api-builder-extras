@@ -1,0 +1,9 @@
+{
+  "acknowledged": true,
+  "shards_acknowledged": true,
+  "old_index": "apigw-traffic-summary-000002",
+  "new_index": "apigw-traffic-summary-000003",
+  "rolled_over": true,
+  "dry_run": false,
+  "conditions": {}
+}

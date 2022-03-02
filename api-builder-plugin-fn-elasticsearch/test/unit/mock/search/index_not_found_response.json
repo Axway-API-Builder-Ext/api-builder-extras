@@ -1,0 +1,21 @@
+{
+  "error": {
+    "root_cause": [
+      {
+        "type": "index_not_found_exception",
+        "reason": "no such index [apigw-management-kpis]",
+        "resource.type": "index_or_alias",
+        "resource.id": "apigw-management-kpis",
+        "index_uuid": "_na_",
+        "index": "apigw-management-kpis"
+      }
+    ],
+    "type": "index_not_found_exception",
+    "reason": "no such index [apigw-management-kpis]",
+    "resource.type": "index_or_alias",
+    "resource.id": "apigw-management-kpis",
+    "index_uuid": "_na_",
+    "index": "apigw-management-kpis"
+  },
+  "status": 404
+}

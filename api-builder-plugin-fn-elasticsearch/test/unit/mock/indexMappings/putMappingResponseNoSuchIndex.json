@@ -1,0 +1,21 @@
+{
+  "error": {
+    "root_cause": [
+      {
+        "type": "index_not_found_exception",
+        "reason": "no such index [test-index-template]",
+        "resource.type": "index_or_alias",
+        "resource.id": "test-index-template",
+        "index_uuid": "_na_",
+        "index": "test-index-template"
+      }
+    ],
+    "type": "index_not_found_exception",
+    "reason": "no such index [test-index-template]",
+    "resource.type": "index_or_alias",
+    "resource.id": "test-index-template",
+    "index_uuid": "_na_",
+    "index": "test-index-template"
+  },
+  "status": 404
+}

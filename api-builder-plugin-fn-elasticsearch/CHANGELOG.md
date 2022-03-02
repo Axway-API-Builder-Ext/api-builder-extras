@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] 2022-02-28
+### Security
+- Updated @elastic/elasticsearch to version 8.0.0 to add support for Elasticsearch 8
+
 ## [2.1.2] 2022-02-02
 ### Security
 - Updated API-Builder runtime to solve security issue

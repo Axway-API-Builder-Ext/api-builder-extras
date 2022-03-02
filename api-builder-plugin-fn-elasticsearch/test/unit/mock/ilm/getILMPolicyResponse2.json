@@ -1,0 +1,55 @@
+{
+  "test-ilm-policy": {
+    "version": 4,
+    "modified_date": "2020-11-04T16:13:37.737Z",
+    "policy": {
+      "phases": {
+        "warm": {
+          "min_age": "15d",
+          "actions": {
+            "allocate": {
+              "number_of_replicas": 1,
+              "include": {},
+              "exclude": {},
+              "require": {}
+            },
+            "shrink": {
+              "number_of_shards": 1
+            },
+            "set_priority": {
+              "priority": 50
+            }
+          }
+        },
+        "cold": {
+          "min_age": "30d",
+          "actions": {
+            "set_priority": {
+              "priority": 0
+            }
+          }
+        },
+        "hot": {
+          "min_age": "0ms",
+          "actions": {
+            "rollover": {
+              "max_size": "30gb",
+              "max_age": "7d"
+            },
+            "set_priority": {
+              "priority": 100
+            }
+          }
+        },
+        "delete": {
+          "min_age": "10d",
+          "actions": {
+            "delete": {
+              "delete_searchable_snapshot": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

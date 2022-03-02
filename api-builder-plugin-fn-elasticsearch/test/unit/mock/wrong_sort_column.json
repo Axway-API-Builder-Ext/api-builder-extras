@@ -1,0 +1,30 @@
+{
+  "error": {
+    "root_cause": [
+      {
+        "type": "query_shard_exception",
+        "reason": "No mapping found for [XZY] in order to sort on",
+        "index_uuid": "gowaOuhtTvqZX8dCFeJ77w",
+        "index": "logstash-openlog"
+      }
+    ],
+    "type": "search_phase_execution_exception",
+    "reason": "all shards failed",
+    "phase": "query",
+    "grouped": true,
+    "failed_shards": [
+      {
+        "shard": 0,
+        "index": "logstash-openlog",
+        "node": "6TVkdA-YR7epgV39dZNG2g",
+        "reason": {
+          "type": "query_shard_exception",
+          "reason": "No mapping found for [XZY] in order to sort on",
+          "index_uuid": "gowaOuhtTvqZX8dCFeJ77w",
+          "index": "logstash-openlog"
+        }
+      }
+    ]
+  },
+  "status": 400
+}

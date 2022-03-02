@@ -30,11 +30,11 @@ async function getTemplate(params, options) {
 		var client = new ElasticsearchClient(elasticSearchConfig).client;
 		var indexTemplate = await client.indices.getTemplate( params, { ignore: [404], maxRetries: 3 });
 
-		if(Object.keys(indexTemplate.body).length === 0 && indexTemplate.body.constructor === Object) {
+		if(indexTemplate[params.name] == undefined) {
 			return options.setOutput('notFound', `No index template found with name [${params.name}]`);
 		}
 		// Return the template config itself - Not the surrounding object based on the template name
-		return indexTemplate.body[params.name];
+		return indexTemplate[params.name];
 
 	} catch (e) {
 		if(e instanceof Error) throw e;
@@ -71,7 +71,7 @@ async function putTemplate(params, options) {
 		if(updateWhenChanged) {
 			// Get the current index-template based on the name
 			const response = await client.indices.getTemplate({name: params.name}, { ignore: [404], maxRetries: 3 });
-			actualTemplate = response.body[params.name];
+			actualTemplate = response[params.name];
 			if(actualTemplate == undefined) {
 				options.logger.info(`No index template found with name: ${params.name} creating new.`);
 			} else {

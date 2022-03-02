@@ -28,33 +28,15 @@ async function getRollupJobs(params, options) {
 	}
 
 	var client = new ElasticsearchClient(elasticSearchConfig).client;
-	var result = await executeRequest(params);
+	var result = await client.rollup.getJobs( params, { ignore: [404], maxRetries: 3 });
 
-	if(result.body.jobs.length == 0) {
+	if(result.jobs.length == 0) {
 		return options.setOutput('notFound', `No Rollup job found with id [${params.id}]`);
 	}
-	if(result.body.jobs.length > 1) {
-		throw new Error(`Got ${result.body.jobs.length} Rollup jobs. Only one unique flow node is currently supported.`);
+	if(result.jobs.length > 1) {
+		throw new Error(`Got ${result.jobs.length} Rollup jobs. Only one unique flow node is currently supported.`);
 	}
-	return result.body.jobs[0];
-
-	function executeRequest(params) {
-		return new Promise((resolve, reject) => {
-			client.rollup.getJobs( params, { ignore: [404], maxRetries: 3 }, (err, result) => {
-				if(err) {
-					if(!err.body) {
-						options.logger.error(`Error returned from Elastic-Search: ${JSON.stringify(err)}`);
-					}
-					reject(err.body.error.root_cause[0].reason);
-				} else if(result.error) {
-					reject(result.error);
-				} else {
-					resolve(result);
-				}
-			});
-	
-		})
-	}
+	return result.jobs[0];
 }
 
 async function putRollupJob(params, options) {
@@ -101,8 +83,8 @@ async function putRollupJob(params, options) {
 		// Get all active (RUNNING ONLY) jobs with the given Job-ID
 		const allJobs = await client.rollup.getJobs({ id: "_all" }, { ignore: [404], maxRetries: 3 });
 		var runningJobs = [];
-		for (i = 0; i < allJobs.body.jobs.length; i++) { 
-			const job = allJobs.body.jobs[i];
+		for (i = 0; i < allJobs.jobs.length; i++) { 
+			const job = allJobs.jobs[i];
 			if(job.config.id.startsWith(params.id) && job.status.job_state == "started") {
 				runningJobs.push(job);
 			}
