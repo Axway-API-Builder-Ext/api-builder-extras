@@ -21,29 +21,41 @@ class ElasticsearchClient {
 
 function mockElasticsearchMethod(client, methodName, responeFilename, shouldError) {
     var mockedFn = simple.spy(function (params, options, callback) {
-        const resonse = JSON.parse(fs.readFileSync(responeFilename), null);
+        var response;
+        if(responeFilename) {
+            response = JSON.parse(fs.readFileSync(responeFilename), null);
+        } else {
+            response = {dummy:"response"};
+        }
         if(callback != undefined) {
             if(shouldError) {
                 // Return the given response as an error
-                callback(resonse, null);
+                callback(response, null);
             } else {
                 // Otherwise return the response as expected
-                callback(null, resonse);
+                callback(null, response);
             }
         } else {
             return new Promise((resolve, reject) => {
                 if(shouldError) {
-                    reject(resonse);
+                    reject(response);
                 } else {
-                    resolve(resonse);
+                    resolve(response);
                 }
             });
         }
     });
-    // Use the extend functionality of the ES-Client to register the mocked method
-    client.extend(methodName, { force: true }, ({ makeRequest }) => {
-        return mockedFn;
-    });
+
+    let [namespace, method] = methodName.split('.');
+    if (method == null) {
+        method = namespace;
+        namespace = null;
+    }
+    if (namespace != null) {
+        client[namespace][method] = mockedFn
+    } else {
+        client[method] = mockedFn;
+    }
     // Return the mocked function to perform assertions
     return mockedFn;
 }

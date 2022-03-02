@@ -78,14 +78,7 @@ async function search(params, options) {
 	addQueryParam("version");
 
 	options.logger.debug(`Using elastic search body: ${JSON.stringify(searchBody)}`);
-
-	var queryResult;
-	try {
-		queryResult = await client.search( searchBody, { ignore: [404], maxRetries: 3 });
-	} catch (ex) {
-		if(ex instanceof Error) throw ex;
-		throw new Error(JSON.stringify(ex));
-	}
+	var queryResult = await client.search( searchBody, { ignore: [404], maxRetries: 3 });
 
 	if(queryResult.status === 404 && queryResult.error.type == "index_not_found_exception") {
 		return options.setOutput('missingIndex', queryResult);
