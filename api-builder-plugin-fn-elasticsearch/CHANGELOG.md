@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] 2022-03-11
+### Changed
+- When updating an existing transform, the last checkpoint of the existing transform is taken over as a query limitation to the new transform
+  - to avoid re-indexing the same documents again
+  - FYI: Technically you cannot update a transform - It is a new transform and the previous has been stopped (and even deleted)
+
 ## [2.1.2] 2022-02-02
 ### Security
 - Updated API-Builder runtime to solve security issue

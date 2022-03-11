@@ -1135,6 +1135,14 @@ flow-nodes:
             required: true
             schema:
               type: object
+          limitOnLastCheckpoint:
+            name: Limit to last checkpoint
+            description: If an existing transform is updated or replaced, then this starts without a check point. So it would start again from zero and index all data again, which would lead to duplications. This switch controls that an updated transform is automatically constrained to the last timestamp of the existing transform.
+            required: false
+            initialType: boolean
+            schema:
+              default: true
+              type: boolean
           deletePreviousTransform:
             name: Delete previous transform
             description: If an existing transform with the same primary ID has been found which should be replaced, this switch decides whether the old transform should be deleted. If the previous transform is running, it will be stopped automatically.

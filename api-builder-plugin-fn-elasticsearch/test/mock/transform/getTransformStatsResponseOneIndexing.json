@@ -4,7 +4,7 @@
       "transforms": [
         {
           "id": "traffic-summary-hourly-v2",
-          "state": "started",
+          "state": "indexing",
           "stats": {
             "pages_processed": 3,
             "documents_processed": 15800266,
