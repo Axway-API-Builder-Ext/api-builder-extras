@@ -83,6 +83,30 @@ describe('Transform tests', () => {
 			expect(mockedStopTransform.callCount).to.equals(1); // There is nothing to stop
 		});
 
+		it('should pass - 1 running transform (is the actual transform) - Created & Started new transform - Old deleted - Checkpoint taken over as query limition to new transform', async () => {
+			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseOneStarted.json', false);
+			const mockedPutTransform = setupElasticsearchMock(client, 'transform.putTransform', './test/mock/transform/putTransformResponse.json', false);
+			const mockedDeleteTransform = setupElasticsearchMock(client, 'transform.deleteTransform', './test/mock/transform/stopTransformResponse.json', false);
+			const mockedStartTransform = setupElasticsearchMock(client, 'transform.startTransform', './test/mock/transform/startTransformResponse.json', false);
+			const mockedStopTransform = setupElasticsearchMock(client, 'transform.stopTransform', './test/mock/transform/stopTransformResponse.json', false);
+
+			const inputParameter = { 
+				transformId: 'traffic-summary-hourly', 
+				idSuffix: "v1",
+				deletePreviousTransform: true,
+				body: JSON.parse(fs.readFileSync('./test/mock/transform/putTransformRequestBody.json')) };
+			const { value, output } = await flowNode.putTransform(inputParameter);
+
+			expect(output).to.equal('next');
+			expect(mockedGetTransformStats.callCount).to.equals(1); // should be called once to get all transforms
+			expect(mockedPutTransform.callCount).to.equals(1); // a new transform should be created
+			// Transform body should have been extended about a query limitation
+			expect(mockedPutTransform.lastCall.arg.body.source.query).to.deep.equals({ "bool": { "should": [ { "range": { "@timestamp": { "gt": 1646913600000 } } } ],"minimum_should_match": 1 } });
+			expect(mockedStartTransform.callCount).to.equals(1); // and started
+			expect(mockedDeleteTransform.callCount).to.equals(1); // Previous transform should be deleted
+			expect(mockedStopTransform.callCount).to.equals(1); // There is nothing to stop
+		});
+
 		it('should return with noUpdate as the actual transform is still indexing', async () => {
 			const mockedGetTransformStats = setupElasticsearchMock(client, 'transform.getTransformStats', './test/mock/transform/getTransformStatsResponseOneIndexing.json', false);
 			const mockedPutTransform = setupElasticsearchMock(client, 'transform.putTransform', './test/mock/transform/putTransformResponse.json', false);

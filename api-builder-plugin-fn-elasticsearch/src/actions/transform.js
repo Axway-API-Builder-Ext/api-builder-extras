@@ -130,9 +130,9 @@ async function putTransform(params, options) {
 			options.logger.info(`Starting created transform with ID: ${params.transformId}`);
 			await client.transform.startTransform( {transformId: params.transformId}, { ignore: [404], maxRetries: 3 });
 		}
-		if(deletePreviousTransform && actualTransformId) {
-			options.logger.info(`Deleting previous transform with ID: ${actualTransformId}`);
-			await client.transform.deleteTransform( {transformId: actualTransformId}, { ignore: [404], maxRetries: 3 });
+		if(deletePreviousTransform && runningTransforms.length == 1) {
+			options.logger.info(`Deleting previous transform with ID: ${runningTransforms[0].id}`);
+			await client.transform.deleteTransform( {transformId: runningTransforms[0].id}, { ignore: [404], maxRetries: 3 });
 		}
 		return putTransformResult;
 	} catch (e) {
