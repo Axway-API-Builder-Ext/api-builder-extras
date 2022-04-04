@@ -1,7 +1,7 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-dc-postgres",
   "description": "PostgreSQL data connector for Axway API Builder",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "author": {
     "email": "cwiechmann@axway.com",
     "name": "Chris Wiechmann",
@@ -21,7 +21,8 @@
     "api-builder"
   ],
   "engines": {
-    "node": ">= 8.9"
+    "node": ">= 8.9",
+    "apibuilder": ">= 4.0.0"
   },
   "license": "Apache-2.0",
   "files": [
@@ -36,9 +37,6 @@
     "lodash": "^4.17.5",
     "pg": "^8.7.1",
     "semver": "^5.4.0"
-  },
-  "peerDependencies": {
-    "@axway/api-builder-runtime": "^4.0.0"
   },
   "scripts": {
     "postinstall": "api-builder-copy ./config/postgres.default.js ./conf"

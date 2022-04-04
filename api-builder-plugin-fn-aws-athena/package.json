@@ -12,7 +12,8 @@
 		"connector"
 	],
 	"engines": {
-		"node": ">= 10.0"
+		"node": ">= 10.0",
+		"apibuilder": ">= 4.64.1"
 	},
 	"homepage": "https://github.com/Axway-API-Builder-Ext/api-builder-extras/tree/master/api-builder-plugin-fn-aws-athena",
 	"bugs": {
@@ -35,9 +36,6 @@
 		"@axway/api-builder-project-utils": "^1.0.3",
 		"athena-express": "^7.0.3",
 		"aws-sdk": "^2.903.0"
-	},
-	"peerDependencies": {
-		"@axway/api-builder-runtime": "^4.64.1"
 	},
 	"devDependencies": {
 		"@axway/api-builder-test-utils": "^1.4.0",

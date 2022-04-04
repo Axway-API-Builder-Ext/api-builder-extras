@@ -26,14 +26,14 @@
     "README.md",
     "LICENSE"
   ],
+  "engines": {
+    "node": ">= 8.9",
+    "apibuilder": ">= 4.64.1"
+  },
   "dependencies": {
     "@axway/api-builder-oas-flow-node": "^1.2.3"
   },
-  "peerDependencies": {
-    "@axway/api-builder-runtime": "^4.64.1"
-  },
   "devDependencies": {
-    "@axway/api-builder-runtime": "^4.64.1",
     "@axway/api-builder-test-utils": "^1.1.12",
     "chai": "^4.1.2",
     "mocha": "^9.1.4"

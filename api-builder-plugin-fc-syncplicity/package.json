@@ -24,15 +24,15 @@
     "openapi",
     "README.md",
     "LICENSE"
-  ],
+  ], 
+  "engines": {
+    "node": ">= 8.9",
+    "apibuilder": ">= 4.71.0"
+  },
   "dependencies": {
     "@axway/api-builder-oas-flow-node": "^2.0.3"
   },
-  "peerDependencies": {
-    "@axway/api-builder-runtime": "^4.71.0"
-  },
   "devDependencies": {
-    "@axway/api-builder-runtime": "^4.71.0",
     "@axway/api-builder-test-utils": "^1.5.1",
     "chai": "^4.3.4",
     "mocha": "^9.1.3"
