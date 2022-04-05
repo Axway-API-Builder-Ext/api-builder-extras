@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## 1.1.1 2022-04-04
+## [Unreleased]
 ### Changed
 - Now uses `apibuilder.engines` for documenting compatibility with API Builder.
 
