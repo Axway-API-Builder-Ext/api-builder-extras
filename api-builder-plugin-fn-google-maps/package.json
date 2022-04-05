@@ -20,7 +20,8 @@
 		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
 	},
 	"engines": {
-		"node": ">= 10.0"
+		"node": ">= 10.0",
+		"apibuilder": ">= 4.22.0"
 	},
 	"main": "src/index.js",
 	"files": [
@@ -34,9 +35,6 @@
 		"@axway/api-builder-sdk": "^0.2.0",
 		"@axway/api-builder-project-utils": "^1.0.3",
 		"@googlemaps/google-maps-services-js": "^3.3.8"
-	},
-	"peerDependencies": {
-		"@axway/api-builder-runtime": "^4.22.0"
 	},
 	"devDependencies": {
 		"chai": "^4.3.4",

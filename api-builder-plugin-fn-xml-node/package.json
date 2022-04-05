@@ -20,7 +20,8 @@
 		"url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
 	},
 	"engines": {
-		"node": ">= 8.9"
+		"node": ">= 8.9",
+		"apibuilder": ">= 4.71.0"
 	},
 	"main": "src/index.js",
 	"files": [
@@ -32,9 +33,6 @@
 		"@axway/api-builder-sdk": "^1.1.12",
 		"jsonpath": "^1.1.1",
 		"xml-js": "1.6.11"
-	},
-	"peerDependencies": {
-		"@axway/api-builder-runtime": "^4.71.0"
 	},
 	"devDependencies": {
 		"@axway/api-builder-test-utils": "^1.5.1",

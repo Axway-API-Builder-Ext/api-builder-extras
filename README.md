@@ -71,24 +71,25 @@ If you found an issue or you have improved an existing plugin yourself, we highl
     - Especially the fields: 
         - __name__: should start with: `@axway-api-builder-ext/api-builder-plugin....`
         - __version__: Stable has a version 1.x.x, all other something 0.x.x
-        - __description__: Provide a meaningful description. This will appear in the API-Builder UI plugin dialog
-        - __author__: Add your GitHub ID or email address (this is used to assign issues/pullrequests)
+        - __description__: Provide a meaningful description. This will appear in the API Builder UI "Plugins" page
+        - __author__: Add your GitHub ID or email address (this is used to assign issues/pull requests)
         - __homepage__: Should point to your unique folder within this repository
         - __keywords__: Add more keywords to make it easier to discover your plugin
+        -__engines.apibuilder__: Documents range of API Builder versions that the plugin is compatible with. Remember that modifying this to increase the minimum compatible API Builder version is a breaking change, so update the major version of your plugin when you do so.
     - There might be more changes needed depending on what your plugin does
 7. Create new GitHub actions based on the templates `.github/workflows/*_template`
     - these workflows are used to automatically tests and release/publish your plugin
-    - Replace all occurencies of `NAME_OF_YOUR_PLUGIN` in both workflow files with a valid name not longer than 20 characters
-    - Replace all occurencies of `THE_FOLDER_NAME_OF_YOUR_PLUGIN` with the folder name of your plugin
+    - Replace all occurrences of `NAME_OF_YOUR_PLUGIN` in both workflow files with a valid name not longer than 20 characters
+    - Replace all occurrences of `THE_FOLDER_NAME_OF_YOUR_PLUGIN` with the folder name of your plugin
     - You may skip this step and we will add the workflows for you
 8. Provide a README.md 
     - What your plugin does
     - How to use it (e.g. add images, examples, etc.) to make it easy for developers to understand it
-    - Mention potential limitions/caveats/known issues
+    - Mention potential limitations/caveats/known issues
 9. Create a package-lock.json
     - Run `npm install` to create a `package-lock.json`
     - This is required to lock down used modules before testing and releasing it
-10. Commit/Push your changes to your forked repository and finally create a [Pull-Reuqest][13]
+10. Commit/Push your changes to your forked repository and finally create a [Pull-Request][13]
     - We take it from there, review your plugin or changes you propose 
     - if required, we propose or add further changes or just start a conversation when having questions
     - Finally the changes are merged into the master branch of this repository 

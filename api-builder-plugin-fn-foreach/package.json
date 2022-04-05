@@ -19,7 +19,8 @@
     "url": "https://github.com/Axway-API-Builder-Ext/api-builder-extras.git"
   },
   "engines": {
-    "node": ">= 8.9"
+    "node": ">= 8.9",
+		"apibuilder": ">= 4.66.0"
   },
   "main": "src/index.js",
   "files": [
