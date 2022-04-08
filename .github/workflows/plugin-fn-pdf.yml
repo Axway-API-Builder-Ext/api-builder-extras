@@ -1,0 +1,73 @@
+name: PDF Flow-Node 
+
+on:
+  push:
+    paths:
+      - 'api-builder-plugin-fn-pdf/**'
+  pull_request:
+    paths:
+      - 'api-builder-plugin-fn-pdf/**'
+  release:
+    types:
+      - published
+
+defaults:
+  run:
+    working-directory: api-builder-plugin-fn-pdf
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      run: |
+        npm ci
+        npm run build --if-present
+        npm test
+
+  publish-gpr:
+    if: contains(github.event.release.tag_name, 'plugin-fn-pdf')
+    env:
+      CI: true
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@Axway-API-Builder-Ext'
+      - name: Publish to GitHub package repo
+        env:
+            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          npm ci
+          npm publish
+
+  publish-npm:
+    env:
+      CI: true
+    needs: [build, publish-gpr]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Publish to NPM package repo
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        run: |
+          npm ci
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.npm_token }}" > ~/.npmrc
+          npm publish --access public

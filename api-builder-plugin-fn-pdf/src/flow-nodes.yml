@@ -1,0 +1,91 @@
+flow-nodes:
+  pdf:
+    name: PDF
+    icon: icon.svg
+    description: PDF functions.
+    category: general
+    methods:
+      generatePDFFromMarkdown:
+        name: Generate PDF from markdown
+        description: Generates a PDF.
+        parameters:
+          markdown:
+            name: Markdown
+            description: The markdown used to generate the PDF. Uses github flavored markdown.
+            required: true
+            initialType: string
+            schema:
+              type: string
+        returns:
+          name: Next
+          description: A PDF was successfully generated.
+          context: $.pdf
+          schema:
+            type: object
+            description: A Buffer.
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+      parsePDF:
+        name: Parse PDF data
+        description: Parse a PDF and get general information and text.
+        parameters:
+          data:
+            name: Data
+            description: The PDF data as a Buffer.
+            required: true
+            schema:
+              type: object
+              description: A buffer.
+        returns:
+          name: Next
+          description: A PDF was successfully parsed.
+          context: $.pdfInfo
+          schema:
+            type: object
+            properties:
+              version:
+                description: PDF version
+                type: string
+              pages:
+                description: Number of pages
+                type: number
+              pagesRendered:
+                description: Number of pages rendered
+                type: number
+              metadata: {}
+              text:
+                type: string
+              info:
+                type: object
+                properties:
+                  version:
+                    description: PDF format version
+                    type: string
+                  isAcroFormPresent:
+                    type: boolean
+                  isXFAPresent:
+                    type: boolean
+                  creator:
+                    type: string
+                  producer:
+                    type: string
+                  created:
+                    type: string
+                  modified:
+                    type: string
+        throws:
+          name: Error
+          description: An unexpected error was encountered.
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
