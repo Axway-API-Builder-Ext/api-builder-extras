@@ -1,4 +1,4 @@
-# @axway/api-builder-plugin-fn-pdf
+# @axway-api-builder-ext/api-builder-plugin-fn-pdf
 
 PDF flow-node for [API Builder](https://docs.axway.com/bundle/api-builder/page/docs/index.html) provides functions to generate and parse PDF files.
 
