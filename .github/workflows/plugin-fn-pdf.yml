@@ -33,30 +33,11 @@ jobs:
         npm run build --if-present
         npm test
 
-  publish-gpr:
+  publish-npm:
     if: contains(github.event.release.tag_name, 'plugin-fn-pdf')
     env:
       CI: true
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-          scope: '@Axway-API-Builder-Ext'
-      - name: Publish to GitHub package repo
-        env:
-            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          npm ci
-          npm publish
-
-  publish-npm:
-    env:
-      CI: true
-    needs: [build, publish-gpr]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
