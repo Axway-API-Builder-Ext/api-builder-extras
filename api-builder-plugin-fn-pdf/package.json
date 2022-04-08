@@ -1,5 +1,5 @@
 {
-	"name": "@axway/api-builder-plugin-fn-pdf",
+	"name": "@axway-api-builder-ext/api-builder-plugin-fn-pdf",
 	"version": "1.0.0",
 	"description": "API Builder plugin for PDF",
 	"author": "",

@@ -7,7 +7,7 @@ PDF flow-node for [API Builder](https://docs.axway.com/bundle/api-builder/page/d
 Install within an API Builder project using:
 
 ```bash
-npm install @axway/api-builder-plugin-fn-pdf
+npm install @axway-api-builder-ext/api-builder-plugin-fn-pdf
 ```
 
 ## Methods
