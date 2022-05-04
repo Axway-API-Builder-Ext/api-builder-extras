@@ -21,12 +21,12 @@ var jp = require('jsonpath');
  *	 does not define "next", the first defined output).
  */
 async function json2xml(params, options) {
-	const { jsonData, spaces, compact, fullTagEmptyElement, indentCdata, indentAttributes, ignoreDeclaration, ignoreInstruction, ignoreAttributes, ignoreComment, ignoreCdata, ignoreDoctype, ignoreText } = params;
+	const { spaces, declaration, compact, fullTagEmptyElement, indentCdata, indentAttributes, ignoreDeclaration, ignoreInstruction, ignoreAttributes, ignoreComment, ignoreCdata, ignoreDoctype, ignoreText } = params;
+	let { jsonData} = params;
 	const { logger } = options;
 	if (!jsonData) {
 		throw new Error('Missing required parameter: jsonData');
 	}
-	debugger;
 
 	const json2xmlOptions = {
 		spaces: spaces ? spaces : 0,
@@ -45,14 +45,20 @@ async function json2xml(params, options) {
 	};
 
 	let result;
+	debugger;
 	try {
-		if(jsonData instanceof Object) {
-			logger.debug('Converting given JSON Object into XML.');
-			result = convert.js2xml(jsonData, json2xmlOptions);
-		} else {
-			logger.debug('Converting given JSON String into XML.');
-			result = convert.json2xml(jsonData, json2xmlOptions);
+		// Convert String into an object
+		if (typeof jsonData === 'string' || jsonData instanceof String) {
+			jsonData = JSON.parse(jsonData);
 		}
+		if(Object.keys(jsonData).length === 0) {
+			throw new Error(`Error creating XML from JSON, as the given Javascript object is empty.`);
+		}
+		if(declaration) {
+			jsonData = Object.assign({_declaration: { _attributes: declaration } }, jsonData);
+		}
+		logger.debug('Converting given JSON Object into XML.');
+		result = convert.js2xml(jsonData, json2xmlOptions);
 	} catch (e) {
 		logger.error(e.message);
 		throw new Error(`Failed to convert JSON into XML. Error: ${e.message}`);

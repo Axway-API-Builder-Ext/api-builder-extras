@@ -50,5 +50,24 @@ describe('json2xmlTest', () => {
 				.and.to.have.property('message');
 			expect(value.message).to.include('Failed to convert JSON into XML. Error: The JSON structure is invalid');
 		});
+
+		it('should fail with an empty Javascript object', async () => {
+			const { value, output } = await flowNode.json2xml({ jsonData: {} });
+
+			expect(output).to.equal('error');
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message');
+			expect(value.message).to.include('Error creating XML from JSON, as the given Javascript object is empty.');
+		});
+
+		it('should include the given XML declaration', async () => {
+			var xmlMessage = require('fs').readFileSync('./test/testMessages/basic_message-no-attributes-incl-declaration.xml', 'utf8');
+			var jsonMessage = require('fs').readFileSync('./test/testMessages/basic_message.json', 'utf8');
+			const { value, output } = await flowNode.json2xml({ jsonData: jsonMessage, spaces: '\t', declaration: { version: "1.0",  encoding: "utf-8" } });
+
+			expect(output).to.equal('next');
+			expect(value).to.be.a('string');
+			expect(value).to.deep.equal(xmlMessage);
+		});
 	});
 });

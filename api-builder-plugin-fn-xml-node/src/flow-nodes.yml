@@ -2,12 +2,12 @@ flow-nodes:
   xml-node:
     name: XML
     icon: xml-node-icon.png
-    description: Provides support to handle XML-Payload
+    description: 'Provides support to handle XML-Payload. To learn more please read: https://github.com/nashwaan/xml-js'
     category: Utils
     methods:
       xml2json:
         name: XML to JSON
-        description: Converts XML payload into JSON data.
+        description: 'Converts XML payload into JSON data. To learn more please read: https://github.com/nashwaan/xml-js'
         parameters:
           xmlData:
             name: XML Input data
@@ -84,17 +84,20 @@ flow-nodes:
 
       json2xml:
         name: JSON to XML
-        description: Converts JSON payload into XML.
+        description: 'Converts JSON payload into XML. To learn more please read: https://github.com/nashwaan/xml-js'
         parameters:
           jsonData:
             name: JSON Input data
             description: 'JSON Data.'
             required: true
-            schema:
-              type: string
+            schema: 
+              oneOf: [
+                { type: 'string' },
+                { type: 'object' }
+              ]
           asString:
             name: As string
-            description: Wether return the JSON as String or as an Object. Defaults to false.
+            description: Wether return the generated JSON as a String or as an Object. By default a Javascript Object is returned.
             required: false
             initialType: boolean
             schema:
@@ -103,7 +106,6 @@ flow-nodes:
           spaces:
             name: Spaces
             description: 'Number of spaces to be used for indenting XML output. Passing characters like " " or "\t" are also accepted.'
-            group: Standard Options
             required: false
             initialType: number
             schema:
@@ -114,12 +116,18 @@ flow-nodes:
           compact:
             name: Compact
             description: 'Whether the input object is in compact form or not. By default, input is expected to be in compact form. IMPORTANT: Remember to set this option compact: false if you are supplying non-compact json.'
-            group: Standard Options
             required: false
             initialType: boolean
             schema:
               default: true
               type: boolean
+          declaration:
+            name: Declaration
+            description: 'XML declaration attributes to use. For instance { "version": "1.0",  "encoding": "utf-8" }. The XML-Declaration might also be provided using the attribute _declaration in your JSON-Data.'
+            required: false
+            initialType: object
+            schema:
+              type: object
           fullTagEmptyElement:
             name: Full tag empty element
             description: 'Whether to produce element without sub-elements as full tag pairs <a></a> rather than self closing tag <a/>'
