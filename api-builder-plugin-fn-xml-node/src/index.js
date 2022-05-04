@@ -1,7 +1,7 @@
 const path = require('path');
 const { SDK } = require('@axway/api-builder-sdk');
-const { xml2json } = require('./xml2Json');
-const { json2xml } = require('./json2Xml');
+const { xml2json } = require('./xml2json');
+const { json2xml } = require('./json2xml');
 
 /**
  * Resolves the API Builder plugin.
