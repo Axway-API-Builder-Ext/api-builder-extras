@@ -21,7 +21,7 @@ describe('xml2jsonTest', () => {
 
 			// Ensure the flow-node matches the spec
 			expect(flowNode.name).to.equal('XML');
-			expect(flowNode.description).to.equal('Provides support to handle XML-Payload');
+			expect(flowNode.description).to.equal('Provides support to handle XML-Payload. To learn more please read: https://github.com/nashwaan/xml-js');
 		});
 
 		it('should define valid flow-nodes', () => {

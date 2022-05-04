@@ -48,7 +48,7 @@ describe('json2xmlTest', () => {
 			expect(output).to.equal('error');
 			expect(value).to.be.instanceOf(Error)
 				.and.to.have.property('message');
-			expect(value.message).to.include('Failed to convert JSON into XML. Error: The JSON structure is invalid');
+			expect(value.message).to.include('Failed to convert JSON into XML. Error: Unexpected token ] in JSON at position 92');
 		});
 
 		it('should fail with an empty Javascript object', async () => {
