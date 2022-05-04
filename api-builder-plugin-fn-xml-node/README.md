@@ -12,7 +12,7 @@ Provide the XML data should be converted into JSON using either a Selector or a 
 Secondly you can decide if you would like to have a Javascript Object or the JSON-Payload as String.
 
 ## Convert JSON to XML
-> This is not yet supported!
+
 
 
 
