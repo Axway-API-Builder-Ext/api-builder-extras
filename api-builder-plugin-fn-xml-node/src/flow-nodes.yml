@@ -13,7 +13,6 @@ flow-nodes:
             name: XML Input data
             description: 'XML Data. For instance: $.soapResponse.body'
             required: true
-            initialType: string
             schema:
               type: string
           asString:
@@ -91,7 +90,6 @@ flow-nodes:
             name: JSON Input data
             description: 'JSON Data.'
             required: true
-            initialType: string
             schema:
               type: string
           asString:
