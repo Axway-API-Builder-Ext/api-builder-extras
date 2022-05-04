@@ -1,6 +1,7 @@
 const path = require('path');
 const { SDK } = require('@axway/api-builder-sdk');
-const xmlToJson = require('./xmlToJson');
+const { xml2json } = require('./xml2Json');
+const { json2xml } = require('./json2Xml');
 
 /**
  * Resolves the API Builder plugin.
@@ -14,7 +15,7 @@ const xmlToJson = require('./xmlToJson');
  */
 async function getPlugin(pluginConfig, options) {
 	const sdk = new SDK({ pluginConfig });
-	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), xmlToJson);
+	sdk.load(path.resolve(__dirname, 'flow-nodes.yml'), { xml2json, json2xml });
 	return sdk.getPlugin();
 }
 

@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const { MockRuntime } = require('@axway/api-builder-test-utils');
 const getPlugin = require('../src');
 
-describe('api-builder-plugin-fn-xml-node', () => {
+describe('xml2jsonTest', () => {
 	let plugin;
 	let flowNode;
 	beforeEach(async () => {
@@ -22,10 +22,6 @@ describe('api-builder-plugin-fn-xml-node', () => {
 			// Ensure the flow-node matches the spec
 			expect(flowNode.name).to.equal('XML');
 			expect(flowNode.description).to.equal('Provides support to handle XML-Payload');
-			expect(flowNode.icon).to.be.a('string');
-			expect(flowNode.getMethods()).to.deep.equal([
-				'xml2json'
-			]);
 		});
 
 		it('should define valid flow-nodes', () => {
@@ -36,7 +32,6 @@ describe('api-builder-plugin-fn-xml-node', () => {
 
 	describe('#xml2json', () => {
 		it('should error when missing required parameter', async () => {
-			// Invoke #hello with a non-number and check error.
 			const { value, output } = await flowNode.xml2json({
 				xmlData: null
 			});

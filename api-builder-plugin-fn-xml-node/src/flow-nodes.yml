@@ -82,3 +82,142 @@ flow-nodes:
             properties:
               message:
                 type: string
+
+      json2xml:
+        name: JSON to XML
+        description: Converts JSON payload into XML.
+        parameters:
+          jsonData:
+            name: JSON Input data
+            description: 'JSON Data.'
+            required: true
+            initialType: string
+            schema:
+              type: string
+          asString:
+            name: As string
+            description: Wether return the JSON as String or as an Object. Defaults to false.
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          spaces:
+            name: Spaces
+            description: 'Number of spaces to be used for indenting XML output. Passing characters like " " or "\t" are also accepted.'
+            group: Standard Options
+            required: false
+            initialType: number
+            schema:
+              default: 0
+              oneOf:
+                - type: number
+                - type: string
+          compact:
+            name: Compact
+            description: 'Whether the input object is in compact form or not. By default, input is expected to be in compact form. IMPORTANT: Remember to set this option compact: false if you are supplying non-compact json.'
+            group: Standard Options
+            required: false
+            initialType: boolean
+            schema:
+              default: true
+              type: boolean
+          fullTagEmptyElement:
+            name: Full tag empty element
+            description: 'Whether to produce element without sub-elements as full tag pairs <a></a> rather than self closing tag <a/>'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          indentCdata:
+            name: Indent CDATA
+            description: 'Whether to write CData in a new line and indent it. Will generate <a>\n <![CDATA[foo]]></a> instead of <a><![CDATA[foo]]></a>'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          indentAttributes:
+            name: Indent attributes
+            description: 'Whether to print attributes across multiple lines and indent them (when spaces is not 0)'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          ignoreDeclaration:
+            name: Ignore declaration
+            description: 'Whether to ignore writing declaration directives of xml. For example, <?xml?> will be ignored.'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          ignoreInstruction:
+            name: Ignore instruction
+            description: 'Whether to ignore writing processing instruction of xml. For example, <?go there?> will be ignored.'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          ignoreComment:
+            name: Ignore comment
+            description: 'Whether to ignore writing comments of the elements. That is, no <!-- --> will be generated.'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          ignoreCdata:
+            name: Ignore CDATA
+            description: 'Whether to ignore writing CData of the elements. That is, no <![CDATA[ ]]> will be generated.'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          ignoreDoctype:
+            name: Ignore doctype
+            description: 'Whether to ignore writing Doctype of the elements. That is, no <!DOCTYPE > will be generated.'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+          ignoreText:
+            name: Ignore text
+            description: 'Whether to ignore writing texts of the elements. For example, hi text in <a>hi</a> will be ignored.'
+            group: Advanced
+            required: false
+            initialType: boolean
+            schema:
+              default: false
+              type: boolean
+        returns:
+          name: Next
+          description: Created XML data
+          context: $.xmlData
+          schema: 
+            oneOf: [
+              { type: 'string' },
+              { type: 'object' }
+            ]
+        throws:
+          name: Error
+          description: Failed to create JSON-String / JS-Object
+          context: $.error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
