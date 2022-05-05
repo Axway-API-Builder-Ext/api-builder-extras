@@ -32,7 +32,7 @@
 		"LICENSE"
 	],
 	"dependencies": {
-		"@axway/api-builder-sdk": "^0.2.0",
+		"@axway/api-builder-sdk": "^1.1.19",
 		"@axway/api-builder-project-utils": "^1.0.3",
 		"@googlemaps/google-maps-services-js": "^3.3.8"
 	},
