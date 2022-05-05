@@ -10,12 +10,14 @@ flow-nodes:
         description: Invokes an AWS-Lambda function
         parameters:
           func:
+            name: Function
             description: Name of the Lambda function to execute
             required: true
             initialType: string
             schema:
               type: string
           payload:
+            name: Payload
             description: Payload send to the Lambda function. It must be either a JavaScript object or a JSON-String.
             required: false
             initialType: string
@@ -26,6 +28,7 @@ flow-nodes:
                   propertyNames:
                     pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
           asynchronous:
+            name: Asynchronous
             description: 'If enabled the Lambda function is invoked asyncronously and no data is returned. Read more here: https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html'
             required: false
             initialType: boolean
@@ -34,6 +37,7 @@ flow-nodes:
               default: false
               type: boolean
           logResult:
+            name: Log result
             description: If enabled, the Tail option is used when calling the Lambda function and logged in the API Builder Console.
             required: false
             initialType: boolean
@@ -44,11 +48,13 @@ flow-nodes:
         outputs:
           next:
             name: Next
+            description: Return the AWS-Lamdba function result
             context: $.result
             schema:
               type: string
           error:
             name: Error
+            description: Contains the error details
             context: $.error
             schema:
               type: string
