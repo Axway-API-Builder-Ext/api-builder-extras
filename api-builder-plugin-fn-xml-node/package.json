@@ -21,7 +21,7 @@
 	},
 	"engines": {
 		"node": ">= 8.9",
-		"apibuilder": ">= 4.71.0"
+		"apibuilders": ">= 4.71.0"
 	},
 	"main": "src/index.js",
 	"files": [

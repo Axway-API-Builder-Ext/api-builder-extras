@@ -27,7 +27,7 @@
   ], 
   "engines": {
     "node": ">= 8.9",
-    "apibuilder": ">= 4.71.0"
+    "apibuilders": ">= 4.71.0"
   },
   "dependencies": {
     "@axway/api-builder-oas-flow-node": "^2.0.3"
