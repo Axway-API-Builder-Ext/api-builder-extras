@@ -36,7 +36,7 @@
 		"simple-mock": "^0.8.0"
 	},
 	"devDependencies": {
-		"@axway/api-builder-test-utils": "^1.3.0",
+		"@axway/api-builder-test-utils": "^1.6.0",
 		"chai": "^4.3.4",
 		"mocha": "^9.1.4",
 		"simple-mock": "^0.8.0",

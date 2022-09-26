@@ -35,7 +35,7 @@
 		"redis": "^3.0.2"
 	},
 	"devDependencies": {
-		"@axway/api-builder-test-utils": "^1.3.0",
+		"@axway/api-builder-test-utils": "^1.6.0",
 		"chai": "^4.1.2",
 		"cross-env": "^7.0.2",
 		"dotenv": "^8.2.0",

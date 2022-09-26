@@ -35,7 +35,7 @@
     "@axway/api-builder-runtime": "^4.66.0"
   },
   "devDependencies": {
-    "@axway/api-builder-test-utils": "^1.1.13",
+    "@axway/api-builder-test-utils": "^1.6.0",
     "chai": "^4.3.4",
     "check-node-version": "^4.1.0",
     "cross-env": "^7.0.3",

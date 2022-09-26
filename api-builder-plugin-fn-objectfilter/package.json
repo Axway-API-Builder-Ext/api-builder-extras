@@ -31,7 +31,7 @@
     "@axway/api-builder-sdk": "^1.1.12"
   },
   "devDependencies": {
-    "@axway/api-builder-test-utils": "^1.3.0",
+    "@axway/api-builder-test-utils": "^1.6.0",
     "chai": "^4.3.4",
     "mocha": "^9.2.0"
   },
