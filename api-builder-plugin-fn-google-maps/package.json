@@ -33,7 +33,7 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.1.19",
-		"@axway/api-builder-project-utils": "^1.0.3",
+		"@axway/api-builder-project-utils": "^2.0.0",
 		"@googlemaps/google-maps-services-js": "^3.3.8"
 	},
 	"devDependencies": {

@@ -31,7 +31,7 @@
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.0.0",
 		"mongodb": "^4.0.0",
-		"@axway/api-builder-project-utils": "^1.0.3"
+		"@axway/api-builder-project-utils": "^2.0.0",
 	},
 	"devDependencies": {
 		"@axway/api-builder-test-utils": "^1.6.0",
