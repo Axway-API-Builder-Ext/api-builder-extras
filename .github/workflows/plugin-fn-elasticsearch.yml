@@ -35,7 +35,7 @@ jobs:
       env:
         CI: true
       run: |
-        npm ci
+        npm install
         npm run build --if-present
         npm run unit-test
 
@@ -73,7 +73,7 @@ jobs:
         CI: true
         ELASTICSEARCH_HOSTS: 'http://localhost:9200'
       run: |
-        npm ci
+        npm install
         npm run build --if-present
         npm run integration-test
 
@@ -109,7 +109,7 @@ jobs:
         CI: true
         ELASTICSEARCH_HOSTS: 'http://localhost:9200'
       run: |
-        npm ci
+        npm install
         npm run build --if-present
         npm run integration-test
 
@@ -130,7 +130,7 @@ jobs:
         env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          npm ci
+          npm install
           npm publish
 
   publish-npm:
@@ -148,6 +148,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
         run: |
-          npm ci
+          npm install
           echo "//registry.npmjs.org/:_authToken=${{ secrets.npm_token }}" > ~/.npmrc
           npm publish --access public
