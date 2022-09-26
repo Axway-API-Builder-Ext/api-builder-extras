@@ -20,7 +20,7 @@
 	},
 	"engines": {
 		"node": ">= 10.0",
-		"apibuilders": ">= 4.41.1"
+		"apibuilder": ">= 4.41.1"
 	},
 	"main": "src/index.js",
 	"files": [
