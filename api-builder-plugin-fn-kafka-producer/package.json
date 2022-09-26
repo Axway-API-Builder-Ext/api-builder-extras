@@ -1,6 +1,6 @@
 {
 	"name": "api-builder-plugin-fn-kafka-producer",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "A flow node that allows you to publish messages on a Kafka topic",
 	"author": "Colin McGovern",
 	"license": "ISC",

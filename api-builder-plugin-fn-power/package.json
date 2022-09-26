@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-power",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "This flow node allows you to stop the API Builder process if, for example, an error condition occurs that can no longer be corrected without restarting.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",

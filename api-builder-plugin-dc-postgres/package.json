@@ -1,7 +1,7 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-dc-postgres",
   "description": "PostgreSQL data connector for Axway API Builder",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "author": {
     "email": "cwiechmann@axway.com",
     "name": "Chris Wiechmann",

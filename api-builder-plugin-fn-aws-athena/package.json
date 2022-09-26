@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-aws-athena",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"description": "Plugin to query AWS Athena from within the API-Builder flow node",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",

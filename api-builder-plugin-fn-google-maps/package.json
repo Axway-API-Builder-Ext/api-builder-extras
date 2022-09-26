@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-google-maps",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "Integrate Google-Map-Services into your API-Builder Project.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
