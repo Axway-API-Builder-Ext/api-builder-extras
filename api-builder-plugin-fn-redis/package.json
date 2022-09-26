@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-redis",
-	"version": "0.0.9",
+	"version": "0.1.0",
 	"description": "A plugin for Axway API Builder to communicate with Redis",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
@@ -31,11 +31,11 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.0.0",
-		"@axway/api-builder-project-utils": "^1.0.3",
+		"@axway/api-builder-project-utils": "^2.0.0",
 		"redis": "^3.0.2"
 	},
 	"devDependencies": {
-		"@axway/api-builder-test-utils": "^1.3.0",
+		"@axway/api-builder-test-utils": "^1.6.0",
 		"chai": "^4.1.2",
 		"cross-env": "^7.0.2",
 		"dotenv": "^8.2.0",

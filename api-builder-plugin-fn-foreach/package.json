@@ -1,6 +1,6 @@
 {
   "name": "@axway-api-builder-ext/api-builder-plugin-fn-foreach",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "For each flow node",
   "author": "bladedancer",
   "license": "Apache-2.0",
@@ -35,7 +35,7 @@
     "@axway/api-builder-runtime": "^4.66.0"
   },
   "devDependencies": {
-    "@axway/api-builder-test-utils": "^1.1.13",
+    "@axway/api-builder-test-utils": "^1.6.0",
     "chai": "^4.3.4",
     "check-node-version": "^4.1.0",
     "cross-env": "^7.0.3",

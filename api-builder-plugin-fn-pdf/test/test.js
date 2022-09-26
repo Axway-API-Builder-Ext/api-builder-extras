@@ -109,7 +109,7 @@ describe('flow-node pdf', () => {
 				isAcroFormPresent: false,
 				isXFAPresent: false,
 				creator: 'Chromium',
-				producer: 'Skia/PDF m100'
+				producer: 'Skia/PDF m106'
 			})
 			expect(output).to.equal('next');
 		});

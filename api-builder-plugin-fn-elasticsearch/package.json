@@ -1,6 +1,6 @@
 {
 	"name": "@axway-api-builder-ext/api-builder-plugin-fn-elasticsearch",
-	"version": "3.0.0",
+	"version": "3.1.0",
 	"description": "Integrate Elasticsearch into your API-Builder flow to combine search data for instance with other data available in your flow.",
 	"author": "Chris Wiechmann <cwiechmann@axway.com> (http://www.axway.com)",
 	"license": "Apache-2.0",
@@ -30,13 +30,13 @@
 	],
 	"dependencies": {
 		"@axway/api-builder-sdk": "^1.1.12",
-		"@axway/api-builder-project-utils": "^1.0.3",
+		"@axway/api-builder-project-utils": "^2.0.0",
 		"@elastic/elasticsearch": "^8.0.0",
 		"deep-equal": "^2.0.5",
 		"simple-mock": "^0.8.0"
 	},
 	"devDependencies": {
-		"@axway/api-builder-test-utils": "^1.3.0",
+		"@axway/api-builder-test-utils": "^1.6.0",
 		"chai": "^4.3.4",
 		"mocha": "^9.1.4",
 		"simple-mock": "^0.8.0",
